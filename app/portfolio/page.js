@@ -209,7 +209,7 @@ export default function Portfolio() {
                         <h2 className="text-3xl font-bold text-white">Need automation, SEO, or funnel work?</h2>
                         <p className="text-slate-400 max-w-xl mx-auto">Share your world-view challenge or site audit needs for a practical implementation approach.</p>
                     </div>
-                    <Link href="mailto:a.m.rizve3905@gmail.com" className="inline-block px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-full shadow-lg hover:shadow-blue-500/25 transition-all transform hover:scale-105">
+                    <Link href="mailto:contact@whoisalfaz.me" className="inline-block bg-white text-black px-6 py-3 rounded-full font-bold hover:bg-slate-200 transition-colors flex items-center justify-center gap-2 shadow-lg hover:shadow-blue-500/25 transform hover:scale-105">
                         Start project discussion
                     </Link>
                 </section>

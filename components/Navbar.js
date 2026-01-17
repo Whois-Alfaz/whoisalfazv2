@@ -12,6 +12,7 @@ export default function Navbar() {
     { name: 'Blog', href: '/blog' },
     { name: 'Services', href: '/services' },
     { name: 'Portfolio', href: '/portfolio' },
+    { name: 'Contact', href: '/contact' },
   ];
 
   return (
@@ -39,7 +40,7 @@ export default function Navbar() {
 
         {/* CTA Button */}
         <div className="hidden md:block">
-          <a href="mailto:a.m.rizve3905@gmail.com" className="px-4 py-1.5 bg-white text-black text-xs font-bold rounded-full hover:bg-slate-200 transition-colors shadow-sm">
+          <a href="mailto:contact@whoisalfaz.me" className="px-4 py-1.5 bg-white text-black text-xs font-bold rounded-full hover:bg-slate-200 transition-colors shadow-sm">
             Hire Me
           </a>
         </div>
@@ -73,7 +74,7 @@ export default function Navbar() {
             ))}
             <div className="h-px bg-white/10 my-2 mx-2"></div>
             <a
-              href="mailto:a.m.rizve3905@gmail.com"
+              href="mailto:contact@whoisalfaz.me"
               className="block px-4 py-3 text-center bg-white text-black font-bold rounded-xl hover:bg-slate-200 transition-colors mx-2 mb-2"
               onClick={() => setIsOpen(false)}
             >

@@ -29,7 +29,7 @@ export default function Footer() {
                             <li><Link href="/blog" className="hover:text-blue-400 transition-colors">Blog</Link></li>
                             <li><Link href="/portfolio" className="hover:text-blue-400 transition-colors">Portfolio</Link></li>
                             <li><Link href="/services" className="hover:text-blue-400 transition-colors">Services</Link></li>
-                            <li><Link href="/#contact" className="hover:text-blue-400 transition-colors">Contact</Link></li>
+                            <li><Link href="/contact" className="hover:text-blue-400 transition-colors">Contact</Link></li>
                         </ul>
                     </div>
 
@@ -48,7 +48,7 @@ export default function Footer() {
                         <ul className="space-y-2 text-sm text-slate-500">
                             <li><a href="https://twitter.com" target="_blank" className="hover:text-blue-400 transition-colors">Twitter / X</a></li>
                             <li><a href="https://linkedin.com" target="_blank" className="hover:text-blue-400 transition-colors">LinkedIn</a></li>
-                            <li><a href="mailto:a.m.rizve3905@gmail.com" className="hover:text-blue-400 transition-colors">Email Me</a></li>
+                            <li><a href="mailto:contact@whoisalfaz.me" className="hover:text-blue-400 transition-colors">Email Me</a></li>
                         </ul>
                     </div>
 

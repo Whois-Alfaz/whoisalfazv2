@@ -47,7 +47,7 @@ export default async function BlogPage() {
                                         <div className="text-blue-500 animate-pulse">
                                             <BookOpen size={48} className="mx-auto" />
                                         </div>
-                                        <p className="text-[10px] text-slate-500">By Alfaz Mahmud Rizve</p>
+                                        <p className="text-[10px] text-slate-500">By Alfaz Mahmud</p>
                                     </div>
                                 </div>
                             </div>

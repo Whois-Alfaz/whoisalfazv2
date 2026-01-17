@@ -15,7 +15,7 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata = {
-  title: "Alfaz Mahmud | AI Automation Architect",
+  title: "Alfaz Mahmud Rizve | AI Automation Architect",
   description: "Headless Systems, n8n Workflows, and Technical SEO.",
 };
 

@@ -125,18 +125,18 @@ export default async function Home() {
           </div>
         </div>
 
-        <h2 className="text-4xl font-bold text-white mb-2">Alfaz Mahmud Rizve</h2>
-        <p className="text-slate-400 mb-8">Blogger • Automation • WordPress & Consultancy for SaaS Agencies</p>
+        <h1 className="text-4xl font-bold text-white mb-2">Alfaz Mahmud Rizve</h1>
+        <p className="text-slate-400 mb-8">Builder • Automator • Architect</p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link href="/services" className="w-full sm:w-auto px-8 py-3 bg-[#8b5cf6] hover:bg-[#7c3aed] text-white font-semibold rounded-lg transition-colors inline-block">
-            Top Rated Seller
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+          <Link href="/portfolio" className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-purple-600 to-purple-500 text-white font-bold rounded-full shadow-[0_0_20px_rgba(168,85,247,0.3)] hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all transform hover:-translate-y-1">
+            View Portfolio
           </Link>
-          <Link href="/portfolio" className="w-full sm:w-auto px-8 py-3 bg-[#06b6d4] hover:bg-[#0891b2] text-white font-semibold rounded-lg transition-colors inline-block">
-            View my blogs
+          <Link href="/blog" className="w-full sm:w-auto px-8 py-3 bg-white/5 border border-white/10 text-white font-bold rounded-full hover:bg-white/10 backdrop-blur-sm transition-all transform hover:-translate-y-1">
+            Read my Blogs
           </Link>
-          <Link href="/#contact" className="w-full sm:w-auto px-8 py-3 bg-[#14b8a6] hover:bg-[#0d9488] text-white font-semibold rounded-lg transition-colors inline-block">
-            Book free massage fix
+          <Link href="/contact" className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-teal-400 to-teal-500 text-black font-bold rounded-full shadow-[0_0_20px_rgba(45,212,191,0.3)] hover:shadow-[0_0_30px_rgba(45,212,191,0.5)] transition-all transform hover:-translate-y-1">
+            Book Free Strategy Call
           </Link>
         </div>
       </section>
