@@ -187,11 +187,9 @@ export default function ServicesPage() {
                         <p className="text-xs text-slate-600 mt-4 text-center">No spam. Unsubscribe anytime.</p>
                     </div>
                     {/* Book visual placeholder */}
-                    <div className="w-48 h-64 bg-black/50 border border-white/10 rounded-lg flex items-center justify-center relative shadow-2xl skew-y-3 transform hover:skew-y-0 transition-transform duration-500">
-                        <div className="text-center">
-                            <Zap size={32} className="text-emerald-400 mx-auto mb-2" />
-                            <span className="text-white font-bold text-xs uppercase tracking-widest">Playbook</span>
-                        </div>
+                    {/* Book visual placeholder */}
+                    <div className="w-48 h-64 border border-white/10 rounded-lg flex items-center justify-center relative shadow-2xl skew-y-3 transform hover:skew-y-0 transition-transform duration-500 overflow-hidden">
+                        <Image src="/playbook.jpg" alt="Playbook Cover" fill className="object-contain" />
                     </div>
                 </div>
             </section>

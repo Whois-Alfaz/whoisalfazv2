@@ -253,8 +253,8 @@ export default async function Home() {
               </div>
               <h3 className="text-white font-bold text-xl mb-4">{service.title}</h3>
               <p className="text-slate-300 text-sm leading-relaxed mb-6 flex-grow">{service.desc}</p>
-              <Link href={service.link} className={`text-sm font-bold flex items-center gap-1 ${service.text} hover:opacity-80 transition-opacity`}>
-                See details <ArrowRight size={14} />
+              <Link href={service.link} className={`mt-auto w-full py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 ${service.bg} border ${service.border} ${service.text} hover:scale-[1.02] active:scale-[0.98] transition-all`}>
+                View Service <ArrowRight size={16} />
               </Link>
             </div>
           ))}

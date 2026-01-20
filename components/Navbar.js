@@ -1,11 +1,12 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Search } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const navLinks = [
     { name: 'Audit Tool', href: '/audit' },
@@ -17,7 +18,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
-      <div className="w-full max-w-4xl bg-white/5 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl px-6 h-14 flex items-center justify-between">
+      <div className="w-full max-w-6xl bg-white/5 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl px-6 h-14 flex items-center justify-between relative">
 
         {/* Logo Area */}
         <Link href="/" className="flex items-center gap-2 group">
@@ -36,6 +37,15 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
+
+          {/* Search Icon Toggle */}
+          <button
+            onClick={() => setIsSearchOpen(!isSearchOpen)}
+            className={`hover:text-white transition-colors duration-200 ${isSearchOpen ? 'text-white' : ''}`}
+            aria-label="Toggle Search"
+          >
+            <Search size={18} />
+          </button>
         </div>
 
         {/* CTA Button */}
@@ -51,6 +61,34 @@ export default function Navbar() {
         </button>
       </div>
 
+      {/* Floating Search Bar (Desktop) */}
+      {isSearchOpen && (
+        <div className="absolute top-20 w-full max-w-md px-4 hidden md:block animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="bg-[#0a0a0a] border border-white/10 rounded-xl p-2 shadow-2xl flex items-center gap-2">
+            <Search size={16} className="text-slate-500 ml-2" />
+            <form
+              className="flex-1"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const query = e.target.search.value;
+                if (query) window.location.href = `/search?q=${encodeURIComponent(query)}`;
+              }}
+            >
+              <input
+                name="search"
+                autoFocus
+                type="text"
+                placeholder="Search articles..."
+                className="w-full bg-transparent border-none focus:ring-0 text-white text-sm placeholder:text-slate-600 h-10"
+              />
+            </form>
+            <button onClick={() => setIsSearchOpen(false)} className="p-2 text-slate-500 hover:text-white">
+              <X size={14} />
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Mobile Menu Backdrop & Dropdown */}
       {isOpen && (
         <>
@@ -61,6 +99,26 @@ export default function Navbar() {
           />
 
           <div className="absolute top-20 w-[calc(100%-2rem)] max-w-sm bg-[#0a0a0a] border border-white/10 rounded-2xl p-2 space-y-1 shadow-2xl z-50 transform transition-all duration-200 ease-out origin-top scale-100 opacity-100">
+            {/* Mobile Search Input */}
+            <div className="px-2 pt-2 mb-2">
+              <form
+                className="relative"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const query = e.target.searchMobile.value;
+                  if (query) window.location.href = `/search?q=${encodeURIComponent(query)}`;
+                }}
+              >
+                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+                <input
+                  name="searchMobile"
+                  type="text"
+                  placeholder="Search..."
+                  className="w-full bg-white/5 border border-white/10 rounded-lg py-2 pl-9 pr-3 text-sm text-white focus:outline-none focus:border-blue-500"
+                />
+              </form>
+            </div>
+
             {navLinks.map((link) => (
               <Link
                 key={link.name}

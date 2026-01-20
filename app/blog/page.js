@@ -4,9 +4,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Search, ChevronRight, BookOpen, Clock, ArrowRight } from 'lucide-react';
 
+import SearchWidget from '../../components/SearchWidget';
+
 export default async function BlogPage() {
     const posts = await getAllPosts();
     const categories = await getAllCategories();
+
     const recentPosts = posts?.slice(0, 5); // Top 5 for sidebar
 
     return (
@@ -41,14 +44,9 @@ export default async function BlogPage() {
                                     </button>
                                 </div>
                                 {/* Placeholder for Book Cover similar to image */}
-                                <div className="relative h-64 w-full bg-black/50 rounded-lg border border-white/10 flex items-center justify-center">
-                                    <div className="text-center space-y-4">
-                                        <h3 className="text-white font-bold text-xl">Start Your AI Automation<br />Today with n8n</h3>
-                                        <div className="text-blue-500 animate-pulse">
-                                            <BookOpen size={48} className="mx-auto" />
-                                        </div>
-                                        <p className="text-[10px] text-slate-500">By Alfaz Mahmud</p>
-                                    </div>
+                                {/* Playbook Image */}
+                                <div className="relative h-64 w-full flex items-center justify-center overflow-hidden">
+                                    <Image src="/playbook.jpg" alt="Start Your AI Automation Today with n8n" fill className="object-contain drop-shadow-2xl" />
                                 </div>
                             </div>
                             {/* Glow Effect */}
@@ -118,15 +116,7 @@ export default async function BlogPage() {
                 <aside className="space-y-12 h-fit sticky top-32">
 
                     {/* SEARCH */}
-                    <div>
-                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 block">Search</label>
-                        <div className="relative">
-                            <input type="text" placeholder="Search..." className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg py-3 pl-4 pr-10 text-slate-300 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm" />
-                            <button className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white">
-                                <Search size={16} />
-                            </button>
-                        </div>
-                    </div>
+                    <SearchWidget />
 
                     {/* RECENT POSTS */}
                     <div>
