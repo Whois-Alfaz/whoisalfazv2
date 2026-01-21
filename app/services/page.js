@@ -233,18 +233,36 @@ export default function ServicesPage() {
                 <h2 className="text-2xl font-bold text-white mb-8 text-center">Frequently Asked Questions</h2>
                 <div className="space-y-4">
                     {[
-                        "How long does it take to build an automation?",
-                        "Do you offer ongoing support?",
-                        "Can you integrate with my specific CRM?",
-                        "What is your refund policy?",
-                        "Do I need to pay for n8n hosting?"
-                    ].map((q, i) => (
-                        <div key={i} className="bg-[#0f172a] border border-slate-800 rounded-xl overflow-hidden group">
-                            <summary className="flex items-center justify-between p-4 cursor-pointer list-none">
-                                <span className="text-slate-300 font-medium group-hover:text-white transition-colors">{q}</span>
-                                <ChevronDown size={16} className="text-slate-500" />
+                        {
+                            q: "How long does it take to build an automation?",
+                            a: "Simple workflows (e.g., lead sync) take 2-3 days. Complex agency operating systems can take 2-4 weeks. We always start with a discovery call to give you an exact timeline."
+                        },
+                        {
+                            q: "Do you offer ongoing support?",
+                            a: "Yes. All projects come with 30 days of free monitoring. After that, we offer monthly maintenance packages to ensure your automations run smoothly as platforms update their APIs."
+                        },
+                        {
+                            q: "Can you integrate with my specific CRM?",
+                            a: "Almost certainly. If it has an API, we can connect to it. We specialize in HubSpot, Airtable, Pipedrive, and GoHighLevel, but custom integrations are our bread and butter."
+                        },
+                        {
+                            q: "What is your refund policy?",
+                            a: "We work on a milestone basis. If we cannot deliver the agreed-upon scope, you don't pay for that milestone. We prioritize transparent communication to ensure you're always happy with the output."
+                        },
+                        {
+                            q: "Do I need to pay for n8n hosting?",
+                            a: "You have two options: Cloud (approx $20/mo) or Self-Hosted (approx $5-10/mo on a VPS). We can set up either for you, but we usually recommend self-hosting for maximum data privacy and lower costs at scale."
+                        }
+                    ].map((item, i) => (
+                        <details key={i} className="bg-[#0f172a] border border-slate-800 rounded-xl overflow-hidden group">
+                            <summary className="flex items-center justify-between p-6 cursor-pointer list-none select-none">
+                                <span className="text-slate-300 font-medium group-hover:text-white transition-colors">{item.q}</span>
+                                <ChevronDown size={16} className="text-slate-500 group-open:rotate-180 transition-transform duration-300" />
                             </summary>
-                        </div>
+                            <div className="px-6 pb-6 pt-0 text-slate-400 text-sm leading-relaxed border-t border-white/5 mt-2">
+                                {item.a}
+                            </div>
+                        </details>
                     ))}
                 </div>
             </section>
