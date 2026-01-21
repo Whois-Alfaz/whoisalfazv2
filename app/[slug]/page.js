@@ -1,4 +1,5 @@
 import { getPostBySlug, getPageBySlug } from '../../lib/api';
+import xss from 'xss';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -108,7 +109,7 @@ export default async function Page({ params }) {
                prose-blockquote:border-l-blue-500 prose-blockquote:bg-white/5 prose-blockquote:p-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic
                ${isServices ? 'prose-p:mx-auto prose-headings:mx-auto' : ''}
              `}
-                        dangerouslySetInnerHTML={{ __html: data.content }}
+                        dangerouslySetInnerHTML={{ __html: xss(data.content) }}
                     />
                 </article>
             </div>

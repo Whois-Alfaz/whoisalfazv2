@@ -1,5 +1,6 @@
 
 import { Suspense } from 'react';
+import xss from 'xss';
 import { getAllPosts, getAllCategories } from '../../lib/api';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -101,7 +102,7 @@ export default async function BlogPage() {
                                             <h3 className="text-white font-bold text-lg mb-3 group-hover:text-blue-400 transition-colors leading-snug">
                                                 {post.title}
                                             </h3>
-                                            <div className="text-slate-400 text-xs line-clamp-3 leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: post.excerpt }} />
+                                            <div className="text-slate-400 text-xs line-clamp-3 leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: xss(post.excerpt) }} />
                                             <span className="text-blue-500 text-xs font-bold uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">
                                                 Read Article <ArrowRight size={12} />
                                             </span>

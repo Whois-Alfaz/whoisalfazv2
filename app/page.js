@@ -1,4 +1,5 @@
 import { getAllPosts } from '../lib/api';
+import xss from 'xss';
 import AuditTool from '../components/AuditTool';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -181,7 +182,7 @@ export default async function Home() {
                 </div>
                 <div className="p-6">
                   <h3 className="text-white font-bold mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">{post.title}</h3>
-                  <div className="text-slate-400 text-sm line-clamp-2" dangerouslySetInnerHTML={{ __html: post.excerpt }} />
+                  <div className="text-slate-400 text-sm line-clamp-2" dangerouslySetInnerHTML={{ __html: xss(post.excerpt || '') }} />
                 </div>
               </article>
             </Link>

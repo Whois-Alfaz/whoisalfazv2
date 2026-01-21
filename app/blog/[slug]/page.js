@@ -1,4 +1,5 @@
 
+import xss from 'xss';
 import { getPostBySlug } from '../../../lib/api';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -110,7 +111,7 @@ export default async function Post({ params }) {
                 prose-pre:bg-[#111] prose-pre:border prose-pre:border-white/10 prose-pre:rounded-2xl prose-pre:shadow-xl
                 prose-img:rounded-2xl prose-img:border prose-img:border-white/10 prose-img:shadow-2xl prose-img:my-12
              "
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: xss(post.content) }}
           />
 
           {/* AUTHOR BOX FOOTER */}
