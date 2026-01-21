@@ -22,6 +22,8 @@ export const metadata = {
   }
 };
 
+import GlobalChatWidget from "@/components/GlobalChatWidget";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${mono.variable}`}>
@@ -35,6 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
 
         <Footer />
+        <GlobalChatWidget />
       </body>
     </html>
   );
