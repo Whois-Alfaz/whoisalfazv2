@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Clock, Calendar, User, Twitter, Linkedin, Facebook, Instagram, Link as LinkIcon } from 'lucide-react';
 import TableOfContents from '../../../components/TableOfContents';
+import NewsletterForm from '../../../components/NewsletterForm';
 
 export default async function Post({ params }) {
   const { slug } = await params;
@@ -151,11 +152,8 @@ export default async function Post({ params }) {
               <h3 className="text-lg font-bold text-white mb-2 relative z-10">Join the Inner Circle</h3>
               <p className="text-slate-400 text-xs mb-6 relative z-10">Get weekly automation blueprints and n8n tips delivered to your inbox.</p>
 
-              <div className="relative z-10 space-y-3">
-                <input type="email" placeholder="Your email address" className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-blue-500 transition-colors placeholder:text-slate-600" />
-                <button className="w-full py-3 bg-white text-black font-bold rounded-lg hover:bg-slate-200 transition-colors text-sm shadow-lg">
-                  Subscribe Free
-                </button>
+              <div className="relative z-10">
+                <NewsletterForm source={`Blog Sidebar: ${post.title}`} />
               </div>
             </div>
           </div>

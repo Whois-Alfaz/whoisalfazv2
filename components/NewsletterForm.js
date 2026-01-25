@@ -55,6 +55,7 @@ export default function NewsletterForm({ source = 'Newsletter' }) {
                 onChange={(e) => setEmail(e.target.value)}
             />
             <button
+                type="submit"
                 disabled={status === 'loading'}
                 className="w-full py-3 bg-[#8b5cf6] hover:bg-[#7c3aed] text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
             >

@@ -9,8 +9,8 @@ export default function Navbar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const navLinks = [
-    { name: 'Labs', href: '/labs' },
     { name: 'Blog', href: '/blog' },
+    { name: 'Lab', href: '/labs' },
     { name: 'Services', href: '/services' },
     { name: 'Portfolio', href: '/portfolio' },
     { name: 'Contact', href: '/contact' },
