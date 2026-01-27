@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         hostname: 'whoisalfaz.me', // Trust your live site
         pathname: '/wp-content/uploads/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'v1.whoisalfaz.me', // Allow new GraphQL endpoint images
+        pathname: '/wp-content/uploads/**',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
   },
