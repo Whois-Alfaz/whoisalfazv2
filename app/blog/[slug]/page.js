@@ -1,4 +1,5 @@
 
+import { replaceBackendUrl } from '../../../lib/seo-utils';
 import xss from 'xss';
 import { getPostBySlug } from '../../../lib/api';
 import Link from 'next/link';
@@ -6,6 +7,32 @@ import Image from 'next/image';
 import { ArrowLeft, Clock, Calendar, User, Twitter, Linkedin, Facebook, Instagram, Link as LinkIcon } from 'lucide-react';
 import TableOfContents from '../../../components/TableOfContents';
 import NewsletterForm from '../../../components/NewsletterForm';
+
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
+
+  if (!post) {
+    return {
+      title: 'Post Not Found',
+    };
+  }
+
+  const cleanTitle = replaceBackendUrl(post.title);
+  const cleanCanonical = `https://whoisalfaz.me/blog/${slug}`;
+
+  return {
+    title: cleanTitle,
+    alternates: {
+      canonical: cleanCanonical,
+    },
+    openGraph: {
+      title: cleanTitle,
+      url: cleanCanonical,
+      images: post.featuredImage?.node?.sourceUrl ? [replaceBackendUrl(post.featuredImage.node.sourceUrl)] : [],
+    },
+  };
+}
 
 export default async function Post({ params }) {
   const { slug } = await params;
@@ -49,7 +76,7 @@ export default async function Post({ params }) {
         </div>
 
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-8 leading-tight tracking-tight">
-          {post.title}
+          {replaceBackendUrl(post.title)}
         </h1>
 
         <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-400 border-y border-white/5 py-6 w-fit mx-auto px-8">
@@ -88,7 +115,7 @@ export default async function Post({ params }) {
           {post.featuredImage?.node?.sourceUrl && (
             <div className="relative w-full aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-2xl mb-12 group">
               <Image
-                src={post.featuredImage.node.sourceUrl}
+                src={replaceBackendUrl(post.featuredImage.node.sourceUrl)}
                 alt={post.title}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-1000"
@@ -114,8 +141,7 @@ export default async function Post({ params }) {
              "
             dangerouslySetInnerHTML={{
               __html: xss(
-                post.content
-                  .replace(/https?:\/\/v1\.whoisalfaz\.me/g, 'https://whoisalfaz.me')
+                replaceBackendUrl(post.content)
               )
             }}
           />
