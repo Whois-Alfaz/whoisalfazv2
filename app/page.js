@@ -123,7 +123,7 @@ export default async function Home() {
         <div className="relative w-40 h-40 mx-auto mb-8">
           <div className="absolute inset-0 bg-blue-500 blur-2xl opacity-20 rounded-full"></div>
           <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/10 shadow-2xl">
-            <Image src="/profile.jpg" alt="Alfaz Mahmud" fill className="object-cover" />
+            <Image src="/profile.jpg" alt="Alfaz Mahmud" fill className="object-cover" priority />
           </div>
         </div>
 

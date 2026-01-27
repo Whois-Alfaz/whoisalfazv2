@@ -139,7 +139,7 @@ export default async function Post({ params }) {
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-16 relative">
 
         {/* LEFT COLUMN: STICKY SIDEBAR (TOC + Share) */}
-        <aside className="hidden lg:block h-fit sticky top-32 space-y-12">
+        <aside className="hidden lg:block h-fit sticky top-32 space-y-12 min-w-[280px]">
 
           {/* Table of Contents */}
           <div>

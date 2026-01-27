@@ -6,12 +6,14 @@ import "./globals.css";
 // 1. Load the Fonts
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-inter"
+  variable: "--font-inter",
+  display: 'swap',
 });
 
 const mono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-jetbrains-mono"
+  variable: "--font-jetbrains-mono",
+  display: 'swap',
 });
 
 export const metadata = {
