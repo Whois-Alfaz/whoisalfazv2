@@ -1,7 +1,7 @@
+import "./globals.css";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import "./globals.css";
 
 // 1. Load the Fonts
 const inter = Inter({
