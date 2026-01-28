@@ -29,7 +29,7 @@ export default function ToolsPage() {
             border: 'border-emerald-500/20',
         },
         {
-            title: 'CashOps.app',
+            title: 'CashOps',
             desc: 'Developer-focused financial dashboard with real-time telemetry and zero-latency data visualization.',
             icon: BarChart3,
             image: '/cashops-logo.png',
@@ -37,6 +37,16 @@ export default function ToolsPage() {
             color: 'text-green-400',
             bg: 'bg-[#050505]',
             border: 'border-green-500/20',
+        },
+        {
+            title: 'CareerOps',
+            desc: 'Privacy-first resume optimization. AI-powered role matching without storing your data.',
+            icon: Bot,
+            image: '/careerops-logo.png',
+            href: 'https://careerops.whoisalfaz.me',
+            color: 'text-indigo-400',
+            bg: 'bg-[#050505]',
+            border: 'border-indigo-500/20',
         },
         {
             title: 'Ask Alfaz AI',
