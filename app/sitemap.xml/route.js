@@ -1,5 +1,11 @@
 import { getSitemapData } from '../../lib/api';
 
+const formatDate = (dateString) => {
+  if (!dateString) return new Date().toISOString();
+  const date = new Date(dateString);
+  return isNaN(date.getTime()) ? new Date().toISOString() : date.toISOString();
+};
+
 export async function GET() {
   const { posts, pages } = await getSitemapData();
   const baseUrl = 'https://whoisalfaz.me';
@@ -23,6 +29,7 @@ export async function GET() {
     sitemap += `
   <url>
     <loc>${baseUrl}${route}/</loc>
+    <lastmod>${formatDate(new Date().toISOString())}</lastmod>
     <changefreq>daily</changefreq>
     <priority>${route === '' ? '1.0' : '0.8'}</priority>
   </url>`;
@@ -36,7 +43,7 @@ export async function GET() {
     sitemap += `
   <url>
     <loc>${baseUrl}/${page.slug}/</loc>
-    <lastmod>${page.modified || page.date}</lastmod>
+    <lastmod>${formatDate(page.modified || page.date)}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>`;
@@ -47,7 +54,7 @@ export async function GET() {
     sitemap += `
   <url>
     <loc>${baseUrl}/blog/${post.slug}/</loc>
-    <lastmod>${post.modified || post.date}</lastmod>
+    <lastmod>${formatDate(post.modified || post.date)}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>`;
