@@ -61,13 +61,13 @@ export default async function BlogPage() {
                         <h3 className="text-xl font-bold text-white mb-6 border-b border-white/10 pb-2">Topics</h3>
                         <div className="space-y-1">
                             {categories?.map((cat) => (
-                                <div key={cat.slug} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5 hover:border-blue-500/50 transition-colors group cursor-pointer">
+                                <Link key={cat.slug} href={`/blog/category/${cat.slug}`} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5 hover:border-blue-500/50 transition-colors group cursor-pointer">
                                     <span className="text-slate-300 font-medium group-hover:text-blue-400 transition-colors flex items-center gap-2">
                                         <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
                                         {cat.name}
                                     </span>
                                     <span className="text-xs text-slate-500 bg-black/50 px-2 py-0.5 rounded-full">{cat.count}</span>
-                                </div>
+                                </Link>
                             ))}
                             {!categories && <div className="text-slate-500 text-sm italic">Loading topics...</div>}
                         </div>
@@ -160,7 +160,7 @@ export default async function BlogPage() {
                         <ul className="space-y-2">
                             {categories?.map(cat => (
                                 <li key={cat.slug}>
-                                    <Link href="#" className="text-sm text-slate-400 hover:text-blue-400 block py-1 border-b border-white/5 pb-2">
+                                    <Link href={`/blog/category/${cat.slug}`} className="text-sm text-slate-400 hover:text-blue-400 block py-1 border-b border-white/5 pb-2">
                                         {cat.name}
                                     </Link>
                                 </li>

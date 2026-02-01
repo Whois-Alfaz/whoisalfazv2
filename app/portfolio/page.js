@@ -133,23 +133,30 @@ export default function Portfolio() {
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {/* Project 1 */}
-                        <div className="group bg-[#111] border border-white/10 rounded-3xl overflow-hidden hover:border-purple-500/50 transition-colors cursor-pointer">
-                            <div className="h-48 bg-gradient-to-br from-slate-800 to-slate-900 group-hover:from-purple-900/50 group-hover:to-blue-900/50 transition-colors relative flex items-center justify-center">
-                                <Cpu size={48} className="text-slate-700 group-hover:text-white transition-colors opacity-50" />
+                        {/* Project 0 - Spectre */}
+                        <a href="https://spectre.whoisalfaz.me/" target="_blank" rel="noopener noreferrer" className="group bg-[#111] border border-white/10 rounded-3xl overflow-hidden hover:border-cyan-500/50 transition-colors cursor-pointer">
+                            <div className="h-48 bg-[#050505] group-hover:bg-cyan-950/30 transition-colors relative p-8">
+                                <div className="relative w-full h-full">
+                                    <Image src="/spectre-logo.png" alt="Spectre Logo" fill className="object-contain" />
+                                </div>
                             </div>
                             <div className="p-8">
-                                <div className="flex gap-2 mb-4">
-                                    <span className="px-2 py-1 bg-white/5 rounded text-[10px] text-slate-400 uppercase tracking-wider font-bold">Automation</span>
-                                    <span className="px-2 py-1 bg-white/5 rounded text-[10px] text-slate-400 uppercase tracking-wider font-bold">n8n</span>
+                                <div className="flex flex-wrap gap-2 mb-4">
+                                    <span className="px-2 py-1 bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 rounded text-[10px] uppercase tracking-wider font-bold">R3F</span>
+                                    <span className="px-2 py-1 bg-white/5 rounded text-[10px] text-slate-400 uppercase tracking-wider font-bold">Next.js</span>
+                                    <span className="px-2 py-1 bg-white/5 rounded text-[10px] text-slate-400 uppercase tracking-wider font-bold">Canvas API</span>
                                 </div>
-                                <h3 className="text-xl font-bold text-white mb-2">Lead Processing Engine</h3>
+                                <h3 className="text-xl font-bold text-white mb-2">Spectre</h3>
                                 <p className="text-slate-400 text-sm mb-6 leading-relaxed">
-                                    A fully automated system that scrapes, enriches, and qualifies leads before syncing them to HubSpot.
+                                    Immersive Commerce Experience. Cinema-quality 3D product disassembly with custom 'Progressive Buffering' for instant TTI and locked 60FPS fluid scroll.
                                 </p>
-                                <span className="text-white text-sm font-bold border-b border-transparent group-hover:border-white transition-colors">View Details</span>
+                                <span className="text-cyan-400 text-sm font-bold border-b border-transparent group-hover:border-cyan-400 transition-colors flex items-center gap-1">
+                                    View Experience <ExternalLink size={12} />
+                                </span>
                             </div>
-                        </div>
+                        </a>
+
+                        {/* Project 1 - Removed Lead Processing Engine */}
 
 
 
