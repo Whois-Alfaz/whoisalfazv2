@@ -4,7 +4,7 @@ import { MapPin, GraduationCap, Briefcase, ArrowRight, ExternalLink, Code2, Cpu,
 
 export const metadata = {
     title: "Portfolio | Alfaz Mahmud Rizve",
-    description: "AI Automation, Business Growth, and Technical SEO.",
+    description: "I design business growth strategies and then architect the automated infrastructure to execute them.",
 };
 
 export default function Portfolio() {

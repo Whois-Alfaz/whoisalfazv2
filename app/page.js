@@ -1,4 +1,5 @@
 import { getAllPosts } from '../lib/api';
+import WorkflowSteps from '../components/WorkflowSteps';
 import xss from 'xss';
 import AuditTool from '../components/AuditTool';
 import Link from 'next/link';
@@ -89,33 +90,7 @@ export default async function Home() {
         <h2 className="text-3xl font-bold text-white mb-4">Our 4-Step n8n Workflow Development Process</h2>
         <p className="text-slate-400 max-w-2xl mx-auto mb-16">From strategy to deployment, we ensure your automation is reliable, scalable, and tailored to your business goals.</p>
 
-        <div className="relative">
-          {/* Connecting Line */}
-          <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent -translate-y-1/2 hidden md:block"></div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 relative z-10">
-            <div className="bg-[#0a0a0a] p-4 rounded-xl border border-white/5">
-              <div className="w-10 h-10 rounded-full bg-blue-500/10 text-blue-400 flex items-center justify-center font-bold mx-auto mb-4 border border-blue-500/20">1</div>
-              <h3 className="text-white font-medium">Discovery & Audit</h3>
-            </div>
-            <div className="bg-[#0a0a0a] p-4 rounded-xl border border-white/5">
-              <div className="w-10 h-10 rounded-full bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold mx-auto mb-4 border border-purple-500/20">2</div>
-              <h3 className="text-white font-medium">Draft Strategy</h3>
-            </div>
-            <div className="bg-[#0a0a0a] p-4 rounded-xl border border-white/5">
-              <div className="w-10 h-10 rounded-full bg-orange-500/10 text-orange-400 flex items-center justify-center font-bold mx-auto mb-4 border border-orange-500/20">3</div>
-              <h3 className="text-white font-medium">Solution Build</h3>
-            </div>
-            <div className="bg-[#0a0a0a] p-4 rounded-xl border border-white/5">
-              <div className="w-10 h-10 rounded-full bg-green-500/10 text-green-400 flex items-center justify-center font-bold mx-auto mb-4 border border-green-500/20">4</div>
-              <h3 className="text-white font-medium">Final & Support</h3>
-            </div>
-          </div>
-
-          <Link href="/contact" className="mt-12 px-8 py-3 bg-orange-500 hover:bg-orange-400 text-white font-bold rounded-full transition-colors shadow-lg shadow-orange-500/20 inline-block">
-            Book free consulting
-          </Link>
-        </div>
+        <WorkflowSteps />
       </section>
 
       {/* SECTION 3: CENTERED PROFILE */}
@@ -148,6 +123,10 @@ export default async function Home() {
             Book Free Strategy Call
           </Link>
         </div>
+
+        <p className="mt-12 text-lg text-slate-300 font-medium italic max-w-2xl mx-auto leading-relaxed border-l-4 border-blue-500 pl-6 py-2 bg-blue-500/5 rounded-r-lg">
+          I design business growth strategies and then architect the automated infrastructure to execute them - Alfaz Mahmud Rizve
+        </p>
       </section>
 
       {/* SECTION 4: SCALE WITH AUTOMATION (AUDIT TOOL) */}

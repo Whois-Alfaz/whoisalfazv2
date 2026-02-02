@@ -19,8 +19,8 @@ const mono = JetBrains_Mono({
 
 export const metadata = {
   metadataBase: new URL('https://whoisalfaz.me'),
-  title: "Alfaz Mahmud Rizve | AI Automation Architect",
-  description: "Headless Systems, n8n Workflows, and Technical SEO.",
+  title: "Alfaz Mahmud Rizve | RevOps Engineer & Automation Architect",
+  description: "I design business growth strategies and then architect the automated infrastructure to execute them.",
   icons: {
     icon: '/logo.png',
   },
