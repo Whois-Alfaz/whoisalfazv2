@@ -19,8 +19,27 @@ const mono = JetBrains_Mono({
 
 export const metadata = {
   metadataBase: new URL('https://whoisalfaz.me'),
-  title: "Alfaz Mahmud Rizve | RevOps Engineer & Automation Architect",
-  description: "I design business growth strategies and then architect the automated infrastructure to execute them.",
+  title: "Alfaz Mahmud Rizve | Automation & Security Expert",
+  description: "Alfaz Mahmud Rizve is an Automation Engineer and Full Stack Developer specializing in n8n workflows, Next.js applications, and cybersecurity. I design business growth strategies and architect specific automated infrastructure to execute them.",
+  openGraph: {
+    title: "Alfaz Mahmud Rizve | Automation & Security Expert",
+    description: "Alfaz Mahmud Rizve is an Automation Engineer and Full Stack Developer specializing in n8n workflows, Next.js applications, and cybersecurity.",
+    url: 'https://whoisalfaz.me',
+    siteName: 'Alfaz Mahmud Rizve',
+    locale: 'en_US',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   icons: {
     icon: '/logo.png',
   },
@@ -40,6 +59,36 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${inter.variable} ${mono.variable}`}>
       <body className="bg-[var(--background)] text-[var(--foreground)] min-h-screen flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Alfaz Mahmud Rizve",
+              "url": "https://whoisalfaz.me",
+              "image": "https://whoisalfaz.me/profile.jpg",
+              "jobTitle": "Automation Engineer & Full Stack Developer",
+              "description": "Alfaz Mahmud Rizve is a web developer and automation expert specializing in Next.js, n8n workflows, and cybersecurity protocols.",
+              "nationality": {
+                "@type": "Country",
+                "name": "Bangladesh"
+              },
+              "knowsAbout": [
+                { "@type": "Thing", "name": "n8n Automation" },
+                { "@type": "Thing", "name": "Next.js Development" },
+                { "@type": "Thing", "name": "Cybersecurity" },
+                { "@type": "Thing", "name": "RevOps" },
+                { "@type": "Thing", "name": "System Administration" }
+              ],
+              "sameAs": [
+                "https://linkedin.com/in/alfaz-mahmud-rizve",
+                "https://github.com/AlfazMahmudRizve",
+                "https://twitter.com/whoisalfaz"
+              ]
+            })
+          }}
+        />
         {/* The Navbar sits above everything */}
         <Navbar />
 

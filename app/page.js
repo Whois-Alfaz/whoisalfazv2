@@ -109,7 +109,7 @@ export default async function Home() {
           </div>
         </div>
 
-        <h1 className="text-4xl font-bold text-white mb-2">Alfaz Mahmud Rizve</h1>
+        <h2 className="text-4xl font-bold text-white mb-2">Alfaz Mahmud Rizve</h2>
         <p className="text-slate-400 mb-8">Builder • Automator • Architect</p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
@@ -235,7 +235,7 @@ export default async function Home() {
               link: "/services/ugc-video-ads"
             }
           ].map((service, i) => (
-            <div key={i} className={`rounded-xl border ${service.border} ${service.bg} p-8 hover:-translate-y-1 transition-transform duration-300 flex flex-col backdrop-blur-sm group`}>
+            <article key={i} className={`rounded-xl border ${service.border} ${service.bg} p-8 hover:-translate-y-1 transition-transform duration-300 flex flex-col backdrop-blur-sm group`}>
               <div className={`w-12 h-12 rounded-lg ${service.bg} border ${service.border} flex items-center justify-center ${service.text} mb-6 group-hover:scale-110 transition-transform`}>
                 <service.icon size={24} />
               </div>
@@ -244,7 +244,7 @@ export default async function Home() {
               <Link href={service.link} className={`mt-auto w-full py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 ${service.bg} border ${service.border} ${service.text} hover:scale-[1.02] active:scale-[0.98] transition-all`}>
                 View Service <ArrowRight size={16} />
               </Link>
-            </div>
+            </article>
           ))}
         </div>
       </section>
