@@ -21,14 +21,31 @@ export async function generateMetadata({ params }) {
   const cleanTitle = replaceBackendUrl(post.title);
   const cleanCanonical = `https://whoisalfaz.me/blog/${slug}`;
 
+  // High-CTR Overrides
+  let title = cleanTitle;
+  let description = 'Read this in-depth guide on automation.'; // Fallback
+
+  if (slug === 'lead-scoring-automation-with-alfaz-mahmud-rizve') {
+    title = "How to Build an Automated Lead Scoring System with n8n (Free Guide)";
+    description = "Stop guessing. Learn how to automatically score and qualify leads using n8n and AI. Step-by-step guide to building a dynamic lead scoring system without expensive CRM tools.";
+  }
+
   return {
-    title: cleanTitle,
+    title: title,
+    description: description,
     alternates: {
       canonical: cleanCanonical,
     },
     openGraph: {
-      title: cleanTitle,
+      title: title,
+      description: description,
       url: cleanCanonical,
+      images: post.featuredImage?.node?.sourceUrl ? [post.featuredImage.node.sourceUrl] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: title,
+      description: description,
       images: post.featuredImage?.node?.sourceUrl ? [post.featuredImage.node.sourceUrl] : [],
     },
   };
