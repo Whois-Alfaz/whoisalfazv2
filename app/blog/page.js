@@ -102,7 +102,7 @@ export default async function BlogPage() {
                                             <h3 className="text-white font-bold text-lg mb-3 group-hover:text-blue-400 transition-colors leading-snug">
                                                 {post.title}
                                             </h3>
-                                            <div className="text-slate-400 text-xs line-clamp-3 leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: xss(post.excerpt).replace(/<h1[^>]*>.*?<\/h1>/gi, '') }} />
+                                            <div className="text-slate-400 text-xs line-clamp-3 leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: xss(post.excerpt || '', { whiteList: {}, stripIgnoreTag: true, stripIgnoreTagBody: ['script', 'style'] }) }} />
                                             <span className="text-blue-500 text-xs font-bold uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">
                                                 Read Article <ArrowRight size={12} />
                                             </span>
