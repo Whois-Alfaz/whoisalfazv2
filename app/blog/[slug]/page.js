@@ -1,12 +1,4 @@
-
-import { replaceBackendUrl } from '../../../lib/seo-utils';
-import xss from 'xss';
-import { getPostBySlug } from '../../../lib/api';
-import Link from 'next/link';
-import Image from 'next/image';
-import { ArrowLeft, Clock, Calendar, Twitter, Linkedin, Link as LinkIcon } from 'lucide-react';
-import TableOfContents from '../../../components/TableOfContents';
-import NewsletterForm from '../../../components/NewsletterForm';
+import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -17,38 +9,7 @@ export async function generateMetadata({ params }) {
       title: 'Post Not Found',
     };
   }
-
-  const cleanTitle = replaceBackendUrl(post.title);
-  const cleanCanonical = `https://whoisalfaz.me/blog/${slug}`;
-
-  // High-CTR Overrides
-  let title = cleanTitle;
-  let description = 'Read this in-depth guide on automation.'; // Fallback
-
-  if (slug === 'lead-scoring-automation-with-alfaz-mahmud-rizve') {
-    title = "How to Build an Automated Lead Scoring System with n8n (Free Guide)";
-    description = "Stop guessing. Learn how to automatically score and qualify leads using n8n and AI. Step-by-step guide to building a dynamic lead scoring system without expensive CRM tools.";
-  }
-
-  return {
-    title: title,
-    description: description,
-    alternates: {
-      canonical: cleanCanonical,
-    },
-    openGraph: {
-      title: title,
-      description: description,
-      url: cleanCanonical,
-      images: post.featuredImage?.node?.sourceUrl ? [post.featuredImage.node.sourceUrl] : [],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: title,
-      description: description,
-      images: post.featuredImage?.node?.sourceUrl ? [post.featuredImage.node.sourceUrl] : [],
-    },
-  };
+  // ...
 }
 
 export default async function Post({ params }) {
@@ -56,12 +17,7 @@ export default async function Post({ params }) {
   const post = await getPostBySlug(slug);
 
   if (!post) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center text-center px-4 bg-[#0a0a0a]">
-        <h1 className="text-4xl font-bold text-white mb-4">Post Not Found</h1>
-        <Link href="/blog" className="text-blue-400 hover:underline">Return to Blog</Link>
-      </div>
-    );
+    notFound();
   }
 
   // Calculate read time
