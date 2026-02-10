@@ -12,7 +12,7 @@ export default function ServicesPage() {
             title: "n8n Automation Workflows",
             slug: "n8n-automation",
             desc: "Stop wasting time. We build custom n8n workflows that handle your leads, data entry, and CRM syncs automatically.",
-            price: "300",
+            price: "750",
             icon: Zap,
             color: "emerald", // Green
             bg: "bg-emerald-500/10",
@@ -59,32 +59,6 @@ export default function ServicesPage() {
             text: "text-orange-400",
             btn: "bg-orange-500 hover:bg-orange-400",
             cta: "Find My Ranking Errors"
-        },
-        {
-            title: "UGC Product Videos",
-            slug: "ugc-video-ads",
-            desc: "Authentic, high-converting video content for your SaaS or product. Perfect for TikTok, Reels, and Ads.",
-            price: "150",
-            icon: Video,
-            color: "red", // Red
-            bg: "bg-red-500/10",
-            border: "border-red-500/20",
-            text: "text-red-400",
-            btn: "bg-red-500 hover:bg-red-400",
-            cta: "Order Viral UGC Ads"
-        },
-        {
-            title: "Custom Prompt Design",
-            slug: "custom-prompts",
-            desc: "Get the most out of LLMs. We design complex prompt chains for ChatGPT/Claude to automate content creation.",
-            price: "100",
-            icon: MessageSquare,
-            color: "violet", // Violet
-            bg: "bg-violet-500/10",
-            border: "border-violet-500/20",
-            text: "text-violet-400",
-            btn: "bg-violet-500 hover:bg-violet-400",
-            cta: "Supercharge My AI Prompts"
         }
     ];
 
@@ -137,7 +111,7 @@ export default function ServicesPage() {
                     <p className="text-slate-500 text-sm">Flexible solutions for every stage of growth.</p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-6">
+                <div className="grid md:grid-cols-2 gap-6">
                     {services.map((s, i) => (
                         <div key={i} className={`rounded-xl border ${s.border} ${s.bg} p-8 hover:-translate-y-1 transition-transform duration-300 flex flex-col backdrop-blur-sm`}>
                             <div className={`w-12 h-12 rounded-lg ${s.bg} border ${s.border} flex items-center justify-center ${s.text} mb-6`}>

@@ -190,28 +190,14 @@ export default async function Home() {
           <p className="text-slate-400 mt-2">End-to-end implementation for scaling your operations.</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 gap-6">
           {[
             {
-              title: "Automation workflows",
+              title: "n8n Automation Workflows",
               icon: Zap,
-              desc: "Custom n8n workflows to handle leads, data, and operations.",
+              desc: "Stop wasting time. We build custom n8n workflows that handle your leads, data entry, and CRM syncs automatically.",
               bg: "bg-emerald-500/10", border: "border-emerald-500/20", text: "text-emerald-400",
               link: "/services/n8n-automation"
-            },
-            {
-              title: "Technical SEO audits",
-              icon: Search,
-              desc: "Deep dive analysis into your site's performance and ranking blocking issues.",
-              bg: "bg-orange-500/10", border: "border-orange-500/20", text: "text-orange-400",
-              link: "/services/technical-seo"
-            },
-            {
-              title: "Strategy & consulting",
-              icon: BarChart3,
-              desc: "Tailored growth plans for agencies and SaaS startups.",
-              bg: "bg-purple-500/10", border: "border-purple-500/20", text: "text-purple-400",
-              link: "/services/growth-consulting"
             },
             {
               title: "Headless CMS Architecture",
@@ -221,18 +207,18 @@ export default async function Home() {
               link: "/services/headless-architecture"
             },
             {
-              title: "CRM architecture",
-              icon: Database,
-              desc: "Data organization and synchronization across your stack.",
-              bg: "bg-cyan-500/10", border: "border-cyan-500/20", text: "text-cyan-400",
-              link: "/services/growth-consulting" // Fallback or new slug
+              title: "Strategy & Growth Consulting",
+              icon: BarChart3,
+              desc: "Not sure what to automate? We analyze your business processes and create a roadmap to cut costs and scale revenue.",
+              bg: "bg-purple-500/10", border: "border-purple-500/20", text: "text-purple-400",
+              link: "/services/growth-consulting"
             },
             {
-              title: "UGC Video Ads",
-              icon: Video,
-              desc: "High-converting short-form video content for TikTok & Reels.",
-              bg: "bg-red-500/10", border: "border-red-500/20", text: "text-red-400",
-              link: "/services/ugc-video-ads"
+              title: "Technical SEO Audits",
+              icon: Search,
+              desc: "Deep dive analysis of your site's health. We find and fix the invisible technical errors killing your rankings.",
+              bg: "bg-orange-500/10", border: "border-orange-500/20", text: "text-orange-400",
+              link: "/services/technical-seo"
             }
           ].map((service, i) => (
             <article key={i} className={`rounded-xl border ${service.border} ${service.bg} p-8 hover:-translate-y-1 transition-transform duration-300 flex flex-col backdrop-blur-sm group`}>

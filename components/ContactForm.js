@@ -106,8 +106,6 @@ export default function ContactForm({ initialServiceOfInterest = "General Consul
                         <option value="Technical SEO Audit">Technical SEO Audit</option>
                         <option value="Headless CMS Architecture">Headless CMS Architecture</option>
                         <option value="General Consulting">General Consulting</option>
-                        <option value="UGC Video Ads">UGC Video Ads</option>
-                        <option value="Custom AI Prompts">Custom AI Prompts</option>
                         <option value="Other">Other</option>
                     </select>
                 </div>
