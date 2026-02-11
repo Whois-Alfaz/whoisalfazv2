@@ -68,7 +68,9 @@ export const metadata = {
   },
 };
 
-import GlobalChatWidget from "@/components/GlobalChatWidget";
+import dynamic from 'next/dynamic';
+
+import LazyChatWidget from "@/components/LazyChatWidget";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const jsonLd = {
@@ -110,7 +112,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
 
         <Footer />
-        <GlobalChatWidget />
+        <LazyChatWidget />
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />
       </body>
     </html>
