@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, CheckCircle2, Zap, Layout, Search, BarChart3, Database, Globe, Mail, Video } from 'lucide-react';
 import NewsletterForm from '../components/NewsletterForm';
+import AutomationVisual from '../components/AutomationVisual';
 
 export default async function Home() {
   const posts = await getAllPosts();
@@ -142,10 +143,8 @@ export default async function Home() {
                 <AuditTool />
               </div>
             </div>
-            <div className="hidden md:block relative h-64 w-full bg-black/30 rounded-xl border border-white/5 p-4">
-              <div className="absolute inset-0 flex items-center justify-center text-slate-600 font-mono text-sm">
-                [Automation Graph Placeholder]
-              </div>
+            <div className="hidden md:block relative h-64 w-full rounded-xl overflow-hidden border border-white/5 shadow-2xl">
+              <AutomationVisual />
             </div>
           </div>
         </div>
