@@ -11,7 +11,7 @@ export default function ServicesPage() {
         {
             title: "n8n Automation Workflows",
             slug: "n8n-automation",
-            desc: "Stop wasting time. We build custom n8n workflows that handle your leads, data entry, and CRM syncs automatically.",
+            desc: "Replace your manual data entry with autonomous agents. We build self-healing workflows that instantly qualify leads and sync your CRM, saving your team 20+ hours a week.",
             price: "750",
             icon: Zap,
             color: "emerald", // Green
@@ -24,7 +24,7 @@ export default function ServicesPage() {
         {
             title: "Headless CMS Architecture",
             slug: "headless-architecture",
-            desc: "The best of both worlds: The easy editing of WordPress combined with the raw speed of Next.js.",
+            desc: "Enterprise-grade performance. We decouple your frontend to achieve sub-second load times and perfect Core Web Vitals, without sacrificing your marketing team's ability to edit content.",
             price: "1,500",
             icon: Globe,
             color: "blue", // Blue

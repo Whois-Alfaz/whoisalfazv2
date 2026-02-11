@@ -195,14 +195,14 @@ export default async function Home() {
             {
               title: "n8n Automation Workflows",
               icon: Zap,
-              desc: "Stop wasting time. We build custom n8n workflows that handle your leads, data entry, and CRM syncs automatically.",
+              desc: "Replace your manual data entry with autonomous agents. We build self-healing workflows that instantly qualify leads and sync your CRM, saving your team 20+ hours a week.",
               bg: "bg-emerald-500/10", border: "border-emerald-500/20", text: "text-emerald-400",
               link: "/services/n8n-automation"
             },
             {
               title: "Headless CMS Architecture",
               icon: Globe,
-              desc: "The best of both worlds: The easy editing of WordPress combined with the raw speed of Next.js.",
+              desc: "Enterprise-grade performance. We decouple your frontend to achieve sub-second load times and perfect Core Web Vitals, without sacrificing your marketing team's ability to edit content.",
               bg: "bg-blue-500/10", border: "border-blue-500/20", text: "text-blue-400",
               link: "/services/headless-architecture"
             },
