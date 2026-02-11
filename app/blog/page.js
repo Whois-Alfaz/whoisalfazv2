@@ -139,11 +139,7 @@ export default async function BlogPage() {
                         </ul>
                     </div>
 
-                    {/* RECENT COMMENTS (Mock) */}
-                    <div>
-                        <h4 className="text-xl font-bold text-white mb-6">Recent Comments</h4>
-                        <p className="text-slate-500 text-xs italic">No comments to show.</p>
-                    </div>
+
 
                     {/* ARCHIVES (Mock) */}
                     <div>
