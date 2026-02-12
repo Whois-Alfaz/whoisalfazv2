@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { ArrowRight, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
 
-export default function AuditTool() {
+export default function AuditTool({ source = 'audit_tool' }) {
   const [name, setName] = useState('');
   const [url, setUrl] = useState('');
   const [email, setEmail] = useState('');
@@ -41,7 +41,7 @@ export default function AuditTool() {
             website: url,
             // Sending website url in the message body for n8n to parse
             message: `Audit Request for: ${url}`,
-            source: 'audit_tool'
+            source: source
           })
         });
       }
