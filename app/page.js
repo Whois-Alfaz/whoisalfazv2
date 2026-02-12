@@ -140,7 +140,7 @@ export default async function Home() {
 
               {/* We use the AuditTool component but control its wrapper styles above */}
               <div className="audit-tool-wrapper">
-                <AuditTool source="Home Scale Section" />
+                <AuditTool />
               </div>
             </div>
             <div className="hidden md:block relative h-64 w-full rounded-xl overflow-hidden border border-white/5 shadow-2xl">

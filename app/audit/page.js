@@ -30,7 +30,7 @@ export default function AuditPage() {
                                 <p className="text-slate-400 mb-6 text-sm">Enter your website and details to receive an instant analysis of your technical SEO and automation potential.</p>
 
                                 <div className="audit-tool-wrapper">
-                                    <AuditTool source="Audit Page" />
+                                    <AuditTool />
                                 </div>
                             </div>
                             <div className="hidden md:block relative h-full min-h-[300px] w-full bg-black/30 rounded-xl border border-white/5 p-6 flex flex-col justify-center gap-4">
