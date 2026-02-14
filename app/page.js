@@ -32,7 +32,7 @@ export default async function Home() {
             Book a free strategy call
           </Link>
           <Link href="/services" className="px-8 py-4 bg-white text-black font-bold rounded-lg hover:bg-slate-200 transition-colors block text-center">
-            See Automations & results
+            Explore Services & Automations
           </Link>
         </div>
 
