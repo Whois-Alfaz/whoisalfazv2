@@ -2,8 +2,17 @@ import { NextResponse } from 'next/server';
 import { getAllPosts } from '@/lib/api';
 import { submitToBing } from '@/lib/bing';
 
-export async function GET() {
+export async function GET(request: Request) {
     try {
+        const { searchParams } = new URL(request.url);
+        const secret = searchParams.get('secret');
+
+        // Check for Cron Secret to prevent unauthorized access
+        // You'll need to add CRON_SECRET to your environment variables
+        if (secret !== process.env.CRON_SECRET) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
         const baseUrl = 'https://whoisalfaz.me';
 
         // 1. Static Routes (Same as sitemap.ts)
