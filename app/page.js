@@ -19,9 +19,8 @@ export default async function Home() {
 
       {/* SECTION 0: HERO (NEW) */}
       <section className="max-w-5xl mx-auto px-6 pt-20 pb-24 text-center">
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight tracking-tight">
-          Sub-Second <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-teal-200">Headless Architectures</span> <br className="hidden md:block" />
-          & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-200">Autonomous Revenue Systems</span>.
+        <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight tracking-tight max-w-4xl mx-auto">
+          Sub-Second <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-teal-200">Headless Architectures</span> & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-200">Autonomous Revenue Systems</span>
         </h1>
         <p className="text-lg text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
           I help Marketing Agencies replace slow WordPress monoliths with Next.js and eliminate manual ops with n8n workflows.
