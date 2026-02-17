@@ -133,6 +133,29 @@ export default function Portfolio() {
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {/* Project - Urban Harvest Cafe */}
+                        <a href="https://urbancafe.whoisalfaz.me" target="_blank" rel="noopener noreferrer" className="group bg-[#111] border border-white/10 rounded-3xl overflow-hidden hover:border-amber-500/50 transition-colors cursor-pointer">
+                            <div className="h-48 bg-[#050505] group-hover:bg-amber-950/30 transition-colors relative p-8">
+                                <div className="relative w-full h-full">
+                                    <Image src="/urban.png" alt="Urban Harvest Cafe Logo" fill className="object-contain" />
+                                </div>
+                            </div>
+                            <div className="p-8">
+                                <div className="flex flex-wrap gap-2 mb-4">
+                                    <span className="px-2 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded text-[10px] uppercase tracking-wider font-bold">FoodTech</span>
+                                    <span className="px-2 py-1 bg-white/5 rounded text-[10px] text-slate-400 uppercase tracking-wider font-bold">Next.js</span>
+                                    <span className="px-2 py-1 bg-white/5 rounded text-[10px] text-slate-400 uppercase tracking-wider font-bold">Real-time</span>
+                                </div>
+                                <h3 className="text-xl font-bold text-white mb-2">Urban Harvest Cafe</h3>
+                                <p className="text-slate-400 text-sm mb-6 leading-relaxed">
+                                    Modern, artisan food ordering application built for warmth and cravings. Features a seamless serving tray system, real-time kitchen logic, and a "fresh-first" design philosophy.
+                                </p>
+                                <span className="text-amber-400 text-sm font-bold border-b border-transparent group-hover:border-amber-400 transition-colors flex items-center gap-1">
+                                    View Experience <ExternalLink size={12} />
+                                </span>
+                            </div>
+                        </a>
+
                         {/* Project 0 - Spectre */}
                         <a href="https://spectre.whoisalfaz.me/" target="_blank" rel="noopener noreferrer" className="group bg-[#111] border border-white/10 rounded-3xl overflow-hidden hover:border-cyan-500/50 transition-colors cursor-pointer">
                             <div className="h-48 bg-[#050505] group-hover:bg-cyan-950/30 transition-colors relative p-8">
