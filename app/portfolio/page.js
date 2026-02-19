@@ -232,7 +232,7 @@ export default function Portfolio() {
                         <div className="relative">
                             <span className="absolute -left-[41px] top-1 h-5 w-5 rounded-full bg-blue-500 border-4 border-[#0a0a0a]"></span>
                             <span className="text-blue-400 text-sm font-mono mb-2 block">2023 - Present</span>
-                            <h3 className="text-xl font-bold text-white mb-2">RevOps & Full-Stack Architect</h3>
+                            <h3 className="text-xl font-bold text-white mb-2">RevOps & Full-Stack Automation Architect</h3>
                             <p className="text-slate-500 text-sm mb-4">Freelance / WhoIsAlfaz</p>
                             <p className="text-slate-400 text-sm leading-relaxed max-w-2xl">
                                 Architecting end-to-end automation systems for agencies. Specialized in connecting CRMs (HubSpot, Pipedrive) with marketing channels using n8n and Make. Building rapid-scale WordPress and Next.js sites.
@@ -244,7 +244,7 @@ export default function Portfolio() {
                             <span className="absolute -left-[41px] top-1 h-5 w-5 rounded-full bg-slate-700 border-4 border-[#0a0a0a]"></span>
                             <span className="text-slate-500 text-sm font-mono mb-2 block">2020 - Present</span>
                             <h3 className="text-xl font-bold text-white mb-2">Digital Operations Lead</h3>
-                            <p className="text-slate-500 text-sm mb-4">Artist UD - Chattogram</p>
+                            <p className="text-slate-500 text-sm mb-4">Artica - Chattogram</p>
                             <p className="text-slate-400 text-sm leading-relaxed max-w-2xl">
                                 Managed digital presence and ad campaigns. Optimized content strategy and oversaw social media growth, resulting in consistent engagement increases.
                             </p>
