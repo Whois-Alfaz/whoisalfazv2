@@ -30,7 +30,7 @@ export default function Portfolio() {
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Growth Engines.</span>
                             </h1>
                             <p className="text-lg text-slate-400 leading-relaxed max-w-xl">
-                                I bridge the gap between <strong>Complex Engineering</strong> and <strong>Business Strategy</strong>. Specialized in n8n automation, Next.js development, and Technical SEO.
+                                I bridge the gap between <strong>Complex Engineering</strong> and <strong>Business Strategy</strong>. Specialized in Headless Next.js, n8n Automation, and Custom Full-Stack Applications.
                             </p>
                         </div>
 
@@ -38,8 +38,8 @@ export default function Portfolio() {
                             <Link href="/contact" className="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-slate-200 transition-colors shadow-lg hover:shadow-white/20 transform hover:-translate-y-1">
                                 Start a Project
                             </Link>
-                            <Link href="https://drive.google.com/file/d/12FPvWTZKNO41NAHcHfPWUM3wNQC2MdjW/view" target="_blank" className="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-full transition-colors flex items-center gap-2">
-                                View Resume
+                            <Link href="/services" className="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-full transition-colors flex items-center gap-2">
+                                Explore Services
                             </Link>
                         </div>
 
@@ -52,7 +52,7 @@ export default function Portfolio() {
                             {/* 2. Detailed Arsenal Grid */}
                             <div>
                                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6">Technical Arsenal</p>
-                                <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
 
                                     {/* Programming & Web */}
                                     <div className="space-y-2">
@@ -74,32 +74,23 @@ export default function Portfolio() {
                                         </ul>
                                     </div>
 
-                                    {/* SEO & Analytics */}
+                                    {/* Database & Backend */}
                                     <div className="space-y-2">
-                                        <h4 className="text-white font-bold text-sm bg-green-500/10 inline-block px-2 py-1 rounded border border-green-500/20">SEO & Analytics</h4>
+                                        <h4 className="text-white font-bold text-sm bg-indigo-500/10 inline-block px-2 py-1 rounded border border-indigo-500/20">Database & Backend</h4>
                                         <ul className="text-xs text-slate-400 space-y-1">
-                                            <li>Technical SEO, On-Page & Off-Page</li>
+                                            <li>PostgreSQL, Supabase</li>
+                                            <li>REST APIs, Node.js</li>
+                                            <li>Redis, Firebase</li>
+                                        </ul>
+                                    </div>
+
+                                    {/* Growth Stack */}
+                                    <div className="space-y-2">
+                                        <h4 className="text-white font-bold text-sm bg-green-500/10 inline-block px-2 py-1 rounded border border-green-500/20">Growth Stack</h4>
+                                        <ul className="text-xs text-slate-400 space-y-1">
+                                            <li>Technical SEO, Google Analytics 4</li>
                                             <li>RankMath, Ahrefs, SEMrush</li>
-                                            <li>Google Search Console</li>
-                                            <li>Google Analytics (GA4)</li>
-                                        </ul>
-                                    </div>
-
-                                    {/* Frameworks & CMS */}
-                                    <div className="space-y-2">
-                                        <h4 className="text-white font-bold text-sm bg-orange-500/10 inline-block px-2 py-1 rounded border border-orange-500/20">Frameworks & CMS</h4>
-                                        <ul className="text-xs text-slate-400 space-y-1">
-                                            <li>WordPress, WooCommerce</li>
-                                            <li>Elementor</li>
-                                        </ul>
-                                    </div>
-
-                                    {/* Marketing & Ads */}
-                                    <div className="space-y-2">
-                                        <h4 className="text-white font-bold text-sm bg-pink-500/10 inline-block px-2 py-1 rounded border border-pink-500/20">Marketing & Ops</h4>
-                                        <ul className="text-xs text-slate-400 space-y-1">
                                             <li>Facebook Ads, Meta Suite</li>
-                                            <li>Audience Segmentation</li>
                                             <li>Lead Scoring & Strategy</li>
                                         </ul>
                                     </div>
@@ -241,7 +232,7 @@ export default function Portfolio() {
                         <div className="relative">
                             <span className="absolute -left-[41px] top-1 h-5 w-5 rounded-full bg-blue-500 border-4 border-[#0a0a0a]"></span>
                             <span className="text-blue-400 text-sm font-mono mb-2 block">2023 - Present</span>
-                            <h3 className="text-xl font-bold text-white mb-2">Automation & Web Consultant</h3>
+                            <h3 className="text-xl font-bold text-white mb-2">RevOps & Full-Stack Architect</h3>
                             <p className="text-slate-500 text-sm mb-4">Freelance / WhoIsAlfaz</p>
                             <p className="text-slate-400 text-sm leading-relaxed max-w-2xl">
                                 Architecting end-to-end automation systems for agencies. Specialized in connecting CRMs (HubSpot, Pipedrive) with marketing channels using n8n and Make. Building rapid-scale WordPress and Next.js sites.
@@ -275,8 +266,8 @@ export default function Portfolio() {
                 {/* CTA */}
                 <section className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-3xl p-12 text-center border border-white/10 relative overflow-hidden">
                     <div className="relative z-10">
-                        <h2 className="text-3xl font-bold text-white mb-4">Ready to automate your workflow?</h2>
-                        <p className="text-slate-400 max-w-xl mx-auto mb-8">Let's discuss how we can save you 20+ hours a week.</p>
+                        <h2 className="text-3xl font-bold text-white mb-4">Ready to scale your agency's infrastructure?</h2>
+                        <p className="text-slate-400 max-w-xl mx-auto mb-8">Let's replace your legacy systems with high-speed Headless tech and autonomous workflows.</p>
                         <Link href="mailto:contact@whoisalfaz.me" className="inline-block bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-slate-200 transition-colors shadow-lg shadow-white/10">
                             Get in Touch
                         </Link>
