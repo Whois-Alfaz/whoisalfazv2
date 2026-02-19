@@ -2,7 +2,7 @@
 import AuditTool from '../../components/AuditTool';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Zap, Globe, BarChart3, Search, Video, MessageSquare, ChevronDown, CheckCircle2 } from 'lucide-react';
+import { Zap, Globe, BarChart3, Search, Video, MessageSquare, ChevronDown, CheckCircle2, Code2 } from 'lucide-react';
 import NewsletterForm from '../../components/NewsletterForm';
 
 export default function ServicesPage() {
@@ -59,6 +59,19 @@ export default function ServicesPage() {
             text: "text-orange-400",
             btn: "bg-orange-500 hover:bg-orange-400",
             cta: "Find My Ranking Errors"
+        },
+        {
+            title: "Custom Full-Stack Applications",
+            slug: "custom-full-stack",
+            desc: "When off-the-shelf software falls short, I build the exact tool you need. As a Full-Stack Architect, I develop custom web applications, bespoke internal agency portals, and secure client dashboards from the ground up.",
+            price: "2,500",
+            icon: Code2,
+            color: "rose", // Rose
+            bg: "bg-rose-500/10",
+            border: "border-rose-500/20",
+            text: "text-rose-400",
+            btn: "bg-rose-500 hover:bg-rose-400",
+            cta: "Build My Custom App"
         }
     ];
 

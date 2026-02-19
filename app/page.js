@@ -4,7 +4,7 @@ import xss from 'xss';
 import AuditTool from '../components/AuditTool';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, CheckCircle2, Zap, Layout, Search, BarChart3, Database, Globe, Mail, Video } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Zap, Layout, Search, BarChart3, Database, Globe, Mail, Video, Code2 } from 'lucide-react';
 import NewsletterForm from '../components/NewsletterForm';
 import AutomationVisual from '../components/AutomationVisual';
 
@@ -217,6 +217,13 @@ export default async function Home() {
               desc: "Deep dive analysis of your site's health. We find and fix the invisible technical errors killing your rankings.",
               bg: "bg-orange-500/10", border: "border-orange-500/20", text: "text-orange-400",
               link: "/services/technical-seo"
+            },
+            {
+              title: "Custom Full-Stack Applications",
+              icon: Code2,
+              desc: "When off-the-shelf software falls short, I build the exact tool you need. Bespoke web apps, internal portals, and secure dashboards.",
+              bg: "bg-rose-500/10", border: "border-rose-500/20", text: "text-rose-400",
+              link: "/services/custom-full-stack"
             }
           ].map((service, i) => (
             <article key={i} className={`rounded-xl border ${service.border} ${service.bg} p-8 hover:-translate-y-1 transition-transform duration-300 flex flex-col backdrop-blur-sm group`}>
