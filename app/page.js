@@ -23,7 +23,7 @@ export default async function Home() {
           Sub-Second <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-200">Headless Architectures</span>, <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">Custom Web Apps</span> & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-200">Autonomous Revenue Systems</span>
         </h1>
         <p className="text-lg text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
-          I help Marketing Agencies replace slow WordPress monoliths with Next.js and eliminate manual ops with n8n workflows.
+          I help Marketing Agencies replace slow WordPress monoliths with Next.js, engineer bespoke internal applications, and eliminate manual bottlenecks with n8n workflows
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
