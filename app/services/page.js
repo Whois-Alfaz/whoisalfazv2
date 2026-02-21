@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Zap, Globe, BarChart3, Search, Video, MessageSquare, ChevronDown, CheckCircle2, Code2 } from 'lucide-react';
 import NewsletterForm from '../../components/NewsletterForm';
+import PartnerLogos from '../../components/PartnerLogos';
+
 
 export default function ServicesPage() {
 
@@ -148,12 +150,20 @@ export default function ServicesPage() {
 
             {/* GENERAL CONSULTATION */}
             <section className="bg-[#0f172a] border-y border-white/5 py-16 mb-32">
-                <div className="max-w-3xl mx-auto text-center px-6">
+                <div className="max-w-5xl mx-auto text-center px-6">
                     <h2 className="text-3xl font-bold text-white mb-4">Unsure What You Need?</h2>
                     <p className="text-slate-400 mb-8 text-lg">Let's discuss your unique challenges and define a custom path forward.</p>
-                    <Link href="/contact" className="inline-block px-8 py-4 border border-white/20 text-white font-bold rounded-lg hover:bg-white hover:text-black transition-all">
+                    <Link href="/contact" className="inline-block px-8 py-4 border border-white/20 text-white font-bold rounded-lg hover:bg-white hover:text-black transition-all mb-20">
                         Book a General Discovery Call
                     </Link>
+
+                    {/* Consulting Stack Social Proof */}
+                    <div className="pt-16 border-t border-white/5">
+                        <PartnerLogos
+                            title="Supported Infrastructure"
+                            subtitle="The enterprise stack I orchestrate for high-ticket consulting builds."
+                        />
+                    </div>
                 </div>
             </section>
 

@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { ArrowRight, CheckCircle2, Zap, Layout, Search, BarChart3, Database, Globe, Mail, Video, Code2 } from 'lucide-react';
 import NewsletterForm from '../components/NewsletterForm';
 import AutomationVisual from '../components/AutomationVisual';
+import PartnerLogos from '../components/PartnerLogos';
+
 
 export default async function Home() {
   const posts = await getAllPosts();
@@ -35,7 +37,14 @@ export default async function Home() {
           </Link>
         </div>
 
-        <div className="mt-16 border-t border-white/10 w-full"></div>
+        <div className="mt-16 border-t border-white/10 w-full mb-16"></div>
+
+        {/* PARTNER GRID - HOMEPAGE (High-Ticket Social Proof) */}
+        <div className="max-w-5xl mx-auto py-12 border-y border-white/5">
+          <PartnerLogos
+            title="Official Technology Partners"
+          />
+        </div>
       </section>
 
       {/* SECTION 1: VALUE PROP "Built for SaaS founders..." */}
