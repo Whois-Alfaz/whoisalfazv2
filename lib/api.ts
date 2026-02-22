@@ -76,7 +76,7 @@ export async function getPostBySlug(slug: string) {
             title
             description
             image {
-              sourceUrl
+              url
             }
           }
         }
@@ -101,7 +101,7 @@ export async function getPageBySlug(slug: string) {
             title
             description
             image {
-              sourceUrl
+              url
             }
           }
         }

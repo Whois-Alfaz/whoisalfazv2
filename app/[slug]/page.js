@@ -33,7 +33,7 @@ export async function generateMetadata({ params }) {
             url: canonicalUrl,
             images: [
                 {
-                    url: data.seo?.openGraph?.image?.sourceUrl || data.featuredImage?.node?.sourceUrl || '/profile.jpg',
+                    url: data.seo?.openGraph?.image?.url || data.featuredImage?.node?.sourceUrl || '/profile.jpg',
                 },
             ],
         },
@@ -102,8 +102,8 @@ export default async function Page({ params }) {
                     {/* Post/Page Header */}
                     {!isAbout && (
                         <header className="mb-10 border-b border-white/5 pb-8">
-                            <h1 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight tracking-tight">
-                                {data.title}
+                            <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight tracking-tight">
+                                {data.seo?.title || data.title}
                             </h1>
 
                             {/* Metadata for Posts */}

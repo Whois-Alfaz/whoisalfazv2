@@ -42,7 +42,7 @@ export async function generateMetadata({ params }) {
       type: 'article',
       images: [
         {
-          url: post.seo?.openGraph?.image?.sourceUrl || post.featuredImage?.node?.sourceUrl || '/profile.jpg',
+          url: post.seo?.openGraph?.image?.url || post.featuredImage?.node?.sourceUrl || '/profile.jpg',
         },
       ],
     },
@@ -119,7 +119,7 @@ export default async function Post({ params }) {
             </div>
 
             <h1 className="text-3xl md:text-4xl lg:text-6xl font-black text-white mb-6 leading-[1.1] tracking-tight text-balance">
-              {replaceBackendUrl(post.title)}
+              {replaceBackendUrl(post.seo?.title || post.title)}
             </h1>
 
             {/* Author & Meta Grid */}
