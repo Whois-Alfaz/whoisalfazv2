@@ -1,10 +1,44 @@
-import { getPostBySlug, getPageBySlug } from '../../lib/api';
+import { getPostBySlug, getPageBySlug, getAllPosts, getSitemapData } from '../../lib/api';
 import xss from 'xss';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, UserCircle } from 'lucide-react';
 
+export async function generateStaticParams() {
+    const { pages } = await getSitemapData();
+    return pages.map(p => ({ slug: p.slug }));
+}
+
+export async function generateMetadata({ params }) {
+    const { slug } = await params;
+    let data = await getPostBySlug(slug);
+    if (!data) data = await getPageBySlug(slug);
+
+    if (!data) return { title: 'Page Not Found' };
+
+    const seoTitle = data.seo?.title || data.title;
+    const seoDesc = data.seo?.metaDesc || '';
+    const canonicalUrl = `https://whoisalfaz.me/${slug}/`;
+
+    return {
+        title: seoTitle,
+        description: seoDesc,
+        alternates: {
+            canonical: canonicalUrl,
+        },
+        openGraph: {
+            title: data.seo?.opengraphTitle || seoTitle,
+            description: data.seo?.opengraphDescription || seoDesc,
+            url: canonicalUrl,
+            images: [
+                {
+                    url: data.seo?.opengraphImage?.sourceUrl || data.featuredImage?.node?.sourceUrl || '/profile.jpg',
+                },
+            ],
+        },
+    };
+}
 export default async function Page({ params }) {
     const { slug } = await params;
 

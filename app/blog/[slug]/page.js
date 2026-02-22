@@ -1,12 +1,19 @@
-import { notFound } from 'next/navigation';
-import { getPostBySlug } from '@/lib/api';
+import { getAllPosts, getPostBySlug } from '@/lib/api';
 import { replaceBackendUrl } from '@/lib/seo-utils';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Calendar, Clock, Twitter, Linkedin, Link as LinkIcon } from 'lucide-react';
 import TableOfContents from '@/components/TableOfContents';
 import NewsletterForm from '@/components/NewsletterForm';
 import xss from 'xss';
+
+export async function generateStaticParams() {
+  const posts = await getAllPosts();
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -17,7 +24,29 @@ export async function generateMetadata({ params }) {
       title: 'Post Not Found',
     };
   }
-  // ...
+
+  const seoTitle = post.seo?.title || post.title;
+  const seoDesc = post.seo?.metaDesc || post.excerpt?.replace(/<[^>]*>/g, '').slice(0, 160);
+  const canonicalUrl = `https://whoisalfaz.me/blog/${slug}/`;
+
+  return {
+    title: seoTitle,
+    description: seoDesc,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: post.seo?.opengraphTitle || seoTitle,
+      description: post.seo?.opengraphDescription || seoDesc,
+      url: canonicalUrl,
+      type: 'article',
+      images: [
+        {
+          url: post.seo?.opengraphImage?.sourceUrl || post.featuredImage?.node?.sourceUrl || '/profile.jpg',
+        },
+      ],
+    },
+  };
 }
 
 export default async function Post({ params }) {

@@ -59,7 +59,7 @@ export const metadata = {
     icon: '/logo.png',
   },
   alternates: {
-    canonical: './',
+    canonical: 'https://whoisalfaz.me',
   },
   verification: {
     other: {
