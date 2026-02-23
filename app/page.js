@@ -1,6 +1,6 @@
-import { getAllPosts } from '../lib/api';
+import { getAllPosts } from '@/lib/mdx';
 import WorkflowSteps from '../components/WorkflowSteps';
-import xss from 'xss';
+
 import AuditTool from '../components/AuditTool';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -25,7 +25,7 @@ export default async function Home() {
           Sub-Second <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-200">Headless Architectures</span>, <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">Custom Web Apps</span> & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-200">Autonomous Revenue Systems</span>
         </h1>
         <p className="text-lg text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
-          I help Marketing Agencies replace slow WordPress monoliths with Next.js, engineer bespoke internal applications, and eliminate manual bottlenecks with n8n workflows
+          I help Marketing Agencies migrate off legacy CMS platforms to high-performance Next.js stacks, engineer bespoke internal applications, and eliminate manual bottlenecks with n8n automation
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -91,7 +91,7 @@ export default async function Home() {
                 </div>
                 <div>
                   <span className="text-white font-bold block mb-1">Headless Web Architecture</span>
-                  <p className="text-sm leading-relaxed">Replace slow, bloated WordPress templates with high-performance, custom Next.js web applications.</p>
+                  <p className="text-sm leading-relaxed">Migrate SaaS and agency clients off legacy CMS platforms to high-performance, custom Next.js web applications.</p>
                 </div>
               </li>
               <li className="flex items-start gap-4 text-slate-300 group">
@@ -193,13 +193,13 @@ export default async function Home() {
             <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
               <article className="h-full bg-[#1e293b] rounded-2xl overflow-hidden border border-slate-700 hover:border-blue-500/50 transition-colors">
                 <div className="h-48 bg-slate-800 relative">
-                  {post.featuredImage?.node?.sourceUrl && (
-                    <Image src={post.featuredImage.node.sourceUrl} alt={post.title} fill className="object-cover" />
+                  {post.image && (
+                    <Image src={post.image} alt={post.title} fill className="object-cover" />
                   )}
                 </div>
                 <div className="p-6">
                   <h3 className="text-white font-bold mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">{post.title}</h3>
-                  <div className="text-slate-400 text-sm line-clamp-2" dangerouslySetInnerHTML={{ __html: xss(post.excerpt || '') }} />
+                  <p className="text-slate-400 text-sm line-clamp-2">{post.description}</p>
                 </div>
               </article>
             </Link>

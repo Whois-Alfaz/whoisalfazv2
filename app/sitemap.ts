@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { getAllPosts } from '../lib/api';
+import { getAllPosts } from '@/lib/mdx';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = 'https://whoisalfaz.me';

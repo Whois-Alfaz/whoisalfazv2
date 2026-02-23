@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAllPosts } from '@/lib/api';
+import { getAllPosts } from '@/lib/mdx';
 import { submitToBing } from '@/lib/bing';
 
 export async function GET(request: Request) {
@@ -27,7 +27,7 @@ export async function GET(request: Request) {
         ].map(route => `${baseUrl}${route}`);
 
         // 2. Dynamic Routes (Blog Posts)
-        const posts = await getAllPosts();
+        const posts = getAllPosts();
         const blogRoutes = posts.map((post: any) => `${baseUrl}/blog/${post.slug}`);
 
         const allUrls = [...staticRoutes, ...blogRoutes];

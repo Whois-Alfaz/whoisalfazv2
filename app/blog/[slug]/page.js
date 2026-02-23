@@ -1,15 +1,15 @@
-import { getAllPosts, getPostBySlug } from '@/lib/api';
-import { replaceBackendUrl } from '@/lib/seo-utils';
+import { getAllPosts, getPostBySlug } from '@/lib/mdx';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Calendar, Clock, Twitter, Linkedin, Link as LinkIcon } from 'lucide-react';
 import TableOfContents from '@/components/TableOfContents';
 import NewsletterForm from '@/components/NewsletterForm';
-import xss from 'xss';
+import { MDXRemote } from 'next-mdx-remote/rsc';
+import rehypeHighlight from 'rehype-highlight';
 
 export async function generateStaticParams() {
-  const posts = await getAllPosts();
+  const posts = getAllPosts();
   return posts.map((post) => ({
     slug: post.slug,
   }));
@@ -17,7 +17,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  const post = getPostBySlug(slug);
 
   if (!post) {
     return {
@@ -26,11 +26,9 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  const seoTitle = post.seo?.title || post.title;
-  const seoDesc = post.seo?.description || post.excerpt?.replace(/<[^>]*>/g, '').slice(0, 160);
-  // Force canonical URL to point to frontend domain
-  const rawCanonicalUrl = post.seo?.canonicalUrl || '';
-  const canonicalUrl = rawCanonicalUrl ? rawCanonicalUrl.replace('https://v1.whoisalfaz.me', 'https://whoisalfaz.me/blog') : `https://whoisalfaz.me/blog/${slug}/`;
+  const seoTitle = post.seoTitle || post.title;
+  const seoDesc = post.seoDescription || post.description;
+  const canonicalUrl = `https://whoisalfaz.me/blog/${slug}/`;
 
   return {
     title: seoTitle,
@@ -39,13 +37,13 @@ export async function generateMetadata({ params }) {
       canonical: canonicalUrl,
     },
     openGraph: {
-      title: post.seo?.openGraph?.title || seoTitle,
-      description: post.seo?.openGraph?.description || seoDesc,
+      title: seoTitle,
+      description: seoDesc,
       url: canonicalUrl,
       type: 'article',
       images: [
         {
-          url: post.seo?.openGraph?.image?.url || post.featuredImage?.node?.sourceUrl || '/profile.jpg',
+          url: post.image || '/profile.jpg',
         },
       ],
     },
@@ -54,7 +52,7 @@ export async function generateMetadata({ params }) {
 
 export default async function Post({ params }) {
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  const post = getPostBySlug(slug);
 
   if (!post) {
     // If API fails during build, we don't want to crash Next.js completely.
@@ -85,10 +83,10 @@ export default async function Post({ params }) {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "BlogPosting",
-            "headline": replaceBackendUrl(post.title),
+            "headline": post.seoTitle || post.title,
             "datePublished": post.date,
-            "dateModified": post.modified || post.date,
-            "image": post.featuredImage?.node?.sourceUrl ? [post.featuredImage.node.sourceUrl] : [],
+            "dateModified": post.date,
+            "image": post.image ? [post.image] : [],
             "author": {
               "@type": "Person",
               "name": "Alfaz Mahmud Rizve",
@@ -131,7 +129,7 @@ export default async function Post({ params }) {
             </div>
 
             <h1 className="text-3xl md:text-4xl lg:text-6xl font-black text-white mb-6 leading-[1.1] tracking-tight text-balance">
-              {replaceBackendUrl(post.seo?.title || post.title)}
+              {post.seoTitle || post.title}
             </h1>
 
             {/* Author & Meta Grid */}
@@ -168,10 +166,10 @@ export default async function Post({ params }) {
         </div>
 
         {/* FEATURED IMAGE (Wide & Rounded) */}
-        {post.featuredImage?.node?.sourceUrl && (
+        {post.image && (
           <div className="mt-6 relative w-full aspect-[21/9] rounded-3xl overflow-hidden border border-white/10 shadow-2xl group">
             <Image
-              src={post.featuredImage.node.sourceUrl}
+              src={post.image}
               alt={post.title}
               fill
               className="object-cover transition-transform duration-1000 group-hover:scale-105"
@@ -239,12 +237,9 @@ export default async function Post({ params }) {
               prose-strong:text-white prose-strong:font-bold
               prose-hr:border-white/10 prose-hr:my-12
             "
-            dangerouslySetInnerHTML={{
-              __html: xss(
-                replaceBackendUrl(post.content)
-              )
-            }}
-          />
+          >
+            <MDXRemote source={post.content} options={{ mdxOptions: { format: 'md', rehypePlugins: [rehypeHighlight] } }} />
+          </div>
 
           {/* Mobile TOC (Visible only on small screens) */}
           <div className="lg:hidden mt-12 py-8 border-t border-white/10">
@@ -271,6 +266,6 @@ export default async function Post({ params }) {
         </main>
       </div>
 
-    </article>
+    </article >
   );
 }

@@ -1,31 +1,29 @@
-import { getPostBySlug, getPageBySlug, getAllPosts, getSitemapData } from '../../lib/api';
-import xss from 'xss';
+import { getPostBySlug, getAllPosts } from '@/lib/mdx';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, UserCircle } from 'lucide-react';
+import { MDXRemote } from 'next-mdx-remote/rsc';
+import rehypeHighlight from 'rehype-highlight';
 
 export async function generateStaticParams() {
-    const { pages } = await getSitemapData();
-    return pages.map(p => ({ slug: p.slug }));
+    // This catch-all route now only handles MDX blog posts accessed via short URLs
+    const posts = getAllPosts();
+    return posts.map(p => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }) {
     const { slug } = await params;
-    let data = await getPostBySlug(slug);
-    if (!data) data = await getPageBySlug(slug);
+    const data = getPostBySlug(slug);
 
     if (!data) return {
         title: 'Page Not Found',
         description: 'The requested page could not be loaded at this time.'
     };
 
-    const seoTitle = data.seo?.title || data.title;
-    const seoDesc = data.seo?.description || '';
-
-    // Force canonical URL to point to frontend domain
-    const rawCanonicalUrl = data.seo?.canonicalUrl || '';
-    const canonicalUrl = rawCanonicalUrl ? rawCanonicalUrl.replace('https://v1.whoisalfaz.me', 'https://whoisalfaz.me') : `https://whoisalfaz.me/${slug}/`;
+    const seoTitle = data.seoTitle || data.title;
+    const seoDesc = data.seoDescription || data.description || '';
+    const canonicalUrl = `https://whoisalfaz.me/${slug}/`;
 
     return {
         title: seoTitle,
@@ -34,12 +32,12 @@ export async function generateMetadata({ params }) {
             canonical: canonicalUrl,
         },
         openGraph: {
-            title: data.seo?.openGraph?.title || seoTitle,
-            description: data.seo?.openGraph?.description || seoDesc,
+            title: seoTitle,
+            description: seoDesc,
             url: canonicalUrl,
             images: [
                 {
-                    url: data.seo?.openGraph?.image?.url || data.featuredImage?.node?.sourceUrl || '/profile.jpg',
+                    url: data.image || '/profile.jpg',
                 },
             ],
         },
@@ -48,26 +46,10 @@ export async function generateMetadata({ params }) {
 export default async function Page({ params }) {
     const { slug } = await params;
 
-    // 1. Try to find a Post first
-    let data = await getPostBySlug(slug);
-    let type = 'post';
+    const data = getPostBySlug(slug);
 
-    // 2. If not a post, try to find a Page
     if (!data) {
-        data = await getPageBySlug(slug);
-        type = 'page';
-    }
-
-    // 3. If neither, return temporary error state instead of notFound() to prevent build crashes from timeouts
-    if (!data) {
-        return (
-            <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-6">
-                <div className="text-center space-y-4">
-                    <h1 className="text-2xl font-bold text-white">Temporary Loading Error</h1>
-                    <p className="text-slate-400 max-w-md mx-auto">This page is temporarily unavailable due to a backend synchronization issue. Please try again in a few minutes.</p>
-                </div>
-            </main>
-        );
+        notFound();
     }
 
     const isAbout = slug === 'about';
@@ -116,25 +98,23 @@ export default async function Page({ params }) {
                     {!isAbout && (
                         <header className="mb-10 border-b border-white/5 pb-8">
                             <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight tracking-tight">
-                                {data.seo?.title || data.title}
+                                {data.seoTitle || data.title}
                             </h1>
 
-                            {/* Metadata for Posts */}
-                            {type === 'post' && (
-                                <div className="flex items-center gap-4 text-xs font-mono text-slate-500">
-                                    <span>{new Date(data.date).toLocaleDateString()}</span>
-                                    <span className="w-1 h-1 rounded-full bg-slate-700"></span>
-                                    <span>By Alfaz Mahmud</span>
-                                </div>
-                            )}
+                            {/* Metadata */}
+                            <div className="flex items-center gap-4 text-xs font-mono text-slate-500">
+                                <span>{new Date(data.date).toLocaleDateString()}</span>
+                                <span className="w-1 h-1 rounded-full bg-slate-700"></span>
+                                <span>By Alfaz Mahmud</span>
+                            </div>
                         </header>
                     )}
 
                     {/* Featured Image for Posts */}
-                    {type === 'post' && data.featuredImage?.node?.sourceUrl && (
+                    {data.image && (
                         <div className="mb-10 rounded-xl overflow-hidden border border-white/10 shadow-lg relative h-64 md:h-96 w-full">
                             <Image
-                                src={data.featuredImage.node.sourceUrl}
+                                src={data.image}
                                 alt={data.title}
                                 fill
                                 className="object-cover"
@@ -143,7 +123,7 @@ export default async function Page({ params }) {
                         </div>
                     )}
 
-                    {/* WordPress Content */}
+                    {/* Content */}
                     <div
                         className={`
                prose prose-invert prose-lg max-w-none 
@@ -156,10 +136,11 @@ export default async function Page({ params }) {
                prose-blockquote:border-l-blue-500 prose-blockquote:bg-white/5 prose-blockquote:p-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic
                ${isServices ? 'prose-p:mx-auto prose-headings:mx-auto' : ''}
              `}
-                        dangerouslySetInnerHTML={{ __html: xss(data.content) }}
-                    />
+                    >
+                        <MDXRemote source={data.content} options={{ mdxOptions: { format: 'md', rehypePlugins: [rehypeHighlight] } }} />
+                    </div>
                 </article>
             </div>
-        </main>
+        </main >
     );
 }

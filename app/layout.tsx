@@ -21,10 +21,10 @@ const mono = JetBrains_Mono({
 export const metadata = {
   metadataBase: new URL('https://whoisalfaz.me'),
   title: "Alfaz Mahmud Rizve | RevOps & Full Stack Automation Architect",
-  description: "I help Marketing Agencies replace slow WordPress monoliths with Next.js and eliminate manual ops with n8n workflows.",
+  description: "I help Marketing Agencies migrate off legacy CMS platforms to high-performance Next.js stacks and eliminate manual ops with n8n automation.",
   openGraph: {
     title: "Alfaz Mahmud Rizve | RevOps & Full Stack Automation Architect",
-    description: "I help Marketing Agencies replace slow WordPress monoliths with Next.js and eliminate manual ops with n8n workflows.",
+    description: "I help Marketing Agencies migrate off legacy CMS platforms to high-performance Next.js stacks and eliminate manual ops with n8n automation.",
     url: 'https://whoisalfaz.me',
     siteName: 'Alfaz Mahmud Rizve',
     locale: 'en_US',
@@ -41,7 +41,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Alfaz Mahmud Rizve | RevOps & Full Stack Automation Architect',
-    description: 'I help Marketing Agencies replace slow WordPress monoliths with Next.js and eliminate manual ops with n8n workflows.',
+    description: 'I help Marketing Agencies migrate off legacy CMS platforms to high-performance Next.js stacks and eliminate manual ops with n8n automation.',
     creator: '@whoisalfaz',
     images: ['/profile.jpg'],
   },
@@ -81,7 +81,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     "url": "https://whoisalfaz.me",
     "image": "https://whoisalfaz.me/profile.jpg",
     "jobTitle": "RevOps & Full Stack Automation Architect",
-    "description": "I help Marketing Agencies replace slow WordPress monoliths with Next.js and eliminate manual ops with n8n workflows.",
+    "description": "I help Marketing Agencies migrate off legacy CMS platforms to high-performance Next.js stacks and eliminate manual ops with n8n automation.",
     "nationality": {
       "@type": "Country",
       "name": "Bangladesh"

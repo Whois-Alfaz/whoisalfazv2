@@ -1,7 +1,7 @@
 
 import { Suspense } from 'react';
-import xss from 'xss';
-import { getPostsByCategory, getAllCategories, getAllPosts } from '../../../../lib/api';
+
+import { getPostsByCategory, getAllCategories, getAllPosts } from '@/lib/mdx';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Search, ChevronRight, BookOpen, Clock, ArrowRight } from 'lucide-react';
@@ -9,7 +9,7 @@ import SearchWidget from '../../../../components/SearchWidget';
 
 // Helper to get cached posts for sidebar (optional optimization)
 async function getSidebarData() {
-    const posts = await getAllPosts();
+    const posts = getAllPosts();
     return posts?.slice(0, 5) || [];
 }
 
@@ -24,8 +24,8 @@ export async function generateMetadata({ params }) {
 
 export default async function CategoryPage({ params }) {
     const { slug } = await params;
-    const { posts, category } = await getPostsByCategory(slug);
-    const allCategories = await getAllCategories();
+    const { posts, category } = getPostsByCategory(slug);
+    const allCategories = getAllCategories();
     const recentPosts = await getSidebarData();
 
     return (
@@ -63,8 +63,8 @@ export default async function CategoryPage({ params }) {
                                     <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
                                         <article className="h-full bg-[#0a0a0a] border border-white/10 rounded-xl overflow-hidden hover:border-blue-500/50 transition-all hover:-translate-y-1">
                                             <div className="h-48 bg-slate-800 relative">
-                                                {post.featuredImage?.node?.sourceUrl ? (
-                                                    <Image src={post.featuredImage.node.sourceUrl} alt={post.title} fill className="object-cover" />
+                                                {post.image ? (
+                                                    <Image src={post.image} alt={post.title} fill className="object-cover" />
                                                 ) : (
                                                     <div className="absolute inset-0 flex items-center justify-center bg-slate-900 text-slate-700">
                                                         <span className="text-xs">No Image</span>
@@ -80,7 +80,7 @@ export default async function CategoryPage({ params }) {
                                                 <h3 className="text-white font-bold text-lg mb-3 group-hover:text-blue-400 transition-colors leading-snug">
                                                     {post.title}
                                                 </h3>
-                                                <div className="text-slate-400 text-xs line-clamp-3 leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: xss(post.excerpt) }} />
+                                                <p className="text-slate-400 text-xs line-clamp-3 leading-relaxed mb-4">{post.description}</p>
                                                 <span className="text-blue-500 text-xs font-bold uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">
                                                     Read Article <ArrowRight size={12} />
                                                 </span>

@@ -199,7 +199,7 @@ export default function ServicesPage() {
                     <div className="text-left flex-1">
                         <h3 className="text-white font-bold text-xl mb-2 group-hover:text-emerald-400 transition-colors">WhoIsAlfaz.me</h3>
                         <p className="text-slate-400 text-sm mb-4 line-clamp-2">
-                            The exact site you are looking at. Built with Next.js 14, WordPress Headless CMS, and automated deployment pipelines via n8n.
+                            The exact site you are looking at. Built with Next.js, Native MDX Architecture, and automated deployment pipelines.
                         </p>
                         <div className="flex gap-2">
                             <span className="px-2 py-1 bg-white/5 rounded text-[10px] text-slate-300 border border-white/5">Next.js</span>

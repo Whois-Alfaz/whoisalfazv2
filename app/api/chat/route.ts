@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
             reply = "I build custom n8n workflows that replace manual work. I can automate lead enrichment, PDF reporting, and CRM syncing. Systems start from $300.";
         }
         else if (lowerMsg.match(/website|wordpress|headless|next|react/)) {
-            reply = "I specialize in Headless WordPress. You keep the WordPress admin panel, but the frontend is built with Next.js for 100/100 speed scores and instant loading.";
+            reply = "I build with a Native Next.js MDX Architecture. Your content lives in version-controlled MDX files, and the frontend delivers 100/100 speed scores with instant loading. No CMS overhead.";
         }
         else if (lowerMsg.match(/seo|rank|audit|google/)) {
             reply = "I perform Technical SEO Audits to fix invisible code errors. I also focus on Core Web Vitals to ensure Google loves your site.";
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
             reply = "Alfaz Mahmud Rizve is a Full-Stack Automation Architect and Business Growth Consultant. He builds 'self-driving' agencies using n8n and Headless Tech. Check out his Portfolio page.";
         }
         else if (lowerMsg.match(/stack|tech|tools/)) {
-            reply = "My Core Stack: Next.js (Frontend), n8n (Automation), Headless WordPress (CMS), and Vercel (Edge Infrastructure).";
+            reply = "My Core Stack: Next.js (Frontend & Backend), n8n (Automation), MDX (Content), Prisma (Data), and Vercel (Edge Infrastructure).";
         }
         else if (lowerMsg.match(/contact|hire|email|book/)) {
             reply = "You can email me at contact@whoisalfaz.me or use the [contact form](/contact) to book a discovery call.";

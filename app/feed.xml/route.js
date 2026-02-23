@@ -1,4 +1,4 @@
-import { getAllPosts } from '../../lib/api';
+import { getAllPosts } from '@/lib/mdx';
 
 const escapeXml = (unsafe) => {
     return unsafe.replace(/[<>&'"]/g, (c) => {
@@ -13,7 +13,7 @@ const escapeXml = (unsafe) => {
 };
 
 export async function GET() {
-    const posts = await getAllPosts();
+    const posts = getAllPosts();
     const baseUrl = 'https://whoisalfaz.me';
 
     let rss = `<?xml version="1.0" encoding="UTF-8"?>
@@ -34,7 +34,7 @@ export async function GET() {
       <link>${link}</link>
       <guid>${link}</guid>
       <pubDate>${new Date(post.date).toUTCString()}</pubDate>
-      <description>${escapeXml(post.excerpt || '')}</description>
+      <description>${escapeXml(post.description || '')}</description>
     </item>`;
     });
 

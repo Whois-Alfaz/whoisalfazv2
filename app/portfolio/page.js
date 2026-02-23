@@ -258,7 +258,7 @@ export default function Portfolio() {
                             <h3 className="text-xl font-bold text-white mb-2">RevOps & Full-Stack Automation Architect</h3>
                             <p className="text-slate-500 text-sm mb-4">Freelance / WhoIsAlfaz</p>
                             <p className="text-slate-400 text-sm leading-relaxed max-w-2xl">
-                                Architecting end-to-end automation systems for agencies. Specialized in connecting CRMs (HubSpot, Pipedrive) with marketing channels using n8n and Make. Building rapid-scale WordPress and Next.js sites.
+                                Architecting end-to-end automation systems for agencies. Specialized in connecting CRMs (HubSpot, Pipedrive) with marketing channels using n8n and Make. Migrating clients off legacy CMS platforms to high-performance Next.js stacks.
                             </p>
                         </div>
 
