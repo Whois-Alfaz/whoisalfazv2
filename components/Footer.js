@@ -68,7 +68,7 @@ export default function Footer() {
                 </div>
 
                 <div className="border-t border-slate-800/50 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-600 text-[10px] uppercase tracking-widest font-mono">
-                    <p>&copy; {currentYear} Alfaz Mahmud . Engineered with Next.js & Automation.</p>
+                    <p>&copy; {currentYear} Alfaz Mahmud Rizve . Engineered with Next.js & Automation.</p>
                     <div className="flex gap-6">
                         <Link href="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link>
                         <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
