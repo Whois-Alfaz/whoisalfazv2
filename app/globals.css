@@ -16,6 +16,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@layer base {
+  hr {
+    @apply border-slate-800/50 my-12;
+  }
+}
+
 @layer utilities {
   .font-mono {
     font-family: var(--font-jetbrains-mono);

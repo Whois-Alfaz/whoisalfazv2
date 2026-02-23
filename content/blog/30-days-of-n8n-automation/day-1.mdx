@@ -11,8 +11,6 @@ categories:
   - 30 Days of n8n
 ---
 
-*This technical breakdown contains affiliate links. If you deploy this stack using my links, I earn a commission at no extra cost to you.*
-
 **By Alfaz Mahmud Rizve | RevOps & Full Stack Automation Architect**
 
 Most SaaS founders and agency owners don’t wake up searching for an "Automation Operating System." They wake up searching for painkillers. 
@@ -35,7 +33,7 @@ Before we build the stack, we need to define the fundamental difference between 
 
 **The Amateur Approach (Point-to-Point):**
 Junior operators build point-to-point integrations. When an event happens in Tool A, they push it directly to Tool B. 
-* *Example:* A new Stripe charge occurs $\rightarrow$ send a Slack message.
+* *Example:* A new Stripe charge occurs → send a Slack message.
 This works when you have 10 customers. When you have 10,000 customers, this architecture collapses. What happens if the Slack API is down? The data is lost forever. What if you also need to update HubSpot and Databox when that Stripe charge happens? You have to build three separate, redundant workflows that all trigger at once, consuming massive compute resources and creating a debugging nightmare.
 
 **The Enterprise Approach (The Automation OS):**
@@ -172,9 +170,9 @@ You now understand the difference between amateur task automation and an Enterpr
 For the next 29 days, we will build out the specific microservices that plug into this central OS—from programmatic video generation to autonomous AI receptionists.
 
 If you are a technical founder, you have your mandate.
-1.  **Deploy your n8n orchestration engine today.**
-2.  **Lock in your Apollo data pipeline.**
-3.  **Start migrating your legacy webhooks to your new central bus.**
+1.  **[Deploy your n8n orchestration engine today.](/go/n8n)**
+2.  **[Lock in your Apollo data pipeline.](/go/apollo)**
+3.  **[Start migrating your legacy webhooks to your new central bus.](/go/n8n)**
 
 But if you are a SaaS founder or Agency Owner scaling past $50k MRR, you shouldn't be building this yourself. Your time is better spent closing deals and refining your product, not debugging JSON arrays and configuring API headers.
 

@@ -223,21 +223,7 @@ export default async function Post({ params }) {
         {/* RIGHT COLUMN: ARTICLE CONTENT */}
         <main className="min-w-0">
 
-          <div className="
-              prose prose-lg prose-invert max-w-none
-              prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-white
-              prose-h1:text-5xl prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h3:text-xl prose-h3:text-teal-400
-              prose-p:text-slate-300 prose-p:leading-8 prose-p:mb-6
-              prose-a:text-teal-400 prose-a:font-semibold prose-a:no-underline hover:prose-a:text-teal-300 hover:prose-a:underline
-              prose-blockquote:border-l-4 prose-blockquote:border-teal-500 prose-blockquote:bg-teal-950/10 prose-blockquote:px-8 prose-blockquote:py-2 prose-blockquote:rounded-r-lg prose-blockquote:text-xl prose-blockquote:font-medium prose-blockquote:text-teal-100 prose-blockquote:not-italic
-              prose-code:text-pink-300 prose-code:bg-[#0f172a] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:border prose-code:border-white/10 prose-code:before:content-none prose-code:after:content-none
-              prose-pre:bg-[#0f172a] prose-pre:border prose-pre:border-white/10 prose-pre:rounded-xl prose-pre:shadow-2xl prose-pre:p-6
-              prose-img:rounded-2xl prose-img:border prose-img:border-white/10 prose-img:shadow-2xl prose-img:my-10 prose-img:w-full
-              prose-li:text-slate-300 prose-li:marker:text-teal-500
-              prose-strong:text-white prose-strong:font-bold
-              prose-hr:border-white/10 prose-hr:my-12
-            "
-          >
+          <div className="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-a:text-blue-400">
             {/* Affiliate Disclosure */}
             <p className="text-slate-500 text-sm italic mb-8 border-l-2 border-slate-800 pl-4 py-1">
               This technical breakdown contains affiliate links. If you deploy this stack using my links, I earn a commission at no extra cost to you.
