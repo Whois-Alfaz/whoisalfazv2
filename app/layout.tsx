@@ -1,5 +1,6 @@
 import "./globals.css";
 import { GoogleAnalytics } from '@next/third-parties/google';
+import Script from 'next/script';
 import { Inter, JetBrains_Mono } from "next/font/google";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -114,6 +115,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <LazyChatWidget />
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />
+        <Script src="https://analytics.ahrefs.com/analytics.js" data-key="9T4Utwf0yVuXOiaqomR7Bg" strategy="afterInteractive" />
       </body>
     </html>
   );
