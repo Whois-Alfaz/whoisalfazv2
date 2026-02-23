@@ -22,7 +22,10 @@ export async function generateMetadata({ params }) {
 
     const seoTitle = data.seo?.title || data.title;
     const seoDesc = data.seo?.description || '';
-    const canonicalUrl = data.seo?.canonicalUrl || `https://whoisalfaz.me/${slug}/`;
+
+    // Force canonical URL to point to frontend domain
+    const rawCanonicalUrl = data.seo?.canonicalUrl || '';
+    const canonicalUrl = rawCanonicalUrl ? rawCanonicalUrl.replace('https://v1.whoisalfaz.me', 'https://whoisalfaz.me') : `https://whoisalfaz.me/${slug}/`;
 
     return {
         title: seoTitle,

@@ -28,7 +28,9 @@ export async function generateMetadata({ params }) {
 
   const seoTitle = post.seo?.title || post.title;
   const seoDesc = post.seo?.description || post.excerpt?.replace(/<[^>]*>/g, '').slice(0, 160);
-  const canonicalUrl = post.seo?.canonicalUrl || `https://whoisalfaz.me/blog/${slug}/`;
+  // Force canonical URL to point to frontend domain
+  const rawCanonicalUrl = post.seo?.canonicalUrl || '';
+  const canonicalUrl = rawCanonicalUrl ? rawCanonicalUrl.replace('https://v1.whoisalfaz.me', 'https://whoisalfaz.me/blog') : `https://whoisalfaz.me/blog/${slug}/`;
 
   return {
     title: seoTitle,
