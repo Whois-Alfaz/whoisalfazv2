@@ -238,6 +238,11 @@ export default async function Post({ params }) {
               prose-hr:border-white/10 prose-hr:my-12
             "
           >
+            {/* Affiliate Disclosure */}
+            <p className="text-slate-500 text-sm italic mb-8 border-l-2 border-slate-800 pl-4 py-1">
+              This technical breakdown contains affiliate links. If you deploy this stack using my links, I earn a commission at no extra cost to you.
+            </p>
+
             <MDXRemote source={post.content} options={{ mdxOptions: { format: 'md', rehypePlugins: [rehypeHighlight] } }} />
           </div>
 

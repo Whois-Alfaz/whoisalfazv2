@@ -46,6 +46,47 @@ const nextConfig: NextConfig = {
         destination: '/portfolio',
         permanent: true,
       },
+      // 5. Affiliate Link Cloaking
+      {
+        source: '/go/monday',
+        destination: 'https://try.monday.com/66vrkkiezhrz',
+        permanent: true,
+      },
+      {
+        source: '/go/n8n',
+        destination: 'https://n8n.partnerlinks.io/ch585gsqzanp',
+        permanent: true,
+      },
+      {
+        source: '/go/brevo',
+        destination: 'https://get.brevo.com/6b88c13841c4',
+        permanent: true,
+      },
+      {
+        source: '/go/databox',
+        destination: 'https://join.databox.com/qfzdqmwp7elc',
+        permanent: true,
+      },
+      {
+        source: '/go/turbotic',
+        destination: 'https://try.turbotic.com/2xu9cie2qj39',
+        permanent: true,
+      },
+      {
+        source: '/go/cometchat',
+        destination: 'https://try.cometchat.com/r4j3p5y2c9mn',
+        permanent: true,
+      },
+      {
+        source: '/go/apollo',
+        destination: 'https://get.apollo.io/bs1ny1i5eigv',
+        permanent: true,
+      },
+      {
+        source: '/go/adcreative',
+        destination: 'https://free-trial.adcreative.ai/78ye4zckgmez',
+        permanent: true,
+      },
     ];
   },
 };

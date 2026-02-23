@@ -1,0 +1,257 @@
+---
+title: >-
+  How to Build Autonomous AI Agents with “Tools” (Function Calling) – 30 Days of
+  n8n & Automation – Day 25
+slug: n8n-ai-agent-tools
+description: >-
+  Move beyond chatbots. Learn how to use n8n AI Agent Tools to give ChatGPT
+  "hands." On Day 25, we build an autonomous agent that uses the API we built on
+  Day 24 to verify users in real-time.
+date: '2026-01-22'
+seoTitle: >-
+  How to Build Autonomous AI Agents with "Tools" (Function Calling) - 30 Days of
+  n8n & Automation - Day 25 - AI automation for SaaS & agencies | Alfaz Mahmud
+  Rizve
+seoDescription: >-
+  Move beyond chatbots. Learn how to use n8n AI Agent Tools to give ChatGPT
+  "hands." On Day 25, we build an autonomous agent that uses the API we built on
+  Day 24 to verify users in real-time.
+image: /images/blog/n8n-ai-agent-tools-featured.webp
+categories:
+  - 30 Days of n8n and automation
+---
+
+** Beyond Chatbots: Giving Your n8n AI Agents "Hands" with Custom Tools**
+
+Welcome back to **Day 25** of the *30 Days of n8n & Automation* series here on `whoisalfaz.me`.
+
+We have reached a pivotal moment in this series. We are moving from "Automation" to "Autonomous Agents."
+
+Let's review the architecture we've built:
+
+- [**Day 15**:](https://whoisalfaz.me/blog/automated-content-research-by-alfaz-mahmud-rizve/) We built a basic AI Content Researcher.
+
+- **[Day 22](https://whoisalfaz.me/blog/automate-client-reporting-with-n8n/)**: We automated complex reporting PDF generation.
+
+- **[Day 23](https://whoisalfaz.me/blog/n8n-global-error-handling/)**: We secured our systems with a Global Error Watchtower.
+
+- [**Day 24**:](https://whoisalfaz.me/blog/how-to-build-an-api-with-n8n/) We turned n8n into a serverless Backend API.
+
+If you stopped right now, you would have an agency automation stack in the top 1%. But we aren't stopping.
+
+Today, we are going to connect the **Brain** (Day 15 AI) with the **Backend** (Day 24 API).
+
+Standard LLMs (like ChatGPT) are "frozen in time." They don't know your client's current subscription status. They don't have access to your private database. If you ask a standard bot, "Is my account active?", it will hallucinate an answer.
+
+To fix this, we need **n8n AI Agent Tools**, often called **Function Calling**. We are going to give our AI a "backpack" of utilities—in this case, access to the API we built yesterday—so it can go fetch real-time data autonomously before answering the user.
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## ** The Concept: Why AI Needs "Hands" (Function Calling)**
+
+Before we build, you must understand the paradigm shift from "Prompt Engineering" to "Agentic Engineering."
+
+A standard ChatGPT prompt is passive:
+
+> 
+> 
+*User:* "What is the capital of France?" *AI:* "Paris."
+
+> 
+
+An **AI Agent with Tools** is active. It reasons about the request and determines if it needs external help.
+
+> 
+> 
+*User:* "Is the user 'alfaz@email.com' active right now?" *AI (Internal Monologue):* "I do not know this information. I have a tool called 'Verify User API'. I should use that tool with the email 'alfaz@email.com'." *AI (Action):* Calls the API. receives `{"verified": true}`. *AI (Final Response):* "Yes, Alfaz is currently active."
+
+> 
+
+In n8n, which uses LangChain under the hood, we define these "Tools" and give them to the AI Agent node. The AI then decides *if* and *when* to use them based on the conversation.
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+![Diagram showing an AI "Brain" icon connected to multiple "Tool" icons (Database, API, Calculator) via n8n by Alfaz mahmud rizve at whoisalfaz.me](/images/blog/n8n-ai-agent-tools-unnamed-52.webp)
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## **The Architecture: The "Tier 1 Support" Agent**
+
+We are going to build an autonomous support agent.
+
+**The Goal:** A chatbot that can accurately answer questions about user account status without human intervention.
+
+**The Stack:**
+
+1. $1
+
+2. $1
+
+3. $1
+
+The critical part here is that we are *not* hardcoding the API call. We are teaching the AI *how* to make the call, and letting it decide when it's necessary.
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## **Step 1: The Brain (AI Agent Node Setup)**
+
+Start a new workflow.
+
+1. $1
+
+2. $1
+
+3. $1
+
+### **The System Prompt**
+
+This is where you define the agent's persona. In the AI Agent node settings:
+
+**Text:**
+
+> 
+> 
+You are a helpful Tier 1 support agent for our SaaS platform. Your job is to assist users with account questions.
+
+> 
+> 
+> 
+> 
+You have access to tools to look up real-time data. ALWAYS use the available tools to verify information before answering a user's question about their account status. Do not guess. If the tool returns an error, report that error to the user.
+
+> 
+
+This prompt is crucial. You are instructing it to rely on **n8n AI Agent Tools** rather than its training data.
+
+## ** Step 2: The Hands (Defining the Custom Tool)**
+
+This is the technical core of today's tutorial. We need to define the "Tool Spec" so the AI understands what capabilities it has.
+
+In n8n, look for the **"Tools"** category. Drag in a **Custom n8n Tool** node and connect it to the "Tools" input of the AI Agent node.
+
+We need to configure three critical fields in the Custom Tool node:
+
+### **1. Name**
+
+Must be unique and descriptive.
+
+- *Value:* `verify_user_status`
+
+### **2. Description (Crucial for AI)**
+
+This is NOT for humans. This is the instruction manual the AI reads to decide *when* to use this tool. It must be explicit.
+
+- *Value:* `Call this tool to check if a user's account is currently active and verified. This tool requires an email address as input. Use this whenever a user asks about their subscription or account status.`
+
+### **3. Schema (Input Definition)**
+
+We need to tell the AI what data it needs to extract from the user's prompt to use this tool. We need an `email`.
+
+We define this using a JSON schema:
+
+JSON
+
+```
+{
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "description": "The email address of the user to verify, e.g., client@example.com"
+    }
+  }
+}
+
+```
+
+The AI now knows: "To use `verify_user_status`, I must find an email string."
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+![Screenshot of the n8n execution log showing the AI's "Chain of Thought," including the decision to use a tool and the tool's output by alfaz mahmud rizve at whoisalfaz.me](/images/blog/n8n-ai-agent-tools-unnamed-53.webp)
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## ** Step 3: Connecting the API (The HTTP Request)**
+
+Now that we have defined the *abstract* tool, we need to define the *concrete* action it takes.
+
+The **Custom n8n Tool** is a sub-workflow wrapper. Double-click the Custom Tool node to open its internal canvas.
+
+Inside, you will see a "Tool Workflow Trigger" and a "Tool Workflow Output." We need to put the action in between.
+
+1. $1
+
+2. $1
+
+3. $1
+
+4. $1
+
+5. $1
+
+**What just happened?** We linked the AI's concept of an "email input" directly to the JSON body of the API request.
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## **H2: Step 4: The Execution (Watching it Think)**
+
+Let's test our autonomous agent.
+
+1. $1
+
+2. $1
+
+**Watch the execution logs.** This is the magic of **Agentic AI**.
+
+You won't just see a response. You will see a "Chain of Thought":
+
+1. $1
+
+2. $1
+
+3. $1
+
+4. $1
+
+5. $1
+
+The AI didn't just chat; it performed a secure backend lookup on its own initiative.
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+![Screenshot of the n8n Custom Tool node configuration showing the tool name, description, and JSON schema](/images/blog/n8n-ai-agent-tools-unnamed-54.webp)
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## ** Real-World Agency Use Cases for AI Tools**
+
+Connecting ChatGPT to a simple API is just the beginning. By using **n8n AI Agent Tools**, you can build incredibly powerful systems:
+
+1. $1
+
+2. $1
+
+3. $1
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## ** Conclusion: The Era of Autonomous Automation**
+
+By combining the cognitive power of LLMs with the connectivity of **n8n AI Agent Tools**, we have moved beyond simple automation scripts. We are now building systems that can reason, plan, and act autonomously.
+
+This is the future of agency automation. It's not just about moving data from A to B; it's about having intelligent agents manage the process for you.
+
+**What’s Next?** We have built agents that can use tools. But what if the data they need isn't in an API, but buried in a 100-page PDF contract? Tomorrow, on **Day 26**, we dive into **RAG (Retrieval-Augmented Generation)**. I will show you how to build a "Knowledge Base" that your AI agent can read before answering questions.
+
+**See you in the workflow editor.**
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+### **External Resources:**
+
+- [n8n AI Agent Node Documentation](https://www.google.com/search?q=https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-langchain.agent/)
+
+- [OpenAI Function Calling Guide](https://platform.openai.com/docs/guides/gpt/function-calling) (The underlying technology used here).
+
+- [LangChain Concepts](https://python.langchain.com/docs/get_started/introduction) (The framework n8n uses for agents).

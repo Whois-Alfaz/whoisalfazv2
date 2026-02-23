@@ -20,13 +20,32 @@ export interface Post extends PostMeta {
 }
 
 /**
+ * Helper to recursively get all files in a directory.
+ */
+function getAllFiles(dirPath: string, arrayOfFiles: string[] = []): string[] {
+    const files = fs.readdirSync(dirPath);
+
+    files.forEach(function (file) {
+        if (fs.statSync(dirPath + "/" + file).isDirectory()) {
+            arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles);
+        } else {
+            arrayOfFiles.push(path.join(dirPath, "/", file));
+        }
+    });
+
+    return arrayOfFiles;
+}
+
+/**
  * Get a single post by its slug.
  * Returns frontmatter metadata + raw MDX content string.
  */
 export function getPostBySlug(slug: string): Post | null {
-    const filePath = path.join(CONTENT_DIR, `${slug}.mdx`);
+    // Search recursively for the file
+    const allFiles = getAllFiles(CONTENT_DIR);
+    const filePath = allFiles.find(f => path.basename(f) === `${slug}.mdx`);
 
-    if (!fs.existsSync(filePath)) {
+    if (!filePath || !fs.existsSync(filePath)) {
         return null;
     }
 
@@ -55,11 +74,11 @@ export function getAllPosts(): PostMeta[] {
         return [];
     }
 
-    const files = fs.readdirSync(CONTENT_DIR).filter(f => f.endsWith('.mdx'));
+    const files = getAllFiles(CONTENT_DIR).filter(f => f.endsWith('.mdx'));
 
     const posts: PostMeta[] = files.map(file => {
-        const slug = file.replace(/\.mdx$/, '');
-        const raw = fs.readFileSync(path.join(CONTENT_DIR, file), 'utf-8');
+        const slug = path.basename(file).replace(/\.mdx$/, '');
+        const raw = fs.readFileSync(file, 'utf-8');
         const { data } = matter(raw);
 
         return {

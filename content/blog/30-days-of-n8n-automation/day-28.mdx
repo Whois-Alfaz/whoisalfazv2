@@ -1,0 +1,254 @@
+---
+title: >-
+  Build an n8n AI Receptionist (Twilio Voice Bot Guide) – 30 Days of n8n &
+  Automation – Day 27
+slug: n8n-ai-receptionist
+description: >-
+  Stop missing calls. Learn how to build an n8n AI Receptionist on Day 27. We
+  create a voice bot that answers calls, transcribes voicemails, and calls you
+  back instantly for urgent leads.
+date: '2026-01-24'
+seoTitle: >-
+  Build an n8n AI Receptionist (Twilio Voice Bot Guide) - 30 Days of n8n &
+  Automation - Day 27 - AI automation for SaaS & agencies | Alfaz Mahmud Rizve
+seoDescription: >-
+  Stop missing calls. Learn how to build an n8n AI Receptionist on Day 27. We
+  create a voice bot that answers calls, transcribes voicemails, and calls you
+  back instantly for urgent leads.
+image: /images/blog/n8n-ai-receptionist-featured.webp
+categories:
+  - 30 Days of n8n and automation
+---
+
+**Stop Missing Calls: Build a Smart AI Voice Bot with n8n (Step-by-Step)**
+
+Welcome back to **Day 27** of the *30 Days of n8n & Automation* series here on `whoisalfaz.me`.
+
+We have given our AI **[Vision (Day 15)](https://whoisalfaz.me/blog/automated-content-research-by-alfaz-mahmud-rizve/)**, **[Hands (Day 25)](https://whoisalfaz.me/blog/n8n-ai-agent-tools/)**, and **[Memory (Day 26)](https://whoisalfaz.me/blog/n8n-rag-tutorial/)**. But until now, our AI has been silent. It only lives in text boxes.
+
+Today, we break the silence. We are building an **n8n AI Receptionist**.
+
+**The Problem:** If you run an agency or a service business (like a plumbing or consulting firm), you miss calls.
+
+- **Missed calls = Missed revenue.**
+
+- Standard voicemail is a "black hole" (nobody listens to it).
+
+- Hiring a human receptionist costs $3,000/month.
+
+- Paying for Voice AI tools like **Bland AI** or **Air.ai** costs $0.20/minute (expensive).
+
+**The Solution:** We will build a custom **n8n Voice Bot** that:
+
+1. $1
+
+2. $1
+
+3. $1
+
+4. $1
+
+5. $1
+
+This is not a toy. This is a deployable **Bland AI alternative** that runs for pennies.
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## **The Tech Stack (The Voice Pipeline)**
+
+We are combining three powerful APIs to create this system.
+
+1. $1
+
+2. $1
+
+3. $1
+
+4. $1
+
+*Prerequisites:* You need a **Twilio Account** and a purchased phone number ($1/month).
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+![n8n AI Receptionist Architecture diagram showing a phone connecting to Twilio, which sends audio to n8n, which uses Whisper to transcribe and GPT-4 to analyze. by alfaz mahmud rizve at whoisalfaz.me](/images/blog/n8n-ai-receptionist-unnamed-58.webp)
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## ** Step 1: The "Listening" Ear (Twilio Setup)**
+
+First, we need to tell Twilio what to do when someone calls your number. We use **TwiML** (Twilio Markup Language), which is just XML for phones.
+
+### **1. Create the Webhook**
+
+- Create a new n8n workflow.
+
+- Add a **Webhook** node.
+
+- **Method:** `POST`.
+
+- **Path:** `incoming-call`.
+
+- *Copy the Production URL.*
+
+### **2. Configure Twilio**
+
+- Go to your **Twilio Console** > **Phone Numbers** > **Active Numbers**.
+
+- Click your number.
+
+- Scroll down to the "Voice & Fax" section.
+
+- **A Call Comes In:** Select "Webhook".
+
+- Paste your n8n Production URL.
+
+- **Save.**
+
+### **3. The Greeting (TwiML Response)**
+
+Now, when Twilio hits n8n, n8n must answer.
+
+- Connect a **Respond to Webhook** node to your trigger.
+
+- **Respond With:** `Text`.
+
+- **Body:** Paste this XML code:
+
+XML
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Say voice="alice" language="en-US">
+        Hi, you have reached Alfaz's AI Assistant.
+        He is currently building automation workflows.
+        Please state your name and how he can help you after the beep.
+        I will analyze your message and alert him immediately if it is urgent.
+    </Say>
+    <Record action="https://n8n.your-domain.com/webhook/handle-recording" maxLength="30" playBeep="true" />
+</Response>
+
+```
+
+**Critical Detail:** Look at the `<Record action="...">` tag. This tells Twilio: *"After the user finishes talking, send the audio file to THIS second URL."* You need to replace `your-domain.com` with your actual n8n instance domain.
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## **Step 2: The "Thinking" Brain (Handling the Recording)**
+
+Now we need to build that *second* webhook to catch the audio file.
+
+### **1. Create Webhook #2**
+
+- Add a new **Webhook** node (separate workflow or same canvas).
+
+- **Method:** `POST`.
+
+- **Path:** `handle-recording`.
+
+### **2. Download the Audio**
+
+Twilio sends the audio location in a field called `RecordingUrl`. We need to download the actual file.
+
+- Add an **HTTP Request** node.
+
+- **Method:** `GET`.
+
+- **URL:** `{{ $json.body.RecordingUrl }}`.
+
+- **Response Format:** `File` (or Binary).
+
+- **Property Name:** `data`.
+
+### **3. Transcribe (Whisper)**
+
+Now we convert the MP3 into text.
+
+- Add an **OpenAI** node.
+
+- **Resource:** `Audio`.
+
+- **Operation:** `Transcribe`.
+
+- **Input Binary Field:** `data`.
+
+- **Model:** `whisper-1`.
+
+Now, your workflow has converted the voice *"I need a website built ASAP"* into the text string `"I need a website built ASAP"`.
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+![n8n workflow showing the path from Webhook -> HTTP Request (Download) -> OpenAI Whisper (Transcribe). by alfaz mahmud rizve at whoisalfaz.me](/images/blog/n8n-ai-receptionist-unnamed-59.webp)
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## **Step 3: The "Analyst" (AI Classification)**
+
+We don't want to be bothered by spam calls about "car warranties." We only want to know about money.
+
+1. $1
+
+2. $1
+
+3. $1
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## **Step 4: The "Speaking" Mouth (The Urgent Alert)**
+
+This is the **Day 27 Promise**. If the call is urgent, we want n8n to **call us back** immediately.
+
+1. $1
+
+2. $1
+
+**The Experience:** You are at dinner. Your phone rings. It's your AI. *"Alfaz, you have a new high-priority lead. John needs a website by Friday."* You excuse yourself, call John back, and close the deal.
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+![ The final n8n workflow showing the "If" node branching into a Twilio "Make Call" node for urgent leads.by alfaz mahmud rizve at whoisalfaz.me](/images/blog/n8n-ai-receptionist-unnamed-60.webp)
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## **Why Build Instead of Buy? (Bland AI vs. n8n)**
+
+Many people ask: *"Why not just use Bland AI or Air.ai?"*
+
+**1. Cost:**
+
+- **Bland AI:** ~$0.20 per minute.
+
+- **n8n + Twilio:** ~$0.01 per minute.
+<ul class="wp-block-list">
+<li>Twilio Inbound: $0.0085/min.
+
+- Whisper API: $0.006/min.
+
+- **Savings:** 95%.
+
+</li>
+</ul>
+
+**2. Control:** With n8n, you own the data. You can save the transcript to Notion, send the lead to Salesforce, or trigger a Slack alert. With SaaS tools, your data is trapped in their dashboard.
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## **Conclusion**
+
+You have now bridged the gap between the digital and physical worlds. Your **n8n AI Receptionist** interacts with the real telephone network, filtering noise and surfacing value.
+
+You have built a system that **Listens** (Whisper), **Thinks** (GPT-4), and **Speaks** (Twilio).
+
+**What’s Next?** We have covered almost every major modality: Text, Images, PDF, and Voice. But we haven't touched **Video**. Tomorrow, on **Day 28**, we are going to build an **Automated YouTube Shorts Generator**. We will use n8n to script, visualize, and render a video automatically.
+
+**See you in the workflow editor.**
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+### **External Resources:**
+
+- [Twilio Voice API Documentation](https://www.twilio.com/docs/voice)
+
+- [OpenAI Whisper Guide](https://platform.openai.com/docs/guides/speech-to-text)
+
+- [TwiML Bin Tutorial](https://www.twilio.com/docs/runtime/tutorials/twiml-bins)

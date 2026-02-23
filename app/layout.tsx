@@ -80,7 +80,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     "name": "Alfaz Mahmud Rizve",
     "url": "https://whoisalfaz.me",
     "image": "https://whoisalfaz.me/profile.jpg",
-    "jobTitle": "RevOps & Full Stack Automation Architect",
+    "jobTitle": "RevOps Architect & Software Engineer",
+    "email": "a.m.rizve3905@gmail.com",
     "description": "I help Marketing Agencies migrate off legacy CMS platforms to high-performance Next.js stacks and eliminate manual ops with n8n automation.",
     "nationality": {
       "@type": "Country",
@@ -90,7 +91,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       "https://linkedin.com/in/alfaz-mahmud-rizve",
       "https://github.com/AlfazMahmudRizve",
       "https://twitter.com/whoisalfaz",
-      "https://facebook.com/alfazmahmudrizve"
+      "https://facebook.com/alfazmahmudrizve",
+      "https://www.instagram.com/whois.alfaz/",
+      "https://www.youtube.com/@whoisalfazz"
     ]
   };
 
