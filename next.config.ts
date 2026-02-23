@@ -87,6 +87,11 @@ const nextConfig: NextConfig = {
         destination: 'https://free-trial.adcreative.ai/78ye4zckgmez',
         permanent: true,
       },
+      {
+        source: '/go/elevenlabs',
+        destination: 'https://try.elevenlabs.io/vde8vlnbokq4',
+        permanent: true,
+      },
     ];
   },
 };
