@@ -1,90 +1,77 @@
 ---
 title: >-
-  n8n Debugging & Error Handling Basics (Logs, Retries, Alerts to Slack &
-  Email)-30 Days of n8n & Automation- Day 7
-slug: n8n-debugging-error-handling-basics
+  Capture n8n lead data from WordPress/Elementor to Google Sheets + email
+  notification-30 Days of n8n & Automation – Day 8
+slug: capture-n8n-lead-data-from-wordpress-elementor
 description: >-
-  Master n8n debugging and error handling with logs, retries, and alerts. Real
-  examples for SaaS & agencies by Alfaz Mahmud Rizve at whoisalfaz.me.
-date: '2025-12-24'
+  Capture every n8n lead from WordPress and Elementor into Google Sheets with
+  instant email alerts. Step‑by‑step automation for SaaS and agencies by Alfaz
+date: '2025-12-26'
 seoTitle: >-
-  n8n Debugging & Error Handling Basics (Logs, Retries, Alerts to Slack &
-  Email)-30 Days of n8n & Automation- Day 7 - AI automation for SaaS & agencies
-  | Alfaz Mahmud Rizve
+  Capture n8n lead data from WordPress/Elementor to Google Sheets + email
+  notification-30 Days of n8n & Automation – Day 8 - AI automation for SaaS &
+  agencies | Alfaz Mahmud Rizve
 seoDescription: >-
-  Master n8n debugging and error handling with logs, retries, and alerts. Real
-  examples for SaaS & agencies by Alfaz Mahmud Rizve at whoisalfaz.me.
-image: /images/blog/n8n-debugging-error-handling-basics-featured.webp
+  Capture every n8n lead from WordPress and Elementor into Google Sheets with
+  instant email alerts. Step‑by‑step automation for SaaS and agencies by Alfaz
+image: /images/blog/capture-n8n-lead-data-from-wordpress-elementor-featured.webp
 categories:
   - 30 Days of n8n and automation
 ---
 
-Master n8n debugging and error handling with logs, retries, and alerts. Real examples for SaaS & agencies by [Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/) at whoisalfaz.me.
+Capture every n8n lead from WordPress and Elementor into Google Sheets with instant email alerts. Step‑by‑step automation for SaaS and agencies by [Alfaz Mahmud Rizve ](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/)at [whoisalfaz.me](https://whoisalfaz.me/blog/)
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **The Reality of Production Workflows**
+If your website form just sends emails, you are leaking opportunities on autopilot. A proper **n8n lead** workflow turns every WordPress and Elementor form submission into a tracked, searchable, and actionable record your team can actually use.​
 
-You've built a beautiful n8n workflow. It works in tests. It works when you click "Execute." But at 2 AM, your client's data sync fails silently, and you don't know until they complain three days later.
+In Day 8 of **30 Days of n8n & Automation**, [Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/) shows how to capture each n8n lead from your WordPress/Elementor forms into Google Sheets and trigger instant email notifications so you never miss a warm prospect again. At whoisalfaz.me, this is one of the first production automations added for SaaS and agencies because it directly impacts revenue, not just “nice-to-have” automation.​
 
-This is where **n8n debugging and error handling** separates hobbyists from professionals. **[Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/)** has seen workflows that looked perfect fail in production because no one set up proper error handling. This post teaches you how to catch, log, and fix those issues before they become disasters.
-
-By the end of Day 7 of the [30 Days of n8n & Automation series](https://whoisalfaz.me/blog/category/n8n-automation/), you'll know:
-
-- How to read **n8n debugging logs** like a pro
-
-- Why **retries matter** and how to set them up
-
-- How to send **real-time alerts** to Slack and email when things break
-
-This isn't theory. These are patterns **Alfaz Mahmud Rizve** uses for every production automation at whoisalfaz.me.
-
-![n8n debugging workflow catching error and sending Slack alert by Alfaz Mahmud Rizve automation for SaaS and agencies.](/images/blog/n8n-debugging-error-handling-basics-Generated-Image-December-24-2025-10_44PM-1024x585.png)
+![High-level diagram of an n8n lead capture system by Alfaz Mahmud Rizve showing a WordPress Elementor form sending SaaS and agency leads into Google Sheets and email notifications for reliable automation](/images/blog/capture-n8n-lead-data-from-wordpress-elementor-Generated-Image-December-26-2025-6_03PM-1.webp)
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **Part 1: Understanding n8n Debugging Logs**
+## Why capturing every n8n lead matters
 
-Every workflow run creates logs. Most people never look at them. That's a mistake.
+For SaaS founders, agencies, and solo operators, the website is usually the main inbound channel, but manual inbox-based follow-up is slow and unreliable. With a structured **n8n lead** pipeline, you can see all leads in one place, filter by source, and build automations on top of that clean data.​
 
-## **Where to find your logs**
-
-In n8n:
-
-1. $1
-
-2. $1
-
-3. $1
-
-4. $1
-
-That error message is your **n8n debugging clue**. It tells you:
-
-- Which node failed
-
-- What input it received
-
-- Why it failed (missing field, API error, timeout, etc.)
-
-## **Real example: API call failure**
-
-Let's say your HTTP Request node fails with:
-
-```
-text`Error: 401 Unauthorized
-`
-```
-
-This means your API credentials are wrong or expired. Without **n8n debugging**, you'd spend hours guessing. With it, you know in seconds: re-check your API key.
-
-**Pro tip from [Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/):** Always check **node output** before moving to retries or alerts. 80% of issues are caught here.
+Alfaz Mahmud Rizve treats every n8n lead as an asset that must land in a system, not just a notification, which is why whoisalfaz.me uses Google Sheets as a simple CRM layer before syncing into heavier tools.​
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **The 5 Most Common n8n Debugging Scenarios**
+## What you’ll build in this n8n lead workflow
 
-When building **n8n debugging workflows**, expect these errors:
+By the end of this Day 8 tutorial, you will have a battle-tested automation that works 24/7.​
+
+- Elementor form on a WordPress page sends data to an n8n Webhook.
+
+- n8n parses the **n8n lead** fields and appends them to a Google Sheet.
+
+- n8n sends an email notification to your team inbox with all lead details.
+
+- Optionally, n8n sends an auto-reply to the lead so they feel acknowledged instantly.​
+
+This is the exact **n8n lead** pipeline that Alfaz Mahmud Rizve uses for his own projects and for SaaS and agency clients, with small tweaks for each niche.​
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## Prerequisites and setup checklist
+
+Before building the automation, make sure a few basics are ready.​
+
+- WordPress website with Elementor Pro installed and a working form widget on at least one page.
+
+- Active n8n instance (self-hosted or cloud) with Webhook, Google Sheets, and Email (or Gmail) nodes available.​
+
+- A Google Sheet prepared to store your **n8n lead** data in structured columns such as name, email, service, and source.​
+
+Alfaz Mahmud Rizve recommends setting this up first on a staging form or test page, then switching the same **n8n lead** workflow to your main contact or “Get a demo” forms once it is stable.​
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## Step 1: connect Elementor form to an n8n Webhook
+
+The first step is getting each **n8n lead** out of WordPress and into n8n using a Webhook trigger.[](https://www.youtube.com/watch?v=SqpY4j5wycg)​[](https://elementor.com/blog/what-is-n8n/)​
 
 1. $1
 
@@ -96,287 +83,144 @@ When building **n8n debugging workflows**, expect these errors:
 
 5. $1
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+6. $1
 
-![n8n debugging panel displaying error message and stack trace by Alfaz Mahmud Rizve for workflow troubleshooting](/images/blog/n8n-debugging-error-handling-basics-Generated-Image-December-24-2025-10_44PM-1-edited.png)
-
-## **Part 2: Retries – Your First Line of Defense**
-
-A retry automatically runs a failed node again, usually after a short delay. This catches temporary failures (API hiccup, network blip, temporary overload).
-
-## **How to set up retries in n8n**
-
-1. $1
-
-2. $1
-
-3. $1
-
-4. $1
-
-## **When retries work**
-
-Retries are gold for:
-
-- Rate-limited APIs (they recover after a few seconds)
-
-- Flaky network calls
-
-- Temporary timeouts
-
-## **When retries DON'T work**
-
-Don't waste retries on:
-
-- Auth failures (wrong API key won't magically fix itself)
-
-- Data validation errors (malformed email won't become valid on retry)
-
-- Missing required fields
-
-**Alfaz Mahmud Rizve's rule:** If a human would get the same error on retry, retries won't help. You need error handling instead.
+You should see the Elementor payload appear inside the Webhook node in n8n, confirming that every new **n8n lead** will now be captured at the workflow entry point. This is the foundation of the entire lead capture system that Alfaz Mahmud Rizve uses in his real-world funnels.​
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **Part 3: Error Handling – Catching and Routing Failures**
+![n8n workflow diagram used by Alfaz Mahmud Rizve showing an n8n lead moving from Webhook to Google Sheets and then to an email notification so SaaS and agency teams respond fast](/images/blog/capture-n8n-lead-data-from-wordpress-elementor-Generated-Image-December-26-2025-6_03PM.webp)
 
-Retries are good, but they fail eventually. When they do, you need **error handling** to decide what happens next: log it, notify, or retry a different way.
+## Step 2: design Google Sheets as your n8n lead database
 
-## **The Try-Catch pattern**
+Next, you will turn Google Sheets into a lightweight CRM for each **n8n lead**.​
 
-This is the most powerful **n8n debugging pattern**. Here's how:
+- Create a new Sheet named `Website n8n Leads – whoisalfaz.me`.
 
-1. $1
+- Add columns such as `Timestamp`, `Name`, `Email`, `Company`, `Service_Interest`, `Message`, `UTM_Source`, `UTM_Campaign`, and `Page_URL`.​
 
-2. $1
+- Keep column names simple and consistent; these become the “schema” that n8n will append to for each **n8n lead**.​
 
-3. $1
+In n8n, add a **Google Sheets** node after the Webhook node.​
 
-## **How to build Try-Catch in n8n**
+- Set **Resource** to “Sheet” and **Operation** to “Append”.
 
-n8n doesn't have a visual "Try-Catch" node, but you can simulate it:
+- Select your spreadsheet and the specific sheet tab you created.
 
-1. $1
+- Use **Map Each Column Manually** and, for each column, map the corresponding field from the Webhook JSON payload.​
 
-2. $1
+This step ensures that every **n8n lead** arrives in a structured table. It is the same pattern used in official n8n docs and workflows that sync data into Sheets for further automation.​
 
-3. $1
-
-4. $1
-
-## **Real workflow example**
-
-Let's build a simple but powerful **n8n debugging workflow**:
-
-**Scenario:** Sync leads from a form to your CRM. If the sync fails, log it and alert the team.
-
-**Nodes:**
-
-1. $1
-
-2. $1
-
-3. $1
-
-4. $1
-
-5. $1
-
-This workflow ensures **no lead is lost** – even if the CRM fails, you have a log and know about it.
-
-![Screenshot-style illustration of a Slack notification alert showing workflow error message: 'Lead Sync Failed', error details, timestamp, and action buttons, modern Slack UI with blue and white colors, clean typography, showing professionalism and clarity for team alerts](/images/blog/n8n-debugging-error-handling-basics-Generated-Image-December-24-2025-10_44PM-3-1024x585.png)
+![Google Sheets table used as a simple n8n lead CRM by Alfaz Mahmud Rizve, storing SaaS and agency website leads with fields like name, email, service, and UTM tracking synced from n8n automation](/images/blog/capture-n8n-lead-data-from-wordpress-elementor-Generated-Image-December-26-2025-6_01PM.webp)
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **Part 4: Real-Time Alerts – Slack & Email**
+## Step 3: send email notifications for each n8n lead
 
-When an error happens, silence is your enemy. **Real-time alerts** keep you in the loop.
+Storing a **n8n lead** is good, but getting notified instantly is what drives action. This is where an Email node (or Gmail node) comes in.[](https://n8n.io/integrations/gmail/and/google-sheets/)​[](https://www.youtube.com/watch?v=XgoW6z2frNc)​
 
-## **Option 1: Slack Alerts (fastest)**
+- Add an **Email** or **Gmail** node after the Google Sheets node, or directly after the Webhook node if you want parallel execution.​
 
-Slack is usually the best choice because:
+- Authenticate with your email provider once; n8n will reuse these credentials for all future **n8n lead** notifications.[](https://n8n.io/integrations/gmail/and/google-sheets/)​
 
-- Instant notification to your phone
+- Set the **To** address to your primary sales inbox, founder email, or shared team address.
 
-- Team can see it immediately
+- Use a subject line like: `New n8n lead from {{ $json["name"] }}`.
 
-- Easy to thread and discuss
+- In the body, include all critical fields: name, email, company, service interest, message, and UTM source.[](https://www.youtube.com/watch?v=XgoW6z2frNc)​[](https://n8n.io/integrations/gmail/and/google-sheets/)​
 
-**Setup:**
+Alfaz Mahmud Rizve prefers keeping the **n8n lead** email template simple and text-first so it loads quickly on mobile and is easy to reply to, especially for SaaS and agency teams working on the go.​
 
-1. $1
-
-2. $1
-
-3. $1
-
-4. $1
-
-```
-text`Workflow: Lead Sync Failed
-Error: API returned 500
-Lead Email: {{$json["email"]}}
-Time: {{$now.toISO()}}
-Action: Check CRM status, retry manually if needed
-`
-```
-
-**Pro tip from [Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/):** Use message formatting with bullet points so your team can scan it quickly.
-
-## **Option 2: Email Alerts (persistent record)**
-
-Slack is great, but emails create a record and work even if Slack is down.
-
-**Setup:**
-
-1. $1
-
-2. $1
-
-3. $1
-
-4. $1
-
-```
-text`Workflow: {{workflow_name}}
-Error: {{error_message}}
-Node: {{failed_node_name}}
-Time: {{execution_time}}
-Details: {{full_error_stack}}
-
-Next steps:
-1. Check logs in n8n dashboard
-2. Verify API credentials
-3. Retry manually if it's a temporary issue
-`
-```
-
-## **Option 3: Combined Alerts (best)**
-
-For critical workflows (lead sync, billing, client data), send BOTH Slack + Email:
-
-- Slack for **immediate awareness**
-
-- Email for **persistent record**
-
-This ensures **Alfaz Mahmud Rizve**'s principle: **visible failures are fixed; hidden failures are disasters.**
-
-![Try-Catch error handling pattern in n8n workflow splitting success and error paths by Alfaz Mahmud Rizve for production automation](/images/blog/n8n-debugging-error-handling-basics-Generated-Image-December-24-2025-10_44PM-2-1024x585.png)
+![Elementor Pro form connected to an n8n Webhook node for n8n lead capture, illustrated for Alfaz Mahmud Rizve to show how WordPress forms send SaaS and agency lead data into automation workflows](/images/blog/capture-n8n-lead-data-from-wordpress-elementor-Generated-Image-December-26-2025-6_02PM.webp)
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **Part 5: Building Your First Production-Ready Workflow**
+## Step 4: optional auto-reply to each n8n lead
 
-Let's bring it all together. Here's a **real n8n debugging workflow** you can copy for your SaaS or agency:
+To feel more professional and trustworthy, you can also send an automatic confirmation to the **n8n lead**.[](https://www.youtube.com/watch?v=XgoW6z2frNc)​[](https://n8npro.in/marketing/automating-lead-capture-from-wordpress-elementor-forms-to-crm/)​
 
-## **The workflow: "Client Onboarding with Error Handling"**
+- Duplicate the email node or add a second one branching from the Webhook node.
 
-**Goal:** When a deal is won in your CRM, automatically create a Notion page, send an email, and add to a Google Sheet. If anything fails, alert Slack and log it.
+- Set **To** to the contact email from the form, for example `{{$json["email"]}}`.
 
-**Nodes (in order):**
+- Write a short, friendly message confirming that you received their request, mentioning how soon you typically reply and what a SaaS or agency client can expect next.[](https://www.youtube.com/watch?v=XgoW6z2frNc)​
 
-1. $1
+- Include dynamic placeholders for name and service interest to make each **n8n lead** feel the email was written just for them.[](https://n8npro.in/marketing/automating-lead-capture-from-wordpress-elementor-forms-to-crm/)​[](https://www.youtube.com/watch?v=XgoW6z2frNc)​
 
-2. $1
+At[ whoisalfaz.me](https://whoisalfaz.me/blog/), Alfaz Mahmud Rizve uses this auto-reply pattern to reduce follow-up anxiety for prospects and to set expectations clearly, which increases reply rates and lead quality.​
 
-3. $1
-
-4. $1
-
-**Error Handler (if Notion fails):**
-
-1. $1
-
-2. $1
-
-3. $1
-
-4. $1
-
-This workflow ensures:
-
-- ✅ **Visibility:** Team knows immediately if onboarding fails
-
-- ✅ **Recoverability:** Nothing is silently lost; all failures are logged
-
-- ✅ **Audit trail:** Google Sheets has a record of every attempt and error
-
-**Alfaz Mahmud Rizve** uses this pattern for every client-facing workflow at whoisalfaz.me.
-
-![Complete n8n client onboarding workflow with error handling and alert system by Alfaz Mahmud Rizve for production-ready automation](/images/blog/n8n-debugging-error-handling-basics-Generated-Image-December-24-2025-10_44PM-4-1024x585.png)
+![Auto-reply email example generated for a new n8n lead by Alfaz Mahmud Rizve, confirming the website form submission and sharing next steps for SaaS and agency prospects.](/images/blog/capture-n8n-lead-data-from-wordpress-elementor-Generated-Image-December-26-2025-6_05PM.webp)
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **Checklist: Is Your Workflow Production-Ready?**
+## Step 5: test and debug your n8n lead workflow
 
-Before you deploy any **n8n debugging workflow**, check:
+Before you rely on this in production, you must test and harden the flow, especially since every **n8n lead** represents potential revenue.[](https://www.youtube.com/watch?v=SqpY4j5wycg)​[](https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googlesheets/)​
 
--  **Retries enabled** on all API calls (3 retries with exponential backoff)
+- Submit multiple test entries via the Elementor form with different emails and messages.
 
--  **Error handling** for every risky node (HTTP Request, database writes, API calls)
+- Check the Webhook node in n8n to ensure every **n8n lead** payload arrives correctly.
 
--  **Slack alert** for critical failures (lead loss, payment failure, data sync broken)
+- Verify that each submission creates a new row in Google Sheets with all fields correctly mapped.​
 
--  **Email alert** sent to admin with full error context
+- Confirm that your team receives the email notification for every test **n8n lead**, and that any auto-reply emails are delivered and formatted correctly.[](https://n8n.io/integrations/gmail/and/google-sheets/)​[](https://www.youtube.com/watch?v=XgoW6z2frNc)​
 
--  **Logging** to Google Sheets or database of all failures
-
--  **Manual retry option** (a button or workflow to re-run failed records)
-
--  **Tested with bad data** (test how it handles null fields, API errors, timeouts)
-
-If you can check all of these, your workflow is production-ready.
+If something breaks, use n8n’s execution log to inspect the data for a specific **n8n lead** and adjust field mappings, expressions, or node options. This is the same systematic debugging approach Alfaz Mahmud Rizve applies in more complex client workflows.​
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **Common Mistakes (and How to Avoid Them)**
+## Step 6: extend the n8n lead workflow for SaaS and agencies
 
-**Mistake 1: Retrying forever**
+Once the basics work, you can expand the **n8n lead** pipeline into a richer automation that fits your growth plans.​
 
-Don't set max retries to 100. You'll waste API quota and look like a bot. **3–5 retries is standard.**
+- Add a CRM node (HubSpot, Pipedrive, or Salesforce) to create contacts and deals automatically from each **n8n lead**.[](https://n8npro.in/marketing/automating-lead-capture-from-wordpress-elementor-forms-to-crm/)​
 
-**Mistake 2: Silent failures**
+- Send Slack or Teams notifications to the sales channel so the team sees new leads instantly.
 
-A workflow that fails silently is worse than no workflow. **Always add alerts.**
+- Enrich the **n8n lead** with company data using a third-party enrichment API before storing it in Google Sheets.[](https://n8npro.in/marketing/automating-lead-capture-from-wordpress-elementor-forms-to-crm/)​
 
-**Mistake 3: Not logging errors**
-
-You forgot what went wrong last week? **Always log to Google Sheets or a database.**
-
-**Mistake 4: Catching errors but doing nothing**
-
-If you catch an error, handle it. Slack the team, email admin, or retry differently. **Silent catches = hidden disasters.**
+Alfaz Mahmud Rizve often layers these steps gradually, starting with the minimal **n8n lead** capture into Sheets and email, then adding CRM sync and enrichment once the website proves it can bring in consistent SaaS and agency leads.​
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **How This Fits Into 30 Days of n8n & Automation**
+## Checklist: production-ready n8n lead capture
 
-By Day 7, you now understand:
+Use this quick checklist to verify that your **n8n lead** workflow is ready to go live.​
 
-- How to read **n8n debugging logs** to find problems fast
+- Elementor form is sending POST data to the n8n Webhook.
 
-- How to use **retries** for temporary failures
+- Webhook node receives the full **n8n lead** payload (name, email, message, service, UTM).
 
-- How to build **error handling** workflows that catch and notify
+- Google Sheets node appends a clean row for every new **n8n lead**.
 
-- How to send **real-time alerts** to Slack and email
+- Team email notification fires for each submission, with all fields visible.
 
-The next posts in this series will show you how to apply these patterns to real-world automations: lead handling, client onboarding, reporting, and more.
+- Optional auto-reply email is configured and personalized for each **n8n lead**.
 
-Every workflow you build from here on should follow the patterns you learned in **n8n debugging and error handling**. This isn't extra work—it's the difference between automation that works and automation that creates silent disasters.
+- Workflow status is set to **Active** in n8n, not just saved as a draft.​
+
+This is the same checklist that whoisalfaz.me uses internally when rolling out new **n8n lead** workflows for client websites and internal projects.​
+
+![Auto-reply email example generated for a new n8n lead by Alfaz Mahmud Rizve, confirming the website form submission and sharing next steps for SaaS and agency prospects.](/images/blog/capture-n8n-lead-data-from-wordpress-elementor-Generated-Image-December-26-2025-6_04PM.webp)
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **Your Next Step**
+## How this fits into 30 Days of n8n & Automation
 
-1. $1
+This Day 8 **n8n lead** tutorial sits in the “money workflows” phase of your automation journey.[](https://n8n.io/workflows/11033-automate-wordpress-elementor-lead-management-with-excel-crm-and-email-campaigns/)​
 
-2. $1
+- Earlier days introduce what n8n is, how nodes and executions work, and how to debug basic workflows.​
 
-3. $1
+- Day 8 builds a concrete income-linked automation: every **n8n lead** from WordPress and Elementor now lands in a system with instant notifications.
 
-4. $1
+- Future days can build on this by adding lead scoring, CRM syncing, follow-up sequences, and analytics dashboards on top of the same **n8n lead** foundation.​
 
-Once you see that Slack notification, you'll understand why **Alfaz Mahmud Rizve** says debugging and error handling is the most important part of production automation.
+For SaaS founders and agencies, this is usually the first workflow that “pays for itself” because it prevents lost leads and speeds up response times, which is exactly why Alfaz Mahmud Rizve prioritizes it early in the series.​
 
-Subscribe to the [newsletter](https://whoisalfaz.me/blog/contact-alfaz-mahmud-rizve/) to get Day 8 tomorrow, where we'll build your first real-world workflow with everything you've learned so far.
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## deploy your first n8n lead system
+
+You now have a complete blueprint to turn any Elementor form into an **n8n lead** capture machine using Webhooks, Google Sheets, and email notifications.​
+
+Try this workflow in your own n8n instance today, connect it to your main WordPress form, and watch how every **n8n lead** becomes trackable and actionable for your SaaS or agency. To keep learning the exact automation patterns that Alfaz Mahmud Rizve uses at whoisalfaz.me, subscribe to the newsletter and follow the[ **30 Days of n8n & Automation**](https://whoisalfaz.me/blog/category/n8n-automation/) series so you do not miss Day 9.​

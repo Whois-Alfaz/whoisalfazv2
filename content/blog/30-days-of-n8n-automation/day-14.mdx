@@ -1,59 +1,60 @@
 ---
 title: >-
-  Facebook Lead Ads Automation: Sync Leads to CRM for Free with n8n – 30 Days of
-  n8n & Automation – Day 13
-slug: facebook-lead-ads-automation-by-alfaz-mahmud-rizve
+  Automated Marketing Reporting: Send Weekly Lead Summaries with n8n – 30 Days
+  of n8n & Automation – Day 14
+slug: automated-marketing-reporting-with-n8n-at-whoisalfaz
 description: >-
-  Stop paying for Zapier. Learn Facebook Lead Ads Automation with n8n. A
-  complete guide to syncing leads to your CRM instantly and for free. Build your
-  real-time pipeline today
-date: '2026-01-01'
+  Stop manually updating spreadsheets. Learn to build automated marketing
+  reporting with n8n. Send weekly lead summaries directly to your client's inbox
+  automatically. Day 14 guide.
+date: '2026-01-02'
 seoTitle: >-
-  Facebook Lead Ads Automation: Sync Leads to CRM for Free with n8n – 30 Days of
-  n8n & Automation – Day 13 - AI automation for SaaS & agencies | Alfaz Mahmud
-  Rizve
+  Automated Marketing Reporting: Send Weekly Lead Summaries with n8n – 30 Days
+  of n8n & Automation – Day 14 - AI automation for SaaS & agencies | Alfaz
+  Mahmud Rizve
 seoDescription: >-
-  Stop paying for Zapier. Learn Facebook Lead Ads Automation with n8n. A
-  complete guide to syncing leads to your CRM instantly and for free. Build your
-  real-time pipeline today
-image: /images/blog/facebook-lead-ads-automation-by-alfaz-mahmud-rizve-featured.webp
+  Stop manually updating spreadsheets. Learn to build automated marketing
+  reporting with n8n. Send weekly lead summaries directly to your client's inbox
+  automatically. Day 14 guide.
+image: >-
+  /images/blog/automated-marketing-reporting-with-n8n-at-whoisalfaz-featured.webp
 categories:
   - 30 Days of n8n and automation
 ---
 
-Speed to lead is the single most important metric in paid advertising. The Harvard Business Review reports that companies that contact potential customers within an hour of receiving a query are nearly **seven times as likely** to qualify the lead as those that try just one hour later.
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-If you are manually downloading CSV files from Facebook Ads Manager at the end of the day, you are burning your ad budget. By the time you call, the lead has already forgotten who you are—or bought from a competitor who called them five minutes ago.
+Dashboards are where data goes to die.
 
-![Facebook Lead Ads Automationn8n workflow diagram showing a Facebook logo connecting to a central n8n node, which then branches out to HubSpot, Google Sheets, and Slack icons, illustrating instant lead synchronization. The title "Instant Facebook Lead Sync" is at the top. Branded with whoisalfaz.me by Alfaz Mahmud Rizve](/images/blog/facebook-lead-ads-automation-by-alfaz-mahmud-rizve-unnamed-14.webp)
+We build them with the best intentions. We set up Looker Studio, Tableau, or complex CRM dashboards. But let’s be honest: **nobody logs in to check them.** Clients lose their login details, and sales managers are too busy closing deals to interpret line graphs.
 
-**Facebook Lead Ads automation** is not just an efficiency hack; it is a revenue requirement. But tools like Zapier often gate this feature behind "Premium" tiers or charge you per task, which penalizes you for scaling.
+If you want your stakeholders to actually value your results, you must push the data to where they live: their inbox.
 
-In this Day 13 guide of **[30 Days of n8n & Automation](https://www.google.com/search?q=https://whoisalfaz.me/blog/category/n8n-automation/)**, we will build a real-time pipeline that captures leads the second a form is submitted, formats the data, and pushes it directly into your CRM or Google Sheet—**for free** (using self-hosted n8n) or at a fraction of the cost.
+![Comparison of manual spreadsheet chaos versus clean automated marketing reporting via email. Title reads '30 Days of n8n & Automation - Day 14'. Branded with whoisalfaz.me  by Alfaz Mahmud Rizve](/images/blog/automated-marketing-reporting-with-n8n-at-whoisalfaz-unnamed-17.webp)
 
-Throughout this guide, examples come from live ad campaigns that **Alfaz Mahmud Rizve** manages for performance marketing agencies at **whoisalfaz.me**.
+**Automated marketing reporting** changes the dynamic from "passive tracking" to "active accountability." When a CEO or Agency Client wakes up every Monday to a clean summary of exactly how many leads came in, where they came from, and how many were qualified, the perceived value of your service skyrockets.
+
+In this Day 14 guide of **[30 Days of n8n & Automation](https://www.google.com/search?q=https://whoisalfaz.me/blog/category/n8n-automation/)**, we are building a "Push" reporting engine. We will aggregate data from the past week, summarize it by source, and deliver a beautiful HTML report via email—automatically.
+
+Throughout this guide, examples come from the actual reporting pipelines **Alfaz Mahmud Rizve** builds for high-ticket agencies at **whoisalfaz.me**.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Why n8n Beats Zapier for Facebook Lead Ads
+## Why "Push" Reporting Beats "Pull" Dashboards
 
-Most marketers start with Zapier. It’s easy, but it has two major flaws for scaling agencies:
+A "Pull" system (like a dashboard) requires willpower. You have to remember to log in, filter the dates, and interpret the data. A "Push" system (like **automated marketing reporting**) requires zero effort. It arrives like a newspaper.
 
-1. $1
+For agencies, this is a retention tool. If your client doesn't hear from you, they assume you aren't working. A weekly automated report saying *"We generated 43 leads this week"* is a heartbeat signal that proves your value.
 
-2. $1
-
-Using n8n for **Facebook Lead Ads automation** allows you to handle unlimited leads for a flat cost and gives you powerful JavaScript tools to clean dirty data before it ever hits your sales team's dashboard.
-
-At **whoisalfaz.me**, **Alfaz Mahmud Rizve** advises clients: "Own your pipeline. Do not rent it from a tool that charges you per handshake."
+At **whoisalfaz.me**, **Alfaz Mahmud Rizve** follows the **"Monday Morning Rule"**: *The most important metrics must be in the client's inbox before they finish their first coffee.*
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Architecture: The "Instant Capture" Pattern
+## Architecture: The "Aggregation Pattern"
 
-We are moving away from "polling" (checking every 15 minutes) to "instant triggers" (Webhooks).
+Unlike previous days where we reacted to a single event (New Lead), today we are processing **batches** of data.
 
-![Isometric flowchart titled "Instant Capture Architecture" showing the four-step automation process: 1. Facebook Form Submit (Trigger) on a mobile phone, 2. n8n Data Cleaning (Transform) via a gear icon, 3. Google Sheets (Backup) and CRM (Destination), and 4. Slack Alert (Notification) via a bell icon.Branded with whoisalfaz.me by Alfaz Mahmud Rizve](/images/blog/facebook-lead-ads-automation-by-alfaz-mahmud-rizve-unnamed-15.webp)
+![n8n workflow diagram for automated marketing reporting showing the flow from scheduling to email delivery at whoisalfaz.me with alfaz mahmud rizve](/images/blog/automated-marketing-reporting-with-n8n-at-whoisalfaz-unnamed-18.webp)
 
 ### The Workflow Logic:
 
@@ -65,13 +66,111 @@ We are moving away from "polling" (checking every 15 minutes) to "instant trigge
 
 4. $1
 
-This ensures that the time between "Submit" and "Notification" is under 3 seconds.
+5. $1
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Prerequisites: The Facebook Developer Setup
+## Step-by-Step: Building Your Automated Marketing Reporting Engine
 
-Unlike Zapier, n8n requires a secure handshake with Meta’s API.
+Let’s open n8n and build this reporting machine.
+
+### Phase 1: The Schedule & The Fetch
+
+**Node 1: Schedule Trigger**
+
+- **Trigger Interval:** `Weeks`.
+
+- **Day:** `Monday`.
+
+- **Hour:** `8` (or `9`).
+
+- **Why:** Consistency is key. Your report should be as reliable as the sunrise.
+
+**Node 2: Date & Time (The "Lookback" Window)**
+
+- **Action:** Calculate the date range.
+
+- **Operation:** `Format a Date`.
+
+- **Value:** `{{ $now.minus({days: 7}) }}`.
+
+- **Format:** `YYYY-MM-DD`.
+
+- *Note:* We need this date to tell our database "Give me everything since last Monday."
+
+**Node 3: Google Sheets (or HubSpot/Pipedrive)**
+
+- **Operation:** `Get Many` or `Get All`.
+
+- **Filter:** Use the "Filter" option.
+
+- **Logic:** `Created_At` is *after* `{{ $json.date }}` (from Node 2).
+
+- *Result:* You now have a JSON array of every lead generated in the reporting period.
+
+### Phase 2: The Aggregation (The Brains)
+
+This is where n8n shines. Most **automated marketing reporting** tools charge extra for "custom logic." In n8n, it's just a few lines of JavaScript. We don't want to send a list of 50 names; we want a summary.
+
+**Node 4: Code Node (The Summarizer)** We need to group leads by source.
+
+- **Code Snippet:**
+
+JavaScript
+
+```
+// Simple grouping logic for Marketing Reporting
+const leads = $input.all().map(item => item.json);
+const summary = {};
+
+leads.forEach(lead => {
+  // Ensure your column in Sheets/CRM is named 'Source'
+  const source = lead.Source || 'Unknown'; 
+  summary&#91;source] = (summary&#91;source] || 0) + 1;
+});
+
+// Convert back to n8n format for the HTML node
+return Object.keys(summary).map(key => ({
+  json: { "Marketing Source": key, "Lead Count": summary&#91;key] }
+}));
+
+```
+
+- *Output:* `[{ "Marketing Source": "Facebook Ads", "Lead Count": 12 }, { "Marketing Source": "SEO", "Lead Count": 5 }]`
+
+### Phase 3: The Formatting (Making it Beautiful)
+
+Sending raw JSON is ugly. Executives want tables.
+
+**Node 5: HTML (or "Create HTML Table")**
+
+- **Node Type:** `HTML` (or utilize the `Spreadsheet File` node if you want to attach a CSV).
+
+- **Operation:** `Convert to HTML Table`.
+
+- **Input Data:** The output from the Code node.
+
+- **Styling:** Add some simple CSS to make the headers bold (e.g., `style="border: 1px solid #ddd; padding: 8px;"`).
+
+### Phase 4: Delivery
+
+**Node 6: Gmail / Outlook**
+
+- **Recipient:** The Client, CEO, or Sales Manager.
+
+- **Subject:** `Weekly Marketing Report: {{ $today.format('MMM DD') }}`
+
+- **Body (HTML):****Good morning,** Here is your **Automated Marketing Report** for the past 7 days. **Total Leads:** {{ $input.all().length }} {{ $json.html_table }} *Automated by whoisalfaz.me*
+
+![Example of an automated marketing reporting email displayed on a mobile device with a lead summary table at whoisalfaz.me with alfaz mahmud rizve](/images/blog/automated-marketing-reporting-with-n8n-at-whoisalfaz-unnamed-19.webp)
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## Real-World Use Case: The "Health Score" Highlight
+
+At **whoisalfaz.me**, we take **automated marketing reporting** a step further. We don't just count leads; we grade them.
+
+In the aggregation step, we calculate a **"Lead Health Score"**:
 
 1. $1
 
@@ -79,106 +178,11 @@ Unlike Zapier, n8n requires a secure handshake with Meta’s API.
 
 3. $1
 
-*Tip: If you find the Facebook API setup daunting, **[Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/contact-alfaz-mahmud-rizve/)** offers specific consultation sessions to handle this initial configuration for agencies.*
+If the "Speed to Lead" is over 1 hour, we set a flag to highlight that row in **RED** in the HTML email. This turns the report from a "summary" into a "call to action."
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Step-by-Step: Building Your Facebook Lead Ads Automation
-
-Let’s open the n8n editor and build this real-time bridge node by node.
-
-### Phase 1: The Trigger
-
-**Node 1: Facebook Lead Ads Trigger**
-
-- **Node Type:** `Facebook Lead Ads`.
-
-- **Event:** `New Lead`.
-
-- **Credential:** Connect your Facebook account (OAuth2).
-
-- **Page:** Select the specific Facebook Page running ads.
-
-- **Form:** Select "All Forms" (Recommended).
-
-**Testing:** Use the **Facebook Lead Ads Testing Tool** ([developers.facebook.com/tools/lead-ads-testing](https://developers.facebook.com/tools/lead-ads-testing)) to send a fake lead. If n8n captures it, you are live.
-
-### Phase 2: Data Cleaning (The Secret Sauce)
-
-Facebook data is often messy. The phone number might come in as `+1 (555) 123-4567`. Your CRM hates this format; it wants `5551234567` for click-to-dial functionality.
-
-![Visual infographic showing raw, messy data from Facebook (e.g., "Phone: [+1 (555) 123-4567]") on the left, passing through an n8n Set Node, and emerging as clean, formatted data (e.g., "Phone: 5551234567") on the right.Branded with whoisalfaz.me by Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/wp-content/uploads/2026/01/unnamed-16.webp)
-
-**Node 2: The Set Node (Formatting)**
-
-- **Node Type:** `Set`.
-
-- **Action:** Create clean variables for downstream nodes.
-
-- **Name:** `{{ $json.full_name }}`
-
-- **Email:** `{{ $json.email }}`
-
-- **Phone:** Use a simple regex expression to strip dashes, spaces, and plus signs.
-<ul class="wp-block-list">
-<li>*Expression:* `{{ $json.phone_number.toString().replace(/\D/g, '') }}`
-
-</li>
-
-<li>**Ad Source:** `{{ $json.ad_name }}` (Crucial for tracking ROI).</li>
-</ul>
-
-### Phase 3: The Sync
-
-**Node 3: Google Sheets (The Backup)**
-
-- **Node Type:** `Google Sheets`.
-
-- **Operation:** `Append`.
-
-- **Map Fields:** Map your cleaned Name, Email, Phone, and Ad Source.
-
-- **Why:** CRMs can go down or have API errors. A Google Sheet is your "source of truth" backup. **Alfaz Mahmud Rizve** never builds a lead pipeline without a backup sheet.
-
-**Node 4: CRM Create (HubSpot/Pipedrive)**
-
-- **Node Type:** `HubSpot` (or your tool of choice).
-
-- **Resource:** `Contact`.
-
-- **Operation:** `Create`.
-
-- **Lead Status:** Set to `New`.
-
-- **Lead Source:** Hardcode as `Facebook Ads`.
-
-### Phase 4: The Instant Alert
-
-**Node 5: Slack / Discord**
-
-- **Node Type:** `Slack`.
-
-- **Channel:** `#sales-leads`.
-
-- **Message:**🚨 **New Hot Lead!** **Name:** {{ $json.full_name }} **Phone:** {{ $json.phone }} **Ad:** {{ $json.ad_name }} [Click to Call](tel:{{ $json.phone }})
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-## Real-World Use Case: Round-Robin Assignment
-
-For larger agencies, simply dumping leads into a CRM isn't enough. You need to assign them to sales reps fairly.
-
-**Alfaz Mahmud Rizve** implements a "Round-Robin" logic at **whoisalfaz.me** using n8n:
-
-1. $1
-
-2. $1
-
-3. $1
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-## Common Mistakes with Facebook Lead Ads Automation
+## Common Mistakes with Automated Reporting
 
 1. $1
 
@@ -190,42 +194,26 @@ For larger agencies, simply dumping leads into a CRM isn't enough. You need to a
 
 ## Checklist: Go Live
 
-- ✅ **Test Tool:** Sent a test lead via Facebook Developer Tools and saw it in n8n.
+- ✅ **Date Filter:** Verified the workflow only pulls the *last 7 days* of data.
 
-- ✅ **Field Mapping:** Verified that Name, Email, and Phone map correctly to the CRM.
+- ✅ **Math Check:** Manually counted the leads in the sheet vs. the report to ensure accuracy.
 
-- ✅ **Phone Formatting:** Ensured the phone number is clickable/dialable in the Slack alert.
+- ✅ **Mobile Test:** Opened the email on a phone to ensure the table doesn't break the layout.
 
-- ✅ **Error Handling:** Added an error trigger to alert you if the sync fails.
-
-- ✅ **Notifications:** Confirmed the Slack alert tags the right sales team members.
+- ✅ **Zero-Data Handler:** Added logic for what happens if there are no leads.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## 🚀 2026: The Year You Stop Being a Data Entry Clerk
+## Series Context
 
-It is January 1st, 2026. Look back at 2025. How many hours did you spend downloading CSVs? How many times did you copy-paste an email address from a spreadsheet into an email draft?
+This article is part of the **30 Days of n8n & Automation** series at **whoisalfaz.me**.
 
-If you are reading this, you are likely an agency owner, a freelancer, or a growth marketer. You didn't start your business to move data from Column A to Column B. You started it to build strategy, be creative, and generate revenue.
+Earlier posts you should read next:
 
-**Manual data entry is the silent killer of agency growth.**
+- **Day 13:** **[Facebook Lead Ads Automation](https://www.google.com/search?q=https://whoisalfaz.me/blog/facebook-lead-ads-automation-n8n-day-13/)** – The raw data source feeding this report.
 
-When you handle leads manually:
+- **Day 8:** **[Capture n8n lead data to Google Sheets](https://whoisalfaz.me/blog/capture-n8n-lead-data-from-wordpress-elementor/)** – How to build the database we are querying today.
 
-- **You lose speed:** Every minute you delay, your lead gets colder.
+If you are ready to stop being a data clerk and start being a strategic partner, build this **automated marketing reporting** workflow today.
 
-- **You lose focus:** Context switching between "Strategy Mode" and "Admin Mode" destroys your cognitive momentum.
-
-- **You lose morale:** Nobody wakes up excited to format phone numbers.
-
-In 2026, the divide between "High-Performance Agencies" and "Struggling Agencies" will not be about who has the better ad creative—it will be about **who has the better systems**.
-
-The high-performance agency has an automated backend. Their leads are synced instantly. Their follow-ups are automatic (like we built in Day 12). Their reporting updates itself. This frees up their brainpower to focus on what AI cannot do: building relationships and crafting killer offers.
-
-**My challenge to you for 2026:** Adopt an **"Automation First" mindset**. Before you do any task twice, ask yourself: *"Can n8n do this for me?"*
-
-If the answer is yes, build the workflow. Even if it takes you 2 hours to build and saves you 5 minutes a day, the math is on your side. In a year, that is 30 hours saved. But more importantly, it is 30 hours of *mental clarity* gained.
-
-This series, [**30 Days of n8n & Automation**,](https://whoisalfaz.me/blog/category/n8n-automation/) is your blueprint. You don't need a computer science degree. You just need the curiosity to connect the dots.
-
-Let’s make 2026 the year your operations finally catch up to your ambition.
+Then, subscribe to the newsletter at **[whoisalfaz.me](https://whoisalfaz.me/blog/)** so you do not miss tomorrow’s Day 15 automation in the 30 Days of n8n & Automation series from **[Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/)**.

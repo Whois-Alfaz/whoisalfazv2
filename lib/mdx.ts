@@ -26,10 +26,11 @@ function getAllFiles(dirPath: string, arrayOfFiles: string[] = []): string[] {
     const files = fs.readdirSync(dirPath);
 
     files.forEach(function (file) {
-        if (fs.statSync(dirPath + "/" + file).isDirectory()) {
-            arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles);
+        const fullPath = path.join(dirPath, file);
+        if (fs.statSync(fullPath).isDirectory()) {
+            arrayOfFiles = getAllFiles(fullPath, arrayOfFiles);
         } else {
-            arrayOfFiles.push(path.join(dirPath, "/", file));
+            arrayOfFiles.push(fullPath);
         }
     });
 
@@ -41,28 +42,30 @@ function getAllFiles(dirPath: string, arrayOfFiles: string[] = []): string[] {
  * Returns frontmatter metadata + raw MDX content string.
  */
 export function getPostBySlug(slug: string): Post | null {
-    // Search recursively for the file
-    const allFiles = getAllFiles(CONTENT_DIR);
-    const filePath = allFiles.find(f => path.basename(f) === `${slug}.mdx`);
+    const allFiles = getAllFiles(CONTENT_DIR).filter(f => f.endsWith('.mdx'));
 
-    if (!filePath || !fs.existsSync(filePath)) {
-        return null;
+    // Find file that has the matching slug in its frontmatter
+    for (const filePath of allFiles) {
+        const raw = fs.readFileSync(filePath, 'utf-8');
+        const { data, content } = matter(raw);
+        const fileSlug = data.slug || path.basename(filePath).replace(/\.mdx$/, '');
+
+        if (fileSlug === slug) {
+            return {
+                title: data.title || 'Untitled',
+                slug: fileSlug,
+                description: data.description || '',
+                date: data.date || '',
+                image: data.image || '',
+                categories: data.categories || [],
+                seoTitle: data.seoTitle || data.title || '',
+                seoDescription: data.seoDescription || data.description || '',
+                content,
+            };
+        }
     }
 
-    const raw = fs.readFileSync(filePath, 'utf-8');
-    const { data, content } = matter(raw);
-
-    return {
-        title: data.title || 'Untitled',
-        slug: data.slug || slug,
-        description: data.description || '',
-        date: data.date || '',
-        image: data.image || '',
-        categories: data.categories || [],
-        seoTitle: data.seoTitle || data.title || '',
-        seoDescription: data.seoDescription || data.description || '',
-        content,
-    };
+    return null;
 }
 
 /**

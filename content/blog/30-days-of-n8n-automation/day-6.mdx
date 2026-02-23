@@ -1,168 +1,125 @@
 ---
 title: >-
-  Picking your first 3 automations for SaaS and agencies (framework + examples)-
-  30 Days of n8n & Automation – Day 5
-slug: automations-for-saas-and-agencies
-description: >-
-  automations for SaaS and agencies to save time, revenue, and simplify ops with
-  clear n8n workflows, examples and framework by Alfaz Mahmud Rizve
-date: '2025-12-22'
-seoTitle: First 3 Automations for SaaS and Agencies to get started
-seoDescription: >-
-  automations for SaaS and agencies to save time, revenue, and simplify ops with
-  clear n8n workflows, examples and framework by Alfaz Mahmud Rizve
-image: /images/blog/automations-for-saas-and-agencies-featured.webp
+  Essential n8n Core Nodes (Master HTTP Request, IF, Set, Merge & Code) – 30
+  Days of n8n & Automation – Day 6
+slug: essential-n8n-core-nodes-by-alfaz-mahmud-rizve
+description: "If n8n workflows are a city, then\_n8n core nodes\_like HTTP Request, IF, Set, Merge, and Code are the roads, traffic lights, and bridges that keep"
+date: '2025-12-23'
+seoTitle: >-
+  Essential n8n Core Nodes (Master HTTP Request, IF, Set, Merge & Code) - 30
+  Days of n8n & Automation - Day 6 - AI automation for SaaS & agencies | Alfaz
+  Mahmud Rizve
+seoDescription: "If n8n workflows are a city, then\_n8n core nodes\_like HTTP Request, IF, Set, Merge, and Code are the roads, traffic lights, and bridges that keep"
+image: /images/blog/essential-n8n-core-nodes-by-alfaz-mahmud-rizve-featured.webp
 categories:
   - 30 Days of n8n and automation
 ---
 
-##  automations for SaaS & agencies (framework + examples) 
+## Essential building blocks: HTTP Request, IF, Set, Merge, Code node (even if you don’t code)
 
-If you try to automate everything at once, you end up shipping nothing. The smartest way to start with automation is to pick **your first 3 automations for SaaS and agencies** that save real time, touch revenue, and are simple enough to ship this week.
+If n8n workflows are a city, then **n8n core nodes** like HTTP Request, IF, Set, Merge, and Code are the roads, traffic lights, and bridges that keep everything moving. Learn these five once, and 80% of your future automations for SaaS and agencies will suddenly make sense.​
 
-In this post, **[Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/)** shares a simple framework to pick your first automations for SaaS and agencies, plus concrete examples you can steal.
+In Day 6 of [30 Days of n8n & Automation](https://whoisalfaz.me/blog/category/n8n-automation/), this guide walks through what each n8n core node does, how they fit together, and how to use them even if you “don’t code”.
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-![automations for saas and agency owner turning chaos into organized workflows with their first automations via Alfaz Mahmud Rizve](/images/blog/automations-for-saas-and-agencies-Generated-Image-December-22-2025-12_53PM-1024x585.png)
-
-## The 3–3–3 rule for your first automations
-
-Use this rule whenever you choose your **first automations for SaaS and agencies**:
-
-- 3 places you lose time every week
-
-- 3 workflows closest to revenue
-
-- 3 constraints that keep it simple
-
-This keeps your automation system focused and helps you avoid nerd‑sniping yourself with complex n8n builds.
-
-## 1. 3 places you lose time every week
-
-Look at the last 7–14 days and ask: *Where did we waste the most time on repetitive work?* Common answers for SaaS and agencies:
-
-- Manually handling inbound leads from different forms and platforms
-
-- Repeating the same client onboarding steps again and again
-
-- Pulling the same metrics into Google Sheets for weekly reports
-
-Write down your top 3 time sinks and roughly how many hours each one steals every week. This is the raw material for your **first automations for SaaS and agencies**.
-
-## 2. 3 workflows closest to revenue
-
-From that list, highlight the workflows that are closest to:
-
-- New opportunities and demo calls
-
-- Signed clients and paid subscriptions
-
-- Renewals, upsells, and expansions
-
-If a workflow directly affects leads, deals, or retention, it’s a prime candidate for your **first three automations**.
-
-## 3. 3 constraints that keep it simple
-
-For your first automations, **simplicity beats cleverness**:
-
-- Only use tools you already have in your stack
-
-- The workflow should fit in 3–5 clear steps
-
-- You can test it end‑to‑end in under 30 minutes
-
-If it needs 15 branches and 10 approvals, it’s not a “first automation for SaaS and agencies” – it’s a later‑in‑the‑series problem.
+![Essential n8n core nodes diagram showing HTTP Request IF Set Merge and Code nodes connected in a workflow by Alfaz Mahmud Rizve for SaaS automation](/images/blog/essential-n8n-core-nodes-by-alfaz-mahmud-rizve-blog-6-6-1024x585.png)
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+## Why n8n core nodes matter
 
-## The Event → Action → Outcome map
+Most people get lost in the endless list of integrations and ignore the **n8n core nodes** that actually shape their workflows. Once you’re comfortable with these, adding apps is just “decoration”.​
 
-Before you touch n8n, define each of your **first automations for SaaS and agencies** in one sentence:
-
-> 
-> 
-When **[event]** happens in **[tool]**, automatically **[action]**, so that **[outcome]** happens every time.
-
-> 
-
-Examples:
-
-- When a new demo request is submitted on the website, automatically create a deal in the CRM and send a confirmation email, so that no lead is lost.
-
-- When a new client signs a proposal, automatically create a project, assign tasks, and send an onboarding email, so that every client gets the same great start.
-
-If **Alfaz Mahmud Rizve** cannot write your automation in this one line, it’s not ready to build yet – and neither is yours.
+Think of it like this: tools (Slack, Notion, HubSpot) are apps on your phone, but **n8n core nodes** are the operating system.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-![nfographic of the 3–3–3 rule for picking first automations for SaaS and agencies by Alfaz Mahmud Rizve](/images/blog/automations-for-saas-and-agencies-333-1024x585.png)
+## HTTP Request: talk to any API
 
-## Example 1: Centralizing inbound leads (SaaS & agencies)
+The **HTTP Request node** is how n8n talks to the outside world when there isn’t a dedicated integration yet.[](https://n8n.io/)​
 
-**Goal:** Every lead from forms, ads, and chat ends up in one place, fast.
+- Use it to call SaaS APIs (CRMs, billing, custom apps) with GET/POST/PATCH/DELETE.
 
-**Event → Action → Outcome**
+- With good naming and a saved credential, it becomes your “universal plugin” for almost anything.
 
-- Event: New lead arrives from any form (website, Typeform, ad lead form).
+Best practice: start by copying working requests from Postman or the API docs, then paste URLs and payloads into your **n8n core node** instead of guessing.​
 
-- Action: Normalize the data, create a contact/deal in your CRM, send an internal Slack/Email alert.
-
-- Outcome: No lead slips through the cracks, and response time drops to minutes.
-
-Why this is a perfect **first automation for SaaS and agencies**:
-
-- Clear link to revenue (leads → meetings → deals)
-
-- Simple pattern you can repeat for new sources
-
-- Great intro to n8n triggers, basic data mapping, and notifications
+![HTTP Request n8n core node pulling CRM billing and support data from multiple SaaS tools by Alfaz Mahmud Rizve automation consultant](/images/blog/essential-n8n-core-nodes-by-alfaz-mahmud-rizve-blog-6-5-1024x585.png)
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Example 2: Simple client onboarding sequence (agencies)
+## IF: your workflow’s decision maker
 
-**Goal:** Turn “yes” into a smooth, automated onboarding.
+The **IF node** is a simple yes/no gate that decides what should happen next based on conditions you set.[](https://docs.n8n.io/courses/level-two/chapter-3/)​
 
-**Event → Action → Outcome**
+- Use it to check lead quality, payment status, onboarding steps, or error flags.
 
-- Event: Deal marked as “Won” in the CRM.
+- For SaaS and agencies, classic checks are: “is trial active?”, “is ARR > X?”, “is onboarding form complete?”.
 
-- Action: Create a client folder/space, generate a checklist in your PM tool, send a welcome email with next steps.
+Best practice: keep IF conditions human‑readable and close to business logic, not weird technical flags no one understands a month later.
 
-- Outcome: Every new client gets a consistent onboarding without anyone copying templates manually.
-
-This kind of automation is where **Alfaz Mahmud Rizve** sees agencies get instant wins: fewer missed steps, fewer “sorry, forgot to send this” messages, more trust from day one.
+![IF node branching logic in n8n core nodes splitting qualified leads from nurture paths by Alfaz Mahmud Rizve for agencies](/images/blog/essential-n8n-core-nodes-by-alfaz-mahmud-rizve-blog-6-4-1024x585.png)
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Example 3: Weekly KPI snapshot (SaaS & agencies)
+## Set: clean and shape your data
 
-**Goal:** Stop wasting Mondays on manual reporting.
+The **Set node** is like a tiny spreadsheet cell editor inside your **n8n core nodes** toolkit.[](https://community.latenode.com/t/how-to-maintain-original-data-when-using-n8n-nodes/23119)​
 
-**Event → Action → Outcome**
+- Rename fields to something meaningful (email → customerEmail).
 
-- Event: Every Monday at 9:00 (time‑based trigger).
+- Remove noisy fields you’ll never use.
 
-- Action: Pull metrics from Stripe, your CRM, ad accounts, and helpdesk into a single summary.
+- Add new fields like tags, timestamps, or normalized values.
 
-- Outcome: You see the health of your SaaS or agency each week without touching a spreadsheet.
+Using Set early keeps your workflow readable and makes later nodes much easier to work with, especially when you’re merging data or sending it to external tools.
 
-This is a safe, internal **first automation for SaaS and agencies** – if it breaks, only your team sees it, and you get great practice with APIs and data transformation.
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-![Automated KPI dashboard powered by workflows for SaaS and agencies by Alfaz Mahmud Rizve](/images/blog/automations-for-saas-and-agencies-Generated-Image-December-22-2025-12_54PM-1024x585.png)
+![Set n8n core node transforming messy JSON data into clean renamed fields by Alfaz Mahmud Rizve automation for SaaS](/images/blog/essential-n8n-core-nodes-by-alfaz-mahmud-rizve-blog-6-3-1024x585.png)
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## How to pick *your* first 3 automations (step‑by‑step)
+## Merge: combine multiple data streams
 
-Work through this quick exercise to choose your own **first automations for SaaS and agencies**:
+Whenever you need data from two paths at once, the **Merge node** is your friend.​
+
+Examples for SaaS and agencies:
+
+- Merge subscription data from Stripe with customer data from your CRM.
+
+- Merge ad platform results with internal cost data for reporting.
+
+Key modes inside this **n8n core node**:
+
+- Append: just stack results.
+
+- Merge by key: like a JOIN in SQL (great for matching users by ID or email).
+
+- Enrich Input: keep one stream and add matching data from the other.[](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.merge/)​
+
+![Merge Node Combining CRM and Billing Data – n8n Core Nodes Guide by Alfaz Mahmud Rizve whoisalfaz.me](/images/blog/essential-n8n-core-nodes-by-alfaz-mahmud-rizve-blog-6-2-1024x585.png)
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## Code: tiny logic upgrades (even if you don’t code)
+
+The **Code node** sounds scary if you’re “not technical”, but for most SaaS/agency use cases it’s just small JavaScript helpers.​
+
+Good use cases:
+
+- Clean up strings (trim spaces, lowercase emails).
+
+- Build custom IDs or slugs.
+
+- Do small calculations that would be painful with only UI nodes.
+
+Start small: copy a known snippet from docs or community, change the variables, and log the output. You don’t need to be a full developer to get huge value from this **n8n core node**.​
+
+![Code n8n core node executing simple JavaScript for data transformation by Alfaz Mahmud Rizve easy automation for non-technical users](/images/blog/essential-n8n-core-nodes-by-alfaz-mahmud-rizve-blog-6-1-1024x585.png)
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## How these n8n core nodes work together
+
+A typical SaaS/agency workflow often looks like this:
 
 1. $1
 
@@ -174,4 +131,22 @@ Work through this quick exercise to choose your own **first automations for SaaS
 
 5. $1
 
-This becomes your “First 3 Automations” backlog. It’s exactly how **[Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/contact-alfaz-mahmud-rizve/)** plans automation roadmaps for small teams.
+Notice how app‑specific nodes just plug into this backbone; the real structure comes from the **n8n core nodes**.
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## What to practice next
+
+To really learn these **n8n core nodes**, build one tiny workflow for each:
+
+- HTTP Request: fetch your own data (e.g., list of deals or invoices).
+
+- IF: route records based on a threshold or status.
+
+- Set: rename and clean fields before using them.
+
+- Merge: combine data from two HTTP Request calls.
+
+- Code: write a 3–5 line snippet that changes one field and logs the result.
+
+Do this once, and almost every future n8n tutorial, template, or community post will feel 10x easier to follow.[](https://n8n.io/workflows/categories/content-creation/)​[](https://www.youtube.com/watch?v=Fy1UCBcgF2o)​

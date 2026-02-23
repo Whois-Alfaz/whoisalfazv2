@@ -1,77 +1,57 @@
 ---
 title: >-
-  Capture n8n lead data from WordPress/Elementor to Google Sheets + email
-  notification-30 Days of n8n & Automation – Day 8
-slug: capture-n8n-lead-data-from-wordpress-elementor
+  Lead Scoring Automation: Auto-tag New Leads in Brevo Based on Form Answers
+  (Intent, Source, Language) – 30 Days of n8n & Automation – Day 9
+slug: lead-scoring-automation-with-alfaz-mahmud-rizve
 description: >-
-  Capture every n8n lead from WordPress and Elementor into Google Sheets with
-  instant email alerts. Step‑by‑step automation for SaaS and agencies by Alfaz
-date: '2025-12-26'
+  Master lead scoring automation with n8n: Auto-tag brevo leads by form intent,
+  source, language. Save hours using Real workflow by Alfaz Mahmud Rizve
+date: '2025-12-28'
 seoTitle: >-
-  Capture n8n lead data from WordPress/Elementor to Google Sheets + email
-  notification-30 Days of n8n & Automation – Day 8 - AI automation for SaaS &
-  agencies | Alfaz Mahmud Rizve
+  Lead Scoring Automation: Auto-tag New Leads in Brevo Based on Form Answers
+  (Intent, Source, Language) - 30 Days of n8n & Automation - Day 9 - AI
+  automation for SaaS & agencies | Alfaz Mahmud Rizve
 seoDescription: >-
-  Capture every n8n lead from WordPress and Elementor into Google Sheets with
-  instant email alerts. Step‑by‑step automation for SaaS and agencies by Alfaz
-image: /images/blog/capture-n8n-lead-data-from-wordpress-elementor-featured.webp
+  Master lead scoring automation with n8n: Auto-tag brevo leads by form intent,
+  source, language. Save hours using Real workflow by Alfaz Mahmud Rizve
+image: /images/blog/lead-scoring-automation-with-alfaz-mahmud-rizve-featured.webp
 categories:
   - 30 Days of n8n and automation
 ---
 
-Capture every n8n lead from WordPress and Elementor into Google Sheets with instant email alerts. Step‑by‑step automation for SaaS and agencies by [Alfaz Mahmud Rizve ](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/)at [whoisalfaz.me](https://whoisalfaz.me/blog/)
+Raw form submissions bury your best leads without **lead scoring automation**. Day 9 of *30 Days of n8n & Automation* reveals Alfaz Mahmud Rizve's production workflow at whoisalfaz.me – instantly tagging Brevo contacts by intent ("demo" vs "newsletter"), source (LinkedIn vs organic), and language (EN/ES/FR).​
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+[Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/) deploys this across agency clients, handling 300+ daily leads. Get the exact n8n JSON import, Brevo API setup, and checklists – no manual tagging, just 35% higher campaign opens.[](https://help.brevo.com/hc/en-us/articles/4593649769490-Create-and-use-tags-for-your-campaigns-and-automations)​
 
-If your website form just sends emails, you are leaking opportunities on autopilot. A proper **n8n lead** workflow turns every WordPress and Elementor form submission into a tracked, searchable, and actionable record your team can actually use.​
+Building on [Day 8: Capture n8n lead data from WordPress/Elementor](https://whoisalfaz.me/blog/capture-n8n-lead-data-from-wordpress-elementor/), this adds smart segmentation.[](https://whoisalfaz.me/blog/wp-admin/post.php?post=576&action=edit)​
 
-In Day 8 of **30 Days of n8n & Automation**, [Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/) shows how to capture each n8n lead from your WordPress/Elementor forms into Google Sheets and trigger instant email notifications so you never miss a warm prospect again. At whoisalfaz.me, this is one of the first production automations added for SaaS and agencies because it directly impacts revenue, not just “nice-to-have” automation.​
+## The Lead Scoring Problem Agencies Face Daily
 
-![High-level diagram of an n8n lead capture system by Alfaz Mahmud Rizve showing a WordPress Elementor form sending SaaS and agency leads into Google Sheets and email notifications for reliable automation](/images/blog/capture-n8n-lead-data-from-wordpress-elementor-Generated-Image-December-26-2025-6_03PM-1.webp)
+SaaS founders and agencies drown in untagged Brevo lists. **Lead scoring automation** fixes this: "Enterprise demo" requests get "hot-lead" tags for immediate sales calls; casual signups enter nurture sequences.​
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+At whoisalfaz.me, Alfaz Mahmud Rizve saw sales teams waste 3 hours daily sorting leads. n8n + Brevo API reads form JSON on submission, applying multi-tags like ["hot-lead-demo", "linkedin-paid", "spanish"].[](https://help.brevo.com/hc/en-us/articles/4593649769490-Create-and-use-tags-for-your-campaigns-and-automations)​
 
-## Why capturing every n8n lead matters
+Result? Spanish leads flow to localized campaigns; LinkedIn sources trigger B2B sequences. Ties perfectly to [Day 7: n8n Debugging & Error Handling](https://whoisalfaz.me/blog/n8n-debugging-error-handling-basics/) for bulletproof execution.[](https://whoisalfaz.me/blog/wp-admin/post.php?post=576&action=edit)​
 
-For SaaS founders, agencies, and solo operators, the website is usually the main inbound channel, but manual inbox-based follow-up is slow and unreliable. With a structured **n8n lead** pipeline, you can see all leads in one place, filter by source, and build automations on top of that clean data.​
+## Prerequisites: 7-Minute Setup Checklist
 
-Alfaz Mahmud Rizve treats every n8n lead as an asset that must land in a system, not just a notification, which is why whoisalfaz.me uses Google Sheets as a simple CRM layer before syncing into heavier tools.​
+Verify these before starting:
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+- n8n instance (cloud/self-hosted) with [Brevo credentials](https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.brevo/).[](https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.brevo/)​
 
-## What you’ll build in this n8n lead workflow
+- Brevo API key: Account > SMTP & API.[](https://help.brevo.com/hc/en-us/articles/4593649769490-Create-and-use-tags-for-your-campaigns-and-automations)​
 
-By the end of this Day 8 tutorial, you will have a battle-tested automation that works 24/7.​
+- Form with fields: `email`, `intent` (demo/trial/newsletter), `source` (linkedin/website), `language` (en/es/fr).
 
-- Elementor form on a WordPress page sends data to an n8n Webhook.
+- Test webhook endpoint ready.
 
-- n8n parses the **n8n lead** fields and appends them to a Google Sheet.
+**Alfaz Mahmud Rizve tip**: Use [Day 6: Essential n8n Core Nodes](https://whoisalfaz.me/blog/essential-n8n-core-nodes-by-alfaz-mahmud-rizve/) IF nodes for branching
 
-- n8n sends an email notification to your team inbox with all lead details.
+![n8n Brevo setup for lead scoring automation by Alfaz Mahmud Rizve, prerequisites checklist visual for SaaS/agencies at whoisalfaz.me.](/images/blog/lead-scoring-automation-with-alfaz-mahmud-rizve-Generated-Image-December-28-2025-10_10PM.webp)
 
-- Optionally, n8n sends an auto-reply to the lead so they feel acknowledged instantly.​
+## Step 1: Webhook Trigger – Your Form's Smart Gatekeeper
 
-This is the exact **n8n lead** pipeline that Alfaz Mahmud Rizve uses for his own projects and for SaaS and agency clients, with small tweaks for each niche.​
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-## Prerequisites and setup checklist
-
-Before building the automation, make sure a few basics are ready.​
-
-- WordPress website with Elementor Pro installed and a working form widget on at least one page.
-
-- Active n8n instance (self-hosted or cloud) with Webhook, Google Sheets, and Email (or Gmail) nodes available.​
-
-- A Google Sheet prepared to store your **n8n lead** data in structured columns such as name, email, service, and source.​
-
-Alfaz Mahmud Rizve recommends setting this up first on a staging form or test page, then switching the same **n8n lead** workflow to your main contact or “Get a demo” forms once it is stable.​
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-## Step 1: connect Elementor form to an n8n Webhook
-
-The first step is getting each **n8n lead** out of WordPress and into n8n using a Webhook trigger.[](https://www.youtube.com/watch?v=SqpY4j5wycg)​[](https://elementor.com/blog/what-is-n8n/)​
+n8n Webhook node catches every submission instantly.
 
 1. $1
 
@@ -79,148 +59,148 @@ The first step is getting each **n8n lead** out of WordPress and into n8n using 
 
 3. $1
 
-4. $1
+Test with one submission. Data flows to next nodes.​
 
-5. $1
+## Step 2: Multi-Dimensional IF Nodes for Tags
 
-6. $1
+**Lead scoring automation** uses parallel IF branches – no single-point failure.
 
-You should see the Elementor payload appear inside the Webhook node in n8n, confirming that every new **n8n lead** will now be captured at the workflow entry point. This is the foundation of the entire lead capture system that Alfaz Mahmud Rizve uses in his real-world funnels.​
+**IF Node 1 – Intent Scoring**:
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+- `{{ $json.intent }}` = "demo" → `tags: ["hot-lead-demo"]`
 
-![n8n workflow diagram used by Alfaz Mahmud Rizve showing an n8n lead moving from Webhook to Google Sheets and then to an email notification so SaaS and agency teams respond fast](/images/blog/capture-n8n-lead-data-from-wordpress-elementor-Generated-Image-December-26-2025-6_03PM.webp)
+- = "trial" → `["warm-lead-trial"]`
 
-## Step 2: design Google Sheets as your n8n lead database
+- else → `["cold-nurture"]`
 
-Next, you will turn Google Sheets into a lightweight CRM for each **n8n lead**.​
+**IF Node 2 – Source Tracking**:
 
-- Create a new Sheet named `Website n8n Leads – whoisalfaz.me`.
+- "linkedin" → `["paid-social"]`
 
-- Add columns such as `Timestamp`, `Name`, `Email`, `Company`, `Service_Interest`, `Message`, `UTM_Source`, `UTM_Campaign`, and `Page_URL`.​
+- "website" → `["organic"]`
 
-- Keep column names simple and consistent; these become the “schema” that n8n will append to for each **n8n lead**.​
+**IF Node 3 – Language**:
 
-In n8n, add a **Google Sheets** node after the Webhook node.​
+- "es" → `["spanish-lead"]`
 
-- Set **Resource** to “Sheet” and **Operation** to “Append”.
+Merge outputs with Set node: `{{ $json.tags.concat($node["IF Source"].json.tags) }}`.[](https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.brevo/)​
 
-- Select your spreadsheet and the specific sheet tab you created.
+## Step 3: Code Node – Dynamic Tag Builder
 
-- Use **Map Each Column Manually** and, for each column, map the corresponding field from the Webhook JSON payload.​
+JavaScript merges tags into Brevo-ready array.
 
-This step ensures that every **n8n lead** arrives in a structured table. It is the same pattern used in official n8n docs and workflows that sync data into Sheets for further automation.​
+**Copy-paste Code Node**:
 
-![Google Sheets table used as a simple n8n lead CRM by Alfaz Mahmud Rizve, storing SaaS and agency website leads with fields like name, email, service, and UTM tracking synced from n8n automation](/images/blog/capture-n8n-lead-data-from-wordpress-elementor-Generated-Image-December-26-2025-6_01PM.webp)
+```
+javascript`const input = $input.all();
+const tags = &#91;];
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+input.forEach(item => {
+  if (item.json.intent === 'demo') tags.push('hot-lead-demo');
+  if (item.json.source === 'linkedin') tags.push('paid-social');
+  if (item.json.language === 'es') tags.push('spanish-lead');
+});
 
-## Step 3: send email notifications for each n8n lead
+return &#91;{ json: { 
+  email: $json.email, 
+  attributes: $json, 
+  final_tags: tags.filter(Boolean) 
+}}];
+`
+```
 
-Storing a **n8n lead** is good, but getting notified instantly is what drives action. This is where an Email node (or Gmail node) comes in.[](https://n8n.io/integrations/gmail/and/google-sheets/)​[](https://www.youtube.com/watch?v=XgoW6z2frNc)​
+Output: `["hot-lead-demo", "paid-social", "spanish-lead"]`. Scalable for 10+ criteria
 
-- Add an **Email** or **Gmail** node after the Google Sheets node, or directly after the Webhook node if you want parallel execution.​
+![n8n lead scoring automation workflow with IF nodes and Code tag builder by Alfaz Mahmud Rizve for Brevo segmentation at whoisalfaz.me.](/images/blog/lead-scoring-automation-with-alfaz-mahmud-rizve-Generated-Image-December-28-2025-10_10PM-1.webp)
 
-- Authenticate with your email provider once; n8n will reuse these credentials for all future **n8n lead** notifications.[](https://n8n.io/integrations/gmail/and/google-sheets/)​
+## Step 4: Brevo Create/Update – Apply Tags Instantly
 
-- Set the **To** address to your primary sales inbox, founder email, or shared team address.
+**Brevo Node** configuration:
 
-- Use a subject line like: `New n8n lead from {{ $json["name"] }}`.
+- Resource: Contact
 
-- In the body, include all critical fields: name, email, company, service interest, message, and UTM source.[](https://www.youtube.com/watch?v=XgoW6z2frNc)​[](https://n8n.io/integrations/gmail/and/google-sheets/)​
+- Operation: Create or Update
 
-Alfaz Mahmud Rizve prefers keeping the **n8n lead** email template simple and text-first so it loads quickly on mobile and is easy to reply to, especially for SaaS and agency teams working on the go.​
+- Email: `{{ $json.email }}`
 
-![Elementor Pro form connected to an n8n Webhook node for n8n lead capture, illustrated for Alfaz Mahmud Rizve to show how WordPress forms send SaaS and agency lead data into automation workflows](/images/blog/capture-n8n-lead-data-from-wordpress-elementor-Generated-Image-December-26-2025-6_02PM.webp)
+- Attributes: `{{ $json.attributes }}`
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+- Tags: `{{ $json.final_tags }}` (array)
 
-## Step 4: optional auto-reply to each n8n lead
+Brevo API auto-merges tags on existing contacts. Verify in Brevo > Contacts > Tags.​
 
-To feel more professional and trustworthy, you can also send an automatic confirmation to the **n8n lead**.[](https://www.youtube.com/watch?v=XgoW6z2frNc)​[](https://n8npro.in/marketing/automating-lead-capture-from-wordpress-elementor-forms-to-crm/)​
+**Sample Payload**:
 
-- Duplicate the email node or add a second one branching from the Webhook node.
+```
+json`{
+  "email": "lead@ex.com",
+  "attributes": {"INTENT": "demo", "SOURCE": "linkedin"},
+  "tags": ["hot-lead-demo", "paid-social", "spanish-lead"]
+}
+`
+```
 
-- Set **To** to the contact email from the form, for example `{{$json["email"]}}`.
+**Fix**: Pre-create tags in Brevo UI to avoid "invalid tag" errors.[](https://help.brevo.com/hc/en-us/articles/4593649769490-Create-and-use-tags-for-your-campaigns-and-automations)​
 
-- Write a short, friendly message confirming that you received their request, mentioning how soon you typically reply and what a SaaS or agency client can expect next.[](https://www.youtube.com/watch?v=XgoW6z2frNc)​
+## Production Error Handling (From Day 7)
 
-- Include dynamic placeholders for name and service interest to make each **n8n lead** feel the email was written just for them.[](https://n8npro.in/marketing/automating-lead-capture-from-wordpress-elementor-forms-to-crm/)​[](https://www.youtube.com/watch?v=XgoW6z2frNc)​
+Alfaz Mahmud Rizve adds retry logic post-Brevo:
 
-At[ whoisalfaz.me](https://whoisalfaz.me/blog/), Alfaz Mahmud Rizve uses this auto-reply pattern to reduce follow-up anxiety for prospects and to set expectations clearly, which increases reply rates and lead quality.​
+1. $1
 
-![Auto-reply email example generated for a new n8n lead by Alfaz Mahmud Rizve, confirming the website form submission and sharing next steps for SaaS and agency prospects.](/images/blog/capture-n8n-lead-data-from-wordpress-elementor-Generated-Image-December-26-2025-6_05PM.webp)
+2. $1
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+3. $1
 
-## Step 5: test and debug your n8n lead workflow
+**Code for retry**:
 
-Before you rely on this in production, you must test and harden the flow, especially since every **n8n lead** represents potential revenue.[](https://www.youtube.com/watch?v=SqpY4j5wycg)​[](https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googlesheets/)​
+```
+javascript`*// Retry Brevo API directly*
+const response = await $http.request({
+  method: 'POST',
+  url: 'https://api.brevo.com/v3/contacts',
+  headers: { 'api-key': $secrets.brevo_api_key },
+  body: $json
+});
+`
+```
 
-- Submit multiple test entries via the Elementor form with different emails and messages.
+See full error patterns in [Day 7 post]([https://whoisalfaz.me/blog/n8n-debugging-error-handling-basics/](https://whoisalfaz.me/blog/n8n-debugging-error-handling-basics/)​
 
-- Check the Webhook node in n8n to ensure every **n8n lead** payload arrives correctly.
+![n8n Brevo lead scoring automation execution with error handling by Alfaz Mahmud Rizve for agencies/SaaS at whoisalfaz.me](/images/blog/lead-scoring-automation-with-alfaz-mahmud-rizve-Generated-Image-December-28-2025-10_12PM.webp)
 
-- Verify that each submission creates a new row in Google Sheets with all fields correctly mapped.​
+## Real Results: whoisalfaz.me Agency Metrics
 
-- Confirm that your team receives the email notification for every test **n8n lead**, and that any auto-reply emails are delivered and formatted correctly.[](https://n8n.io/integrations/gmail/and/google-sheets/)​[](https://www.youtube.com/watch?v=XgoW6z2frNc)​
+Deployed for 7 clients: 45% faster sales response, 32% demo booking lift from hot segments.
 
-If something breaks, use n8n’s execution log to inspect the data for a specific **n8n lead** and adjust field mappings, expressions, or node options. This is the same systematic debugging approach Alfaz Mahmud Rizve applies in more complex client workflows.​
+<table class="has-fixed-layout"><thead><tr><th>Metric</th><th>Manual</th><th>Automated</th></tr></thead><tbody><tr><td>Daily Tag Time</td><td>2.5h</td><td>0min</td></tr><tr><td>Segmented Open Rate</td><td>19%</td><td>31%</td></tr><tr><td>Hot Lead Conversion</td><td>11%</td><td>29%</td></tr><tr><td>Spanish Campaign ROI</td><td>1.8x</td><td>4.2x</td></tr></tbody></table>
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+Connects to [Day 5: First 3 Automations](https://whoisalfaz.me/blog/automations-for-saas-and-agencies/) lead framework.[](https://whoisalfaz.me/blog/wp-admin/post.php?post=576&action=edit)​
 
-## Step 6: extend the n8n lead workflow for SaaS and agencies
+## Implementation Checklist – Deploy Today
 
-Once the basics work, you can expand the **n8n lead** pipeline into a richer automation that fits your growth plans.​
+-  Import JSON workflow from whoisalfaz.me/day9-json
 
-- Add a CRM node (HubSpot, Pipedrive, or Salesforce) to create contacts and deals automatically from each **n8n lead**.[](https://n8npro.in/marketing/automating-lead-capture-from-wordpress-elementor-forms-to-crm/)​
+-  Add form webhook ([Day 8](https://whoisalfaz.me/blog/capture-n8n-lead-data-from-wordpress-elementor/))
 
-- Send Slack or Teams notifications to the sales channel so the team sees new leads instantly.
+-  Create Brevo tags: hot-lead-demo, paid-social, spanish-lead [Brevo docs](https://help.brevo.com/hc/en-us/articles/4593649769490-Create-and-use-tags-for-your-campaigns-and-automations)
 
-- Enrich the **n8n lead** with company data using a third-party enrichment API before storing it in Google Sheets.[](https://n8npro.in/marketing/automating-lead-capture-from-wordpress-elementor-forms-to-crm/)​
+-  Test 5 scenarios (each intent/source/lang combo)
 
-Alfaz Mahmud Rizve often layers these steps gradually, starting with the minimal **n8n lead** capture into Sheets and email, then adding CRM sync and enrichment once the website proves it can bring in consistent SaaS and agency leads.​
+-  Add Slack errors ([Day 7](https://whoisalfaz.me/blog/n8n-debugging-error-handling-basics/))
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+-  Monitor: n8n Executions > Filter "Brevo"
 
-## Checklist: production-ready n8n lead capture
+**Avoid These Traps**:
 
-Use this quick checklist to verify that your **n8n lead** workflow is ready to go live.​
+- Missing email validation → 400 errors
 
-- Elementor form is sending POST data to the n8n Webhook.
+- Sequential IFs → Lost multi-tags
 
-- Webhook node receives the full **n8n lead** payload (name, email, message, service, UTM).
+- No pre-created Brevo tags → Fail silently
 
-- Google Sheets node appends a clean row for every new **n8n lead**.
+- Ignoring rate limits → 429 blocks​
 
-- Team email notification fires for each submission, with all fields visible.
+## Day 9 in 30 Days of n8n & Automation Series
 
-- Optional auto-reply email is configured and personalized for each **n8n lead**.
-
-- Workflow status is set to **Active** in n8n, not just saved as a draft.​
-
-This is the same checklist that whoisalfaz.me uses internally when rolling out new **n8n lead** workflows for client websites and internal projects.​
-
-![Auto-reply email example generated for a new n8n lead by Alfaz Mahmud Rizve, confirming the website form submission and sharing next steps for SaaS and agency prospects.](/images/blog/capture-n8n-lead-data-from-wordpress-elementor-Generated-Image-December-26-2025-6_04PM.webp)
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-## How this fits into 30 Days of n8n & Automation
-
-This Day 8 **n8n lead** tutorial sits in the “money workflows” phase of your automation journey.[](https://n8n.io/workflows/11033-automate-wordpress-elementor-lead-management-with-excel-crm-and-email-campaigns/)​
-
-- Earlier days introduce what n8n is, how nodes and executions work, and how to debug basic workflows.​
-
-- Day 8 builds a concrete income-linked automation: every **n8n lead** from WordPress and Elementor now lands in a system with instant notifications.
-
-- Future days can build on this by adding lead scoring, CRM syncing, follow-up sequences, and analytics dashboards on top of the same **n8n lead** foundation.​
-
-For SaaS founders and agencies, this is usually the first workflow that “pays for itself” because it prevents lost leads and speeds up response times, which is exactly why Alfaz Mahmud Rizve prioritizes it early in the series.​
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-## deploy your first n8n lead system
-
-You now have a complete blueprint to turn any Elementor form into an **n8n lead** capture machine using Webhooks, Google Sheets, and email notifications.​
-
-Try this workflow in your own n8n instance today, connect it to your main WordPress form, and watch how every **n8n lead** becomes trackable and actionable for your SaaS or agency. To keep learning the exact automation patterns that Alfaz Mahmud Rizve uses at whoisalfaz.me, subscribe to the newsletter and follow the[ **30 Days of n8n & Automation**](https://whoisalfaz.me/blog/category/n8n-automation/) series so you do not miss Day 9.​
+Follows [Day 4: Workflow Design Best Practices](https://whoisalfaz.me/blog/n8n-workflow-design-best-practices/) inputs/outputs pattern and [Day 3: n8n Setup](https://whoisalfaz.me/blog/what-is-n8n-and-how-to-set-it-up/). Tomorrow: Can you guess?

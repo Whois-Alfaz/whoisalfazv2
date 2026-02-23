@@ -1,53 +1,47 @@
 ---
 title: >-
-  How to Automate Personal Branding with n8n (Building Your Digital Twin)-30
-  Days of n8n & Automation – Day 21
-slug: automate-personal-branding-with-n8n
+  How to Automate Client Reporting with n8n (Build a Custom PDF Engine) – 30
+  Days of n8n & Automation – Day 22
+slug: automate-client-reporting-with-n8n
 description: >-
-  Learn how to automate personal branding with n8n on our 30-day series.
-  Discover "Digital Twin" workflows for content repurposing, semantic SEO
-  auditing, and social listening to scale your authority without the manual
-  grind.
-date: '2026-01-13'
+  Stop taking screenshots for client reports. Learn how to automate client
+  reporting with n8n on Day 22. We build a custom pipeline that turns GA4 and
+  Facebook Ads data into beautiful, white-labeled PDFs and emails them
+  instantly.
+date: '2026-01-16'
 seoTitle: >-
-  How to Automate Personal Branding with n8n (Building Your Digital Twin)-30
-  Days of n8n & Automation - Day 21 - AI automation for SaaS & agencies | Alfaz
+  How to Automate Client Reporting with n8n (Build a Custom PDF Engine) - 30
+  Days of n8n & Automation - Day 22 - AI automation for SaaS & agencies | Alfaz
   Mahmud Rizve
 seoDescription: >-
-  Learn how to automate personal branding with n8n on our 30-day series.
-  Discover "Digital Twin" workflows for content repurposing, semantic SEO
-  auditing, and social listening to scale your authority without the manual
-  grind.
-image: /images/blog/automate-personal-branding-with-n8n-featured.webp
+  Stop taking screenshots for client reports. Learn how to automate client
+  reporting with n8n on Day 22. We build a custom pipeline that turns GA4 and
+  Facebook Ads data into beautiful, white-labeled PDFs and emails them
+  instantly.
+image: /images/blog/automate-client-reporting-with-n8n-featured.webp
 categories:
   - 30 Days of n8n and automation
 ---
 
-Welcome back to **Day 21** of the *30 Days of n8n & Automation* series here on `whoisalfaz.me`.
+Welcome back to **Day 22** of the *30 Days of n8n & Automation* series here on `whoisalfaz.me`.
 
-If you have been following along with the series, we have covered massive ground. On **[Day 15: Automated Content Research](https://whoisalfaz.me/blog/automated-content-research-by-alfaz-mahmud-rizve/)**, we built an engine to generate infinite content ideas. Yesterday, on **[Day 20: n8n Google Analytics 4 Pipeline](https://whoisalfaz.me/blog/n8n-google-analytics-4-pipeline/)**, we created a command center to visualize our traffic.
+I expect you already had this thought of automate client reporting with n8n, if you're following us from Day 1. Yesterday, on **[Day 21: Automating Personal Branding](https://whoisalfaz.me/blog/automate-personal-branding-with-n8n/)**, we built a "Digital Twin" to handle your social presence. Today, we turn our focus outward to the lifeblood of any service business: **The Client.**
 
-But today, we address the biggest bottleneck in your business: **You.**
+If you run an agency or manage stakeholders, you likely dread the "End of Month" reporting cycle. You log into Google Analytics, take a screenshot. You log into Facebook Ads Manager, take a screenshot. You paste them into a Canva slide, export as PDF, and email it.
 
-As a technical founder, developer, or agency owner, you know that "personal branding" is critical. It’s the difference between chasing leads and having leads chase you. However, the manual labor required to maintain a high-leverage brand—writing tweets, editing videos, checking SEO, engaging on Reddit—is exhausting. It kills the "deep work" state required for coding and strategy.
+This process is slow, unscalable, and frankly, boring.
 
-The solution is not to "hustle harder." The solution is to **automate personal branding with n8n**.
+Worse, you might be paying $50-$300/month for tools like AgencyAnalytics or Databox just to generate these charts.
 
-In this guide, I am going to show you how to build a **"Digital Twin"**—an operational backend that handles the distribution, optimization, and listening layers of your brand. We will move beyond simple "RSS to Twitter" zaps and build complex, agency-grade workflows that allow you to scale yourself infinitely.
+Today, I am going to show you how to **automate client reporting with n8n**. We will build a system that pulls data from the pipelines we built earlier in this series, injects it into a branded HTML template, converts it to a professional PDF, and delivers it to your client's inbox—touched by human hands only if you want it to be.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **Why Manual Personal Branding Fails for Developers**
+## **Why You Should Automate Client Reporting with n8n**
 
-Before we open the n8n editor, we must understand the architectural flaw in manual branding.
+The "SaaS Trap" is real. Agencies often subscribe to reporting tools that offer "white labeling," but you are ultimately limited by their templates.
 
-### **The Context Switching Tax**
-
-Every time you stop coding to resize an image for LinkedIn, or pause a server migration to reply to a Tweet, you incur a "context switching tax." Studies show it takes 23 minutes to regain focus after an interruption. If you are manually managing your brand, you are effectively lobotomizing your technical productivity.
-
-### **The "n8n Advantage" Over Zapier**
-
-Why use n8n for this? Why not Zapier or Make?
+By building your own reporting engine in n8n, you gain three massive advantages:
 
 1. $1
 
@@ -57,222 +51,11 @@ Why use n8n for this? Why not Zapier or Make?
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-![automate personal branding A futuristic HUD (Heads-up Display) dashboard. The center features a large gauge labeled "Site Health" reading 99%. Surrounding it are smaller graphs for "LCP" (Largest Contentful Paint), "CLS", and "Server Response Time". A red alert notification in the corner reads "Optimization Complete". The color palette is neon green and charcoal grey, emphasizing speed and performance. by Alfaz Mahmud Rizve at whoisalfaz.me](/images/blog/automate-personal-branding-with-n8n-download-2.webp)
+## **The Architecture: From JSON to PDF**
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+Before we build, we must understand the data flow. Generating a PDF in automation isn't as simple as "clicking print." We need to structure a pipeline.
 
-## **Engine 1: The "Content Refinery" (Video to Semantic Blog)**
-
-The core philosophy of my automation strategy is **"Write Once, Distribute Everywhere."** But we don't just copy-paste; we transform.
-
-We will build a workflow that takes a YouTube video (or an audio voice note) and transforms it into a high-quality, SEO-optimized blog post for your site.
-
-### **Step 1: The Trigger & Transcription**
-
-We start with the **YouTube Trigger** node. This polls your channel for new uploads.
-
-- **Action:** When a new video is detected, we grab the `videoURL`.
-
-- **The Technical Hurdle:** YouTube doesn't give you the file. We use an `Execute Command` node (if running via Docker) to run `yt-dlp` to extract the audio, or use an API like **Cobalt**.
-
-- **Transcription:** We pass the audio file to the **OpenAI Whisper** node. This model is superior to standard speech-to-text because it handles technical jargon (like "n8n", "API", "JSON") with high accuracy.
-
-### **Step 2: The Semantic "Agent Chain"**
-
-This is where we differentiate from low-quality AI content. We don't just dump the transcript into ChatGPT. We use a **Chain of Thought** approach within n8n.
-
-**Agent A: The Strategist**
-
-- **Input:** The raw transcript.
-
-- **System Prompt:** "You are an SEO Strategist. Analyze this transcript. Identify the Primary Keyword and 5 LSI (Latent Semantic Indexing) keywords. Output strictly in JSON format."
-
-**Agent B: The Architect**
-
-- **Input:** The transcript + The JSON keywords from Agent A.
-
-- **System Prompt:** "Create a blog post outline. Ensure the H2 headers capture the LSI keywords. Structure the post for high readability (bullet points, short paragraphs)."
-
-**Agent C: The Writer**
-
-- **Input:** The Outline.
-
-- **System Prompt:** "Write the full article in Markdown. Use a professional, authoritative tone similar to `whoisalfaz.me`. Avoid fluff words like 'delve', 'tapestry', or 'game-changer'."
-
-### **Step 3: The Code Node (JSON Transformation)**
-
-To make this data usable for WordPress, we need to merge these outputs.
-
-JavaScript
-
-```
-// n8n Code Node: Preparing the WordPress Payload
-const title = items&#91;0].json.title;
-const content = items&#91;0].json.content; // Markdown from Agent C
-const keywords = items&#91;0].json.keywords; // From Agent A
-
-// Constructing the Slug
-const slug = title.toLowerCase().replace(/ /g, '-').replace(/&#91;^\w-]+/g, '');
-
-return {
-  json: {
-    title: title,
-    content: content,
-    slug: slug,
-    status: 'draft', // Always draft for human review!
-    tags: keywords
-  }
-};
-
-```
-
-### **Step 4: Publishing to WordPress**
-
-We use the **WordPress Node** to create the post.
-
-- **Crucial Step:** We map the "Primary Keyword" to the **RankMath** or **Yoast** focus keyword field (via custom meta fields) to ensure we are tracking our SEO performance immediately.
-
-By running this workflow, you ensure that every video you create automatically contributes to your domain authority.
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-## **Engine 2: The "Social Listening Radar"**
-
-Effective personal branding isn't just about shouting into the void; it's about listening. But you cannot be everywhere. You need a system to filter the noise.
-
-We will build a listening engine that monitors **Reddit** and **X (Twitter)** for high-intent opportunities.
-
-### **Step 1: The Infinite Ear (Triggers)**
-
-- **Reddit Trigger:** We set this to poll subreddits like `r/marketing`, `r/n8n`, `r/SaaS`.
-<ul class="wp-block-list">
-<li>**Search Query:** `"n8n" OR "automation agency" OR "zapier alternative"`.
-
-</li>
-
-<li>**Twitter Trigger:** (Using the Twitter v2 API or a scraper via `n8n-nodes-browserless`).
-
-- **Query:** `(n8n OR integromat) AND (help OR stuck OR fail) -is:retweet`.
-
-</li>
-</ul>
-
-### **Step 2: The "Fluff Filter" (Sentiment Analysis)**
-
-90% of social mentions are noise. We only want to see posts where we can add value.
-
-- **Node:** **AWS Comprehend** or a simple **HuggingFace** sentiment model.
-
-- **Logic:** We want to find *frustration*.
-<ul class="wp-block-list">
-<li>`IF Sentiment == NEGATIVE` AND `Text Length > 50 chars` (ignoring short rants).
-
-</li>
-</ul>
-
-### **Step 3: The Value-Add Generator**
-
-Once a relevant post is found, we don't want to sound like a bot.
-
-- **Node:** **Anthropic Claude 3.5 Sonnet** (better for nuance than GPT-4).
-
-- **Prompt:**"You are Alfaz, an automation expert. A user is struggling with [Problem]. Draft a helpful, short reply (under 280 chars) that solves their specific technical issue. Do NOT sell anything. Just help. If relevant, mention that I have a guide on this topic."
-
-### **Step 4: The Human-in-the-Loop (HITL)**
-
-This is the most critical part of **automating personal branding with n8n**. **Never auto-post replies.** It ruins trust.
-
-- **Node:** **Telegram**.
-
-- **Action:** Send a message to your "Alfaz Command" channel.
-<ul class="wp-block-list">
-<li>**Text:** "🔥 **Lead Detected on Reddit!** \n\nUser asks: [Question] \n\nSuggested Reply: [Draft]"
-
-- **Inline Buttons:** `[Post Reply]` | `[Edit]` | `[Ignore]`
-
-</li>
-
-<li>**Node:****Wait for Webhook**.
-
-- When you click `[Post Reply]`, n8n triggers the API to post the comment.
-
-</li>
-</ul>
-
-This workflow turns "social media management" into a 5-minute daily task where you simply approve high-quality interactions. This connects back to the principles we established in **[Day 12: Automated Email Follow Up](https://whoisalfaz.me/blog/automated-email-follow-up-n8n-brevo/)**—timeliness is key to conversion.
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-![](/images/blog/automate-personal-branding-with-n8n-download-1.webp)
-
-Z
-
-## ** Engine 3: The Technical SEO "Watchdog"**
-
-Your personal brand is housed on your website. If `whoisalfaz.me` is slow or broken, your brand loses credibility. You cannot claim to be an automation expert with a site that scores a 40 on mobile.
-
-We will automate the **Technical Audit** using n8n and the **Google PageSpeed Insights API**.
-
-### **Step 1: The Cron Scheduler**
-
-We don't need this continuously. We set a **Cron Trigger** for **Every Monday at 03:00 AM**.
-
-### **Step 2: The Audit**
-
-- **Node:** **HTTP Request**.
-
-- **URL:** `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://whoisalfaz.me&strategy=mobile`
-
-- **Method:** GET.
-
-### **Step 3: The Logic & Alerting**
-
-The JSON response from Google is massive. We need to parse it using a `Function` node to extract the "Core Web Vitals."
-
-JavaScript
-
-```
-// Extracting Key Metrics
-const lighthouse = items&#91;0].json.lighthouseResult.audits;
-const score = items&#91;0].json.lighthouseResult.categories.performance.score * 100;
-
-return {
-  json: {
-    score: score,
-    lcp: lighthouse&#91;'largest-contentful-paint'].displayValue,
-    cls: lighthouse&#91;'cumulative-layout-shift'].displayValue,
-    tbt: lighthouse&#91;'total-blocking-time'].displayValue
-  }
-};
-
-```
-
-- **Logic (Switch Node):**
-<ul class="wp-block-list">
-<li>**Rule:** If `score < 90`.
-
-- **Action:** Send a **Slack Alert** to the `#dev-ops` channel: *"⚠️ Critical: Mobile Score dropped to {{score}}. LCP is {{lcp}}."*
-
-- **Rule:** If `score >= 90`.
-
-- **Action:** Log the data to a **Google Sheet** (The same sheet we used in **[Day 16: Automated Rank Tracker](https://whoisalfaz.me/blog/build-an-automated-rank-tracker-tool-with-n8n/)**) to visualize performance trends over time.
-
-</li>
-</ul>
-
-This ensures that you are the first to know if a plugin update or a large image has degraded your user experience.
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-## **Engine 4: Automating Semantic Authority (Schema Markup)**
-
-To truly dominate search results in 2026, you need to speak Google's language: **Structured Data**. You want Google to recognize "Alfaz" not just as a string of text, but as an **Entity** known for "Automation."
-
-We can **automate personal branding with n8n** by injecting dynamic Schema markup into our posts.
-
-### **The Knowledge Graph Workflow**
+Here is the stack we will use:
 
 1. $1
 
@@ -282,35 +65,175 @@ We can **automate personal branding with n8n** by injecting dynamic Schema marku
 
 4. $1
 
-JSON
+5. $1
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+![automate client reporting with n8n n8n workflow showing the email node with a binary file attachment configuration by alfaz mahmud rizve at whoisalfaz.me](/images/blog/automate-client-reporting-with-n8n-unnamed-42.webp)
+
+## **Step 1: Aggregating the Data**
+
+To **automate client reporting with n8n**, we first need the numbers.
+
+We start with a **Schedule Trigger** set to run on the **1st of every month at 09:00 AM**.
+
+### **Pulling Google Analytics 4 Data**
+
+Referencing our work from Day 20, we use the GA4 node.
+
+- **Metric:** `activeUsers`, `screenPageViews`, `conversions`.
+
+- **Date Range:** `Last Month`.
+
+### **Pulling Facebook Ads Data**
+
+Referencing Day 13, we use the HTTP Request node (Graph API) to get ad performance.
+
+- **Metric:** `spend`, `impressions`, `cpc`, `actions` (leads).
+
+### **The "Set" Node (Data Normalization)**
+
+This is a pro tip. Don't pass raw API data to your PDF generator. It’s messy. Use a `Set` node to clean it up and define your variables.
+
+JavaScript
 
 ```
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Alfaz Mahmud Rizve",
-  "knowsAbout": &#91;"n8n", "Automation", "Numerical Methods", "Technical SEO"]
+// Example in n8n "Set" Node or Code Node
+return {
+  json: {
+    client_name: "Acme Corp",
+    report_date: "January 2026",
+    total_spend: $1,250.00,
+    total_leads: 45,
+    cpa: $27.77,
+    traffic: 15400,
+    mom_growth: "+12%" // Calculated in a previous function node
+  }
 }
 
 ```
 
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## **Step 2: The HTML Template (The "Secret Sauce")**
+
+This is where you provide real value. Instead of a boring table, we use an HTML template.
+
+In n8n, we create a **Code Node** (or a Template node). We will treat this as a string of HTML. We use **Handlebars** syntax (e.g., `{{total_leads}}`) to inject the data from Step 1.
+
+### **The "Agency-Grade" Code Snippet**
+
+Copy this structure into your node. This uses Flexbox for a modern layout that converts perfectly to PDF.
+
+HTML
+
+```
+<html>
+<head>
+<style>
+  body { font-family: 'Helvetica', sans-serif; color: #333; }
+  .header { background: #000; color: #fff; padding: 20px; text-align: center; }
+  .grid { display: flex; justify-content: space-between; margin-top: 40px; }
+  .card { border: 1px solid #ddd; padding: 20px; width: 30%; text-align: center; border-radius: 8px; }
+  .number { font-size: 36px; font-weight: bold; color: #ff6b6b; }
+  .label { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+  <div class="header">
+    <h1>Monthly Performance Report</h1>
+    <p>Prepared for: {{client_name}} | {{report_date}}</p>
+  </div>
+  
+  <div class="grid">
+    <div class="card">
+      <div class="number">{{total_leads}}</div>
+      <div class="label">New Leads</div>
+    </div>
+    <div class="card">
+      <div class="number">{{cpa}}</div>
+      <div class="label">Cost Per Acquisition</div>
+    </div>
+    <div class="card">
+      <div class="number">{{traffic}}</div>
+      <div class="label">Website Traffic</div>
+    </div>
+  </div>
+  
+  <p>Summary: Growth is {{mom_growth}} compared to last month.</p>
+</body>
+</html>
+
+```
+
+This approach allows you to fully **brand** the report. You can add your logo, change the hex codes to match your client's brand colors dynamically, and adjust the layout without asking a developer.
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+![automate client reporting with n8nSplit screen showing raw JSON data converting into a beautiful HTML PDF report via n8nby alfaz mahmud rizve at whoisalfaz.me](/images/blog/automate-client-reporting-with-n8n-unnamed-43.webp)
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## **Step 3: Generating the PDF (The Render Layer)**
+
+Now we need to turn that HTML string into a `.pdf` file.
+
+You have two main options here:
+
 1. $1
 
-This is advanced technical SEO. It tells Google *exactly* what you are an expert in, helping you rank for "n8n expert" or "automation consultant" much faster than content alone.
+2. $1
+
+For this tutorial, to **automate client reporting with n8n** efficiently, we will use the **HTTP Request** node to hit a PDF generation API (like APITemplate or similar).
+
+- **Node:** HTTP Request
+
+- **Method:** POST
+
+- **URL:** `https://api.pdf-service.com/v1/create`
+
+- **Body Parameters:**
+<ul class="wp-block-list">
+<li>`html`: [The HTML string from Step 2]
+
+- `format`: "A4"
+
+- `margin`: "2cm"
+
+</li>
+</ul>
+
+### **Handling Binary Data**
+
+This is the most common point of failure. The API will return a **file stream** (binary data), not JSON.
+
+- In the HTTP Request node, ensure you toggle **"Response Format"** to **"File"**.
+
+- Name the binary property `data`.
+
+If you miss this step, n8n will try to parse the PDF as text and crash your workflow.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+## **Step 4: Automated Delivery**
 
-![Illustration of the "Infinite Loop" concept where content creates data which fuels new content, automated by n8n by Alfaz Mahmud rizve at whoisalfaz.me](/images/blog/automate-personal-branding-with-n8n-download.webp)
+The final step in our mission to **automate client reporting with n8n** is delivery.
 
-## **Building the "Agency-Grade" System**
+We use the **Gmail** or **Brevo** node (refer to **[Day 12](https://www.google.com/search?q=https://whoisalfaz.me/blog/automated-email-follow-up-n8n-brevo/)** for SMTP setup).
 
-Implementing these workflows transforms your personal brand from a "hobby" into a "platform."
+- **To:** `{{client_email}}`
 
-But a word of warning: **Complexity breeds fragility.** As we discussed in **[Day 17: Reliability Gap](https://whoisalfaz.me/blog/n8n-production-workflows-by-alfaz-mahmud-rizve/)**, you must build error handling into these workflows. If the Reddit API fails, your workflow should not crash; it should retry or notify you.
+- **Subject:** `Monthly Report: {{report_date}}`
 
-### **Implementation Roadmap**
+- **Body:** "Hi {{First Name}}, Please find attached your performance report for this month. We saw a {{mom_growth}} increase in traffic!"
+
+- **Attachments:** Select the `data` binary property from the previous node.
+
+### **Pro Tip: The "Human Review" Switch**
+
+If you aren't ready to trust the robot fully, change the recipient email to **Your Own Email**.
 
 1. $1
 
@@ -318,18 +241,46 @@ But a word of warning: **Complexity breeds fragility.** As we discussed in **[Da
 
 3. $1
 
-By stacking these automations, you are effectively hiring a Social Media Manager, an SEO Specialist, and a Content Writer—all for the cost of a generic VPS hosting your n8n instance.
+4. $1
+
+This still saves you 95% of the work (gathering data and formatting) while keeping a safety layer.
+
+![automate client reporting with n8n n8n workflow showing the email node with a binary file attachment configuration by alfaz mahmud rizve at whoisalfaz.me](/images/blog/automate-client-reporting-with-n8n-unnamed-44.webp)
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **Conclusion**
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-**Automating personal branding with n8n** is the ultimate leverage. It allows you to maintain a high-volume, high-quality digital presence without sacrificing the deep technical work that makes you valuable in the first place.
+## ** Advanced: Adding Charts (Chart.js)**
 
-You are no longer just a freelancer or a developer; you are a media company of one, powered by intelligent pipelines.
+Text metrics are great, but clients love charts. Since we are using HTML, we can embed **Chart.js** via a QuickChart.io link.
 
-We are entering the final stretch of our 30-day journey. We have built the backend, the research engines, and now the brand engine. But what about the *clients*? How do we dazzle them?
+In your data preparation step, you can construct a URL that generates a chart image: `https://quickchart.io/chart?c={type:'bar',data:{labels:['Jan','Feb'],datasets:[{label:'Users',data:[120, 150]}]}}`
 
-**Coming up tomorrow (Day 22):** I will show you how to **Automate Client Reporting with n8n**. We will say goodbye to manual screenshots and build a workflow that generates beautiful, white-labeled PDF reports (pulling data from the systems we built on Day 20) and emails them directly to your clients.
+Then, in your HTML template, simply add: `<img src="{{chart_url}}" width="100%" />`
+
+This renders a visual graph inside your PDF without needing complex JavaScript rendering engines.
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## ** Conclusion: Your Reporting is Now an Asset**
+
+By learning to **automate client reporting with n8n**, you have done more than just save time. You have transformed a "chore" into a consistent, branded, and reliable product.
+
+You are no longer the agency owner frantically taking screenshots at 11 PM on the 31st. You are the architect of a system that delivers value like clockwork.
+
+This workflow, combined with the **Rank Tracker (Day 16)** and **Social Listening (Day 21)**, gives you a complete picture of your digital performance, fully automated.
+
+**What’s Next?** We have covered data, content, and reporting. But what happens when things go wrong? Tomorrow, on **Day 23**, we are going to build **"The Error Handler."** I will show you how to build a global error workflow in n8n that catches failed executions and alerts you via Discord or Slack with the exact error log—so you can fix bugs before your clients even notice.
 
 **See you in the workflow editor.**
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+### **External Resources:**
+
+- [Handlebars.js Documentation](https://handlebarsjs.com/) – Learn more about templating logic.
+
+- [QuickChart.io](https://quickchart.io/) – For generating chart images for your PDFs.
+
+- [Gotenberg PDF Engine](https://gotenberg.dev/) – For the self-hosting enthusiasts.

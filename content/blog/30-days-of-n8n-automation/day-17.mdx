@@ -1,302 +1,91 @@
 ---
 title: >-
-  Build an Automated Rank Tracker Tool with n8n (Save $1,200/Year)- 30 Days of
-  n8n & Automation – Day 16
-slug: build-an-automated-rank-tracker-tool-with-n8n
+  n8n Production Workflows & The “Reliability Gap  – Why Your n8n Workflows Fail
+  (And How to Build Agency-Grade Systems) – 30 Days of n8n & Automation – Day 17
+slug: n8n-production-workflows-by-alfaz-mahmud-rizve
 description: >-
-  Stop paying for expensive SEO software. Learn how to build your own automated
-  rank tracker tool with n8n, SerpApi, and Google Sheets. A step-by-step guide
-  by Alfaz Mahmud Rizve at whoisalfaz.me
+  Stop building fragile automations. Learn the architecture of a crash-proof n8n
+  production workflows . Bonus: Get $300 in free credits to self-host your
+  system risk-free
 date: '2026-01-05'
 seoTitle: >-
-  Build an Automated Rank Tracker Tool with n8n (Save $1,200/Year)- 30 Days of
-  n8n & Automation - Day 16 - AI automation for SaaS & agencies | Alfaz Mahmud
-  Rizve
+  n8n Production Workflows & The "Reliability Gap – Why Your n8n Workflows Fail
+  (And How to Build Agency-Grade Systems) - 30 Days of n8n & Automation - Day 17
+  - AI automation for SaaS & agencies | Alfaz Mahmud Rizve
 seoDescription: >-
-  Stop paying for expensive SEO software. Learn how to build your own automated
-  rank tracker tool with n8n, SerpApi, and Google Sheets. A step-by-step guide
-  by Alfaz Mahmud Rizve at whoisalfaz.me
-image: /images/blog/build-an-automated-rank-tracker-tool-with-n8n-featured.webp
+  Stop building fragile automations. Learn the architecture of a crash-proof n8n
+  production workflows . Bonus: Get $300 in free credits to self-host your
+  system risk-free
+image: /images/blog/n8n-production-workflows-by-alfaz-mahmud-rizve-featured.webp
 categories:
   - 30 Days of n8n and automation
 ---
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-Every Monday morning, SEO professionals, agency owners, and SaaS founders face the exact same ritual. You log into Ahrefs, Semrush, or Moz, holding your breath to see if your "money keywords" went up or down.
+Welcome back to **Day 17 of **[**30 Days of n8n & Automation**.](https://whoisalfaz.me/blog/category/n8n-automation/)
 
-These platforms are engineering marvels, but they charge you a steep "lazy tax." Paying **$99 to $199 per month** just to track 50 or 100 keywords is a massive overhead for a lean startup or a boutique agency. You are essentially paying a premium for a pretty dashboard when the raw data actually costs pennies.
+If you have been following this series since[ Day 1,](https://whoisalfaz.me/blog/automation-operating-system-for-saas/) you have learned how to build some incredible things. You’ve connected OpenAI to Google Sheets, scraped websites, and maybe even built a chatbot.
 
-Here is the dirty secret of the SEO industry: **Most rank tracking tools are just wrappers around the same APIs you can access yourself.**
+But if you are reading this, you have likely hit "The Wall."
 
-What if you could build your own **automated rank tracker tool** that runs on autopilot, costs $0/month (thanks to generous free tiers), and sends the data exactly where you need it?
+It usually happens at 3:00 AM on a Tuesday. You built a workflow that worked *perfectly* when you clicked "Execute" in the editor. You felt like a genius. But while you were sleeping, the API timed out. The webhook arrived twice. The execution hung.
 
-Welcome to **Day 16** of the [**30 Days of n8n & Automation** series](https://whoisalfaz.me/blog/category/n8n-automation/). In our previous post [(Day 15](https://whoisalfaz.me/blog/automated-content-research-by-alfaz-mahmud-rizve/)), we built an [automated content research engine](https://whoisalfaz.me/blog/automated-content-research-by-alfaz-mahmud-rizve/) to find what to write. Today, we are building the scoreboard. We will create a fully custom **automated rank tracker tool** using n8n, SerpApi, and Google Sheets that rivals the expensive SaaS competitors.
+You woke up not to a completed task, but to an angry client or a broken system.
 
-We will architect a fully custom **automated rank tracker tool** using **n8n**, **Serper.dev**, and **Google Sheets**. This isn't a toy project; this is a scalable system capable of tracking hundreds of keywords for free.
+This is what I call **The Reliability Gap**.
 
-I’m **[Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/)**, and at **whoisalfaz.me**, we believe you should own your data, not rent it. Let’s build your custom SEO engine.
+It is the dangerous distance between a "Toy Automation" and a true **n8n production workflow**. Most people never cross this gap. They stay stuck in the "Free Tier" trap, wondering why their automations feel fragile.
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-## Part 1: The Economics of "Build vs. Buy"
-
-Before we open n8n, let's look at the math. Why bother building this?
-
-Most SaaS rank trackers charge based on "keyword credits." If you want to track 500 keywords daily, you are pushed into the $199/mo tier. But if you buy that data directly from a SERP (Search Engine Results Page) provider, the cost is trivial.
-
-### The Cost Comparison (Per 1,000 Searches)
-
-<table class="has-fixed-layout"><thead><tr><td>**Solution**</td><td>**Cost**</td><td>**Notes**</td></tr></thead><tbody><tr><td>**Ahrefs / Semrush**</td><td>**$99 – $199/mo**</td><td>Includes other tools you might not use.</td></tr><tr><td>**Wincher / Nightwatch**</td><td>**$49/mo**</td><td>Cheaper, but still a monthly recurring cost.</td></tr><tr><td>**Serper.dev (Direct API)**</td><td>**$1.00**</td><td>You pay per 1,000 searches. First 2,500 are free.</td></tr><tr><td>**SerpApi (Direct API)**</td><td>**$0.00 – $50**</td><td>Great for non-Google engines (Bing/Yahoo).</td></tr></tbody></table>
-
-By building this **automated rank tracker tool**, you unlock three massive advantages:
-
-1. $1
-
-2. $1
-
-3. $1
-
-<img src="image_9.png" alt="Cost comparison chart showing the difference between expensive SEO software and a custom automated rank tracker tool using n8n by Alfaz Mahmud Rizve." style="width: 100%; height: auto;">
-
-![Cost comparison infographic showing expensive expensive SEO software subscriptions versus the free automated rank tracker tool using n8n and the Serper.dev API.by Alfaz Mahmud Rizve at whoisalfaz.me](/images/blog/build-an-automated-rank-tracker-tool-with-n8n-unnamed-28.webp)
+Today, we are going to fix that. We are going to stop building toys and start building **Agency-Grade Systems**. And to do that, we have to talk about infrastructure, error handling, and why an **n8n production workflow** cannot exist on free limits.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Part 2: The Architecture & Tech Stack
+## **Part 1: Why Your Current Workflow Isn't a "Production" Workflow**
 
-We aren't just connecting two apps; we are building a data pipeline.
+When you start with n8n, you probably sign up for the Cloud Free Tier or a cheap shared hosting plan. It makes sense—you are just testing.
 
-**The Stack:**
+But as soon as you try to automate a real business process (like "Day 14’s Lead Gen System"), you run into two invisible enemies that prevent you from having a stable **n8n production workflow**.
 
-- **n8n:** The orchestrator. It handles the scheduling, looping, and logic.
+### **Enemy #1: The "Retry" Dilemma**
 
-- **Serper.dev:** The "Eyes." This is a high-speed Google Search API built for LLMs and scrapers. It is faster and cheaper than traditional proxies.
+To make a workflow reliable, it must be defensive. If OpenAI returns a `503 Service Unavailable` error, your workflow shouldn't crash. It should wait 5 seconds and try again.
 
-- **Google Sheets:** The "Database." We will use it to store our keyword list and our historical data.
+But here is the math of the Free Tier:
 
-- **Looker Studio (Optional):** The "Dashboard." We can connect our Sheet to Looker to give clients a live link (more on this later).
+- **Scenario:** You have a workflow that runs every 10 minutes (4,300 runs/month).
 
-The Workflow Logic:
+- **The Trap:** If you add a "Retry on Fail" loop that retries 3 times, you are effectively tripling your execution count during unstable periods.
 
-Trigger (Monday 9AM) → Read Keywords from Sheet → Loop (Batch of 1) → Call Serper API → Find URL Position → Calculate Change → Save to History → Aggregate Results → Send Slack Alert.
+- **The Result:** On a capped plan (e.g., 500 or 2,500 executions), you cannot *afford* to be reliable. You are forced to disable retries to save credits. You are literally paying for the free tier with your reputation.
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+### **Enemy #2: The "Single Lane" Traffic Jam**
 
-## Part 3: Prerequisites & Setup
+By default, n8n runs in what we call "Monolithic Mode." The Editor, the Webhook listener, and the Worker are all one process.
 
-Do not skip this. The success of your automation depends on proper authentication.
+![A comparison diagram showing the single-lane traffic jam of monolithic n8n versus the efficient parallel processing of Queue Mode, illustrating production workflow architecture concepts by Alfaz Mahmud Rizve](/images/blog/n8n-production-workflows-by-alfaz-mahmud-rizve-unnamed-31.webp)
 
-### 1. Get your Serper.dev API Key
+- If you process a heavy 50MB PDF file, that single process gets busy.
 
-1. $1
+- While it is busy, *all other webhooks* are blocked. They pile up and eventually time out.
 
-2. $1
+- Your simple "Email Notification" workflow fails because your "PDF" workflow clogged the pipe.
 
-3. $1
-
-4. $1
-
-### 2. Prepare Google Sheets
-
-Create a new Google Sheet. You need **two specific tabs**:
-
-**Tab 1 Name: `Keywords`**
-
-- **Row 1 Headers:**
-<ul class="wp-block-list">
-<li>Column A: `Keyword` (e.g., "n8n automation")
-
-- Column B: `Target URL` (e.g., "whoisalfaz.me")
-
-- Column C: `Location` (e.g., "us", "uk", "bd") – *Crucial for local SEO.*
-
-- Column D: `Device` (e.g., "desktop" or "mobile")
-
-</li>
-</ul>
-
-**Tab 2 Name: `History`**
-
-- **Row 1 Headers:**
-<ul class="wp-block-list">
-<li>Column A: `Date`
-
-- Column B: `Keyword`
-
-- Column C: `Rank`
-
-- Column D: `Change`
-
-- Column E: `URL Found`
-
-</li>
-</ul>
+This is why agencies don't use the Free Tier. You cannot build a skyscraper on a foundation made of sand.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Part 4: Building the Engine (Step-by-Step)
+## **Part 2: The Architecture of an Agency-Grade System**
 
-![n8n workflow diagram visualized, showing the Split In Batches loop logic used to iterate through keywords and hit the Serper.dev API for automated rank tracking.by Alfaz Mahmud Rizve at whoisalfaz.me](/images/blog/build-an-automated-rank-tracker-tool-with-n8n-unnamed-29.webp)
+So, how do we close the Reliability Gap? We don't just add more nodes. We change the architecture.
 
-Open your n8n editor. Let's build this node by node.
+In my agency, we don't consider an automation "done" until it meets the standard of an **n8n production workflow**. This requires three specific layers.
 
-### Step 1: The "Wake Up" Trigger
+### **Layer 1: The Sentinel (Global Error Handling)**
 
-Rankings fluctuate hourly, but tracking them that closely is noise. A weekly check is standard for reporting.
+Never let a workflow fail silently. If a tree falls in the forest, your server should scream at you.
 
-- **Node:** Schedule Trigger
-
-- **Settings:**
-<ul class="wp-block-list">
-<li>**Trigger Interval:** `Weeks`
-
-- **Weeks Between Triggers:** `1`
-
-- **Time:** `Monday` at `09:00 AM`
-
-</li>
-</ul>
-
-### Step 2: Read Your Keyword Database
-
-We need to pull the list of what to track.
-
-- **Node:** Google Sheets
-
-- **Operation:** Get Many Rows
-
-- **Sheet ID:** (Select your sheet)
-
-- **Range:** `Keywords!A:D`
-
-- **Output:** Ensure "Data is contained in" is set to "JSON".
-
-### Step 3: The "Split in Batches" Loop
-
-This is the most critical technical concept. We cannot send 100 keywords to the API instantly—we need to process them one by one (or in small batches) to handle the data correctly and avoid rate limits.
-
-- **Node:** Split in Batches
-
-- **Batch Size:** `1`
-
-*Connect the "Google Sheets" node to this "Split in Batches" node.*
-
-### Step 4: The Serper.dev API Call
-
-Now, inside the loop, we hit the API.
-
-- **Node:** HTTP Request
-
-- **Method:** `POST`
-
-- **URL:** `https://google.serper.dev/search`
-
-- **Authentication:** Generic Credential Type -> Header Auth.
-<ul class="wp-block-list">
-<li>*Name:* `X-API-KEY`
-
-- *Value:* Paste your Serper API Key.
-
-</li>
-
-<li>**Send Body:** Turn toggle ON.</li>
-
-<li>**Body Parameters (JSON):**JSON`{ "q": "{{$json.Keyword}}", "gl": "{{$json.Location}}", "hl": "en" } `*(Note: Drag and drop the `Keyword` and `Location` from the Input Data panel to make them dynamic variables).*</li>
-</ul>
-
-<img src="image_10.png" alt="n8n workflow diagram showing the Split In Batches loop logic for processing multiple keywords in an automated rank tracker tool." style="width: 100%; height: auto;">
-
-### Step 5: Parsing the JSON (The Intelligence)
-
-The API returns a huge JSON with "organic", "peopleAlsoAsk", "relatedSearches", etc. We need to find *our* ranking.
-
-- **Node:** Code (JavaScript)
-
-- **Goal:** Scan the top 100 results for our `Target URL`.
-
-**Copy/Paste this Logic:**
-
-JavaScript
-
-```
-// Input variables from previous nodes
-const organicResults = items&#91;0].json.organic;
-// We need to access the original keyword data from the SplitInBatches node context
-// In n8n, this usually requires referencing the specific node or ensuring data flow
-const targetUrl = $('Split in Batches').item.json&#91;'Target URL']; 
-
-let rank = "100+"; // Default if not found
-let foundUrl = "Not Found";
-
-if (organicResults) {
-  for (let i = 0; i < organicResults.length; i++) {
-    // Check if the link contains our target domain
-    if (organicResults&#91;i].link.includes(targetUrl)) {
-      rank = organicResults&#91;i].position;
-      foundUrl = organicResults&#91;i].link;
-      break; // Stop the loop, we found it!
-    }
-  }
-}
-
-return {
-  json: {
-    rank: rank,
-    found_url: foundUrl,
-    checked_at: new Date().toISOString(),
-    keyword: $('Split in Batches').item.json&#91;'Keyword']
-  }
-}
-
-```
-
-### Step 6: Calculating "The Change" (Delta)
-
-Knowing you are #5 is good. Knowing you were #9 last week (so you went up +4) is better.
-
-To do this, we need to look up the *last* time we checked this keyword.
-
-- **Node:** Google Sheets (Get Many Rows)
-
-- **Sheet:** `History`
-
-- **Logic:** This is complex to do purely in n8n without a database query.
-<ul class="wp-block-list">
-<li>*Simpler Alternative for V1:* Just record the rank. Let Google Sheets handle the delta calculation using a formula like `=C2-C3`.
-
-- *Advanced Alternative:* Use the "Google Sheets – Lookup" node to find the last row matching the keyword and subtract the values.
-
-</li>
-</ul>
-
-For this tutorial, we will append the data and let Sheets handle the visualization.
-
-### Step 7: Saving the Data
-
-- **Node:** Google Sheets (Append)
-
-- **Sheet:** `History`
-
-- **Mapping:** Map the fields from the Code node (`rank`, `found_url`) to the columns.
-
-### Step 8: The "Wait" (Politeness Policy)
-
-Never hammer an API.
-
-- **Node:** Wait
-
-- **Amount:** `1` Second.
-
-- *Connect this back to the input of the "Split in Batches" node to close the loop.*
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-## Part 5: The Notification System
-
-Once the loop finishes (the "Done" output of the `Split in Batches` node), we want a summary.
-
-We don't want 50 emails. We want one digest.
+Instead of adding error nodes to every single step (which is messy), we use a **Global Error Strategy**.
 
 1. $1
 
@@ -306,15 +95,114 @@ We don't want 50 emails. We want one digest.
 
 4. $1
 
-<img src="image_11.png" alt="The final weekly summary of the automated rank tracker tool delivered via Slack notification, showing keyword position changes." style="width: 100%; height: auto;">
+**The Agency Difference:** When a client emails me to say "It didn't work," I’ve usually already fixed it because The Sentinel told me 20 minutes ago.
 
-![The final automated weekly SEO report summary delivered via Slack notification on a smartphone, showing keyword position changes.by Alfaz Mahmud Rizve at whoisalfaz.me](/images/blog/build-an-automated-rank-tracker-tool-with-n8n-unnamed-30.webp)
+![A technical blueprint diagram illustrating the three layers of an Agency-Grade n8n Production Workflow: The Sentinel, The Shield, and The Engine, designed by Alfaz Mahmud Rizve.](/images/blog/n8n-production-workflows-by-alfaz-mahmud-rizve-unnamed-32.webp)
+
+### **Layer 2: The Shield (Exponential Backoff)**
+
+APIs are flaky. Google Sheets goes down. OpenAI gets overloaded.
+
+If your workflow dies on the first error, it is fragile.
+
+- **The Amateur Way:** "Retry 3 times immediately." (This just hammers the server and fails again).
+
+- **The Agency Way:****Exponential Backoff**.
+<ul class="wp-block-list">
+<li>*Attempt 1:* Fail.
+
+- *Wait:* 2 Seconds.
+
+- *Attempt 2:* Fail.
+
+- *Wait:* 5 Seconds.
+
+- *Attempt 3:* Success.
+
+</li>
+</ul>
+
+This logic requires your server to "hold" the execution open for several seconds or minutes. On the Cloud Free Tier, this consumes "Execution Time" limits. On a self-hosted server, it costs nothing.
+
+### **Layer 3: The Engine (Queue Mode)**
+
+This is the secret weapon. To fix the "Single Lane" traffic jam, we switch n8n into **Queue Mode**.
+
+This requires a database called **Redis**.
+
+- **How it works:** When a webhook comes in, n8n doesn't process it immediately. It wraps it up as a "Job" and tosses it into Redis.
+
+- **The Workers:** You can have 5, 10, or 20 "Worker Processes" sitting in the background. They grab jobs from Redis and do the work.
+
+- **The Result:** If one worker is stuck processing a heavy PDF, the other 19 are still free to handle your email automations. Your system becomes un-crashable.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Part 6: Visualizing Data (The Pro Tip)
+## **Part 3: The Infrastructure War (Don't Run to Monopolies)**
 
-Raw data in Sheets is ugly. Let’s make it look like a $200 SaaS.
+Now comes the hard question: **Where do we host this?**
+
+To run **Queue Mode** and get **Unlimited Executions** for your retries, you need a VPS (Virtual Private Server).
+
+Many beginners instinctively run to the "Big Monopolies"—AWS (Amazon), Google Cloud, or Azure. **This is a mistake.**
+
+### **Why AWS/Google is a Trap for Solopreneurs**
+
+1. $1
+
+2. $1
+
+3. $1
+
+### **The Better Option: Vultr (The Developer's Secret)**
+
+In my agency, I moved away from the giants and standard providers like DigitalOcean. I standardized everything on **Vultr**.
+
+Here is the brutal honest comparison of why **Vultr** is superior for Automation Engineers:
+
+<table class="has-fixed-layout"><thead><tr><td>**Feature**</td><td>**AWS (t3.medium)**</td><td>**DigitalOcean (Droplet)**</td><td>**Vultr (High Frequency)**</td></tr></thead><tbody><tr><td>**Monthly Cost**</td><td>~$30.00+</td><td>$12.00</td><td>**$12.00**</td></tr><tr><td>**Processor Speed**</td><td>Variable (Burst)</td><td>~2.5 GHz</td><td>**3.0 GHz+ (NVMe)**</td></tr><tr><td>**Storage Speed**</td><td>Standard SSD</td><td>SSD</td><td>**NVMe (3x Faster)**</td></tr><tr><td>**Bandwidth**</td><td>Expensive (Pay per GB)</td><td>1 TB</td><td>**2 – 4 TB**</td></tr><tr><td>**Setup Time**</td><td>45 Minutes</td><td>5 Minutes</td><td>**2 Minutes**</td></tr></tbody></table>
+
+Why "High Frequency" Matters for an n8n Production Workflow:
+
+Automation is JSON-heavy. Parsing thousands of JSON objects is a CPU-intensive task.
+
+Vultr’s High Frequency servers use 3GHz+ processors and NVMe storage. In my benchmarks, complex workflows run 30-40% faster on Vultr than on a standard DigitalOcean droplet, for the exact same price.
+
+When you are processing 10,000 leads (like we discussed in Day 15), that speed difference saves you hours.
+
+The "David vs. Goliath" Angle:
+
+![A metaphorical illustration comparing the slow, expensive infrastructure of cloud monopolies against the high-speed NVMe performance of Vultr for n8n production workflows, recommended by Alfaz Mahmud Rizve.](/images/blog/n8n-production-workflows-by-alfaz-mahmud-rizve-unnamed-33.webp)
+
+[Vultr](https://www.vultr.com/?ref=9849830-9J) is huge, but they still act like a developer-focused company. They don't have hidden fees. They give you massive bandwidth because they know developers need it.
+
+[![vultr partner of whoisalfaz.me](/images/blog/n8n-production-workflows-by-alfaz-mahmud-rizve-logo_ondark.webp)](https://www.vultr.com/?ref=9849830-9J)
+
+If you want to run an "Agency-Grade" system, you need raw power, not brand name markup.
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## **Part 4: Implementation Guide (How to Switch Today)**
+
+Ready to cross the Reliability Gap? Here is your step-by-step roadmap to setting up a n8n production workflow environment on Vultr.
+
+### **Step 1: Get the Infrastructure (Risk-Free)**
+
+You don't need to pay to test this. Because I use Vultr heavily, I can get you a "Developer Test Drive."
+
+Use the link below to get $300 in Free Credits.
+
+This is enough to run a powerful 4GB RAM server for months while you learn.
+
+[👉 Click Here to Claim $300 Vultr Credits](https://www.vultr.com/?ref=9849830-9J)
+
+(Note: You must link a payment method to verify you are a real human, but they won't charge you if you stay within the credits).
+
+### **Step 2: The Setup (Standard vs. Easy Mode)**
+
+Once you are in Vultr, you have two paths.
+
+**Path A: The "Agency Pro" Way (Docker)**
 
 1. $1
 
@@ -324,52 +212,64 @@ Raw data in Sheets is ugly. Let’s make it look like a $200 SaaS.
 
 4. $1
 
-Now you have a dynamic, interactive dashboard you can share with clients via a simple link. They see their rankings improve, and you didn't pay a cent for software.
+Path B: The "One-Click" Way (Hostinger)
+
+If the idea of a terminal scares you, there is an alternative. Hostinger recently launched a pre-configured n8n VPS Template.
+
+- It installs everything for you in one click.
+
+- It’s not as powerful as Vultr’s High Frequency, but it gets the job done for smaller setups.
+
+- *I still recommend Vultr for the raw NVMe speed, but Hostinger is a valid "Easy Mode."*
+
+### **Step 3: Configuring the Sentinel**
+
+Once your self-hosted instance is live:
+
+1. $1
+
+2. $1
+
+3. $1
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Common Pitfalls & Troubleshooting
+## **Conclusion: Stop Renting, Start Owning**
 
-**[Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/)** advises watching out for these specific issues when building your automated rank tracker tool:
+The "Reliability Gap" isn't just a technical problem; it's a mindset problem.
 
-- **The "100+" Trap:** If your rank consistently says "100+", verify your `Target URL` in the Sheet. If you entered `https://whoisalfaz.me` but Google indexes `https://www.whoisalfaz.me`, the string match might fail. Use just the root domain (e.g., `whoisalfaz`) to be safe.
+As long as you are relying on the limitations of a Free Tier or the confusing billing of a monopoly like AWS, you are renting your business's stability. You are scared to use retries. You are scared to scale.
 
-- **Location Bias:** If you track "plumber" without a location, Google gives you generic results. If your client is in London, the generic US results are useless. Always use the `gl` (Geo Location) parameter (e.g., `uk`, `bd`, `ca`).
+Self-hosting on Vultr changes that.
 
-- **Mobile vs. Desktop:** Rankings differ wildly by device. Serper.dev defaults to Desktop. If you are a B2C brand, mobile is more important. You can change this in the API body logic.
+It gives you the freedom to run 100,000 executions, to retry failed APIs 10 times, and to process massive files without asking for permission.
 
-- **Multi-Engine Tracking:** Serper.dev is Google-only. If you need **Bing, Yahoo, or YouTube** rankings, you must swap the API node for **SerpApi**. Note that SerpApi's free tier is lower (100 searches/mo), so use it sparingly for secondary engines.
+That is how you build an agency. That is how you build value.
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+**Your Homework for Day 18:**
 
-## Deployment Checklist
+1. $1
 
-Ready to fire your expensive SEO tool and run your own?
+2. $1
 
-- [ ] **API Key:** Created account on **Serper.dev**.
+3. $1
 
-- [ ] **Database:** Created Google Sheet with "Keywords" and "History" tabs.
-
-- [ ] **Trigger:** Configured n8n **Schedule Trigger** (Weekly/Monday).
-
-- [ ] **The Loop:** Built the "Read -> Batch -> API -> Parse" loop correctly.
-
-- [ ] **Logic:** Verified the JavaScript finds the correct domain.
-
-- [ ] **Storage:** Connected the Google Sheets Append node.
-
-- [ ] **Wait Node:** Added a 1-second delay to be safe.
-
-- [ ] **Test:** Ran it with 1-2 keywords first.
+I’ll see you in **Day 19**, where we will take this new power and learn how to do **Parallel Processing** to do 100 things at once.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## What’s Next?
+Alfaz Mahmud Rizve
 
-You now have a live pulse on your SEO performance without the monthly subscription fees. You have built a customized **automated rank tracker tool** that works for *you*, not the other way around.
+Automation Engineer & Founder
 
-But tracking data is only half the battle. Reporting to clients is the other half.
+WhoIsAlfaz.me
 
-In tomorrow’s post, **Day 17**, we will cover **Automated Client Reporting**. I will show you how to take this raw SEO data (and more) and auto-generate beautiful, branded PDF reports using Google Docs and n8n, ready to send to your clients automatically.
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-**Stay tuned.** Subscribe to the[ 30 Days of n8n](https://whoisalfaz.me/blog/category/n8n-automation/) series so you don't miss the PDF generation workflow!
+**Related Articles:**
+
+- [Day 1: The essential guide for Automation](https://whoisalfaz.me/blog/automation-operating-system-for-saas/)
+
+- [Day 9: Lead Scoring Automation](https://whoisalfaz.me/blog/lead-scoring-automation-with-alfaz-mahmud-rizve/)
+
+- [Day 16: Automated rank tracker](https://whoisalfaz.me/blog/build-an-automated-rank-tracker-tool-with-n8n/)

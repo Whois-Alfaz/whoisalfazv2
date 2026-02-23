@@ -1,70 +1,258 @@
 ---
-title: n8n Slack Notifications – 30 Days of n8n & Automation – Day 10
-slug: n8n-slack-notifications-by-alfaz-mahmud-rizve
+title: >-
+  Lead Enrichment with n8n: Build a Reliable Company, Website and Location
+  Enrichment Workflow-30 Days of n8n & Automation – Day 11
+slug: lead-enrichment-with-n8n
 description: >-
-  Set up n8n Slack notifications for high-intent leads in minutes. Boost
-  response times and never miss a sale. Step-by-step guide by Alfaz Mahmud Rizve
-  at whoisalfaz.me.
-date: '2025-12-29'
+  Lead enrichment with n8n to add company, website, and location automatically
+  to every lead. Practical workflow examples by Alfaz Mahmud Rizve at
+  whoisalfaz.me
+date: '2025-12-30'
 seoTitle: >-
-  n8n Slack Notifications - 30 Days of n8n & Automation - Day 10 - AI automation
-  for SaaS & agencies | Alfaz Mahmud Rizve
+  Lead Enrichment with n8n: Build a Reliable Company, Website and Location
+  Enrichment Workflow-30 Days of n8n & Automation – Day 11 - AI automation for
+  SaaS & agencies | Alfaz Mahmud Rizve
 seoDescription: >-
-  Set up n8n Slack notifications for high-intent leads in minutes. Boost
-  response times and never miss a sale. Step-by-step guide by Alfaz Mahmud Rizve
-  at whoisalfaz.me.
-image: /images/blog/n8n-slack-notifications-by-alfaz-mahmud-rizve-featured.webp
+  Lead enrichment with n8n to add company, website, and location automatically
+  to every lead. Practical workflow examples by Alfaz Mahmud Rizve at
+  whoisalfaz.me
+image: /images/blog/lead-enrichment-with-n8n-featured.webp
 categories:
   - 30 Days of n8n and automation
 ---
 
-Imagine this: A high-intent lead submits your SaaS demo request form at 2 AM. Instead of checking emails tomorrow, a Slack ping lights up your #leads channel instantly—with their name, email, and intent score. No more missed opportunities.
+If you are collecting leads but only storing name and email, you are leaving money on the table. **Lead enrichment with n8n** lets you automatically attach company, website, and location data the moment a lead enters your system.[](https://research.aimultiple.com/ai-lead-generation/)​
 
-In Day 10 of the[ **30 Days of n8n & Automation**](https://whoisalfaz.me/blog/category/n8n-automation/) series on whoisalfaz.me, you'll learn to set up **n8n Slack notifications** for high-intent leads. [Alfaz Mahmud Rizve here](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/)—automation consultant for SaaS founders and agencies—sharing the exact workflow I use to catch 20% more qualified leads daily. By the end, you'll have a copy-paste template that filters junk and alerts only on gold.
+In this Day 11 guide of [30 Days of n8n & Automation](https://whoisalfaz.me/blog/category/n8n-automation/), you will learn how to call an enrichment API from n8n, map the response back to your CRM or Google Sheet, and ship a production-ready workflow.​
 
-## Why n8n Slack Notifications Beat Email Alerts for Leads
+Throughout this article, examples come from real workflows that **Alfaz Mahmud Rizve** uses for SaaS and agency clients at **whoisalfaz.me**.[](https://whoisalfaz.me/blog/essential-n8n-core-nodes-by-alfaz-mahmud-rizve/)​
 
-Email notifications drown in inboxes. Slack (or Discord) pings cut through noise, especially for teams monitoring high-intent leads—like demo requests or pricing page abandons.
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-[Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/) has tested this at whoisalfaz.me: **n8n Slack notifications** boosted our lead response time from 4 hours to 4 minutes, increasing conversions by 15%. They're instant, threaded, and integrate with your CRM.
+## Why lead enrichment with n8n matters
 
-Key benefits:
+When leads arrive with only an email address, sales teams waste time researching basics like company size, website, and city. Automated **lead enrichment with n8n** handles this grunt work in the background.​
 
-- **Real-time delivery**: No inbox overload.
+For SaaS founders and agencies, this means:
 
-- **Rich formatting**: Embed lead data, links, and buttons.
+- Better routing (e.g., high-ARR accounts straight to senior reps).[](https://n8n.io/workflows/12067-enrich-company-data-in-google-sheets-with-companyenrich/)​
 
-- **Filtering power**: Alert only on high-intent (e.g., score >80%).
+- Smarter personalization in outbound and onboarding emails.[](https://research.aimultiple.com/ai-lead-generation/)​
 
-- **Multi-channel**: Slack, Discord, or even Teams.
+At whoisalfaz.me, **Alfaz Mahmud Rizve** treats enrichment as a baseline: no lead should enter a pipeline without at least company, website, and location attached.[](https://whoisalfaz.me/blog/essential-n8n-core-nodes-by-alfaz-mahmud-rizve/)​
 
-For agencies juggling clients, this means scalable monitoring without hiring VA's. Check the [n8n Slack node docs](https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.slack/) for official setup basics.
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-![n8n Slack notifications workflow detecting high-intent leads and sending alerts by Alfaz Mahmud Rizve, automation consultant at whoisalfaz.me for SaaS and agencies.](/images/blog/n8n-slack-notifications-by-alfaz-mahmud-rizve-Generated-Image-December-29-2025-4_13PM.webp)
+## What you will build (Day 11 workflow)
 
-## Defining High-Intent Leads: Your Filter Blueprint
+In this Day 11 entry of **30 Days of n8n & Automation**, you will build a workflow that:
 
-High-intent leads aren't every form submit—they're prospects ready to buy. At whoisalfaz.me, Alfaz Mahmud Rizve defines them by score (e.g., via Typeform or HubSpot) or behavior (e.g., visited pricing page).
+- Listens for new leads (from forms, imports, or a Google Sheet).[](https://research.aimultiple.com/ai-lead-generation/)​
 
-**Common triggers**:
+- Calls a **lead enrichment API** using the email or domain.​
 
-- Demo/pricing form submits.
+- Returns company name, website, and location fields.​
 
-- Intent score >80 (from tools like Clearbit).
+- Writes the enriched data back into your CRM or spreadsheet.​
 
-- Multi-page visits in one session.
+By the end, you will have a reusable **lead enrichment with n8n** template that you can clone for multiple brands or clients.​
 
-Mistake to avoid: Alerting on all traffic. I once flooded our Slack with low-quality tire-kickers—response fatigue killed conversions. Use n8n's Filter node to gatekeep.
+![Diagram of a lead enrichment with n8n workflow where a new lead from a form moves into an API enrichment step and then into CRM and Google Sheets, emphasizing automatic company, website, and location enrichment. Visual created to illustrate how automation consultant Alfaz Mahmud Rizve designs scalable lead enrichment with n8n for SaaS and agencies on whoisalfaz.me, highlighting each node in the workflow and the flow of enriched data for better sales operations](/images/blog/lead-enrichment-with-n8n-Generated-Image-December-30-2025-11_48PM.webp)
 
-Link up with [Day 5's post on n8n webhooks](https://whoisalfaz.me/blog/category/n8n-automation/) for lead capture basics.
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Step-by-Step: Build Your n8n Slack Notifications Workflow
+## Choosing the right enrichment API
 
-Let's build it. This production-ready workflow from whoisalfaz.me takes 10 minutes. Fork it in your n8n instance (self-hosted on Digital Ocean, as I recommend).
+You can use any enrichment provider that exposes a REST API and returns JSON.​
 
-## Step 1: Webhook Trigger for Lead Data
+Popular options include:
 
-Start with a Webhook node. It catches POST data from your form (e.g., via Zapier or direct from Framer/Webflow).
+- Firmographic APIs (e.g., company size, industry, location, website).​
+
+- IP-based enrichment to turn anonymous traffic into company profiles.[](https://www.leadfeeder.com/ip-enrich-api/)​
+
+When **Alfaz Mahmud Rizve** designs workflows at **whoisalfaz.me**, the selection process usually follows this rule:
+
+- Start with one API that has a generous free tier.[](https://www.leadfeeder.com/ip-enrich-api/)​
+
+- Confirm it supports your primary identifier (email, domain, or IP).​
+
+Even if you later swap providers, your **lead enrichment with n8n** structure can stay identical—only the HTTP Request configuration changes.​
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## Core nodes you will use (building on Day 6)
+
+Day 6 of this series already covered the **essential n8n core nodes** like HTTP Request, Set, Merge, and Code.[](https://whoisalfaz.me/blog/essential-n8n-core-nodes-by-alfaz-mahmud-rizve/)​
+
+In this **lead enrichment with n8n** workflow, you will primarily use:
+
+- **Trigger node** (Webhook, Google Sheets, or CRM trigger).​
+
+- **HTTP Request** to call the enrichment API.​
+
+- **Set** to clean and normalize fields (company, website, location).​
+
+- **If** to handle missing or failed enrichments.​
+
+- Optional **Code** node for tiny transformations or fallbacks.​
+
+This structure is almost identical to production workflows **Alfaz Mahmud Rizve** uses for client lead pipelines at whoisalfaz.me.​
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## Step-by-step: basic lead enrichment with n8n
+
+![Interface view of an HTTP Request node in n8n configured to call a lead enrichment API using email and domain, along with a Set node that maps response fields into enriched_company, enriched_website, enriched_city, and enriched_country. The image supports a tutorial by automation consultant Alfaz Mahmud Rizve on whoisalfaz.me demonstrating lead enrichment with n8n for SaaS and agencies, and visually guides readers on how to structure their API call and normalization steps](/images/blog/lead-enrichment-with-n8n-Generated-Image-December-30-2025-11_37PM.webp)
+
+This section walks through a minimal yet production-ready **lead enrichment with n8n** workflow where input and output live in Google Sheets.​
+
+## 1. Prepare your input sheet
+
+Create a Google Sheet with columns like:
+
+- email
+
+- first_name
+
+- last_name
+
+- company_input (optional)
+
+- domain_input (optional)
+
+- enriched_company
+
+- enriched_website
+
+- enriched_city
+
+- enriched_country
+
+A sample “Enrich Company Data in Google Sheets” setup is documented in n8n’s official workflows, where the enrichment API fills revenue, employee count, and location fields.[](https://n8n.io/workflows/12067-enrich-company-data-in-google-sheets-with-companyenrich/)​
+
+At **whoisalfaz.me**, **Alfaz Mahmud Rizve** often also adds a `status` column (“pending”, “enriched”, “failed”) to keep tracking clean for agencies managing many leads.[](https://n8n.io/workflows/12067-enrich-company-data-in-google-sheets-with-companyenrich/)​
+
+## 2. Trigger: Google Sheets or Webhook
+
+Use one of two patterns for **lead enrichment with n8n**:
+
+- Google Sheets trigger: fires when a new row is added or updated.[](https://n8n.io/workflows/12067-enrich-company-data-in-google-sheets-with-companyenrich/)​
+
+- Webhook trigger: form tools (Typeform, HubSpot, Webflow, etc.) call n8n when a lead submits.[](https://research.aimultiple.com/ai-lead-generation/)​
+
+For non-technical teams, the Google Sheets trigger is easiest, while SaaS products usually prefer a webhook-based approach.​
+
+## 3. Build the HTTP Request node
+
+Add an **HTTP Request** node and configure it roughly like this:
+
+- Method: `GET` or `POST` (depends on your API).​
+
+- URL: provider endpoint, for example a “match & enrich” or “company enrich” URL.​
+
+- Authentication: API Key in Header (`Authorization: Bearer YOUR_API_KEY`).[](https://n8n.io/workflows/12067-enrich-company-data-in-google-sheets-with-companyenrich/)​
+
+- Query/body parameters: pass email or domain from the incoming item.​
+
+Many APIs return fields like `company_name`, `website`, `location_city_name`, and `country`.​
+
+Once the node works for one sample lead, **Alfaz Mahmud Rizve** recommends saving these settings in an n8n credential to reuse them across multiple **lead enrichment with n8n** workflows.​
+
+## Example JSON mapping (pseudo)
+
+```
+json`{
+  "email": "test@example.com",
+  "company": "Example Inc",
+  "website": "https://example.com",
+  "location": {
+    "city": "San Francisco",
+    "country": "United States"
+  }
+}
+`
+```
+
+This structure matches common enrichment responses where company, website, and location are grouped in a single payload.​
+
+## 4. Normalize data with Set (and optional Code)
+
+After the HTTP Request node, add a **Set** node to map API fields into clean property names:​
+
+- `enriched_company` ← `company_name`
+
+- `enriched_website` ← `website`
+
+- `enriched_city` ← `location_city_name`
+
+- `enriched_country` ← `location_country_name`
+
+In Day 6’s core node article, using Set earlier made workflows cleaner and easier to debug, and that pattern applies strongly in **lead enrichment with n8n**.[](https://whoisalfaz.me/blog/essential-n8n-core-nodes-by-alfaz-mahmud-rizve/)​
+
+Optionally, add a small **Code** node to:
+
+- Force lowercase domains.
+
+- Strip tracking parameters from URLs.
+
+- Combine `city` + `country` into `location_label`.
+
+n8n’s documentation shows how code nodes are often just a few lines of JavaScript, even for AI-driven enrichment patterns.​
+
+## 5. Write enriched data back
+
+Finally, send the enriched fields to your storage:
+
+- Google Sheets “Update” node to fill the enrichment columns.[](https://n8n.io/workflows/12067-enrich-company-data-in-google-sheets-with-companyenrich/)​
+
+- CRM nodes (HubSpot, Pipedrive, Salesforce) to update contact/company records.[](https://research.aimultiple.com/ai-lead-generation/)​
+
+Official n8n workflow examples often use domain as a unique key to match rows and update only specific columns (like revenue, employees, and location).​
+
+For SaaS and agencies, **Alfaz Mahmud Rizve** suggests always writing a `last_enriched_at` timestamp to help you later manage retries or changes in provider quality at whoisalfaz.me.​
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## Handling failures and avoiding API waste
+
+Raw **lead enrichment with n8n** is not enough; you must handle:
+
+- Missing data.
+
+- Rate limits.
+
+- Expensive calls on repeated leads.​
+
+## Use If nodes for basic branching
+
+Insert an **If** node just after HTTP Request to check whether the API returned a valid company.​
+
+For example:
+
+- If `company_name` exists → go to Set and write out.
+
+- Else → mark as `status: "no_match"` and skip writing enrichment.
+
+This simple branching pattern appears in many n8n templates, especially those doing multi-step enrichment or scraping.​
+
+## Add simple caching
+
+To avoid repeated calls, **lead enrichment with n8n** workflows often:
+
+- Store enriched data in a sheet or database keyed by domain.​
+
+- Check “Do we already know this domain?” before calling the enrichment API.​
+
+Community workflows show how using a separate “cache” sheet or table significantly reduces cost while keeping enrichment fresh.​
+
+At whoisalfaz.me, **Alfaz Mahmud Rizve** uses a habit: “Never enrich the same domain more than once in 24 hours unless debugging.”​
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## Real-world example: from form submission to enriched lead
+
+Here is how a full production **lead enrichment with n8n** pipeline might look for a SaaS free-trial signup.​
 
 1. $1
 
@@ -72,133 +260,94 @@ Start with a Webhook node. It catches POST data from your form (e.g., via Zapier
 
 3. $1
 
-Pro tip: Enable "Respond Immediately" to avoid timeouts.
+4. $1
 
-## Step 2: Filter for High-Intent Only
+5. $1
 
-Add a **Filter** node after Webhook.
+6. $1
 
-Configuration (copy-paste):
+n8n’s lead-generation examples show how this style of workflow can also include AI steps to score or classify the enriched lead before routing.[](https://www.youtube.com/watch?v=D-F6Kycr5JE)​[](https://research.aimultiple.com/ai-lead-generation/)​
 
-```
-text`Condition: Number
-Value 1: {{$json.intent}}
-Operation: Larger
-Value 2: 80
-`
-```
+This end-to-end pattern is exactly what **Alfaz Mahmud Rizve** deploys for agencies that want qualified leads in their CRM instead of raw form submissions, and these are documented workflows at whoisalfaz.me.​
 
-This drops low-intent noise. Alfaz Mahmud Rizve's rule: Always filter >75% to respect your team's attention.
+![Isometric pipeline showing a user submitting a signup form, the data traveling through an n8n workflow into a lead enrichment API, then updating a CRM and sending Slack alerts for high-priority accounts. This visual created for whoisalfaz.me illustrates how Alfaz Mahmud Rizve structures production-ready lead enrichment with n8n for SaaS and agencies, connecting signup forms, enrichment services, and sales tools in a single automated system](/images/blog/lead-enrichment-with-n8n-Generated-Image-December-30-2025-11_38PM.webp)
 
-## Step 3: Format Slack Message with Rich Embeds
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-**Slack** node next. Connect your workspace (use [n8n Slack auth guide](https://docs.n8n.io/integrations/creating-nodes/monitor/create-slack-channel/)).
+## Mistakes to avoid when enriching leads with n8n
 
-Message template (copy this JSON):
+There are a few classic traps that kill the ROI of **lead enrichment with n8n**:
 
-```
-text`{
-  "channel": "#leads",
-  "text": "🚀 *High-Intent Lead Alert* from {{$json.source}}",
-  "blocks": [
-    {
-      "type": "section",
-      "text": {"type": "mrkdwn", "text": "*Name:* {{$json.name}}\n*Email:* {{$json.email}}\n*Intent Score:* {{$json.intent}}/100"}
-    },
-    {
-      "type": "actions",
-      "elements": [
-        {"type": "button", "text": {"type": "plain_text", "text": "Add to CRM"}, "url": "https://your-crm.com/add?email={{$json.email}}"}
-      ]
-    }
-  ]
-}
-`
-```
+- Calling the API too early: Enrich after you are sure the lead is valid (e.g., email verified).[](https://www.youtube.com/watch?v=D-F6Kycr5JE)​[](https://research.aimultiple.com/ai-lead-generation/)​
 
-Boom—interactive alert with buttons.
+- Ignoring rate limits: Most enrichment APIs enforce limits, and n8n workflows should respect these using built-in controls.​
 
-## Step 4: Discord Backup (Optional Multi-Channel)
+- Not mapping fields consistently: Inconsistent field names across workflows make downstream analytics painful.​
 
-Duplicate the Slack branch with an **IF** node. For Discord:
+Official workflow guides often recommend centralizing your enrichment fields (e.g., always `company_name`, `website`, `location_city_name`) to align multiple pipelines.​
 
-Add **HTTP Request** to Discord webhook URL:
+**Alfaz Mahmud Rizve’s** personal rule at **whoisalfaz.me**: “If a field is important enough to enrich, it is important enough to standardize.”​
 
-```
-text`Method: POST
-URL: https://discord.com/api/webhooks/YOUR_WEBHOOK_ID
-Body: {"content": "New lead: {{$json.name}} ({{$json.intent}}) - {{$json.email}}"}
-`
-```
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-See [Discord webhook docs](https://discord.com/developers/docs/resources/webhook#execute-webhook) for setup.
+## Reusable enrichment framework for SaaS & agencies
 
-## Step 5: Error Handling & Logging
+You can treat **lead enrichment with n8n** as a reusable pattern that always follows the same steps:​
 
-Add **Error Trigger** (from Day 8) for retries. Log to Google Sheets via [n8n Sheets node](https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.googlesheets/).
+1. $1
 
-Test end-to-end: Send a high-intent payload. Slack pings instantly.
+2. $1
 
-For full workflow JSON export, comment below—I'll share mine from whoisalfaz.me.
+3. $1
 
-![Step-by-step n8n Slack notifications setup for high-intent leads by Alfaz Mahmud Rizve, practical automation for SaaS founders and agencies at whoisalfaz.me](/images/blog/n8n-slack-notifications-by-alfaz-mahmud-rizve-Generated-Image-December-29-2025-4_13PM-1.webp)
+4. $1
 
-## Real-World Example: whoisalfaz.me Lead Pipeline
+5. $1
 
-At whoisalfaz.me, this **n8n Slack notifications** workflow powers our affiliate lead gen. A Typeform on pricing page → Webhook → Filter (intent >85) → Slack #affiliates + Brevo email.
+6. $1
 
-Results: Caught a $5K agency client who submitted at midnight. Without it? Lost in email.
+n8n’s workflow library shows multiple enrichment templates that follow exactly this pattern, only swapping in different enrichment or scraping providers.​
 
-Customization for you:
+At whoisalfaz.me,[ **Alfaz Mahmud Rizve** ](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/)encourages agencies to standardize this framework so that every new client gets the same reliable enrichment backbone with minimal setup time.​
 
-- **SaaS**: Integrate with HubSpot API for score pull.
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-- **Agencies**: Route by client ID (e.g., Slack to #clientX).
+## Checklist: ship your lead enrichment with n8n
 
-- **Solo**: Swap Slack for Discord personal server.
+Use this quick checklist before you call the workflow “done”:
 
-Common pitfalls:
+-  Defined a single identifier (email, domain, or IP) for enrichment.​
 
-- Forgotten auth tokens—regenerate monthly.
+-  Configured a working HTTP Request node against your chosen API.​
 
-- Payload mismatches—always validate JSON first with Code node.
+-  Used Set to normalize `company`, `website`, and `location` fields.​
 
-- Rate limits—add Wait node (1s) between channels.
+-  Added an If node for failed or empty responses.​
 
-Tweak for your stack: Link to [Day 3 on n8n Typeform integration](https://whoisalfaz.me/blog/category/n8n-automation/).
+-  Updated storage (Google Sheets or CRM) with enriched fields.​
 
-## Checklist: Deploy Your n8n Slack Notifications Today
+-  Implemented basic caching to avoid unnecessary repeated calls.​
 
-Tick these off for a live system in 30 minutes:
+-  Logged or notified high-value enriched leads for faster follow-up.[](https://www.youtube.com/watch?v=D-F6Kycr5JE)​[](https://research.aimultiple.com/ai-lead-generation/)​
 
--  Install n8n (Docker on Digital Ocean, $6/mo).
+This checklist mirrors the production workflows that official n8n examples use for company enrichment and AI-assisted pipelines.​
 
--  Create Slack app → Get bot token ([guide](https://api.slack.com/apps)).
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
 
--  Build/test Webhook + Filter + Slack nodes.
+### Building flows in n8n is powerful, but your automation is only as good as your data source. If you are tired of hitting API limits or getting bad data from standard providers, read my new guide on **[5 Outstanding Ideas for B2B Lead Generation](https://www.google.com/search?q=link-to-new-post)** to see how AI Agents can replace manual API stitching
 
--  Set intent threshold (start at 80).
+## Series context
 
--  Add Discord/Sheets backup.
+This article is part of the **30 Days of n8n & Automation** series at whoisalfaz.me.[](https://whoisalfaz.me/blog/essential-n8n-core-nodes-by-alfaz-mahmud-rizve/)​
 
--  Point form to webhook URL.
+Earlier posts you should read next or reference inside your editor:
 
--  Monitor first 10 alerts—adjust filter.
+- Day 6’s guide on **essential n8n core nodes** shows how HTTP Request, Set, and If work, which are heavily used in **lead enrichment with n8n**.[](https://whoisalfaz.me/blog/essential-n8n-core-nodes-by-alfaz-mahmud-rizve/)​
 
--  Export JSON as backup.
+- Other n8n automation posts at whoisalfaz.me (e.g., scraping and AI-assisted enrichment) layer nicely on top of the workflow you built today.​
 
-Done? You've automated lead alerts better than 90% of SaaS tools.
+You can also explore the broader n8n automation category to see how **Alfaz Mahmud Rizve** applies similar patterns to AI workflows and multi-step lead pipelines.​
 
-![Advanced n8n Slack notifications integrated with CRM for high-intent lead alerts by Alfaz Mahmud Rizve, automation workflows for agencies and SaaS at whoisalfaz.me](/images/blog/n8n-slack-notifications-by-alfaz-mahmud-rizve-Generated-Image-December-29-2025-4_14PM.webp)
+If you enjoyed this Day 11 breakdown of **lead enrichment with n8n**, try implementing this workflow in your own n8n instance today and track how much manual research time you remove from your week.​
 
-## Day 10 in the 30 Days of n8n & Automation Series
-
-This fits perfectly after Day 9's error workflows—now your alerts are bulletproof. Catch up on the full series at[ .](https://whoisalfaz.me/blog/category/n8n-automation/.)[n8n automation](https://whoisalfaz.me/blog/category/n8n-automation/)
-
-Tomorrow (Day 11): n8n CRM auto-sync for converted leads. Subscribe to stay ahead.
-
-## Ready to Never Miss a Lead Again?
-
-Copy the workflow, deploy it, and reply in comments: "Day 10 live—what's your intent threshold?" Alfaz Mahmud Rizve and the whoisalfaz.me team read every one.
-
-Subscribe to the[ newsletter](https://whoisalfaz.me/blog/contact-alfaz-mahmud-rizve/) for Day 11 + exclusive n8n templates. Automate smarter—your ROI awaits.
+Then, subscribe to the newsletter at [**whoisalfaz.me** ](https://whoisalfaz.me/blog/)so you do not miss tomorrow’s Day 12 automation in the 30 Days of n8n & Automation series from[ **Alfaz Mahmud Rizve**](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/)

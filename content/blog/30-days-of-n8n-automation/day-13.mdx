@@ -1,61 +1,61 @@
 ---
 title: >-
-  Automated Email Follow Up: How to Build a Smart System with n8n & Brevo – 30
-  Days of n8n & Automation – Day 12
-slug: automated-email-follow-up-n8n-brevo
+  Facebook Lead Ads Automation: Sync Leads to CRM for Free with n8n – 30 Days of
+  n8n & Automation – Day 13
+slug: facebook-lead-ads-automation-by-alfaz-mahmud-rizve
 description: >-
-  Stop losing leads. Learn to build an automated email follow up system with n8n
-  and Brevo . A guide to catchup no-reply leads 24/7 using smart workflows
-date: '2025-12-31'
+  Stop paying for Zapier. Learn Facebook Lead Ads Automation with n8n. A
+  complete guide to syncing leads to your CRM instantly and for free. Build your
+  real-time pipeline today
+date: '2026-01-01'
 seoTitle: >-
-  Automated Email Follow Up: How to Build a Smart System with n8n & Brevo – 30
-  Days of n8n & Automation – Day 12 - AI automation for SaaS & agencies | Alfaz
-  Mahmud Rizve
+  Facebook Lead Ads Automation: Sync Leads to CRM for Free with n8n – 30 Days of
+  n8n & Automation – Day 13 - AI automation for SaaS & agencies | Alfaz Mahmud
+  Rizve
 seoDescription: >-
-  Stop losing leads. Learn to build an automated email follow up system with n8n
-  and Brevo . A guide to catchup no-reply leads 24/7 using smart workflows
-image: /images/blog/automated-email-follow-up-n8n-brevo-featured.webp
+  Stop paying for Zapier. Learn Facebook Lead Ads Automation with n8n. A
+  complete guide to syncing leads to your CRM instantly and for free. Build your
+  real-time pipeline today
+image: /images/blog/facebook-lead-ads-automation-by-alfaz-mahmud-rizve-featured.webp
 categories:
   - 30 Days of n8n and automation
 ---
 
-Sending the first cold email is easy. It feels productive. You hit "send," and you feel like you have done your job. But the brutal reality of sales and marketing is that **80% of sales require at least five follow-ups**, yet 44% of salespeople give up after just one attempt.
+Speed to lead is the single most important metric in paid advertising. The Harvard Business Review reports that companies that contact potential customers within an hour of receiving a query are nearly **seven times as likely** to qualify the lead as those that try just one hour later.
 
-The money is not in the outreach; the money is in the persistence.
+If you are manually downloading CSV files from Facebook Ads Manager at the end of the day, you are burning your ad budget. By the time you call, the lead has already forgotten who you are—or bought from a competitor who called them five minutes ago.
 
-If you are manually tracking who replied, who ghosted you, and who needs a nudge 3 days from now, you are already losing. You are wasting mental energy on administration instead of strategy. **Automated email follow up** systems are the secret weapon of top-performing agencies, allowing you to build a system that acts as your relentless, polite, and tireless sales assistant.
+![Facebook Lead Ads Automationn8n workflow diagram showing a Facebook logo connecting to a central n8n node, which then branches out to HubSpot, Google Sheets, and Slack icons, illustrating instant lead synchronization. The title "Instant Facebook Lead Sync" is at the top. Branded with whoisalfaz.me by Alfaz Mahmud Rizve](/images/blog/facebook-lead-ads-automation-by-alfaz-mahmud-rizve-unnamed-14.webp)
 
-In this Day 12 guide of **[30 Days of n8n & Automation](https://www.google.com/search?q=https://whoisalfaz.me/blog/category/n8n-automation/)**, we are going to move beyond simple "trigger-action" workflows. We are building a **stateful automation**—a workflow that "remembers" a user, waits for a specific duration, checks for changes in behavior (like a reply), and acts accordingly.
+**Facebook Lead Ads automation** is not just an efficiency hack; it is a revenue requirement. But tools like Zapier often gate this feature behind "Premium" tiers or charge you per task, which penalizes you for scaling.
 
-Throughout this deep-dive guide, examples come from real outreach and retention workflows that **Alfaz Mahmud Rizve** architects for high-growth SaaS companies and lead-gen agencies at **whoisalfaz.me**.
+In this Day 13 guide of **[30 Days of n8n & Automation](https://www.google.com/search?q=https://whoisalfaz.me/blog/category/n8n-automation/)**, we will build a real-time pipeline that captures leads the second a form is submitted, formats the data, and pushes it directly into your CRM or Google Sheet—**for free** (using self-hosted n8n) or at a fraction of the cost.
+
+Throughout this guide, examples come from live ad campaigns that **Alfaz Mahmud Rizve** manages for performance marketing agencies at **whoisalfaz.me**.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Why automated email follow up is non-negotiable
+## Why n8n Beats Zapier for Facebook Lead Ads
 
-Before we open n8n, we need to understand the problem we are solving. Most businesses have a "leaky bucket." You pour leads in at the top, but they leak out because no one is there to catch them when they don't buy immediately.
-
-Dedicated tools like Smartlead or Lemlist are great, but they can be expensive and rigid. Building your own **automated email follow up** system in n8n gives you total control over the logic, integrates with your entire stack (Slack, CRM, Sheets), and costs a fraction of the price.
-
-Here is why you need to automate this today:
+Most marketers start with Zapier. It’s easy, but it has two major flaws for scaling agencies:
 
 1. $1
 
 2. $1
 
-3. $1
+Using n8n for **Facebook Lead Ads automation** allows you to handle unlimited leads for a flat cost and gives you powerful JavaScript tools to clean dirty data before it ever hits your sales team's dashboard.
 
-At **whoisalfaz.me**, **Alfaz Mahmud Rizve** teaches that "Automation is not about replacing humans; it is about allowing humans to focus on the replies, not the silence."
+At **whoisalfaz.me**, **Alfaz Mahmud Rizve** advises clients: "Own your pipeline. Do not rent it from a tool that charges you per handshake."
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Architecture: The "Check-Wait-Check" Pattern
+## Architecture: The "Instant Capture" Pattern
 
-To build a robust **automated email follow up** system in n8n, you cannot just chain "Email Node" -> "Email Node." That is how you spam people.
+We are moving away from "polling" (checking every 15 minutes) to "instant triggers" (Webhooks).
 
-We need a smarter architecture. We call this the **Check-Wait-Check** pattern.
+![Isometric flowchart titled "Instant Capture Architecture" showing the four-step automation process: 1. Facebook Form Submit (Trigger) on a mobile phone, 2. n8n Data Cleaning (Transform) via a gear icon, 3. Google Sheets (Backup) and CRM (Destination), and 4. Slack Alert (Notification) via a bell icon.Branded with whoisalfaz.me by Alfaz Mahmud Rizve](/images/blog/facebook-lead-ads-automation-by-alfaz-mahmud-rizve-unnamed-15.webp)
 
-### How it works:
+### The Workflow Logic:
 
 1. $1
 
@@ -65,135 +65,110 @@ We need a smarter architecture. We call this the **Check-Wait-Check** pattern.
 
 4. $1
 
-This architecture is robust. It handles the edge case where a user replies on Day 2. If your workflow didn't check on Day 3, you would send them a generic follow-up *after* they already started a conversation. That is the quickest way to look like a robot and kill a deal.
-
-![Isometric diagram illustrating the 'Check-Wait-Check' automated email follow-up logic, showing the flow from Brevo Trigger, to Wait, then Get Contact, and a decision point to either Send Follow-up Email or Stop. Branded with whoisalfaz.me and Alfaz Mahmud Rizve.](/images/blog/automated-email-follow-up-n8n-brevo-unnamed-12.webp)
+This ensures that the time between "Submit" and "Notification" is under 3 seconds.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Prerequisites: Setting up Brevo for Automation
+## Prerequisites: The Facebook Developer Setup
 
-Brevo (formerly Sendinblue) is perfect for this because it has a robust API and allows for "Transactional" sending, which ensures high deliverability.
+Unlike Zapier, n8n requires a secure handshake with Meta’s API.
 
-### 1. The "Replied" Attribute
+1. $1
 
-You need a way to tell n8n that a user has replied.
+2. $1
 
-- **Strategy:** Create a contact attribute in Brevo called `LEAD_STAGE`.
+3. $1
 
-- **Default Value:** `COLD`.
-
-- **Update Logic:** When a user replies (tracked via webhook or manual move), update this attribute to `REPLIED`.
-
-### 2. The Email Templates
-
-Do not write your email body inside the n8n node. It makes editing painful later. Use Brevo's template builder.
-
-- **Template 1 (ID: 5):** "Welcome / Here is the info you asked for."
-
-- **Template 2 (ID: 6):** "Just bumping this / Did you see my last email?"
-
-- **Template 3 (ID: 7):** "Last try / specific value add."
-
-Write these down. You will need the integer IDs (e.g., `5`, `6`, `7`) for the n8n configuration.
+*Tip: If you find the Facebook API setup daunting, **[Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/contact-alfaz-mahmud-rizve/)** offers specific consultation sessions to handle this initial configuration for agencies.*
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Step-by-Step Build: automated email follow up workflow
+## Step-by-Step: Building Your Facebook Lead Ads Automation
 
-Now, let's open your n8n editor. We will build this node by node.
+Let’s open the n8n editor and build this real-time bridge node by node.
 
-![n8n workflow diagram for automated email follow-ups with Brevo, featuring Brevo Trigger, Send Email, Wait, Get Contact, and If nodes. Title reads '30 Days of n8n & Automation - Day 12'. Branded with whoisalfaz.me and Alfaz Mahmud Rizve.](/images/blog/automated-email-follow-up-n8n-brevo-unnamed-11.webp)
+### Phase 1: The Trigger
 
-### Phase 1: The Entry Point
+**Node 1: Facebook Lead Ads Trigger**
 
-**Node 1: The Trigger**
+- **Node Type:** `Facebook Lead Ads`.
 
-- **Node Type:** `Brevo Trigger` (or `Webhook`).
+- **Event:** `New Lead`.
 
-- **Event:** `Contact Created` or `Contact Added to List`.
+- **Credential:** Connect your Facebook account (OAuth2).
 
-- **List Selection:** Choose your specific "Inbound Leads" list.
+- **Page:** Select the specific Facebook Page running ads.
 
-- **Why:** This ensures the **automated email follow up** starts the moment a lead exists.
+- **Form:** Select "All Forms" (Recommended).
 
-**Node 2: The Initial Send**
+**Testing:** Use the **Facebook Lead Ads Testing Tool** ([developers.facebook.com/tools/lead-ads-testing](https://developers.facebook.com/tools/lead-ads-testing)) to send a fake lead. If n8n captures it, you are live.
 
-- **Node Type:** `Brevo`.
+### Phase 2: Data Cleaning (The Secret Sauce)
 
-- **Resource:** `Transactional Emails`.
+Facebook data is often messy. The phone number might come in as `+1 (555) 123-4567`. Your CRM hates this format; it wants `5551234567` for click-to-dial functionality.
 
-- **Operation:** `Send`.
+![Visual infographic showing raw, messy data from Facebook (e.g., "Phone: [+1 (555) 123-4567]") on the left, passing through an n8n Set Node, and emerging as clean, formatted data (e.g., "Phone: 5551234567") on the right.Branded with whoisalfaz.me by Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/wp-content/uploads/2026/01/unnamed-16.webp)
 
-- **Recipient Email:** Expression: `{{ $json.email }}`.
+**Node 2: The Set Node (Formatting)**
 
-- **Template ID:** Enter your first template ID (e.g., `5`).
+- **Node Type:** `Set`.
 
-*At this point, the lead has received the first email. Now the magic begins.*
+- **Action:** Create clean variables for downstream nodes.
 
-### Phase 2: The "Hold"
+- **Name:** `{{ $json.full_name }}`
 
-**Node 3: The Wait Node**
+- **Email:** `{{ $json.email }}`
 
-- **Node Type:** `Wait`.
+- **Phone:** Use a simple regex expression to strip dashes, spaces, and plus signs.
+<ul class="wp-block-list">
+<li>*Expression:* `{{ $json.phone_number.toString().replace(/\D/g, '') }}`
 
-- **Resume:** `After time interval`.
+</li>
 
-- **Amount:** `3`.
+<li>**Ad Source:** `{{ $json.ad_name }}` (Crucial for tracking ROI).</li>
+</ul>
 
-- **Unit:** `Days`.
+### Phase 3: The Sync
 
-- **Important Note:** n8n stores the execution data for these 3 days. This "drip" timing is key to simulating natural human behavior.
+**Node 3: Google Sheets (The Backup)**
 
-### Phase 3: The Intelligence Check
+- **Node Type:** `Google Sheets`.
 
-**Node 4: Get Fresh Data**
+- **Operation:** `Append`.
 
-- **Node Type:** `Brevo`.
+- **Map Fields:** Map your cleaned Name, Email, Phone, and Ad Source.
+
+- **Why:** CRMs can go down or have API errors. A Google Sheet is your "source of truth" backup. **Alfaz Mahmud Rizve** never builds a lead pipeline without a backup sheet.
+
+**Node 4: CRM Create (HubSpot/Pipedrive)**
+
+- **Node Type:** `HubSpot` (or your tool of choice).
 
 - **Resource:** `Contact`.
 
-- **Operation:** `Get`.
+- **Operation:** `Create`.
 
-- **Identifier:** `Email`.
+- **Lead Status:** Set to `New`.
 
-- **Value:** `{{ $json.email }}` (Reference the email from the trigger node).
+- **Lead Source:** Hardcode as `Facebook Ads`.
 
-- **Why:** This is the most critical step. We are ignoring the data from 3 days ago and asking Brevo, "What is the status *now*?"
+### Phase 4: The Instant Alert
 
-**Node 5: The Logic Branch (If Node)**
+**Node 5: Slack / Discord**
 
-- **Node Type:** `If`.
+- **Node Type:** `Slack`.
 
-- **Condition:** String.
+- **Channel:** `#sales-leads`.
 
-- **Value 1:** `{{ $json.attributes.LEAD_STAGE }}`
-
-- **Operation:** `Not Equal`
-
-- **Value 2:** `REPLIED`.
-
-**Logic Explained:**
-
-- If the status is **NOT** "Replied", the output goes to the **True** branch. This means "Yes, continue pestering them."
-
-- If the status **IS** "Replied", the output goes to the **False** branch. This means "Stop, we are done here."
-
-### Phase 4: The Follow-Up
-
-**Node 6: Send Email 2**
-
-- Connect to the **True** output of the If node.
-
-- **Node Type:** `Brevo`.
-
-- **Template ID:** Enter your follow-up template ID (e.g., `6`).
+- **Message:**🚨 **New Hot Lead!** **Name:** {{ $json.full_name }} **Phone:** {{ $json.phone }} **Ad:** {{ $json.ad_name }} [Click to Call](tel:{{ $json.phone }})
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Scaling the Logic: Adding a Third Step
+## Real-World Use Case: Round-Robin Assignment
 
-Real sales cadences rarely stop at one follow-up. To add a third email, you simply repeat the pattern **after Node 6**:
+For larger agencies, simply dumping leads into a CRM isn't enough. You need to assign them to sales reps fairly.
+
+**Alfaz Mahmud Rizve** implements a "Round-Robin" logic at **whoisalfaz.me** using n8n:
 
 1. $1
 
@@ -201,50 +176,56 @@ Real sales cadences rarely stop at one follow-up. To add a third email, you simp
 
 3. $1
 
-4. $1
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-At **[whoisalfaz.me](https://whoisalfaz.me/blog/)**, **[Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/)** often builds workflows with up to 5 steps, but with increasing delays (Day 1, Day 3, Day 7, Day 14, Day 30). This "Exponential Backoff" strategy prevents you from being marked as spam while ensuring you stay top-of-mind.
+## Common Mistakes with Facebook Lead Ads Automation
+
+1. $1
+
+2. $1
+
+3. $1
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Advanced Logic: Making it "Human"
+## Checklist: Go Live
 
-One sign of a robot is receiving an automated email at 3:00 AM on a Sunday. To make your **automated email follow up** feel human, you should respect business hours.
+- ✅ **Test Tool:** Sent a test lead via Facebook Developer Tools and saw it in n8n.
 
-![](/images/blog/automated-email-follow-up-n8n-brevo-unnamed-13.webp)
+- ✅ **Field Mapping:** Verified that Name, Email, and Phone map correctly to the CRM.
 
-### How to implement "Business Hours Only" in n8n:
+- ✅ **Phone Formatting:** Ensured the phone number is clickable/dialable in the Slack alert.
 
-You can use the **Date & Time** node or a simple expression in the **Wait** node.
+- ✅ **Error Handling:** Added an error trigger to alert you if the sync fails.
 
-**Method:** Before sending the email, add an **If** node that checks the current day of the week.
-
-- Expression: `{{ $now.weekday }}` (Returns 1-7, where 1 is Monday and 7 is Sunday).
-
-- Logic: If `weekday > 5` (Saturday or Sunday), route to a **Wait** node set to "Wait 48 hours" or "Wait until Monday at 9 AM," then loop back to the send node.
+- ✅ **Notifications:** Confirmed the Slack alert tags the right sales team members.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Frequently Asked Questions
+## 🚀 2026: The Year You Stop Being a Data Entry Clerk
 
-**Q: Does this automated email follow up adhere to privacy laws?** Yes. Since you are using Brevo, all emails include mandatory unsubscribe links. n8n simply triggers the send; Brevo handles the CAN-SPAM and GDPR compliance.
+It is January 1st, 2026. Look back at 2025. How many hours did you spend downloading CSVs? How many times did you copy-paste an email address from a spreadsheet into an email draft?
 
-**Q: How do I avoid the spam folder?** To ensure high deliverability, avoid spam trigger words in your subject lines, keep your sending volume consistent, and always check if the user is blacklisted (Brevo returns `emailBlacklisted: true`) before sending the next follow-up.
+If you are reading this, you are likely an agency owner, a freelancer, or a growth marketer. You didn't start your business to move data from Column A to Column B. You started it to build strategy, be creative, and generate revenue.
 
-**Q: Can I integrate this with my CRM?** Absolutely. n8n allows you to add a node to update HubSpot, Salesforce, or Pipedrive every time a follow-up is sent, keeping your sales team in the loop without them lifting a finger.
+**Manual data entry is the silent killer of agency growth.**
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+When you handle leads manually:
 
-## Series Context
+- **You lose speed:** Every minute you delay, your lead gets colder.
 
-This article is part of the **30 Days of n8n & Automation** series at **whoisalfaz.me**.
+- **You lose focus:** Context switching between "Strategy Mode" and "Admin Mode" destroys your cognitive momentum.
 
-Earlier posts you should read next or reference inside your editor:
+- **You lose morale:** Nobody wakes up excited to format phone numbers.
 
-- **Day 11:** **[Lead Enrichment with n8n](https://www.google.com/search?q=https://whoisalfaz.me/blog/lead-enrichment-with-n8n/)** – The perfect precursor. Enrich your leads *before* you put them into this email drip to personalize the templates with their company name or city.
+In 2026, the divide between "High-Performance Agencies" and "Struggling Agencies" will not be about who has the better ad creative—it will be about **who has the better systems**.
 
-- **Day 6:** **[Essential n8n Core Nodes](https://whoisalfaz.me/blog/essential-n8n-core-nodes-by-alfaz-mahmud-rizve/)** – A refresher on how the *If* and *Merge* nodes work, which are critical for the logic branches used here.
+The high-performance agency has an automated backend. Their leads are synced instantly. Their follow-ups are automatic (like we built in Day 12). Their reporting updates itself. This frees up their brainpower to focus on what AI cannot do: building relationships and crafting killer offers.
 
-If you found this deep dive into **automated email follow up** helpful, try building the simple 2-step version today. You will be surprised how many "dead" leads come back to life with just one automated nudge.
+**My challenge to you for 2026:** Adopt an **"Automation First" mindset**. Before you do any task twice, ask yourself: *"Can n8n do this for me?"*
 
-Then, subscribe to the newsletter at **[whoisalfaz.me](https://whoisalfaz.me/blog/)** so you do not miss tomorrow’s Day 13 automation in the 30 Days of n8n & Automation series from **[Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/)**.
+If the answer is yes, build the workflow. Even if it takes you 2 hours to build and saves you 5 minutes a day, the math is on your side. In a year, that is 30 hours saved. But more importantly, it is 30 hours of *mental clarity* gained.
+
+This series, [**30 Days of n8n & Automation**,](https://whoisalfaz.me/blog/category/n8n-automation/) is your blueprint. You don't need a computer science degree. You just need the curiosity to connect the dots.
+
+Let’s make 2026 the year your operations finally catch up to your ambition.
