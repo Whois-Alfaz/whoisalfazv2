@@ -31,8 +31,9 @@ Here is the technical breakdown of what n8n actually is, and the four core engin
 n8n (pronounced “en-eight-en”) is an advanced, fair-code workflow automation tool. It acts as the central orchestration layer that connects your disparate APIs, databases, and SaaS applications into a single, cohesive backend.
 
 Unlike consumer-grade tools that force you into rigid, linear pathways, n8n gives you a visual canvas powered by actual code. You connect functional blocks called **nodes**, pass JSON payloads between them, and execute complex logic without having to provision a custom backend from scratch.
+*(Note: All links to access and deploy these tools are provided in the **Deploying the Stacks** section at the bottom of this post).*
 
-Because [n8n](/go/n8n) can be self-hosted on your own infrastructure (or deployed via their cloud), it has become the default choice for serious SaaS teams and RevOps agencies. You get the flexibility of custom code without paying per-task execution fees, meaning you can scale to millions of operations without your server costs spiraling out of control.
+Because n8n can be self-hosted on your own infrastructure (or deployed via their cloud), it has become the default choice for serious SaaS teams and RevOps agencies. You get the flexibility of custom code without paying per-task execution fees, meaning you can scale to millions of operations without your server costs spiraling out of control.
 
 ![n8n hub diagram by Alfaz Mahmud Rizve showing multiple SaaS tools connected in one automation workflow](/images/blog/what-is-n8n-by-alfaz-mahmud-rizve-2.png)
 
@@ -44,7 +45,7 @@ In computer science terms, a workflow in n8n is a **Directed Acyclic Graph (DAG)
 
 A production-ready workflow might:
 1.  Catch an instantaneous webhook from your SaaS application.
-2.  Route the email address to an enrichment API (like [Apollo.io](/go/apollo)) to fetch firmographic data.
+2.  Route the email address to an enrichment API (like Apollo.io) to fetch firmographic data.
 3.  Evaluate the company's MRR using a Switch node.
 4.  Ping a dedicated Slack channel and push the finalized JSON payload into your PostgreSQL database or CRM.
 
@@ -59,7 +60,7 @@ Nodes are the building blocks of your workflow. Instead of writing boilerplate c
 When building an enterprise OS, we categorize nodes into three distinct types:
 
 ### 1. App Nodes (The Connectors)
-These nodes natively talk to external SaaS tools and databases. Whether you are creating a ticket in Jira, updating a record in HubSpot, querying a Supabase database, or sending a transactional email via [Brevo](/go/brevo), App nodes handle the API handshake.
+These nodes natively talk to external SaaS tools and databases. Whether you are creating a ticket in Jira, updating a record in HubSpot, querying a Supabase database, or sending a transactional email via Brevo, App nodes handle the API handshake.
 
 ### 2. Logic Nodes (The Brain)
 This is where true RevOps architecture happens. Logic nodes do not talk to the outside world; they manipulate the data flow internally.
@@ -85,7 +86,7 @@ As discussed in Day 1, this is the gold standard for SaaS architecture. A Webhoo
 Many major platforms have dedicated trigger nodes built into n8n. These listen for specific events within a third-party ecosystem, such as "New Row in Google Sheets" or "Deal Won in Pipedrive."
 
 ### The Schedule Trigger (CRON Jobs)
-Not all workflows are reactionary. For backend maintenance—like running weekly database cleanups, generating Friday executive [Databox](/go/databox) reports, or syncing invoices—you use a Schedule trigger to execute workflows at precise intervals, replacing legacy CRON jobs.
+Not all workflows are reactionary. For backend maintenance—like running weekly database cleanups, generating Friday executive Databox reports, or syncing invoices—you use a Schedule trigger to execute workflows at precise intervals, replacing legacy CRON jobs.
 
 ![Trigger concept for n8n automation with alarm clock and workflow blocks, illustrated by Alfaz Mahmud Rizve.](/images/blog/what-is-n8n-by-alfaz-mahmud-rizve-5.png)
 
@@ -126,8 +127,16 @@ Understanding the canvas is the first step. Building on it is the next.
 
 If you have not spun up your infrastructure yet, you cannot execute the blueprints we will cover for the next 28 days.
 
-1.  **[Deploy your n8n orchestration instance here.](/go/n8n)**
-2.  **Familiarize yourself with the canvas**, create your first Webhook trigger, and execute a test payload.
+1.  **Deploy your instance**, familiarize yourself with the canvas, create your first Webhook trigger, and execute a test payload.
+
+## Deploying the Stacks (Resources)
+
+Here are the direct links to deploy the tools mentioned in today's blueprint:
+
+*   **n8n (Orchestrator)**: [Deploy your n8n orchestration instance here.](/go/n8n)
+*   **Apollo.io (Data Engine)**: [Lock in your Apollo B2B data pipeline here.](/go/apollo)
+*   **Brevo (Email/CRM)**: [Set up your Brevo transactional engine here.](/go/brevo)
+*   **Databox (Analytics)**: [Set up your executive Databox dashboard here.](/go/databox)
 
 Tomorrow, in Day 3, we move from theory into aggressive execution. We are going to build your first production-ready workflow from scratch.
 
