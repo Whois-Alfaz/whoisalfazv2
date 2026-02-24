@@ -231,11 +231,13 @@ export default async function Post({ params }) {
               prose-p:mb-8 prose-p:leading-8 prose-p:text-slate-300
               prose-a:text-blue-400 prose-a:no-underline hover:prose-a:text-blue-300 hover:prose-a:underline
               prose-img:max-w-3xl prose-img:mx-auto prose-img:rounded-2xl prose-img:shadow-2xl prose-img:my-12
-              prose-li:text-slate-300 prose-li:mb-2
-              prose-strong:text-white
+              prose-li:text-slate-300 prose-li:mb-4 prose-li:leading-7
+              prose-strong:text-white prose-strong:font-bold
+              prose-blockquote:border-l-4 prose-blockquote:border-teal-500 prose-blockquote:bg-teal-950/20 prose-blockquote:px-8 prose-blockquote:py-4 prose-blockquote:rounded-r-2xl prose-blockquote:text-slate-200 prose-blockquote:italic
+              prose-code:text-teal-300 prose-code:bg-slate-900 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:before:content-none prose-code:after:content-none
             ">
             {/* Affiliate Disclosure */}
-            <p className="text-slate-500 text-sm italic mb-10 border-l-2 border-slate-800 pl-4 py-1">
+            <p className="text-slate-500 text-sm italic mb-12 border-l-2 border-slate-800 pl-6 py-2 bg-slate-900/30 rounded-r-lg">
               This technical breakdown contains affiliate links. If you deploy this stack using my links, I earn a commission at no extra cost to you.
             </p>
 
