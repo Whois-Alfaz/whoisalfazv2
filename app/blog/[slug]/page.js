@@ -223,9 +223,19 @@ export default async function Post({ params }) {
         {/* RIGHT COLUMN: ARTICLE CONTENT */}
         <main className="min-w-0">
 
-          <div className="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-a:text-blue-400">
+          <div className="
+              prose prose-invert prose-lg max-w-none 
+              prose-headings:text-white prose-headings:font-bold
+              prose-h2:text-3xl prose-h2:mt-16 prose-h2:mb-6 prose-h2:tracking-tight
+              prose-h3:text-2xl prose-h3:text-teal-400 prose-h3:mt-8 prose-h3:mb-4
+              prose-p:mb-8 prose-p:leading-8 prose-p:text-slate-300
+              prose-a:text-blue-400 prose-a:no-underline hover:prose-a:text-blue-300 hover:prose-a:underline
+              prose-img:max-w-3xl prose-img:mx-auto prose-img:rounded-2xl prose-img:shadow-2xl prose-img:my-12
+              prose-li:text-slate-300 prose-li:mb-2
+              prose-strong:text-white
+            ">
             {/* Affiliate Disclosure */}
-            <p className="text-slate-500 text-sm italic mb-8 border-l-2 border-slate-800 pl-4 py-1">
+            <p className="text-slate-500 text-sm italic mb-10 border-l-2 border-slate-800 pl-4 py-1">
               This technical breakdown contains affiliate links. If you deploy this stack using my links, I earn a commission at no extra cost to you.
             </p>
 

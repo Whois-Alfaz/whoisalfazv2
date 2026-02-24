@@ -18,6 +18,7 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
   trailingSlash: true,
+  output: 'standalone',
   async redirects() {
     return [
       // 1. Redirect old Date-based WP URLs (Day precision)
