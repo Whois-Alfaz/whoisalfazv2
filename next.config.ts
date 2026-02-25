@@ -93,6 +93,16 @@ const nextConfig: NextConfig = {
         destination: 'https://try.elevenlabs.io/vde8vlnbokq4',
         permanent: true,
       },
+      {
+        source: '/go/vultr-promo',
+        destination: 'https://www.vultr.com/?ref=9859101-9J',
+        permanent: true,
+      },
+      {
+        source: '/go/vultr',
+        destination: 'https://www.vultr.com/?ref=9859100',
+        permanent: true,
+      },
     ];
   },
 };
