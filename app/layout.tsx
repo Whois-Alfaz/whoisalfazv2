@@ -64,6 +64,7 @@ export const metadata = {
   verification: {
     other: {
       'p:domain_verify': '5e4e50ddfe2f47c276a5cb4231bfb41b',
+      'msvalidate.01': '2257E8B198B7E17F540B2AAE8678E3F1',
     },
   },
 };
