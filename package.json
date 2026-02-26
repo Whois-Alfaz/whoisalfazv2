@@ -12,6 +12,7 @@
   "dependencies": {
     "@next/third-parties": "^16.1.6",
     "@prisma/client": "^6.19.2",
+    "@splinetool/react-spline": "^4.1.0",
     "@tailwindcss/typography": "^0.5.19",
     "clsx": "^2.1.1",
     "framer-motion": "^12.28.1",

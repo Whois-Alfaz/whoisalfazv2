@@ -10,6 +10,8 @@ import AutomationVisual from '../components/AutomationVisual';
 import PartnerLogos from '../components/PartnerLogos';
 
 
+import SplineRobot from '../components/SplineRobot';
+
 export default async function Home() {
   const posts = await getAllPosts();
 
@@ -20,21 +22,32 @@ export default async function Home() {
       <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/10 via-[#0a0a0a] to-[#0a0a0a] -z-10" />
 
       {/* SECTION 0: HERO (NEW) */}
-      <section className="max-w-5xl mx-auto px-6 pt-20 pb-24 text-center">
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight tracking-tight max-w-5xl mx-auto">
-          Sub-Second <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-200">Headless Architectures</span>, <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">Custom Web Apps</span> & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-200">Autonomous Revenue Systems</span>
-        </h1>
-        <p className="text-lg text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
-          I help Marketing Agencies migrate off legacy CMS platforms to high-performance Next.js stacks, engineer bespoke internal applications, and eliminate manual bottlenecks with n8n automation
-        </p>
+      <section className="max-w-7xl mx-auto px-6 pt-10 pb-24">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="text-left">
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight tracking-tight">
+              Sub-Second <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-200">Headless Architectures</span>, <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">Custom Web Apps</span> & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-200">Autonomous Revenue Systems</span>
+            </h1>
+            <p className="text-lg text-slate-400 mb-10 leading-relaxed max-w-2xl">
+              I help Marketing Agencies migrate off legacy CMS platforms to high-performance Next.js stacks, engineer bespoke internal applications, and eliminate manual bottlenecks with n8n automation
+            </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link href="/contact" className="px-8 py-4 bg-teal-400 hover:bg-teal-300 text-black font-bold rounded-lg shadow-[0_0_20px_rgba(45,212,191,0.3)] hover:shadow-[0_0_30px_rgba(45,212,191,0.5)] transition-all transform hover:-translate-y-1 block text-center">
-            Book a free strategy call
-          </Link>
-          <Link href="/services" className="px-8 py-4 bg-white text-black font-bold rounded-lg hover:bg-slate-200 transition-colors block text-center">
-            Explore Services & Automations
-          </Link>
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <Link href="/contact" className="w-full sm:w-auto px-8 py-4 bg-teal-400 hover:bg-teal-300 text-black font-bold rounded-lg shadow-[0_0_20px_rgba(45,212,191,0.3)] hover:shadow-[0_0_30px_rgba(45,212,191,0.5)] transition-all transform hover:-translate-y-1 block text-center">
+                Book a free strategy call
+              </Link>
+              <Link href="/services" className="w-full sm:w-auto px-8 py-4 bg-white text-black font-bold rounded-lg hover:bg-slate-200 transition-colors block text-center">
+                Explore Services
+              </Link>
+            </div>
+          </div>
+
+          <div className="relative group">
+            {/* Minimalist Exclusive Wrapper */}
+            <div className="relative z-10 bg-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl transition-all duration-700 hover:border-white/20">
+              <SplineRobot />
+            </div>
+          </div>
         </div>
 
         <div className="mt-16 border-t border-white/10 w-full mb-16"></div>
