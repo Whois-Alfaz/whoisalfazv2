@@ -83,6 +83,7 @@ export default function GlobalChatWidget() {
                 onClick={() => setIsOpen(!isOpen)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                aria-label={isOpen ? "Close chat" : "Open chat"}
                 className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-teal-500 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(45,212,191,0.3)] text-black hover:bg-teal-400 transition-colors"
             >
                 {isOpen ? <X size={24} /> : <MessageCircle size={28} />}

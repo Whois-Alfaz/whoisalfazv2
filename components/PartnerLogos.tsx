@@ -1,4 +1,4 @@
-"use client";
+
 
 interface Partner {
     name: string;
@@ -23,9 +23,9 @@ export default function PartnerLogos({ title }: { title: string }) {
 
     return (
         <div className="w-full">
-            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-8 font-mono text-center">
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-8 font-mono text-center">
                 {title}
-            </h3>
+            </p>
 
             <div className="relative overflow-hidden">
                 <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10 pointer-events-none" />
