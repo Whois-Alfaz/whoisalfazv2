@@ -1,12 +1,9 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import * as si from 'simple-icons';
 
 interface Partner {
     name: string;
-    logo?: string;
     siKey?: string;
     customPath?: string;
 }
@@ -24,210 +21,54 @@ const partners: Partner[] = [
     { name: "Wati", customPath: "M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.1 15.6h-10.2v-1.2h10.2v1.2zm0-3.6h-10.2v-1.2h10.2v1.2zm0-3.6h-10.2V7.2h10.2v1.2z" }
 ];
 
-interface PartnerLogosProps {
-    title: string;
-    subtitle?: string;
-    variant?: 'grid' | 'marquee' | 'stack';
+function LogoIcon({ partner }: { partner: Partner }) {
+    if (partner.siKey && (si as any)[partner.siKey]) {
+        return (
+            <svg role="img" viewBox="0 0 24 24" className="w-5 h-5 fill-current shrink-0">
+                <path d={((si as any)[partner.siKey] as { path: string }).path} />
+            </svg>
+        );
+    }
+    if (partner.customPath) {
+        return (
+            <svg role="img" viewBox="0 0 24 24" className="w-5 h-5 fill-current shrink-0">
+                <path d={partner.customPath} />
+            </svg>
+        );
+    }
+    return <span className="text-sm font-bold">{partner.name[0]}</span>;
 }
 
-export default function PartnerLogos({ title, subtitle, variant = 'grid' }: PartnerLogosProps) {
-    const [activeIndex, setActiveIndex] = useState(0);
-    const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-    const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
-
-    const startAutoPlay = () => {
-        if (variant === 'stack' && isAutoPlaying) {
-            autoPlayRef.current = setInterval(() => {
-                setActiveIndex((prev) => (prev + 1) % partners.length);
-            }, 4000);
-        }
-    };
-
-    const stopAutoPlay = () => {
-        if (autoPlayRef.current) {
-            clearInterval(autoPlayRef.current);
-            autoPlayRef.current = null;
-        }
-    };
-
-    useEffect(() => {
-        startAutoPlay();
-        return () => stopAutoPlay();
-    }, [variant, isAutoPlaying]);
-
-    const handleDragEnd = (event: React.PointerEvent | PointerEvent | TouchEvent | MouseEvent, info: { offset: { x: number, y: number } }) => {
-        if (Math.abs(info.offset.x) > 50) {
-            setIsAutoPlaying(false); // Pause auto-play on manual interaction
-            if (info.offset.x > 0) {
-                setActiveIndex((prev) => (prev - 1 + partners.length) % partners.length);
-            } else {
-                setActiveIndex((prev) => (prev + 1) % partners.length);
-            }
-            // Resume after 10s of inactivity
-            setTimeout(() => setIsAutoPlaying(true), 10000);
-        }
-    };
+export default function PartnerLogos({ title }: { title: string }) {
+    // Duplicate the list for seamless infinite loop
+    const items = [...partners, ...partners];
 
     return (
         <div className="w-full">
-            <div className="text-center mb-10">
-                <motion.h3
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 font-mono"
-                >
-                    {title}
-                </motion.h3>
-                {subtitle && (
-                    <motion.p
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        className="text-slate-400 text-sm max-w-2xl mx-auto"
-                    >
-                        {subtitle}
-                    </motion.p>
-                )}
-            </div>
+            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-8 font-mono text-center">
+                {title}
+            </h3>
 
-            {variant === 'stack' ? (
-                <div className="relative h-[450px] w-full flex items-center justify-center perspective-[1200px] touch-none">
-                    <div className="relative w-full max-w-[320px] h-full flex items-center justify-center">
-                        <AnimatePresence mode="popLayout" initial={false}>
-                            {partners.map((partner, i) => {
-                                const total = partners.length;
-                                const offset = (i - activeIndex + total) % total;
+            <div className="relative overflow-hidden">
+                {/* Fade edges */}
+                <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10 pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#0a0a0a] to-transparent z-10 pointer-events-none" />
 
-                                // Map offset to circular logic for display
-                                const visualOffset = offset > total / 2 ? offset - total : offset;
-                                const absOffset = Math.abs(visualOffset);
-
-                                // Show center, 2 next, 2 previous
-                                if (absOffset > 2) return null;
-
-                                return (
-                                    <motion.div
-                                        key={partner.name}
-                                        drag="x"
-                                        dragConstraints={{ left: 0, right: 0 }}
-                                        onDragEnd={handleDragEnd}
-                                        layout
-                                        initial={{
-                                            opacity: 0,
-                                            scale: 0.8,
-                                            x: visualOffset * 100,
-                                            z: -200
-                                        }}
-                                        animate={{
-                                            opacity: 1 - absOffset * 0.3,
-                                            scale: 1 - absOffset * 0.12,
-                                            x: visualOffset * 140,
-                                            z: -absOffset * 150,
-                                            rotateY: visualOffset * -20,
-                                            rotateZ: visualOffset * -2,
-                                            zIndex: total - absOffset,
-                                        }}
-                                        exit={{
-                                            opacity: 0,
-                                            scale: 0.5,
-                                            x: visualOffset > 0 ? 300 : -300
-                                        }}
-                                        transition={{
-                                            type: "spring",
-                                            stiffness: 300,
-                                            damping: 30
-                                        }}
-                                        className="absolute w-64 h-80 bg-[#0d0d0d] border border-white/10 rounded-3xl flex flex-col items-center justify-center p-8 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl cursor-grab active:cursor-grabbing group select-none overflow-hidden"
-                                    >
-                                        <div className="w-full h-full flex flex-col items-center justify-between text-center py-4">
-                                            {/* Logo Container */}
-                                            <div className="w-24 h-24 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center group-hover:bg-white/10 transition-all duration-500 group-hover:scale-110 shadow-inner">
-                                                {partner.siKey && (si as any)[partner.siKey] ? (
-                                                    <svg
-                                                        role="img"
-                                                        viewBox="0 0 24 24"
-                                                        className="w-12 h-12 fill-slate-400 group-hover:fill-white transition-colors duration-500"
-                                                        dangerouslySetInnerHTML={{ __html: ((si as any)[partner.siKey] as { path: string }).path }}
-                                                    />
-                                                ) : partner.customPath ? (
-                                                    <svg
-                                                        role="img"
-                                                        viewBox="0 0 24 24"
-                                                        className="w-12 h-12 fill-slate-400 group-hover:fill-white transition-colors duration-500"
-                                                    >
-                                                        <path d={partner.customPath} />
-                                                    </svg>
-                                                ) : (
-                                                    <div className="w-12 h-12 rounded-full border-2 border-dashed border-white/20 flex items-center justify-center">
-                                                        <span className="text-white/20 text-2xl font-bold">
-                                                            {partner.name[0]}
-                                                        </span>
-                                                    </div>
-                                                )}
-                                            </div>
-
-                                            <div className="space-y-2">
-                                                <h4 className="text-white text-lg font-bold tracking-tight">{partner.name}</h4>
-                                                <p className="text-[10px] text-slate-500 font-mono uppercase tracking-[0.2em]">Infrastructure Node</p>
-                                            </div>
-
-                                            {/* Stack Indicator dots */}
-                                            <div className="flex gap-1.5 mt-2">
-                                                {partners.slice(0, 5).map((_, dotIdx) => (
-                                                    <div
-                                                        key={dotIdx}
-                                                        className={`w-1 h-1 rounded-full transition-all ${Math.floor(activeIndex % 5) === dotIdx ? 'bg-blue-500 w-3' : 'bg-white/10'}`}
-                                                    />
-                                                ))}
-                                            </div>
-                                        </div>
-
-                                        {/* Premium Overlay Effects */}
-                                        <div className="absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-transparent opacity-50 pointer-events-none"></div>
-                                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-                                    </motion.div>
-                                );
-                            })}
-                        </AnimatePresence>
-                    </div>
-                </div>
-            ) : (
-                <div className={variant === 'grid'
-                    ? "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center justify-items-center opacity-80 px-6"
-                    : "flex flex-wrap items-center justify-center gap-12 opacity-80"
-                }>
-                    {partners.map((partner) => (
-                        <motion.div
-                            key={partner.name}
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            className="relative group transition-all duration-500"
+                {/* Scrolling track */}
+                <div className="flex gap-8 animate-marquee hover:[animation-play-state:paused]">
+                    {items.map((partner, i) => (
+                        <div
+                            key={`${partner.name}-${i}`}
+                            className="flex items-center gap-2.5 px-5 py-2.5 rounded-full border border-white/5 bg-white/[0.02] text-slate-400 hover:text-white hover:border-white/15 hover:bg-white/5 transition-all duration-300 shrink-0 cursor-default select-none"
                         >
-                            <div className="h-8 md:h-10 px-4 flex items-center justify-center filter grayscale contrast-125 brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-hover:contrast-100 transition-all duration-500 gap-3">
-                                {partner.siKey && (si as any)[partner.siKey] ? (
-                                    <svg
-                                        role="img"
-                                        viewBox="0 0 24 24"
-                                        className="w-4 h-4 fill-current text-slate-500 group-hover:text-white transition-colors"
-                                        dangerouslySetInnerHTML={{ __html: ((si as any)[partner.siKey] as { path: string }).path }}
-                                    />
-                                ) : partner.customPath ? (
-                                    <svg
-                                        role="img"
-                                        viewBox="0 0 24 24"
-                                        className="w-4 h-4 fill-current text-slate-500 group-hover:text-white transition-colors"
-                                    >
-                                        <path d={partner.customPath} />
-                                    </svg>
-                                ) : null}
-                                <span className="text-slate-500 text-[10px] md:text-sm font-bold tracking-tighter uppercase group-hover:text-white transition-colors">
-                                    {partner.name}
-                                </span>
-                            </div>
-                            <div className="absolute inset-0 bg-white/5 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 rounded-full"></div>
-                        </motion.div>
+                            <LogoIcon partner={partner} />
+                            <span className="text-xs font-semibold tracking-tight whitespace-nowrap uppercase">
+                                {partner.name}
+                            </span>
+                        </div>
                     ))}
                 </div>
-            )}
+            </div>
         </div>
     );
 }

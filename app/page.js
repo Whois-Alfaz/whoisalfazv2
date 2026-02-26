@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, CheckCircle2, Zap, Layout, Search, BarChart3, Database, Globe, Mail, Video, Code2 } from 'lucide-react';
 import NewsletterForm from '../components/NewsletterForm';
-import AutomationVisual from '../components/AutomationVisual';
+
 import PartnerLogos from '../components/PartnerLogos';
 
 export default async function Home() {
@@ -42,10 +42,7 @@ export default async function Home() {
 
         {/* PARTNER GRID - HOMEPAGE (High-Ticket Social Proof) */}
         <div className="max-w-5xl mx-auto py-12 border-y border-white/5">
-          <PartnerLogos
-            variant="stack"
-            title="Official Technology Partners"
-          />
+          <PartnerLogos title="Official Technology Partners" />
         </div>
       </section>
 
@@ -175,9 +172,7 @@ export default async function Home() {
                 <AuditTool />
               </div>
             </div>
-            <div className="hidden md:block relative h-64 w-full rounded-xl overflow-hidden border border-white/5 shadow-2xl">
-              <AutomationVisual />
-            </div>
+
           </div>
         </div>
       </section>
