@@ -9,9 +9,6 @@ import NewsletterForm from '../components/NewsletterForm';
 import AutomationVisual from '../components/AutomationVisual';
 import PartnerLogos from '../components/PartnerLogos';
 
-
-import SplineRobot from '../components/SplineRobot';
-
 export default async function Home() {
   const posts = await getAllPosts();
 
@@ -42,11 +39,8 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="relative group">
-            {/* Minimalist Exclusive Wrapper */}
-            <div className="relative z-10 bg-white/[0.02] backdrop-blur-2xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl transition-all duration-700 hover:border-white/20">
-              <SplineRobot />
-            </div>
+          <div className="relative group lg:ml-auto">
+            <AutomationVisual />
           </div>
         </div>
 
@@ -149,7 +143,7 @@ export default async function Home() {
               fill
               className="object-cover"
               priority
-              sizes="(max-width: 768px) 300px, 300px"
+              sizes="(max-width: 768px) 160px, 300px"
             />
           </div>
         </div>

@@ -117,7 +117,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <Footer />
         <LazyChatWidget />
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-B07D59MGJ8"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-B07D59MGJ8');
+          `}
+        </Script>
         <Script src="https://analytics.ahrefs.com/analytics.js" data-key="9T4Utwf0yVuXOiaqomR7Bg" strategy="afterInteractive" />
       </body>
     </html>
