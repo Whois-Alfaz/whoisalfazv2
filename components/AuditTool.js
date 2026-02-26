@@ -9,7 +9,7 @@ const scanSteps = [
   "Analyzing meta tags & Open Graph...",
   "Scanning security headers...",
   "Checking robots.txt & sitemap...",
-  "Running PageSpeed analysis...",
+  "Analyzing core vitality metrics...",
   "Calculating final scores...",
 ];
 
@@ -204,50 +204,65 @@ export default function AuditTool() {
           </div>
         </div>
 
-        {/* ─── Checks Grid ─── */}
-        <div className="flex flex-col gap-3">
+        {/* ─── Checks List (No Grid) ─── */}
+        <div className="flex flex-col gap-4">
           {results.checks.map((check, i) => {
             const isOpen = expandedChecks[i];
             const Icon = checkIcons[check.name] || Globe;
 
             return (
-              <div key={i} className={`bg-white/[0.03] border rounded-xl transition-all duration-200 ${getStatusBorderColor(check.status)}`}>
-                <button onClick={() => toggleCheck(i)} className="w-full flex items-center justify-between gap-4 p-4 text-left">
+              <div key={i} className={`bg-white/[0.03] border rounded-2xl transition-all duration-300 ${getStatusBorderColor(check.status)} ${isOpen ? 'bg-white/[0.05] ring-1 ring-white/10 shadow-2xl' : ''}`}>
+                <button onClick={() => toggleCheck(i)} className="w-full flex items-center justify-between gap-6 p-5 text-left">
 
-                  {/* Left Side: Icon + Text */}
-                  <div className="flex items-center gap-3 min-w-0 pr-4">
-                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${getIconBg(check.status)}`}>
-                      <Icon size={18} />
+                  {/* Left Side: Icon + Label + Summary */}
+                  <div className="flex items-center gap-4 min-w-0 flex-1">
+                    <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${getIconBg(check.status)} shadow-lg`}>
+                      <Icon size={20} />
                     </div>
-                    <div className="flex-col min-w-0">
-                      <span className="text-white font-semibold text-sm block truncate">{check.name}</span>
-                      <p className="text-slate-500 text-[11px] mt-0.5 truncate hidden sm:block">{check.summary}</p>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-white font-bold text-base block tracking-tight">{check.name}</span>
+                      <p className="text-slate-500 text-[11px] mt-0.5 truncate">{check.summary}</p>
                     </div>
                   </div>
 
-                  {/* Right Side: Score + Chevron */}
-                  <div className="flex items-center gap-4 flex-shrink-0 bg-black/20 px-3 py-1.5 rounded-lg border border-white/5">
-                    <span className={`text-sm font-bold tabular-nums ${getScoreColor(check.score)}`}>{check.score}</span>
-                    <ChevronDown size={14} className={`text-slate-600 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                  {/* Right Side: Score Pill + Chevron */}
+                  <div className="flex items-center gap-5 flex-shrink-0 border-l border-white/10 pl-5">
+                    <div className="flex flex-col items-end gap-0.5">
+                      <span className={`text-base font-black tabular-nums ${getScoreColor(check.score)}`}>{check.score}</span>
+                      <span className="text-[9px] text-slate-600 uppercase tracking-tighter font-bold">Score</span>
+                    </div>
+                    <ChevronDown size={18} className={`text-slate-600 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
                   </div>
 
                 </button>
 
                 {isOpen && (
-                  <div className="px-4 pb-4 border-t border-white/5">
-                    <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden mt-3 mb-4">
-                      <div className={`h-full rounded-full ${check.score >= 80 ? 'bg-green-500' : check.score >= 50 ? 'bg-amber-500' : 'bg-red-500'}`} style={{ width: `${check.score}%`, transition: 'width 0.8s ease' }} />
-                    </div>
-                    <div className="space-y-1.5">
-                      {check.details.map((detail, j) => {
-                        const isFail = detail.startsWith('❌');
-                        const isWarn = detail.startsWith('⚠️') || detail.startsWith('💡');
-                        return (
-                          <div key={j} className={`px-4 py-3 rounded-lg text-xs font-mono leading-relaxed ${isFail ? 'bg-red-500/5 text-red-300/90' : isWarn ? 'bg-amber-500/5 text-amber-300/90' : 'bg-white/[0.02] text-slate-400'}`}>
-                            {detail}
-                          </div>
-                        );
-                      })}
+                  <div className="px-5 pb-5 border-t border-white/5 bg-black/10 rounded-b-2xl">
+                    <div className="pt-5 space-y-4">
+
+                      {/* Detailed Score Bar */}
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-end mb-1">
+                          <span className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Performance Metric</span>
+                          <span className={`text-xs font-bold ${getScoreColor(check.score)}`}>{check.score}%</span>
+                        </div>
+                        <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                          <div className={`h-full rounded-full ${check.score >= 80 ? 'bg-green-500' : check.score >= 50 ? 'bg-amber-500' : 'bg-red-500'}`} style={{ width: `${check.score}%`, transition: 'width 1s cubic-bezier(0.4, 0, 0.2, 1)' }} />
+                        </div>
+                      </div>
+
+                      {/* Detail Rows */}
+                      <div className="space-y-2 pt-2">
+                        {check.details.map((detail, j) => {
+                          const isFail = detail.startsWith('❌');
+                          const isWarn = detail.startsWith('⚠️') || detail.startsWith('💡');
+                          return (
+                            <div key={j} className={`p-4 rounded-xl text-xs font-mono leading-relaxed border ${isFail ? 'bg-red-500/5 border-red-500/10 text-red-300/90' : isWarn ? 'bg-amber-500/5 border-amber-500/10 text-amber-300/90' : 'bg-white/[0.02] border-white/5 text-slate-400'}`}>
+                              {detail}
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
                 )}

@@ -35,14 +35,14 @@ export async function sendAuditReport(email: string, name: string, results: Audi
         const responseText = await res.text();
 
         if (!res.ok) {
-            console.error(`[Audit Email] Brevo returned HTTP ${res.status}: ${responseText}`);
+            console.error(`[Audit Email] Brevo Error (${res.status}):`, responseText);
             return false;
         }
 
-        console.log(`[Audit Email] Success: ${responseText}`);
+        console.log(`[Audit Email] Successfully sent to ${email}. Response:`, responseText);
         return true;
-    } catch (error) {
-        console.error('[Audit Email] Exception:', error);
+    } catch (error: any) {
+        console.error('[Audit Email] Exception encountered:', error.message || error);
         return false;
     }
 }
