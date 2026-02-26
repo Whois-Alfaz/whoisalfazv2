@@ -205,25 +205,32 @@ export default function AuditTool() {
         </div>
 
         {/* ─── Checks Grid ─── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="flex flex-col gap-3">
           {results.checks.map((check, i) => {
             const isOpen = expandedChecks[i];
             const Icon = checkIcons[check.name] || Globe;
 
             return (
-              <div key={i} className={`bg-white/[0.03] border rounded-xl transition-all duration-200 ${getStatusBorderColor(check.status)} ${isOpen ? 'md:col-span-2' : ''}`}>
-                <button onClick={() => toggleCheck(i)} className="w-full flex items-center gap-3 p-4 text-left">
-                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${getIconBg(check.status)}`}>
-                    <Icon size={18} />
+              <div key={i} className={`bg-white/[0.03] border rounded-xl transition-all duration-200 ${getStatusBorderColor(check.status)}`}>
+                <button onClick={() => toggleCheck(i)} className="w-full flex items-center justify-between gap-4 p-4 text-left">
+
+                  {/* Left Side: Icon + Text */}
+                  <div className="flex items-center gap-3 min-w-0 pr-4">
+                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${getIconBg(check.status)}`}>
+                      <Icon size={18} />
+                    </div>
+                    <div className="flex-col min-w-0">
+                      <span className="text-white font-semibold text-sm block truncate">{check.name}</span>
+                      <p className="text-slate-500 text-[11px] mt-0.5 truncate hidden sm:block">{check.summary}</p>
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <span className="text-white font-semibold text-sm block">{check.name}</span>
-                    <p className="text-slate-500 text-[11px] mt-0.5 truncate">{check.summary}</p>
-                  </div>
-                  <div className="flex items-center gap-2 flex-shrink-0">
+
+                  {/* Right Side: Score + Chevron */}
+                  <div className="flex items-center gap-4 flex-shrink-0 bg-black/20 px-3 py-1.5 rounded-lg border border-white/5">
                     <span className={`text-sm font-bold tabular-nums ${getScoreColor(check.score)}`}>{check.score}</span>
                     <ChevronDown size={14} className={`text-slate-600 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
                   </div>
+
                 </button>
 
                 {isOpen && (
@@ -236,7 +243,7 @@ export default function AuditTool() {
                         const isFail = detail.startsWith('❌');
                         const isWarn = detail.startsWith('⚠️') || detail.startsWith('💡');
                         return (
-                          <div key={j} className={`px-3 py-2 rounded-lg text-xs font-mono leading-relaxed ${isFail ? 'bg-red-500/5 text-red-300/90' : isWarn ? 'bg-amber-500/5 text-amber-300/90' : 'bg-white/[0.02] text-slate-400'}`}>
+                          <div key={j} className={`px-4 py-3 rounded-lg text-xs font-mono leading-relaxed ${isFail ? 'bg-red-500/5 text-red-300/90' : isWarn ? 'bg-amber-500/5 text-amber-300/90' : 'bg-white/[0.02] text-slate-400'}`}>
                             {detail}
                           </div>
                         );
