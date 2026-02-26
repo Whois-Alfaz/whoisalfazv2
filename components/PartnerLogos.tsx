@@ -1,11 +1,8 @@
 "use client";
 
-import * as si from 'simple-icons';
-
 interface Partner {
     name: string;
-    siKey?: string;
-    customPath?: string;
+    customPath: string;
 }
 
 const partners: Partner[] = [
@@ -16,31 +13,12 @@ const partners: Partner[] = [
     { name: "Brevo", customPath: "M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zM7.2 4.8h5.747c2.34 0 3.895 1.406 3.895 3.516 0 1.022-.348 1.862-1.09 2.588C17.189 11.812 18 13.22 18 14.785c0 2.86-2.64 5.016-6.164 5.016H7.199v-15zm2.085 1.952v5.537h.07c.233-.432.858-.796 2.249-1.226 2.039-.659 3.037-1.52 3.037-2.655 0-.998-.766-1.656-1.924-1.656H9.285zm4.87 5.266c-.766.385-1.67.748-2.76 1.11-1.229.387-2.11 1.386-2.11 2.407v2.315h2.365c2.387 0 4.149-1.34 4.149-3.155 0-1.067-.625-2.087-1.645-2.677z" },
     { name: "monday.com", customPath: "M21.926 7.647h-4.32a.112.112 0 0 0-.112.112v8.482c0 .062.05.112.112.112h4.32a.112.112 0 0 0 .112-.112V7.759a.112.112 0 0 0-.112-.112zm-7.603 3.635H9.988a.112.112 0 0 0-.112.112v5.047c0 .062.051.112.112.112h4.335a.112.112 0 0 0 .112-.112v-5.047a.112.112 0 0 0-.112-.112zm-7.618 2.652H2.385a.112.112 0 0 0-.112.113v2.395c0 .062.051.112.112.112h4.32a.112.112 0 0 0 .112-.112v-2.395a.112.112 0 0 0-.112-.113z" },
     { name: "Pinecone", customPath: "M15.42 1.48a.47.47 0 0 0-.84 0L12 6.57 9.42 1.48a.47.47 0 0 0-.84 0L.11 19.38a.47.47 0 0 0 .42.62H23.47a.47.47 0 0 0 .42-.62L15.42 1.48zM12 17a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" },
-    { name: "Weaviate", siKey: "siWeaviate" },
+    { name: "Weaviate", customPath: "M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" },
     { name: "Surfer SEO", customPath: "M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm4.2 16.2L8.5 12l7.7-4.2v8.4z" },
     { name: "Wati", customPath: "M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.1 15.6h-10.2v-1.2h10.2v1.2zm0-3.6h-10.2v-1.2h10.2v1.2zm0-3.6h-10.2V7.2h10.2v1.2z" }
 ];
 
-function LogoIcon({ partner }: { partner: Partner }) {
-    if (partner.siKey && (si as any)[partner.siKey]) {
-        return (
-            <svg role="img" viewBox="0 0 24 24" className="w-5 h-5 fill-current shrink-0">
-                <path d={((si as any)[partner.siKey] as { path: string }).path} />
-            </svg>
-        );
-    }
-    if (partner.customPath) {
-        return (
-            <svg role="img" viewBox="0 0 24 24" className="w-5 h-5 fill-current shrink-0">
-                <path d={partner.customPath} />
-            </svg>
-        );
-    }
-    return <span className="text-sm font-bold">{partner.name[0]}</span>;
-}
-
 export default function PartnerLogos({ title }: { title: string }) {
-    // Duplicate the list for seamless infinite loop
     const items = [...partners, ...partners];
 
     return (
@@ -50,18 +28,18 @@ export default function PartnerLogos({ title }: { title: string }) {
             </h3>
 
             <div className="relative overflow-hidden">
-                {/* Fade edges */}
                 <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10 pointer-events-none" />
                 <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#0a0a0a] to-transparent z-10 pointer-events-none" />
 
-                {/* Scrolling track */}
                 <div className="flex gap-8 animate-marquee hover:[animation-play-state:paused]">
                     {items.map((partner, i) => (
                         <div
                             key={`${partner.name}-${i}`}
                             className="flex items-center gap-2.5 px-5 py-2.5 rounded-full border border-white/5 bg-white/[0.02] text-slate-400 hover:text-white hover:border-white/15 hover:bg-white/5 transition-all duration-300 shrink-0 cursor-default select-none"
                         >
-                            <LogoIcon partner={partner} />
+                            <svg role="img" viewBox="0 0 24 24" className="w-5 h-5 fill-current shrink-0">
+                                <path d={partner.customPath} />
+                            </svg>
                             <span className="text-xs font-semibold tracking-tight whitespace-nowrap uppercase">
                                 {partner.name}
                             </span>

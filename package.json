@@ -21,7 +21,6 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "rehype-highlight": "^7.0.2",
-    "simple-icons": "^16.9.0",
     "tailwind-merge": "^3.4.0",
     "zod": "^4.3.6"
   },
@@ -37,9 +36,6 @@
     "typescript": "^5"
   },
   "browserslist": [
-    "last 2 versions",
-    "not dead",
-    "not < 2%",
-    "not ie 11"
+    "defaults and fully supports es6-module"
   ]
 }

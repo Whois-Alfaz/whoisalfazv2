@@ -128,7 +128,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             gtag('config', 'G-B07D59MGJ8');
           `}
         </Script>
-        <Script src="https://analytics.ahrefs.com/analytics.js" data-key="9T4Utwf0yVuXOiaqomR7Bg" strategy="afterInteractive" />
+        <Script src="https://analytics.ahrefs.com/analytics.js" data-key="9T4Utwf0yVuXOiaqomR7Bg" strategy="lazyOnload" />
       </body>
     </html>
   );
