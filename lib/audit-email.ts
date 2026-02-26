@@ -3,15 +3,25 @@ import { AuditResults, CheckResult } from './audit';
 // ─── Send Branded Audit Report Email ─────────────────────────
 export async function sendAuditReport(email: string, name: string, results: AuditResults): Promise<boolean> {
     const apiKey = process.env.BREVO_API_KEY;
-    const senderEmail = process.env.BREVO_SENDER_EMAIL || 'noreply@whoisalfaz.me';
+    // Use admin email as sender — it's verified in Brevo
+    const senderEmail = process.env.BREVO_ADMIN_EMAIL || process.env.BREVO_SENDER_EMAIL || 'noreply@whoisalfaz.me';
 
     if (!apiKey) {
-        console.error('BREVO_API_KEY not set. Cannot send audit email.');
+        console.error('[Audit Email] BREVO_API_KEY not set');
         return false;
     }
 
     try {
         const html = buildReportHTML(name, results);
+
+        const payload = {
+            sender: { name: 'Alfaz Mahmud — whoisalfaz.me', email: senderEmail },
+            to: [{ email, name }],
+            subject: `Your Site Audit: ${results.grade} Grade (${results.overallScore}/100) — ${results.url}`,
+            htmlContent: html,
+        };
+
+        console.log(`[Audit Email] Sending to ${email} from ${senderEmail}...`);
 
         const res = await fetch('https://api.brevo.com/v3/smtp/email', {
             method: 'POST',
@@ -19,23 +29,20 @@ export async function sendAuditReport(email: string, name: string, results: Audi
                 'api-key': apiKey,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                sender: { name: 'Alfaz Mahmud — whoisalfaz.me', email: senderEmail },
-                to: [{ email, name }],
-                subject: `Your Site Audit: ${results.grade} Grade (${results.overallScore}/100) — ${results.url}`,
-                htmlContent: html,
-            }),
+            body: JSON.stringify(payload),
         });
 
+        const responseText = await res.text();
+
         if (!res.ok) {
-            const err = await res.text();
-            console.error('Brevo email error:', err);
+            console.error(`[Audit Email] Brevo returned HTTP ${res.status}: ${responseText}`);
             return false;
         }
 
+        console.log(`[Audit Email] Success: ${responseText}`);
         return true;
     } catch (error) {
-        console.error('Failed to send audit email:', error);
+        console.error('[Audit Email] Exception:', error);
         return false;
     }
 }

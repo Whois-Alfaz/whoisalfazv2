@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, after } from 'next/server';
 import { z } from 'zod';
 import { runFullAudit } from '@/lib/audit';
 import { sendAuditReport, notifyAdmin, addToBrevoList } from '@/lib/audit-email';
@@ -24,27 +24,35 @@ export async function POST(request: Request) {
 
         const { url, name, email } = parsed.data;
 
-        // Normalize URL — ensure https
+        // Normalize URL
         const normalizedUrl = url.startsWith('http') ? url : `https://${url}`;
 
         // 2. Run the full audit (all 6 checks in parallel)
         const results = await runFullAudit(normalizedUrl);
 
-        // 3. Send email report + capture lead + notify admin (MUST await)
-        // Without await, serverless functions terminate before emails send
-        const [emailSent, contactAdded, adminNotified] = await Promise.all([
-            sendAuditReport(email, name, results).catch(e => { console.error('Email send failed:', e); return false; }),
-            addToBrevoList(email, name, normalizedUrl).catch(e => { console.error('Contact add failed:', e); return false; }),
-            notifyAdmin(name, email, normalizedUrl, results).catch(e => { console.error('Admin notify failed:', e); return false; }),
-        ]);
+        // 3. Background execution for emails via Next.js `after()`
+        // This ensures emails send AFTER response is returned without Vercel killing the process
+        after(async () => {
+            console.log(`[Audit API] Starting background jobs for ${email}...`);
+            const emailResults = await Promise.allSettled([
+                sendAuditReport(email, name, results),
+                addToBrevoList(email, name, normalizedUrl),
+                notifyAdmin(name, email, normalizedUrl, results),
+            ]);
 
-        console.log(`Audit complete: email=${emailSent}, contact=${contactAdded}, admin=${adminNotified}`);
+            const emailSent = emailResults[0].status === 'fulfilled' && emailResults[0].value === true;
+            const contactAdded = emailResults[1].status === 'fulfilled' && emailResults[1].value === true;
+            const adminNotified = emailResults[2].status === 'fulfilled' && emailResults[2].value === true;
 
-        // 4. Return results with email delivery status
+            const emailError = !emailSent && emailResults[0].status === 'rejected' ? String(emailResults[0].reason) : (!emailSent ? 'false' : 'ok');
+            console.log(`[Audit API Background] email=${emailSent} (${emailError}), contact=${contactAdded}, admin=${adminNotified}`);
+        });
+
+        // 4. Return results immediately so the UI doesn't hang and Vercel doesn't timeout
         return NextResponse.json({
             success: true,
             results,
-            emailSent,
+            emailSent: true, // Optimistically assume success
         });
 
     } catch (error: any) {

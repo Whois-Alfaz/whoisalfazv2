@@ -21,13 +21,15 @@ export interface AuditResults {
 // ─── 1. PageSpeed Insights ───────────────────────────────────
 export async function runPageSpeedCheck(url: string): Promise<CheckResult> {
     const name = 'Performance & Core Web Vitals';
+    const apiKey = process.env.GOOGLE_PAGESPEED_API_KEY;
 
     // Retry logic for rate limits (429)
     const maxRetries = 2;
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
         try {
-            const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&strategy=mobile&category=PERFORMANCE&category=SEO&category=BEST_PRACTICES`;
-            const res = await fetch(apiUrl, { signal: AbortSignal.timeout(45000) });
+            let apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&strategy=mobile&category=PERFORMANCE&category=SEO&category=BEST_PRACTICES`;
+            if (apiKey) apiUrl += `&key=${apiKey}`;
+            const res = await fetch(apiUrl, { signal: AbortSignal.timeout(60000) });
 
             if (res.status === 429) {
                 if (attempt < maxRetries) {
@@ -37,13 +39,13 @@ export async function runPageSpeedCheck(url: string): Promise<CheckResult> {
                 }
                 return {
                     name, status: 'warn', score: 50,
-                    summary: 'PageSpeed API is temporarily rate-limited. Your other checks are accurate — try again in a few minutes for performance data.',
-                    details: ['⚠️ Google rate-limited this request (HTTP 429)', '💡 This happens when too many audits run in a short window', '💡 Other 5 checks completed successfully']
+                    summary: 'Performance analysis is temporarily unavailable. Other checks are accurate — try again in a few minutes.',
+                    details: ['⚠️ Performance engine is temporarily rate-limited', '💡 This happens when too many audits run in a short window', '💡 All other checks completed successfully']
                 };
             }
 
             if (!res.ok) {
-                return { name, status: 'fail', score: 0, summary: 'PageSpeed API returned an error.', details: [`HTTP ${res.status}: ${res.statusText}`] };
+                return { name, status: 'fail', score: 0, summary: 'Performance analysis returned an error.', details: [`Error code: ${res.status}`] };
             }
 
             const data = await res.json();
@@ -83,11 +85,11 @@ export async function runPageSpeedCheck(url: string): Promise<CheckResult> {
             return { name, status, score: avgScore, summary, details };
         } catch (error: any) {
             if (attempt < maxRetries) continue;
-            return { name, status: 'fail', score: 0, summary: 'Could not reach PageSpeed API.', details: [error.message || 'Timeout or network error'] };
+            return { name, status: 'fail', score: 0, summary: 'Performance analysis could not complete.', details: ['Connection timeout — the target site may be slow to respond'] };
         }
     }
 
-    return { name, status: 'fail', score: 0, summary: 'PageSpeed check exhausted all retries.', details: ['Max retries exceeded'] };
+    return { name, status: 'fail', score: 0, summary: 'Performance analysis unavailable. Try again later.', details: ['Analysis engine temporarily at capacity'] };
 }
 
 // ─── 2. Meta Tags & Open Graph ──────────────────────────────
