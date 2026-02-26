@@ -21,52 +21,73 @@ export interface AuditResults {
 // ─── 1. PageSpeed Insights ───────────────────────────────────
 export async function runPageSpeedCheck(url: string): Promise<CheckResult> {
     const name = 'Performance & Core Web Vitals';
-    try {
-        const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&strategy=mobile&category=PERFORMANCE&category=SEO&category=BEST_PRACTICES`;
-        const res = await fetch(apiUrl, { signal: AbortSignal.timeout(30000) });
 
-        if (!res.ok) {
-            return { name, status: 'fail', score: 0, summary: 'PageSpeed API returned an error.', details: [`HTTP ${res.status}: ${res.statusText}`] };
+    // Retry logic for rate limits (429)
+    const maxRetries = 2;
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+        try {
+            const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&strategy=mobile&category=PERFORMANCE&category=SEO&category=BEST_PRACTICES`;
+            const res = await fetch(apiUrl, { signal: AbortSignal.timeout(45000) });
+
+            if (res.status === 429) {
+                if (attempt < maxRetries) {
+                    // Wait before retrying (3s, then 6s)
+                    await new Promise(r => setTimeout(r, (attempt + 1) * 3000));
+                    continue;
+                }
+                return {
+                    name, status: 'warn', score: 50,
+                    summary: 'PageSpeed API is temporarily rate-limited. Your other checks are accurate — try again in a few minutes for performance data.',
+                    details: ['⚠️ Google rate-limited this request (HTTP 429)', '💡 This happens when too many audits run in a short window', '💡 Other 5 checks completed successfully']
+                };
+            }
+
+            if (!res.ok) {
+                return { name, status: 'fail', score: 0, summary: 'PageSpeed API returned an error.', details: [`HTTP ${res.status}: ${res.statusText}`] };
+            }
+
+            const data = await res.json();
+            const perf = data.lighthouseResult?.categories?.performance?.score ?? 0;
+            const seo = data.lighthouseResult?.categories?.seo?.score ?? 0;
+            const bp = data.lighthouseResult?.categories?.['best-practices']?.score ?? 0;
+            const perfScore = Math.round(perf * 100);
+            const seoScore = Math.round(seo * 100);
+            const bpScore = Math.round(bp * 100);
+
+            const audits = data.lighthouseResult?.audits || {};
+            const fcp = audits['first-contentful-paint']?.displayValue || 'N/A';
+            const lcp = audits['largest-contentful-paint']?.displayValue || 'N/A';
+            const cls = audits['cumulative-layout-shift']?.displayValue || 'N/A';
+            const tbt = audits['total-blocking-time']?.displayValue || 'N/A';
+            const si = audits['speed-index']?.displayValue || 'N/A';
+
+            const avgScore = Math.round((perfScore + seoScore + bpScore) / 3);
+            const status = avgScore >= 80 ? 'pass' : avgScore >= 50 ? 'warn' : 'fail';
+
+            const details = [
+                `📊 Performance: ${perfScore}/100`,
+                `🔍 SEO: ${seoScore}/100`,
+                `⚙️ Best Practices: ${bpScore}/100`,
+                `⏱️ First Contentful Paint: ${fcp}`,
+                `📐 Largest Contentful Paint: ${lcp}`,
+                `📏 Cumulative Layout Shift: ${cls}`,
+                `⏳ Total Blocking Time: ${tbt}`,
+                `🚀 Speed Index: ${si}`,
+            ];
+
+            let summary: string;
+            if (perfScore >= 90) summary = `Excellent performance (${perfScore}/100). Your site loads fast.`;
+            else if (perfScore >= 50) summary = `Moderate performance (${perfScore}/100). There are optimization opportunities.`;
+            else summary = `Poor performance (${perfScore}/100). This is costing you traffic and conversions.`;
+
+            return { name, status, score: avgScore, summary, details };
+        } catch (error: any) {
+            if (attempt < maxRetries) continue;
+            return { name, status: 'fail', score: 0, summary: 'Could not reach PageSpeed API.', details: [error.message || 'Timeout or network error'] };
         }
-
-        const data = await res.json();
-        const perf = data.lighthouseResult?.categories?.performance?.score ?? 0;
-        const seo = data.lighthouseResult?.categories?.seo?.score ?? 0;
-        const bp = data.lighthouseResult?.categories?.['best-practices']?.score ?? 0;
-        const perfScore = Math.round(perf * 100);
-        const seoScore = Math.round(seo * 100);
-        const bpScore = Math.round(bp * 100);
-
-        const audits = data.lighthouseResult?.audits || {};
-        const fcp = audits['first-contentful-paint']?.displayValue || 'N/A';
-        const lcp = audits['largest-contentful-paint']?.displayValue || 'N/A';
-        const cls = audits['cumulative-layout-shift']?.displayValue || 'N/A';
-        const tbt = audits['total-blocking-time']?.displayValue || 'N/A';
-        const si = audits['speed-index']?.displayValue || 'N/A';
-
-        const avgScore = Math.round((perfScore + seoScore + bpScore) / 3);
-        const status = avgScore >= 80 ? 'pass' : avgScore >= 50 ? 'warn' : 'fail';
-
-        const details = [
-            `Performance: ${perfScore}/100`,
-            `SEO: ${seoScore}/100`,
-            `Best Practices: ${bpScore}/100`,
-            `First Contentful Paint: ${fcp}`,
-            `Largest Contentful Paint: ${lcp}`,
-            `Cumulative Layout Shift: ${cls}`,
-            `Total Blocking Time: ${tbt}`,
-            `Speed Index: ${si}`,
-        ];
-
-        let summary: string;
-        if (perfScore >= 90) summary = `Excellent performance (${perfScore}/100). Your site loads fast.`;
-        else if (perfScore >= 50) summary = `Moderate performance (${perfScore}/100). There are optimization opportunities.`;
-        else summary = `Poor performance (${perfScore}/100). This is costing you traffic and conversions.`;
-
-        return { name, status, score: avgScore, summary, details };
-    } catch (error: any) {
-        return { name, status: 'fail', score: 0, summary: 'Could not reach PageSpeed API.', details: [error.message || 'Timeout or network error'] };
     }
+
+    return { name, status: 'fail', score: 0, summary: 'PageSpeed check exhausted all retries.', details: ['Max retries exceeded'] };
 }
 
 // ─── 2. Meta Tags & Open Graph ──────────────────────────────

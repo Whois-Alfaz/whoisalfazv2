@@ -30,18 +30,21 @@ export async function POST(request: Request) {
         // 2. Run the full audit (all 6 checks in parallel)
         const results = await runFullAudit(normalizedUrl);
 
-        // 3. Send email report + capture lead + notify admin (in parallel, non-blocking)
-        // These run in the background — we don't block the response on email delivery
-        Promise.all([
-            sendAuditReport(email, name, results).catch(e => console.error('Email send failed:', e)),
-            addToBrevoList(email, name, normalizedUrl).catch(e => console.error('Contact add failed:', e)),
-            notifyAdmin(name, email, normalizedUrl, results).catch(e => console.error('Admin notify failed:', e)),
+        // 3. Send email report + capture lead + notify admin (MUST await)
+        // Without await, serverless functions terminate before emails send
+        const [emailSent, contactAdded, adminNotified] = await Promise.all([
+            sendAuditReport(email, name, results).catch(e => { console.error('Email send failed:', e); return false; }),
+            addToBrevoList(email, name, normalizedUrl).catch(e => { console.error('Contact add failed:', e); return false; }),
+            notifyAdmin(name, email, normalizedUrl, results).catch(e => { console.error('Admin notify failed:', e); return false; }),
         ]);
 
-        // 4. Return results immediately
+        console.log(`Audit complete: email=${emailSent}, contact=${contactAdded}, admin=${adminNotified}`);
+
+        // 4. Return results with email delivery status
         return NextResponse.json({
             success: true,
             results,
+            emailSent,
         });
 
     } catch (error: any) {
