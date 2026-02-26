@@ -20,27 +20,21 @@ export default async function Home() {
 
       {/* SECTION 0: HERO (NEW) */}
       <section className="max-w-7xl mx-auto px-6 pt-10 pb-24">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="text-left">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight tracking-tight">
-              Sub-Second <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-200">Headless Architectures</span>, <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">Custom Web Apps</span> & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-200">Autonomous Revenue Systems</span>
-            </h1>
-            <p className="text-lg text-slate-400 mb-10 leading-relaxed max-w-2xl">
-              I help Marketing Agencies migrate off legacy CMS platforms to high-performance Next.js stacks, engineer bespoke internal applications, and eliminate manual bottlenecks with n8n automation
-            </p>
+        <div className="flex flex-col items-center text-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight tracking-tight max-w-4xl">
+            Sub-Second <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-200">Headless Architectures</span>, <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">Custom Web Apps</span> & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-200">Autonomous Revenue Systems</span>
+          </h1>
+          <p className="text-lg text-slate-400 mb-10 leading-relaxed max-w-2xl mx-auto">
+            I help Marketing Agencies migrate off legacy CMS platforms to high-performance Next.js stacks, engineer bespoke internal applications, and eliminate manual bottlenecks with n8n automation
+          </p>
 
-            <div className="flex flex-col sm:flex-row items-center gap-4">
-              <Link href="/contact" className="w-full sm:w-auto px-8 py-4 bg-teal-400 hover:bg-teal-300 text-black font-bold rounded-lg shadow-[0_0_20px_rgba(45,212,191,0.3)] hover:shadow-[0_0_30px_rgba(45,212,191,0.5)] transition-all transform hover:-translate-y-1 block text-center">
-                Book a free strategy call
-              </Link>
-              <Link href="/services" className="w-full sm:w-auto px-8 py-4 bg-white text-black font-bold rounded-lg hover:bg-slate-200 transition-colors block text-center">
-                Explore Services
-              </Link>
-            </div>
-          </div>
-
-          <div className="relative group lg:ml-auto">
-            <AutomationVisual />
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link href="/contact" className="w-full sm:w-auto px-8 py-4 bg-teal-400 hover:bg-teal-300 text-black font-bold rounded-lg shadow-[0_0_20px_rgba(45,212,191,0.3)] hover:shadow-[0_0_30px_rgba(45,212,191,0.5)] transition-all transform hover:-translate-y-1 block text-center">
+              Book a free strategy call
+            </Link>
+            <Link href="/services" className="w-full sm:w-auto px-8 py-4 bg-white text-black font-bold rounded-lg hover:bg-slate-200 transition-colors block text-center">
+              Explore Services
+            </Link>
           </div>
         </div>
 
