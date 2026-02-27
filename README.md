@@ -68,9 +68,12 @@ A fully custom blog engine.
 - **Premium Layout**: 2-Column "Magazine" style with Sticky TOC.
 - **Deep Deep**: Terminal-style code blocks and rich typography.
 
-### 🔍 Global Search
-- **Client-Side**: Instant filtering of blog posts and services.
-- **Secure**: Sanitized inputs to prevent injection attacks.
+### 🔍 Website Audit Engine (`/audit`)
+A proprietary technical SEO and performance auditing system.
+- **Deep Analysis**: Scans SSL health, Meta/OG tag compliance, Security Headers, Robots/Sitemap structure, and DNS latency.
+- **PageSpeed Integration**: Leverages Google PageSpeed Insights API for real-time Performance and Core Web Vitals scoring.
+- **UX-First**: Features intelligent URL normalization (automatically handles missing protocols) and a "waiting-substantive" animation lifecycle.
+- **Security**: Zero hardcoded API keys; strictly utilizes environment variables for all external integrations.
 
 ---
 
