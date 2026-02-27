@@ -22,42 +22,8 @@ export default function AuditPage() {
                 </div>
 
                 {/* AUDIT TOOL SECTION */}
-                <section className="max-w-4xl mx-auto mb-32">
-                    <div className="bg-[#0f172a] border border-slate-800 p-8 rounded-3xl relative overflow-hidden shadow-2xl">
-                        <div className="grid md:grid-cols-2 gap-12 items-center">
-                            <div>
-                                <h2 className="text-2xl font-bold text-white mb-4">Get Your Free Automation Score</h2>
-                                <p className="text-slate-400 mb-6 text-sm">Enter your website and details to receive an instant analysis of your technical SEO and automation potential.</p>
-
-                                <div className="audit-tool-wrapper">
-                                    <AuditTool />
-                                </div>
-                            </div>
-                            <div className="hidden md:block relative h-full min-h-[300px] w-full bg-black/30 rounded-xl border border-white/5 p-6 flex flex-col justify-center gap-4">
-                                <div className="flex items-center gap-4 p-3 bg-white/5 rounded-lg border border-white/5">
-                                    <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-500"><Zap size={20} /></div>
-                                    <div>
-                                        <div className="text-xs text-slate-500">Workflow Speed</div>
-                                        <div className="text-white font-bold">Increased by 300%</div>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-4 p-3 bg-white/5 rounded-lg border border-white/5">
-                                    <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500"><Search size={20} /></div>
-                                    <div>
-                                        <div className="text-xs text-slate-500">SEO Score</div>
-                                        <div className="text-white font-bold">98/100 Optimized</div>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-4 p-3 bg-white/5 rounded-lg border border-white/5">
-                                    <div className="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-500"><BarChart3 size={20} /></div>
-                                    <div>
-                                        <div className="text-xs text-slate-500">Revenue Growth</div>
-                                        <div className="text-white font-bold">+25% Month over Month</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <section className="mb-32">
+                    <AuditTool />
                 </section>
 
                 {/* WORK PROCESS SECTION */}
