@@ -18,21 +18,41 @@ export interface AuditResults {
     checks: CheckResult[];
 }
 
+// ─── 0. Utility ──────────────────────────────────────────────
+export function normalizeTargetUrl(url: string): string {
+    if (!url) return '';
+    let normalized = url.trim();
+    if (!/^https?:\/\//i.test(normalized)) {
+        normalized = `https://${normalized}`;
+    }
+    // Collapse multiple slashes after protocol
+    return normalized.replace(/^(https?:\/\/)\/+/i, '$1');
+}
+
 // ─── 1. PageSpeed Insights ───────────────────────────────────
 export async function runPageSpeedCheck(url: string): Promise<CheckResult> {
     const name = 'Performance & Core Web Vitals';
-    const apiKey = process.env.GOOGLE_PAGESPEED_API_KEY || 'AIzaSyA' + 'Q8B_ab8RN6ID' + 'ThySRwDtbH3G8m' + 'VJHTSvNl7qaF5' + 'mrjK_bVr64GfG2Q';
+    const rawKey = process.env.GOOGLE_PAGESPEED_API_KEY || 'AIzaSyCUtIlo8N1lTvTmfzOT5z7l6cS2mkrNR4Y';
 
     // Retry logic for rate limits (429)
     const maxRetries = 2;
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
         try {
+            // Ensure URL is normalized
+            const targetUrl = normalizeTargetUrl(url);
             const apiEndpoint = new URL('https://www.googleapis.com/pagespeedonline/v5/runPagespeed');
-            apiEndpoint.searchParams.append('url', url);
+            apiEndpoint.searchParams.append('url', targetUrl);
             apiEndpoint.searchParams.append('strategy', 'mobile');
             apiEndpoint.searchParams.append('category', 'PERFORMANCE');
             apiEndpoint.searchParams.append('category', 'SEO');
             apiEndpoint.searchParams.append('category', 'BEST_PRACTICES');
+
+            // Key fallback logic - handles cases where "AIzaSy" might be missing
+            let apiKey = rawKey;
+            if (apiKey && !apiKey.startsWith('AIzaSy')) {
+                apiKey = `AIzaSy${apiKey}`;
+            }
+
             if (apiKey) {
                 apiEndpoint.searchParams.append('key', apiKey);
             }
@@ -391,14 +411,15 @@ export function calculateOverallScore(checks: CheckResult[]): { score: number; g
 
 // ─── Run Full Audit ─────────────────────────────────────────
 export async function runFullAudit(url: string): Promise<AuditResults> {
+    const normalized = normalizeTargetUrl(url);
     // Run all checks in parallel
     const checks = await Promise.all([
-        runPageSpeedCheck(url),
-        runMetaTagCheck(url),
-        runSSLCheck(url),
-        runSecurityHeaderCheck(url),
-        runSitemapCheck(url),
-        runDNSCheck(url),
+        runPageSpeedCheck(normalized),
+        runMetaTagCheck(normalized),
+        runSSLCheck(normalized),
+        runSecurityHeaderCheck(normalized),
+        runSitemapCheck(normalized),
+        runDNSCheck(normalized),
     ]);
 
     const { score, grade } = calculateOverallScore(checks);

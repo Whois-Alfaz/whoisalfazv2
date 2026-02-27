@@ -48,16 +48,32 @@ export default function AuditTool() {
   const [url, setUrl] = useState('');
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('idle');
-  const [scanStep, setScanStep] = useState('');
+  const [scanStep, setScanStep] = useState(scanSteps[0]);
   const [results, setResults] = useState(null);
   const [errorMsg, setErrorMsg] = useState('');
   const [expandedChecks, setExpandedChecks] = useState({});
 
   const toggleCheck = (i) => setExpandedChecks(prev => ({ ...prev, [i]: !prev[i] }));
 
+  const normalizeUrl = (u) => {
+    let clean = u.trim();
+    if (!clean) return '';
+    if (!/^https?:\/\//i.test(clean)) {
+      clean = `https://${clean}`;
+    }
+    return clean.replace(/^(https?:\/\/)\/+/i, '$1');
+  };
+
+  const handleUrlBlur = () => {
+    if (url) setUrl(normalizeUrl(url));
+  };
+
   const runAudit = async (e) => {
     e.preventDefault();
-    if (!url) return;
+    const cleanUrl = normalizeUrl(url);
+    if (!cleanUrl) return;
+    setUrl(cleanUrl);
+
     setStatus('loading');
     setResults(null);
     setErrorMsg('');
@@ -75,7 +91,7 @@ export default function AuditTool() {
       const response = await fetch('/api/audit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url, name: name || 'Audit User', email }),
+        body: JSON.stringify({ url: cleanUrl, name: name || 'Audit User', email }),
       });
 
       clearInterval(stepInterval);
@@ -115,7 +131,7 @@ export default function AuditTool() {
 
   // ─── MAIN LAYOUT ──────────────────────────────────────────
   return (
-    <div className="grid lg:grid-cols-2 gap-8 items-start w-full">
+    <div className="grid lg:grid-cols-[1fr_1.3fr] gap-8 items-start w-full">
       {/* LEFT COLUMN: FORM */}
       <div className="w-full bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-2xl p-8 shadow-2xl relative overflow-hidden group">
         <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-500/20 transition-all duration-700" />
@@ -127,7 +143,7 @@ export default function AuditTool() {
           <div className="space-y-4">
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Website URL</label>
-              <input type="url" placeholder="https://example.com" required className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white placeholder:text-slate-700 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all duration-200" value={url} onChange={(e) => setUrl(e.target.value)} disabled={status === 'loading'} />
+              <input type="text" placeholder="whoisalfaz.me" required className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white placeholder:text-slate-700 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all duration-200" value={url} onChange={(e) => setUrl(e.target.value)} onBlur={handleUrlBlur} disabled={status === 'loading'} />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
@@ -225,7 +241,7 @@ export default function AuditTool() {
             </div>
 
             {/* Checks List */}
-            <div className="flex flex-col gap-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+            <div className="flex flex-col gap-3">
               {results.checks.map((check, i) => {
                 const isOpen = expandedChecks[i];
                 const Icon = checkIcons[check.name] || Globe;
