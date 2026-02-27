@@ -27,9 +27,17 @@ export async function runPageSpeedCheck(url: string): Promise<CheckResult> {
     const maxRetries = 2;
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
         try {
-            let apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&strategy=mobile&category=PERFORMANCE&category=SEO&category=BEST_PRACTICES`;
-            if (apiKey) apiUrl += `&key=${apiKey}`;
-            const res = await fetch(apiUrl, { signal: AbortSignal.timeout(60000) });
+            const apiEndpoint = new URL('https://www.googleapis.com/pagespeedonline/v5/runPagespeed');
+            apiEndpoint.searchParams.append('url', url);
+            apiEndpoint.searchParams.append('strategy', 'mobile');
+            apiEndpoint.searchParams.append('category', 'PERFORMANCE');
+            apiEndpoint.searchParams.append('category', 'SEO');
+            apiEndpoint.searchParams.append('category', 'BEST_PRACTICES');
+            if (apiKey) {
+                apiEndpoint.searchParams.append('key', apiKey);
+            }
+
+            const res = await fetch(apiEndpoint.toString(), { signal: AbortSignal.timeout(60000) });
 
             if (res.status === 429) {
                 if (attempt < maxRetries) {
