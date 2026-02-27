@@ -24,7 +24,7 @@ In [Day 4](/blog/day-4-ipoe-framework), we established the IPOE Framework (Input
 
 The smartest way to transition your company to an automated infrastructure is to deploy a **"Beachhead Strategy."** You do not rebuild the entire company overnight. You pick your first 3 automations—workflows that save measurable time, touch revenue directly, and are simple enough to ship and stabilize this week.
 
-Here is the exact framework I use to map, select, and architect the first three automations for my B2B clients, complete with the technical blueprints you can deploy on your [n8n](https://n8n.partnerlinks.io/ch585gsqzanp) server today.
+Here is the exact framework I use to map, select, and architect the first three automations for my B2B clients, complete with the technical blueprints you can deploy on your **[n8n](https://n8n.partnerlinks.io/ch585gsqzanp)** server today.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
@@ -67,7 +67,7 @@ For your first deployment, simplicity beats cleverness. If your first workflow r
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
 ## The Event → Action → Outcome (EAO) Map
-Before you open your [n8n](https://n8n.partnerlinks.io/ch585gsqzanp) dashboard and start dragging nodes, you must document the architecture in plain English. I use the EAO Map. If you cannot write your automation in this one, strict sentence structure, it is not ready to be engineered.
+Before you open your **[n8n](https://n8n.partnerlinks.io/ch585gsqzanp)** dashboard and start dragging nodes, you must document the architecture in plain English. I use the EAO Map. If you cannot write your automation in this one, strict sentence structure, it is not ready to be engineered.
 
 > **When [EVENT] happens in [TOOL], automatically [ACTION], so that [OUTCOME] is guaranteed.**
 
@@ -93,7 +93,7 @@ Before you open your [n8n](https://n8n.partnerlinks.io/ch585gsqzanp) dashboard a
 This is the ultimate introductory workflow because it teaches you how to handle different data schemas.
 1. **The Triggers (Inputs)**: You set up three separate Webhook nodes in n8n. One catches the Facebook payload, one catches LinkedIn, and one catches your website form.
 2. **The Normalization Node (Processing)**: Facebook might send the email as `buyer_email`, while your website sends it as `email_address`. You use an n8n Set node to map all of these disparate keys to a unified standard: `normalized_email`. This ensures the rest of your workflow doesn't break depending on where the lead came from.
-3. **The Enrichment Microservice (Processing)**: We never send raw, naked emails to a sales team. We pass the `normalized_email` through an HTTP Request node connected to [Apollo.io](https://get.apollo.io/bs1ny1i5eigv). Apollo instantly returns the lead's job title, company revenue, and LinkedIn profile.
+3. **The Enrichment Microservice (Processing)**: We never send raw, naked emails to a sales team. We pass the `normalized_email` through an HTTP Request node connected to **[Apollo.io](https://get.apollo.io/bs1ny1i5eigv)**. Apollo instantly returns the lead's job title, company revenue, and LinkedIn profile.
 4. **The CRM Upsert (Output)**: We take that enriched data payload and push it into our CRM—like Pipedrive or Close. We use the "Upsert" function (Update or Insert) to ensure that if this lead already exists in our system, we update their record rather than creating a messy duplicate.
 5. **The Alert (Output)**: Finally, a Slack node pushes a formatted Block Kit message to the #inbound-leads channel, tagging the assigned rep with the enriched data.
 
@@ -113,8 +113,8 @@ This is the ultimate introductory workflow because it teaches you how to handle 
 This workflow introduces the concept of Dependency Chaining. Step 3 cannot execute until Step 2 returns a specific API variable.
 1. **The Trigger (Input)**: A webhook fires from your CRM the moment the contract status changes to "Won." The payload includes the Client Name, Email, and Package Tier.
 2. **The Infrastructure Generation (Processing)**: The workflow hits the Google Workspace API. It creates a master folder named `[Client Name] - Assets`. Crucial Step: The Google API responds with a `folder_url`. We must store this variable for the next step.
-3. **The Project Management Provisioning (Processing)**: n8n hits your project management API—such as [Monday.com](https://try.monday.com/66vrkkiezhrz). It duplicates your "Master Client Template" board, renames it for the new client, and injects the `folder_url` we generated in Step 2 directly into the board's description.
-4. **The Welcome Sequence (Output)**: The workflow triggers an API call to your transactional email provider (like [Brevo](https://get.brevo.com/6b88c13841c4)) to send the customized Welcome Email. This email dynamically includes the links to their new Monday.com board and their Google Drive upload folder.
+3. **The Project Management Provisioning (Processing)**: n8n hits your project management API—such as **[Monday.com](https://try.monday.com/66vrkkiezhrz)**. It duplicates your "Master Client Template" board, renames it for the new client, and injects the `folder_url` we generated in Step 2 directly into the board's description.
+4. **The Welcome Sequence (Output)**: The workflow triggers an API call to your transactional email provider (like **[Brevo](https://get.brevo.com/6b88c13841c4)**) to send the customized Welcome Email. This email dynamically includes the links to their new Monday.com board and their Google Drive upload folder.
 
 **Why this is a perfect first automation**: It removes the highest-risk point of the customer journey. When onboarding is automated, you eliminate human error ("I forgot to send the Drive link") and establish immediate, high-level operational trust with your new client.
 
@@ -138,7 +138,7 @@ This workflow moves away from event-driven webhooks and introduces server-side C
 2. **The Financial Query (Processing)**: n8n makes an API call to Stripe, pulling the raw total of successful charges and new subscriptions over the last 7 days.
 3. **The CRM Query (Processing)**: n8n makes a parallel API call to your CRM to pull the total number of "Closed Won" deals and total Marketing Ad Spend.
 4. **The Code Node (Processing)**: This is where we write a simple block of JavaScript. We pass the Stripe data and CRM data into the node, and write a function to calculate the exact CAC (Total Ad Spend / New Clients) and Churn Rate.
-5. **The Visualization (Output)**: We do not push this back to a spreadsheet. We push the aggregated JSON payload directly into an executive dashboard platform like [Databox](https://join.databox.com/qfzdqmwp7elc). Databox instantly updates its visual charts, dials, and graphs.
+5. **The Visualization (Output)**: We do not push this back to a spreadsheet. We push the aggregated JSON payload directly into an executive dashboard platform like **[Databox](https://join.databox.com/qfzdqmwp7elc)**. Databox instantly updates its visual charts, dials, and graphs.
 
 **Why this is a perfect first automation**: This is an internal, low-risk automation. If the Stripe API times out and the workflow fails, no customer is impacted. It simply gives you a safe environment to practice API data merging while providing immense executive value.
 
@@ -175,27 +175,27 @@ If you’re ready to stop boiling the ocean and start building a self-healing Re
 
 ### 1. The Engine: [n8n](https://n8n.partnerlinks.io/ch585gsqzanp)
 The most flexible workflow automation platform for technical founders. Deploy complex, multi-step logic without the "Zapier tax."
-[Start building on n8n Cloud →](https://n8n.partnerlinks.io/ch585gsqzanp)
+**[Start building on n8n Cloud →](https://n8n.partnerlinks.io/ch585gsqzanp)**
 
 ### 2. The Infrastructure: [Vultr High-Performance VPS](https://www.vultr.com/?ref=9859101-9J)
 Own your architecture. Self-host n8n on Vultr’s global infrastructure for maximum speed, security, and lower monthly overhead.
-[Claim your $100 Vultr Credit →](https://www.vultr.com/?ref=9859101-9J)
+**[Claim your $100 Vultr Credit →](https://www.vultr.com/?ref=9859101-9J)**
 
 ### 3. The Intel: [Apollo.io](https://get.apollo.io/bs1ny1i5eigv)
 Stop sending naked emails. Enrich every inbound lead with job titles, company revenue, and verified LinkedIn profiles instantly.
-[Start enriching leads for free →](https://get.apollo.io/bs1ny1i5eigv)
+**[Start enriching leads for free →](https://get.apollo.io/bs1ny1i5eigv)**
 
 ### 4. The Command Center: [Monday.com](https://try.monday.com/66vrkkiezhrz)
 Don’t let your data die in spreadsheets. Organize your operations and client onboarding in a visual, API-first project management OS.
-[Get started with Monday.com →](https://try.monday.com/66vrkkiezhrz)
+**[Get started with Monday.com →](https://try.monday.com/66vrkkiezhrz)**
 
 ### 5. The Communication: [Brevo](https://get.brevo.com/6b88c13841c4)
 Reliable transactional mail for your automation. Ensure your welcome sequences and alerts land in the inbox every single time.
-[Send your first 300 emails free →](https://get.brevo.com/6b88c13841c4)
+**[Send your first 300 emails free →](https://get.brevo.com/6b88c13841c4)**
 
 ### 6. The Reporting: [Databox](https://join.databox.com/qfzdqmwp7elc)
 Automate your Sunday nights. Pull Stripe and CRM data into a beautiful, real-time executive dashboard that updates itself.
-[Build your first dashboard free →](https://join.databox.com/qfzdqmwp7elc)
+**[Build your first dashboard free →](https://join.databox.com/qfzdqmwp7elc)**
 
 ---
 

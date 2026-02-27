@@ -24,6 +24,8 @@ This file is the single source of truth for refurbishing and posting blogs in th
 
 ## 5. Affiliate Link Integration
 Intelligently embed affiliate links within the narrative for all the affilate list given and mentioned in the blog.
+- **CTA Highlighting**: ALWAYS bold the primary call-to-action link for an affiliate (e.g., **[Get started with Tool →](URL)**).
+- **Descriptive Links**: Use descriptive text for links rather than just the URL or generic "click here".
 
 Example Affiliate Links:
 - **n8n**: `https://n8n.partnerlinks.io/ch585gsqzanp`
