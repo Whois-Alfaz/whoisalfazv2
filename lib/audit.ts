@@ -32,7 +32,7 @@ export function normalizeTargetUrl(url: string): string {
 // ─── 1. PageSpeed Insights ───────────────────────────────────
 export async function runPageSpeedCheck(url: string): Promise<CheckResult> {
     const name = 'Performance & Core Web Vitals';
-    const rawKey = process.env.GOOGLE_PAGESPEED_API_KEY || 'AIzaSyCUtIlo8N1lTvTmfzOT5z7l6cS2mkrNR4Y';
+    const rawKey = process.env.GOOGLE_PAGESPEED_API_KEY;
 
     // Retry logic for rate limits (429)
     const maxRetries = 2;
