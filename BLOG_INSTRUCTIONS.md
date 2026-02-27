@@ -16,8 +16,16 @@ This file is the single source of truth for refurbishing and posting blogs in th
 - **Verbatim + Fixes**: Keep the user's provided text but **correct** logical errors (e.g., if it's Day 5, ensure it says "Day 5 Mandate" and "Tomorrow, in Day 6").
 - **Highlighting**: Apply **bolding** to key tools and insights for readability.
 
-## 4. Affiliate Link Integration
-Intelligently embed affiliate links within the narrative for the following tools:
+## 4. Structural Hierarchy & Spacing
+- **Heading Spacing**: ALWAYS leave exactly one empty line before and after a heading (`##` or `###`).
+- **Section Dividers**: Use the horizontal rule component exactly as shown in Day 1: `<hr class="wp-block-separator has-alpha-channel-opacity"/>`. Ensure it has one empty line above and below.
+- **Image Placement**: Use the standard markdown syntax for images: `![Alt Text](/images/blog/filename.webp)`. Add one empty line before and after the image.
+- **Bullet Points**: Use consistent indentation and spacing for nested lists.
+
+## 5. Affiliate Link Integration
+Intelligently embed affiliate links within the narrative for all the affilate list given and mentioned in the blog.
+
+Example Affiliate Links:
 - **n8n**: `https://n8n.partnerlinks.io/ch585gsqzanp`
 - **Vultr**: `https://www.vultr.com/?ref=9859101-9J`
 - **Apollo**: `https://get.apollo.io/bs1ny1i5eigv`
