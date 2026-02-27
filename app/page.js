@@ -160,7 +160,7 @@ export default async function Home() {
       </section>
 
       {/* SECTION 4: SCALE WITH AUTOMATION (AUDIT TOOL) */}
-      <section className="mb-32">
+      <section className="max-w-6xl mx-auto px-6 mb-32">
         <AuditTool />
       </section>
 
