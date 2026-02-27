@@ -160,21 +160,8 @@ export default async function Home() {
       </section>
 
       {/* SECTION 4: SCALE WITH AUTOMATION (AUDIT TOOL) */}
-      <section className="max-w-4xl mx-auto px-6 mb-32">
-        <div className="bg-[#0f172a] border border-slate-800 p-8 rounded-3xl relative overflow-hidden">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl font-bold text-white mb-4">Scale with automation</h2>
-              <p className="text-slate-400 mb-6">Enter your details to receive a comprehensive audit of your automation potential and competitive landscape.</p>
-
-              {/* We use the AuditTool component but control its wrapper styles above */}
-              <div className="audit-tool-wrapper">
-                <AuditTool />
-              </div>
-            </div>
-
-          </div>
-        </div>
+      <section className="mb-32">
+        <AuditTool />
       </section>
 
       {/* SECTION 5: LATEST INSIGHTS (BLOG) */}
