@@ -1,56 +1,49 @@
-const API_URL = 'https://v1.whoisalfaz.me/graphql';
+import fs from 'fs';
+import path from 'path';
+
+const BLOG_DIR = './content/blog';
+const BASE_URL = 'https://whoisalfaz.me';
+
+function getMdxFiles(dir, fileList = []) {
+  const files = fs.readdirSync(dir);
+  files.forEach(file => {
+    const filePath = path.join(dir, file);
+    if (fs.statSync(filePath).isDirectory()) {
+      getMdxFiles(filePath, fileList);
+    } else if (file.endsWith('.mdx')) {
+      // Get slug from filename (assuming filename matches slug or is the slug)
+      // If the folder name is the slug (e.g. 30-days/day-1.mdx -> day-1), handle it.
+      // For now, simplicity: if it's in a subfolder, we might need a better mapper.
+      // But usually slugs are just the leaf name minus extension.
+      fileList.push(file.replace('.mdx', ''));
+    }
+  });
+  return fileList;
+}
 
 async function generateUrlList() {
-    const query = `
-    query AllUrls {
-      posts(first: 100) {
-        nodes {
-          slug
-        }
-      }
-      pages(first: 100) {
-        nodes {
-          slug
-        }
-      }
-    }
-  `;
+  try {
+    const urls = [
+      `${BASE_URL}/`,
+      `${BASE_URL}/blog`,
+      `${BASE_URL}/portfolio`,
+      `${BASE_URL}/services`,
+      `${BASE_URL}/contact`,
+      `${BASE_URL}/audit`,
+      `${BASE_URL}/labs`,
+      `${BASE_URL}/privacy-policy`,
+      `${BASE_URL}/terms`
+    ];
 
-    try {
-        const res = await fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query }),
-        });
-        const json = await res.json();
+    const slugs = getMdxFiles(BLOG_DIR);
+    slugs.forEach(slug => {
+      urls.push(`${BASE_URL}/blog/${slug}`);
+    });
 
-        const urls = [
-            'https://whoisalfaz.me/',
-            'https://whoisalfaz.me/blog',
-            'https://whoisalfaz.me/portfolio',
-            'https://whoisalfaz.me/services',
-            'https://whoisalfaz.me/contact',
-            'https://whoisalfaz.me/audit',
-            'https://whoisalfaz.me/labs',
-            'https://whoisalfaz.me/privacy-policy',
-            'https://whoisalfaz.me/terms'
-        ];
-
-        json.data.posts.nodes.forEach(post => {
-            urls.push(`https://whoisalfaz.me/blog/${post.slug}`);
-        });
-
-        json.data.pages.nodes.forEach(page => {
-            // Avoid duplicating hardcoded pages
-            if (!['home', 'blog', 'portfolio', 'services', 'contact', 'audit', 'labs', 'privacy-policy', 'terms'].includes(page.slug)) {
-                urls.push(`https://whoisalfaz.me/${page.slug}`);
-            }
-        });
-
-        console.log(urls.join('\n'));
-    } catch (err) {
-        console.error('Fetch failed:', err);
-    }
+    console.log(urls.join('\n'));
+  } catch (err) {
+    console.error('Generation failed:', err);
+  }
 }
 
 generateUrlList();

@@ -37,7 +37,7 @@ export default function ServicesPage() {
             cta: "Build My Headless System"
         },
         {
-            title: "n8n Automation Workflows",
+            title: "Custom Workflow Automation",
             slug: "n8n-automation",
             desc: "Replace your manual data entry with autonomous agents. We build self-healing workflows that instantly qualify leads and sync your CRM, saving your team 20+ hours a week.",
             price: "750",

@@ -11,23 +11,22 @@ I help agency owners and entrepreneurs escape the **"Content Treadmill"** and bu
 
 ---
 
-## 🏗 Headless Architecture
+## 🏗 Purely Decoupled Architecture
 
-This project splits the traditional monolithic CMS into a high-performance **Frontend** and a flexible **Backend**.
+This project is now a high-performance headless architecture using **Local MDX** for content and **Next.js** for the frontend, ensuring maximum security and zero external dependencies on a CMS.
 
 ```mermaid
 graph LR
-  A[WordPress Backend] -- GraphQL API --> B(Next.js Frontend)
+  A[Local MDX Content] --> B(Next.js Frontend)
   B -- React Server Components --> C{User Experience}
-  D[n8n Automation] -- Webhooks --> A
+  D[n8n Automation] -- API Calls --> B
   E[AI Agents] -- Chat Interface --> B
 ```
 
-### 1. The Brain (Backend)
-- **CMS**: WordPress (Headless Mode)
-- **API**: WPGraphQL
-- **Hosting**: DigitalOcean Droplet (`v1.whoisalfaz.me`)
-- **Role**: Manages content, media library, and SEO metadata. It is completely decoupled from the frontend design.
+### 1. The Brain (Content)
+- **Source**: Local MDX Files (`content/blog/`)
+- **Metadata**: YAML Frontmatter
+- **Role**: Manages blog posts, series progression, and technical documentation with full version control parity.
 
 ### 2. The Face (Frontend)
 - **Framework**: Next.js 15 (App Router)

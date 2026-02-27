@@ -1,20 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ["192.168.56.1:3000", "localhost:3000"],
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'whoisalfaz.me', // Trust your live site
-        pathname: '/wp-content/uploads/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'v1.whoisalfaz.me', // Allow new GraphQL endpoint images
-        pathname: '/wp-content/uploads/**',
-      },
-    ],
     formats: ['image/avif', 'image/webp'],
   },
   trailingSlash: true,
@@ -106,10 +93,23 @@ const nextConfig: NextConfig = {
     ];
   },
   async headers() {
+    const cspHeader = `
+        default-src 'self';
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        img-src 'self' data: https://whoisalfaz.me https://www.googletagmanager.com;
+        font-src 'self' https://fonts.gstatic.com data:;
+        connect-src 'self' https://pagespeedonline.googleapis.com https://www.google-analytics.com;
+        frame-src 'self';
+        object-src 'none';
+        upgrade-insecure-requests;
+    `.replace(/\s{2,}/g, ' ').trim();
+
     return [
       {
         source: '/(.*)',
         headers: [
+          { key: 'Content-Security-Policy', value: cspHeader },
           { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },

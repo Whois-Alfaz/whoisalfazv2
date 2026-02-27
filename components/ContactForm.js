@@ -102,7 +102,7 @@ export default function ContactForm({ initialServiceOfInterest = "General Consul
                         value={formData.service}
                         onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                     >
-                        <option value="n8n Automation Development">n8n Automation Development</option>
+                        <option value="Custom Workflow Automation">Custom Workflow Automation</option>
                         <option value="Technical SEO Audit">Technical SEO Audit</option>
                         <option value="Headless CMS Architecture">Headless CMS Architecture</option>
                         <option value="Custom App Development">Custom App Development</option>

@@ -220,9 +220,9 @@ export default async function Home() {
               link: "/services/headless-architecture"
             },
             {
-              title: "n8n Automation Workflows",
+              title: "Custom Workflow Automation",
               icon: Zap,
-              desc: "Autonomous RevOps Infrastructure. Replace fragile manual flows with self-healing n8n workflows that instantly enrich leads and scale your sales engine without adding headcount.",
+              desc: "Autonomous RevOps Infrastructure. Replace fragile manual flows with self-healing AI workflows that instantly enrich leads and scale your sales engine without adding headcount.",
               bg: "bg-emerald-500/10", border: "border-emerald-500/20", text: "text-emerald-400",
               link: "/services/n8n-automation"
             },

@@ -27,7 +27,7 @@ export default function Footer() {
                         <ul className="space-y-2 text-sm text-slate-500">
                             <li><Link href="/services/custom-full-stack" className="hover:text-blue-400 transition-colors">Custom Applications</Link></li>
                             <li><Link href="/services/headless-architecture" className="hover:text-blue-400 transition-colors">Headless CMS</Link></li>
-                            <li><Link href="/services/n8n-automation" className="hover:text-blue-400 transition-colors">n8n Automation</Link></li>
+                            <li><Link href="/services/n8n-automation" className="hover:text-blue-400 transition-colors">Custom Automation</Link></li>
                             <li><Link href="/services/technical-seo" className="hover:text-blue-400 transition-colors">Technical SEO</Link></li>
                         </ul>
                     </div>
