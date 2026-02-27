@@ -95,7 +95,7 @@ export default function ServicesPage() {
                 </p>
 
                 {/* Audit Tool Embed */}
-                <div className="bg-[#0f172a] border border-slate-800 p-8 rounded-3xl relative shadow-2xl max-w-2xl mx-auto">
+                <div className="bg-[#0f172a] border border-slate-800 p-8 rounded-3xl relative shadow-2xl max-w-6xl mx-auto">
                     <h3 className="text-white font-bold mb-6">Receive Free Audit</h3>
                     <div className="audit-tool-wrapper">
                         <AuditTool />
