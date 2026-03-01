@@ -16,7 +16,7 @@ categories:
 
 Master n8n debugging and error handling with logs, retries, and alerts. Real examples for SaaS & agencies by [Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/) at whoisalfaz.me.
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<hr className="wp-block-separator has-alpha-channel-opacity"/>
 
 
 
@@ -38,7 +38,7 @@ This isn't theory. These are patterns I use for every production automation at *
 
 
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<hr className="wp-block-separator has-alpha-channel-opacity"/>
 
 
 
@@ -73,7 +73,7 @@ This means your API credentials are wrong or expired. Without **n8n debugging**,
 
 **Pro tip:** Always check **node output** before moving to retries or alerts. 80% of issues are caught here.
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<hr className="wp-block-separator has-alpha-channel-opacity"/>
 
 
 
@@ -87,7 +87,7 @@ When building **n8n debugging workflows**, expect these errors:
 4. **Validation Errors**: The data you're sending doesn't match what the API expects. Check field types, required fields, and formatting.
 5. **Rate Limiting (429)**: You're hitting API limits. Implement retries with backoff or reduce request frequency.
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<hr className="wp-block-separator has-alpha-channel-opacity"/>
 
 
 
@@ -125,7 +125,7 @@ Don't waste retries on:
 
 **My rule:** If a human would get the same error on retry, retries won't help. You need error handling instead.
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<hr className="wp-block-separator has-alpha-channel-opacity"/>
 
 
 
@@ -170,7 +170,7 @@ This workflow ensures **no lead is lost** – even if the CRM fails, you have a 
 
 
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<hr className="wp-block-separator has-alpha-channel-opacity"/>
 
 
 
@@ -240,7 +240,7 @@ This ensures my principle: **visible failures are fixed; hidden failures are dis
 
 
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<hr className="wp-block-separator has-alpha-channel-opacity"/>
 
 
 
@@ -278,7 +278,7 @@ I use this pattern for every client-facing workflow at **whoisalfaz.me**.
 
 
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<hr className="wp-block-separator has-alpha-channel-opacity"/>
 
 
 
@@ -296,7 +296,7 @@ Before you deploy any **n8n debugging workflow**, check:
 
 If you can check all of these, your workflow is production-ready.
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<hr className="wp-block-separator has-alpha-channel-opacity"/>
 
 
 
@@ -318,7 +318,7 @@ You forgot what went wrong last week? **Always log to Google Sheets or a databas
 
 If you catch an error, handle it. Slack the team, email admin, or retry differently. **Silent catches = hidden disasters.**
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<hr className="wp-block-separator has-alpha-channel-opacity"/>
 
 
 
@@ -335,7 +335,7 @@ The next posts in this series will show you how to apply these patterns to real-
 
 This isn't extra work—it's the difference between automation that works and automation that creates silent disasters.
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<hr className="wp-block-separator has-alpha-channel-opacity"/>
 
 
 
@@ -350,7 +350,7 @@ Once you see that Slack notification, you'll understand why debugging and error 
 
 Subscribe to the [newsletter](https://whoisalfaz.me/blog/contact-alfaz-mahmud-rizve/) to get Day 8 tomorrow, where we'll build your first real-world workflow with everything you've learned so far.
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<hr className="wp-block-separator has-alpha-channel-opacity"/>
 
 
 
