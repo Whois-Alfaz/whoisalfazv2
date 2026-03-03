@@ -11,7 +11,7 @@ export async function POST(req: Request) {
         const { messages } = await req.json();
 
         const result = streamText({
-            model: nvidia('deepseek-ai/deepseek-r1'), // NVIDIA NIM DeepSeek
+            model: nvidia('meta/llama-3.1-70b-instruct'), // NVIDIA NIM Llama 3.1 70B Instruct
             messages,
             system: `You are Alfaz AI, the personal automation and RevOps AI assistant for Alfaz Mahmud Rizve.
 Alfaz is a Full-Stack Automation Architect and Business Growth Consultant who builds 'self-driving' agencies using n8n and Headless Tech.
