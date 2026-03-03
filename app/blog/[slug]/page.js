@@ -7,6 +7,7 @@ import { ArrowLeft, Calendar, Clock, Twitter, Linkedin, Link as LinkIcon } from 
 import TableOfContents from '@/components/TableOfContents';
 import NewsletterForm from '@/components/NewsletterForm';
 import SearchWidget from '@/components/SearchWidget';
+import DeployingTheStacks from '@/components/DeployingTheStacks';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import rehypeHighlight from 'rehype-highlight';
 
@@ -138,7 +139,7 @@ export default async function Post({ params }) {
             </h1>
 
             {/* Author & Meta Grid */}
-            <div className="flex flex-wrap items-center gap-8 text-sm text-slate-400">
+            <div className="flex flex-wrap items-center gap-8 text-sm text-slate-400 mt-12 pb-2">
 
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-slate-800 p-0.5 ring-2 ring-white/10">
@@ -231,8 +232,8 @@ export default async function Post({ params }) {
           <div className="
               prose prose-invert prose-lg max-w-none w-full
               prose-headings:text-white prose-headings:font-bold
-              prose-h2:text-3xl prose-h2:mt-16 prose-h2:mb-6 prose-h2:tracking-tight
-              prose-h3:text-2xl prose-h3:text-teal-400 prose-h3:mt-8 prose-h3:mb-4
+              prose-h2:text-4xl lg:prose-h2:text-5xl prose-h2:mt-20 prose-h2:mb-8 prose-h2:tracking-tight
+              prose-h3:text-3xl lg:prose-h3:text-4xl prose-h3:text-teal-400 prose-h3:mt-12 prose-h3:mb-6
               prose-p:mb-8 prose-p:leading-8 prose-p:text-slate-300
               prose-a:text-blue-400 prose-a:no-underline hover:prose-a:text-blue-300 hover:prose-a:underline
               prose-img:max-w-3xl prose-img:mx-auto prose-img:rounded-2xl prose-img:shadow-2xl prose-img:my-12
@@ -244,11 +245,29 @@ export default async function Post({ params }) {
               prose-hr:my-12 prose-hr:border-white/10 prose-hr:w-full
             ">
             {/* Affiliate Disclosure */}
-            <p className="text-slate-500 text-sm italic mb-12 border-l-2 border-slate-800 pl-6 py-2 bg-slate-900/30 rounded-r-lg">
-              This technical breakdown contains affiliate links. If you deploy this stack using my links, I earn a commission at no extra cost to you.
+            {post.affiliates && post.affiliates.length > 0 && (
+              <p className="text-slate-500 text-sm italic mb-6 border-l-2 border-slate-800 pl-6 py-2 bg-slate-900/30 rounded-r-lg">
+                This technical breakdown contains affiliate links. If you deploy this stack using my links, I earn a commission at no extra cost to you.
+              </p>
+            )}
+
+            {/* Hardcoded Article Byline */}
+            <p className="text-white font-bold mb-12 text-[1.1rem]">
+              By Alfaz Mahmud Rizve | RevOps & Full Stack Automation Architect at <a href="https://whoisalfaz.me" className="text-teal-400 no-underline hover:text-teal-300">whoisalfaz.me</a>
             </p>
 
-            <MDXRemote source={post.content} options={{ mdxOptions: { format: 'md', rehypePlugins: [rehypeHighlight] } }} />
+            <MDXRemote
+              source={post.content}
+              components={{
+                hr: () => <hr className="wp-block-separator has-alpha-channel-opacity my-16 border-white/10 w-full" />
+              }}
+              options={{ mdxOptions: { format: 'md', rehypePlugins: [rehypeHighlight] } }}
+            />
+
+            {/* Dynamic Affiliate Links Injection */}
+            {post.affiliates && post.affiliates.length > 0 && (
+              <DeployingTheStacks affiliates={post.affiliates} />
+            )}
           </div>
 
           {/* Mobile TOC (Visible only on small screens) */}

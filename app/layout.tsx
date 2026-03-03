@@ -98,7 +98,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   };
 
   return (
-    <html lang="en" className={`${inter.variable} ${mono.variable}`}>
+    <html lang="en" className={`${inter.variable} ${mono.variable}`} suppressHydrationWarning>
       <body
         className="bg-[var(--background)] text-[var(--foreground)] min-h-screen flex flex-col"
         suppressHydrationWarning

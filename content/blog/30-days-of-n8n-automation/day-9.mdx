@@ -4,203 +4,203 @@ title: >-
   (Intent, Source, Language) – 30 Days of n8n & Automation – Day 9
 slug: lead-scoring-automation-with-alfaz-mahmud-rizve
 description: >-
-  Master lead scoring automation with n8n: Auto-tag brevo leads by form intent,
-  source, language. Save hours using Real workflow by Alfaz Mahmud Rizve
-date: '2025-12-28'
+  Master lead scoring automation with n8n: Auto-tag Brevo leads by form intent,
+  source, and language. Save hours using a real workflow by Alfaz Mahmud Rizve.
+date: '2026-03-04'
 seoTitle: >-
-  Lead Scoring Automation: Auto-tag New Leads in Brevo Based on Form Answers
-  (Intent, Source, Language) - 30 Days of n8n & Automation - Day 9 - AI
-  automation for SaaS & agencies | Alfaz Mahmud Rizve
+  Lead Scoring Automation: Auto-tag Brevo Leads by Intent, Source, Language | Day 9
 seoDescription: >-
-  Master lead scoring automation with n8n: Auto-tag brevo leads by form intent,
-  source, language. Save hours using Real workflow by Alfaz Mahmud Rizve
+  Learn how to automate lead scoring using n8n and the Brevo API. Instantly route and tag WordPress Elementor leads by intent, source, and language.
 image: /images/blog/lead-scoring-automation-with-alfaz-mahmud-rizve-featured.webp
 categories:
   - 30 Days of n8n and automation
+  - RevOps Architecture
+affiliates: ["n8n", "vultr", "brevo", "pinecone", "apollo", "databox"]
 ---
 
-Raw form submissions bury your best leads without **lead scoring automation**. Day 9 of *30 Days of n8n & Automation* reveals Alfaz Mahmud Rizve's production workflow at whoisalfaz.me – instantly tagging Brevo contacts by intent ("demo" vs "newsletter"), source (LinkedIn vs organic), and language (EN/ES/FR).​
+If your lead capture system dumps every incoming prospect into a single, unsegmented list, you are burying your highest-value opportunities under a mountain of unqualified noise.
 
-[Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/) deploys this across agency clients, handling 300+ daily leads. Get the exact n8n JSON import, Brevo API setup, and checklists – no manual tagging, just 35% higher campaign opens.[](https://help.brevo.com/hc/en-us/articles/4593649769490-Create-and-use-tags-for-your-campaigns-and-automations)​
+When B2B buyers request an enterprise demo, they expect to be treated like a priority. If they are thrown into the exact same automated email nurture sequence as a college student signing up for a free newsletter, you will lose the enterprise deal before the first call is ever booked. To scale a SaaS or high-ticket agency, your sales team must know exactly who to call within the first 60 seconds of a form submission.
 
-Building on [Day 8: Capture n8n lead data from WordPress/Elementor](https://whoisalfaz.me/blog/capture-n8n-lead-data-from-wordpress-elementor/), this adds smart segmentation.[](https://whoisalfaz.me/blog/wp-admin/post.php?post=576&action=edit)​
+This requires lead scoring automation.
 
-## The Lead Scoring Problem Agencies Face Daily
+In Day 9 of our 30 Days of n8n & Automation sprint, we are upgrading the basic webhook capture engine we built in Day 8. We are going to deploy an autonomous triage system that acts as a gatekeeper. By leveraging **[n8n](https://n8n.partnerlinks.io/8qovl1a3y7q6)** and the **[Brevo (formerly Sendinblue)](https://get.brevo.com/60gns0w2n9o1)** API, we will evaluate every incoming Elementor lead, parse their form answers, and dynamically assign hyper-specific tags (Intent, Source, and Language) before routing them to your CRM or sales team.
 
-SaaS founders and agencies drown in untagged Brevo lists. **Lead scoring automation** fixes this: "Enterprise demo" requests get "hot-lead" tags for immediate sales calls; casual signups enter nurture sequences.​
+I deploy this exact architectural pattern across agency clients handling 300+ daily leads. By eliminating manual sorting, this workflow reclaims hours of administrative time and routinely drives a 35% increase in campaign open rates by ensuring hyper-relevant email routing.
 
-At whoisalfaz.me, Alfaz Mahmud Rizve saw sales teams waste 3 hours daily sorting leads. n8n + Brevo API reads form JSON on submission, applying multi-tags like ["hot-lead-demo", "linkedin-paid", "spanish"].[](https://help.brevo.com/hc/en-us/articles/4593649769490-Create-and-use-tags-for-your-campaigns-and-automations)​
+---
 
-Result? Spanish leads flow to localized campaigns; LinkedIn sources trigger B2B sequences. Ties perfectly to [Day 7: n8n Debugging & Error Handling](https://whoisalfaz.me/blog/n8n-debugging-error-handling-basics/) for bulletproof execution.[](https://whoisalfaz.me/blog/wp-admin/post.php?post=576&action=edit)​
+## The Architectural Mandate: Why Segment Before You Store?
 
-## Prerequisites: 7-Minute Setup Checklist
+At whoisalfaz.me, I consistently see sales teams wasting up to 3 hours a day manually reviewing new form submissions, attempting to guess which leads are actually ready to buy.
 
-Verify these before starting:
+When you introduce lead scoring automation, you move the friction from human operations to server execution. By analyzing the JSON payload the millisecond it hits your n8n Cloud instance, the system can instantly classify the prospect:
 
-- n8n instance (cloud/self-hosted) with [Brevo credentials](https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.brevo/).[](https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.brevo/)​
+**Intent Tracking**: Did they select "Enterprise Demo," "Free Trial," or "Newsletter"? A "Demo" intent triggers a `hot-lead-demo` tag, instantly routing the data to an Account Executive.
 
-- Brevo API key: Account > SMTP & API.[](https://help.brevo.com/hc/en-us/articles/4593649769490-Create-and-use-tags-for-your-campaigns-and-automations)​
+**Source Tracking**: Did the lead arrive organically via Google, or did they convert from an expensive LinkedIn Ads campaign? Tagging `linkedin-paid` allows you to directly track the ROI of your ad spend in your CRM.
 
-- Form with fields: `email`, `intent` (demo/trial/newsletter), `source` (linkedin/website), `language` (en/es/fr).
+**Language Localization**: If a prospect selects Spanish ("es") as their preference, tagging `spanish-lead` guarantees they are never pushed into an English-only B2B sequence.
 
-- Test webhook endpoint ready.
+This is not theory. This is enterprise-grade RevOps routing that ties directly back to the data integrity principles we established in [Day 7: n8n Debugging & Error Handling](/blog/n8n-debugging-error-handling-basics/).
 
-**Alfaz Mahmud Rizve tip**: Use [Day 6: Essential n8n Core Nodes](https://whoisalfaz.me/blog/essential-n8n-core-nodes-by-alfaz-mahmud-rizve/) IF nodes for branching
+---
+
+## Infrastructure Prerequisites: The 7-Minute Setup
+
+Before we construct the logic gates, ensure your environment is fully prepared. Missing these credentials will result in `401 Unauthorized` errors.
+
+**Your Orchestrator**: An active **[n8n instance (Cloud or a self-hosted Vultr VPS)](https://www.vultr.com/?ref=9530510-8H)**.
+
+**The Email Engine**: A live **[Brevo account](https://get.brevo.com/60gns0w2n9o1)**. You must generate a Brevo v3 API Key (located under Account > SMTP & API).
+
+**The Data Payload**: An active WordPress Elementor form with specific dropdown fields structured to capture `email`, `intent`, `source`, and `language`.
+
+**Brevo Taxonomy**: You must pre-create the exact tags (e.g., `hot-lead-demo`, `paid-social`, `spanish-lead`) within the Brevo UI (Contacts > Settings > Tags) before n8n attempts to apply them, or the API will reject the payload.
 
 ![n8n Brevo setup for lead scoring automation by Alfaz Mahmud Rizve, prerequisites checklist visual for SaaS/agencies at whoisalfaz.me.](/images/blog/lead-scoring-automation-with-alfaz-mahmud-rizve-Generated-Image-December-28-2025-10_10PM.webp)
 
-## Step 1: Webhook Trigger – Your Form's Smart Gatekeeper
+---
 
-n8n Webhook node catches every submission instantly.
+## Phase 1: The Webhook Gatekeeper
 
-1. $1
+We begin by establishing the connection between your frontend form and your backend automation server.
 
-2. $1
+**Deploy the Webhook**: Add a Webhook node to your n8n canvas. Set the HTTP Method to `POST`.
 
-3. $1
+**The Handshake**: Copy the Test Webhook URL and paste it into the "Actions After Submit > Webhook" settings of your Elementor form.
 
-Test with one submission. Data flows to next nodes.​
+**Execute the Test**: Submit a test lead through your live form (e.g., Email: `test@agency.com`, Intent: `demo`, Source: `linkedin`, Language: `es`).
 
-## Step 2: Multi-Dimensional IF Nodes for Tags
+**Validate the JSON**: Verify that the Webhook node successfully catches the payload and that all variables are correctly formatted in the n8n execution log.
 
-**Lead scoring automation** uses parallel IF branches – no single-point failure.
+---
 
-**IF Node 1 – Intent Scoring**:
+## Phase 2: Multi-Dimensional IF Routing
 
-- `{{ $json.intent }}` = "demo" → `tags: ["hot-lead-demo"]`
+Do not rely on a single, massive IF node to handle complex logic. If one condition fails, the entire workflow crashes. Professional lead scoring automation utilizes parallel IF branches to evaluate different data points independently.
 
-- = "trial" → `["warm-lead-trial"]`
+We will use the concepts we mastered in [Day 6: Essential n8n Core Nodes](/blog/essential-n8n-core-nodes-by-alfaz-mahmud-rizve/) to build our logic gates.
 
-- else → `["cold-nurture"]`
+**Gate 1: Intent Scoring**  
+Add an IF node connected to the Webhook.
+- **Condition A (True)**: If `{{ $json.body.intent }}` exactly matches `demo`.
+- **Action**: Route to a Set node that defines `tags = ["hot-lead-demo"]`.
+- **Condition B (False/Fallback)**: If `{{ $json.body.intent }}` equals `trial`.
+- **Action**: Route to a Set node that defines `tags = ["warm-lead-trial"]`.
 
-**IF Node 2 – Source Tracking**:
+**Gate 2: Source Tracking**  
+Branch another IF node parallel to the first.
+- **Condition**: If `{{ $json.body.source }}` exactly matches `linkedin`.
+- **Action**: Set `tags = ["paid-social"]`.
 
-- "linkedin" → `["paid-social"]`
+**Gate 3: Language Localization**  
+Branch a third IF node.
+- **Condition**: If `{{ $json.body.language }}` exactly matches `es`.
+- **Action**: Set `tags = ["spanish-lead"]`.
 
-- "website" → `["organic"]`
+---
 
-**IF Node 3 – Language**:
+## Phase 3: The Dynamic Tag Builder (Code Node)
 
-- "es" → `["spanish-lead"]`
+While visual IF nodes are great for simple true/false routing, merging three parallel arrays back into a single, clean payload requires deep data manipulation. We will use the Code node to dynamically construct a single array of tags that the Brevo API can ingest perfectly.
 
-Merge outputs with Set node: `{{ $json.tags.concat($node["IF Source"].json.tags) }}`.[](https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.brevo/)​
+Add a Code node and merge the outputs of your parallel Set nodes into it. Execute the following JavaScript to compile the final tags based on the raw Webhook input:
 
-## Step 3: Code Node – Dynamic Tag Builder
+```javascript
+// Dynamic Tag Compiler for Brevo Lead Scoring
+// Authored by Alfaz Mahmud Rizve
 
-JavaScript merges tags into Brevo-ready array.
-
-**Copy-paste Code Node**:
-
-```
-javascript`const input = $input.all();
-const tags = &#91;];
+const input = $input.all();
+const tags = [];
 
 input.forEach(item => {
-  if (item.json.intent === 'demo') tags.push('hot-lead-demo');
-  if (item.json.source === 'linkedin') tags.push('paid-social');
-  if (item.json.language === 'es') tags.push('spanish-lead');
+  // Evaluate Intent
+  if (item.json.body.intent === 'demo') tags.push('hot-lead-demo');
+  if (item.json.body.intent === 'trial') tags.push('warm-lead-trial');
+  
+  // Evaluate Source
+  if (item.json.body.source === 'linkedin') tags.push('paid-social');
+  
+  // Evaluate Language
+  if (item.json.body.language === 'es') tags.push('spanish-lead');
 });
 
-return &#91;{ json: { 
-  email: $json.email, 
-  attributes: $json, 
-  final_tags: tags.filter(Boolean) 
+// Return the compiled array alongside the raw email
+return [{ json: { 
+  email: $json.body.email, 
+  attributes: $json.body, 
+  final_tags: tags.filter(Boolean) // Filter removes any null/empty values
 }}];
-`
 ```
 
-Output: `["hot-lead-demo", "paid-social", "spanish-lead"]`. Scalable for 10+ criteria
+If your test lead submitted "demo", "linkedin", and "es", the Code node will output a clean array: `["hot-lead-demo", "paid-social", "spanish-lead"]`. This array is infinitely scalable; you can add 10 more criteria to the JavaScript without ever cluttering your visual canvas.
 
 ![n8n lead scoring automation workflow with IF nodes and Code tag builder by Alfaz Mahmud Rizve for Brevo segmentation at whoisalfaz.me.](/images/blog/lead-scoring-automation-with-alfaz-mahmud-rizve-Generated-Image-December-28-2025-10_10PM-1.webp)
 
-## Step 4: Brevo Create/Update – Apply Tags Instantly
+---
 
-**Brevo Node** configuration:
+## Phase 4: API Execution via the Brevo Node
 
-- Resource: Contact
+We now have a cleanly formatted data object. The final step is to push this data to Brevo and force the platform to update the contact record.
 
-- Operation: Create or Update
+1. Add the native **Brevo node** to the canvas.
+2. Authenticate using the API key you generated earlier.
+3. **Resource**: Set to `Contact`.
+4. **Operation**: Set to `Create or Update`. (Using "Create or Update" acts as an idempotent upsert. If the email already exists in your database, it will simply append the new tags without duplicating the contact).
+5. **Email**: Map to your Code node output: `{{ $json.email }}`.
+6. **Attributes**: Map the raw form data: `{{ $json.attributes }}`.
+7. **Tags**: Map your compiled array: `{{ $json.final_tags }}`.
 
-- Email: `{{ $json.email }}`
+Execute the node. Log into your Brevo dashboard, navigate to Contacts, and verify that the test email has successfully appeared with all three tags applied.
 
-- Attributes: `{{ $json.attributes }}`
+---
 
-- Tags: `{{ $json.final_tags }}` (array)
+## Phase 5: Defensive Engineering (Production Retry Logic)
 
-Brevo API auto-merges tags on existing contacts. Verify in Brevo > Contacts > Tags.​
+If you have been following the 30 Days of n8n series, you know that relying on an API to work 100% of the time is a strategy based on hope. If the Brevo API rate-limits your server right as a "hot-lead-demo" is submitted, the node will fail, and the tags will be lost.
 
-**Sample Payload**:
+We must implement the try-catch architectural pattern discussed in Day 7.
 
-```
-json`{
-  "email": "lead@ex.com",
-  "attributes": {"INTENT": "demo", "SOURCE": "linkedin"},
-  "tags": ["hot-lead-demo", "paid-social", "spanish-lead"]
-}
-`
-```
+**Exponential Backoff**: Open the settings of the Brevo node. Toggle on **Retry on Fail**. Configure it for 3 maximum retries with a 1000ms delay.
 
-**Fix**: Pre-create tags in Brevo UI to avoid "invalid tag" errors.[](https://help.brevo.com/hc/en-us/articles/4593649769490-Create-and-use-tags-for-your-campaigns-and-automations)​
+**Raw HTTP Fallback**: If the native Brevo node experiences a hard failure, advanced architects use a secondary HTTP Request node to ping the Brevo API directly as a failsafe:
 
-## Production Error Handling (From Day 7)
-
-Alfaz Mahmud Rizve adds retry logic post-Brevo:
-
-1. $1
-
-2. $1
-
-3. $1
-
-**Code for retry**:
-
-```
-javascript`*// Retry Brevo API directly*
+```javascript
+// Fallback HTTP Request Payload for Brevo v3 API
 const response = await $http.request({
   method: 'POST',
   url: 'https://api.brevo.com/v3/contacts',
   headers: { 'api-key': $secrets.brevo_api_key },
   body: $json
 });
-`
 ```
-
-See full error patterns in [Day 7 post]([https://whoisalfaz.me/blog/n8n-debugging-error-handling-basics/](https://whoisalfaz.me/blog/n8n-debugging-error-handling-basics/)​
 
 ![n8n Brevo lead scoring automation execution with error handling by Alfaz Mahmud Rizve for agencies/SaaS at whoisalfaz.me](/images/blog/lead-scoring-automation-with-alfaz-mahmud-rizve-Generated-Image-December-28-2025-10_12PM.webp)
 
-## Real Results: whoisalfaz.me Agency Metrics
+---
 
-Deployed for 7 clients: 45% faster sales response, 32% demo booking lift from hot segments.
+## The ROI of Architectural Rigor
 
-<table class="has-fixed-layout"><thead><tr><th>Metric</th><th>Manual</th><th>Automated</th></tr></thead><tbody><tr><td>Daily Tag Time</td><td>2.5h</td><td>0min</td></tr><tr><td>Segmented Open Rate</td><td>19%</td><td>31%</td></tr><tr><td>Hot Lead Conversion</td><td>11%</td><td>29%</td></tr><tr><td>Spanish Campaign ROI</td><td>1.8x</td><td>4.2x</td></tr></tbody></table>
+At whoisalfaz.me, I do not build automations simply to save time; I build them to generate revenue. When this exact lead scoring automation was deployed across 7 different agency clients, the operational metrics shifted drastically:
 
-Connects to [Day 5: First 3 Automations](https://whoisalfaz.me/blog/automations-for-saas-and-agencies/) lead framework.[](https://whoisalfaz.me/blog/wp-admin/post.php?post=576&action=edit)​
+- **Manual Triage Time**: Dropped from 2.5 hours daily to 0 minutes.
+- **Segmented Open Rates**: Increased from an average of 19% to 31% because Spanish-speaking leads were finally receiving Spanish copy, and B2B leads were receiving technical sequences.
+- **High-Intent Conversion**: Demo booking rates from "hot" leads increased by 32% purely because the Account Executives were notified instantly via the `hot-lead-demo` tag, dropping speed-to-lead to under 60 seconds.
 
-## Implementation Checklist – Deploy Today
+---
 
--  Import JSON workflow from whoisalfaz.me/day9-json
+## The Day 9 Deployment Mandate
 
--  Add form webhook ([Day 8](https://whoisalfaz.me/blog/capture-n8n-lead-data-from-wordpress-elementor/))
+You now possess the exact blueprint to transform a chaotic inbound pipeline into a mathematically precise sorting engine.
 
--  Create Brevo tags: hot-lead-demo, paid-social, spanish-lead [Brevo docs](https://help.brevo.com/hc/en-us/articles/4593649769490-Create-and-use-tags-for-your-campaigns-and-automations)
+Do not let your best leads rot in an untagged list.
 
--  Test 5 scenarios (each intent/source/lang combo)
+1. Deploy your webhook.
+2. Create your tags in Brevo.
+3. Configure your multi-dimensional IF logic.
+4. Execute the Code node payload.
 
--  Add Slack errors ([Day 7](https://whoisalfaz.me/blog/n8n-debugging-error-handling-basics/))
+If your agency infrastructure is struggling to scale, stop throwing more SDRs at the problem. Fix the data routing.
 
--  Monitor: n8n Executions > Filter "Brevo"
-
-**Avoid These Traps**:
-
-- Missing email validation → 400 errors
-
-- Sequential IFs → Lost multi-tags
-
-- No pre-created Brevo tags → Fail silently
-
-- Ignoring rate limits → 429 blocks​
-
-## Day 9 in 30 Days of n8n & Automation Series
-
-Follows [Day 4: Workflow Design Best Practices](https://whoisalfaz.me/blog/n8n-workflow-design-best-practices/) inputs/outputs pattern and [Day 3: n8n Setup](https://whoisalfaz.me/blog/what-is-n8n-and-how-to-set-it-up/). Tomorrow: Can you guess?
+Subscribe to the newsletter to follow the rest of the 30 Days of n8n & Automation sprint. Tomorrow, for Day 10, we are taking these newly tagged leads and building out the actual automated email sequences that convert them.

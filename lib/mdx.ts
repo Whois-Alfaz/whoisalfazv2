@@ -11,6 +11,7 @@ export interface PostMeta {
     date: string;
     image?: string;
     categories?: string[];
+    affiliates?: string[];
     seoTitle?: string;
     seoDescription?: string;
 }
@@ -58,6 +59,7 @@ export function getPostBySlug(slug: string): Post | null {
                 date: data.date || '',
                 image: data.image || '',
                 categories: data.categories || [],
+                affiliates: data.affiliates || [],
                 seoTitle: data.seoTitle || data.title || '',
                 seoDescription: data.seoDescription || data.description || '',
                 content,
@@ -91,6 +93,7 @@ export function getAllPosts(): PostMeta[] {
             date: data.date || '',
             image: data.image || '',
             categories: data.categories || [],
+            affiliates: data.affiliates || [],
             seoTitle: data.seoTitle || '',
             seoDescription: data.seoDescription || '',
         };
