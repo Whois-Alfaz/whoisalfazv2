@@ -116,7 +116,7 @@ export default function DeployingTheStacks({ affiliates = [] }) {
             {/* Primary Section */}
             {primaryKeys.length > 0 && (
                 <div className="mb-16 relative z-10">
-                    <h3 className="text-3xl font-bold text-white mb-6 tracking-tight relative z-10">Relevant Stacks / Links</h3>
+                    <h3 className="text-3xl font-bold text-white mb-6 tracking-tight relative z-10">Core Deployment Stack</h3>
                     <p className="text-slate-300 mb-10 leading-relaxed max-w-2xl relative z-10">
                         To build this exact architecture in production, you will need the core infrastructure. I strictly use and recommend the following enterprise-grade platforms.
                     </p>
@@ -129,7 +129,7 @@ export default function DeployingTheStacks({ affiliates = [] }) {
             {/* Secondary Section */}
             {secondaryKeys.length > 0 && (
                 <div className="relative z-10">
-                    <h4 className="text-2xl font-bold text-slate-200 mb-8 tracking-tight border-b border-white/5 pb-4">Expand Your RevOps Arsenal</h4>
+                    <h4 className="text-2xl font-bold text-slate-200 mb-8 tracking-tight border-b border-white/5 pb-4">Complementary RevOps Toolchain</h4>
                     <div className="grid sm:grid-cols-2 gap-10">
                         {secondaryKeys.map((key) => <AffiliateCard key={key} id={key} data={AFFILIATE_DATA[key]} />)}
                     </div>
