@@ -6,12 +6,15 @@ const nvidia = createOpenAI({
     apiKey: process.env.NVIDIA_API_KEY,
 });
 
+// Allow streaming responses up to 30 seconds
+export const maxDuration = 30;
+
 export async function POST(req: Request) {
     try {
         const { messages } = await req.json();
 
         const result = streamText({
-            model: nvidia('meta/llama-3.1-70b-instruct'), // NVIDIA NIM Llama 3.1 70B Instruct
+            model: nvidia.chat('meta/llama-3.1-70b-instruct'), // NVIDIA NIM Llama 3.1 70B Instruct
             messages,
             system: `You are Alfaz AI, the personal automation and RevOps AI assistant for Alfaz Mahmud Rizve.
 Alfaz is a Full-Stack Automation Architect and Business Growth Consultant who builds 'self-driving' agencies using n8n and Headless Tech.
@@ -22,9 +25,11 @@ Personality: Keep answers extremely concise, professional, and slightly conversa
 Constraint: DO NOT output any <think> reasoning tags or internal monologues. Only output the final direct response to the user.`,
         });
 
+        console.log(`[API Chat] Sending payload for ${messages?.length || 0} messages`);
+
         return result.toTextStreamResponse();
     } catch (error: any) {
-        console.error('Chat API Error:', error);
+        console.error('[API Chat] Logic Error:', error);
         return new Response(
             JSON.stringify({ error: 'Failed to process request', details: error.message }),
             { status: 500, headers: { 'Content-Type': 'application/json' } }
