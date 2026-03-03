@@ -1,57 +1,33 @@
-import { NextResponse, NextRequest } from 'next/server';
+import { createOpenAI } from '@ai-sdk/openai';
+import { streamText } from 'ai';
 
-export async function POST(req: NextRequest) {
+const nvidia = createOpenAI({
+    baseURL: 'https://integrate.api.nvidia.com/v1',
+    apiKey: process.env.NVIDIA_API_KEY,
+});
+
+export async function POST(req: Request) {
     try {
-        const { message } = await req.json();
+        const { messages } = await req.json();
 
-        if (!message) {
-            return NextResponse.json({ error: 'Message is required' }, { status: 400 });
-        }
+        const result = streamText({
+            model: nvidia('deepseek-ai/deepseek-r1'), // NVIDIA NIM DeepSeek
+            messages,
+            system: `You are Alfaz AI, the personal automation and RevOps AI assistant for Alfaz Mahmud Rizve.
+Alfaz is a Full-Stack Automation Architect and Business Growth Consultant who builds 'self-driving' agencies using n8n and Headless Tech.
+Pricing: Automation Workflows start at $300. Headless Systems start at $1,500. Consulting starts at $200/hr.
+Tech Stack: Next.js (Frontend & Backend), n8n (Automation), MDX (Content), Prisma (Data), and Vercel (Edge Infrastructure).
+Contact: email at contact@whoisalfaz.me or use the contact form to book a discovery call.
+Personality: Keep answers extremely concise, professional, and slightly conversational. Talk in the first person (e.g. "I am an AI trained by Alfaz"). Keep responses short and punchy. If asked about something unrelated to software development, automation, or RevOps, politely redirect the conversation back to Alfaz's expertise.
+Constraint: DO NOT output any <think> reasoning tags or internal monologues. Only output the final direct response to the user.`,
+        });
 
-        // 1. Convert to lowercase for matching
-        const lowerMsg = message.toLowerCase();
-
-        // 2. Define the Logic Map (Priority Order)
-        let reply = "";
-
-        if (lowerMsg.match(/price|cost|rate|how much|budget/)) {
-            reply = "Pricing depends on complexity. Automation Workflows start at $300. Headless Systems start at $1,500. Consulting starts at $200/hr.";
-        }
-        else if (lowerMsg.match(/n8n|automation|workflow|zapier/)) {
-            reply = "I build custom n8n workflows that replace manual work. I can automate lead enrichment, PDF reporting, and CRM syncing. Systems start from $300.";
-        }
-        else if (lowerMsg.match(/website|wordpress|headless|next|react/)) {
-            reply = "I build with a Native Next.js MDX Architecture. Your content lives in version-controlled MDX files, and the frontend delivers 100/100 speed scores with instant loading. No CMS overhead.";
-        }
-        else if (lowerMsg.match(/seo|rank|audit|google/)) {
-            reply = "I perform Technical SEO Audits to fix invisible code errors. I also focus on Core Web Vitals to ensure Google loves your site.";
-        }
-        else if (lowerMsg.match(/who|alfaz|about|resume/)) {
-            // Note: We return text here, the frontend can handle markdown links if configured, 
-            // but standard text is safest for this simple implementation.
-            reply = "Alfaz Mahmud Rizve is a Full-Stack Automation Architect and Business Growth Consultant. He builds 'self-driving' agencies using n8n and Headless Tech. Check out his Portfolio page.";
-        }
-        else if (lowerMsg.match(/stack|tech|tools/)) {
-            reply = "My Core Stack: Next.js (Frontend & Backend), n8n (Automation), MDX (Content), Prisma (Data), and Vercel (Edge Infrastructure).";
-        }
-        else if (lowerMsg.match(/contact|hire|email|book/)) {
-            reply = "You can email me at contact@whoisalfaz.me or use the [contact form](/contact) to book a discovery call.";
-        }
-        else {
-            // Default Fallback
-            reply = "I am an AI simulation trained on Alfaz's portfolio. You can ask me about Services, Pricing, Headless Tech, or Automation!";
-        }
-
-        // Simulate a tiny network delay for realism (optional, but feels better)
-        await new Promise(resolve => setTimeout(resolve, 500));
-
-        return NextResponse.json({ reply });
-
+        return result.toTextStreamResponse();
     } catch (error: any) {
-        console.error('Chat Logic Error:', error);
-        return NextResponse.json(
-            { error: 'Failed to process request', details: error.message },
-            { status: 500 }
+        console.error('Chat API Error:', error);
+        return new Response(
+            JSON.stringify({ error: 'Failed to process request', details: error.message }),
+            { status: 500, headers: { 'Content-Type': 'application/json' } }
         );
     }
 }
