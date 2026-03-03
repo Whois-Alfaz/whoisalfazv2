@@ -4,26 +4,44 @@ import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { MessageCircle, X, Send } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useChat } from '@ai-sdk/react';
+
+const KNOWLEDGE_BASE = [
+    {
+        keywords: ['pricing', 'cost', 'price', 'rates', 'fee', 'charge', 'much'],
+        response: "My pricing is structured to deliver immediate ROI:\n• Automation Workflows start at $300\n• Headless Web Systems start at $1,500\n• Strategy & Consulting is $200/hr\n\nWould you like to book a discovery call to get a custom quote?"
+    },
+    {
+        keywords: ['who', 'alfaz', 'you', 'name', 'about', 'background'],
+        response: "I'm the designated virtual assistant for Alfaz Mahmud Rizve. Alfaz is a Full-Stack Automation Architect and Business Growth Consultant. He specializes in helping SaaS founders and agencies scale by replacing fragile 'Zapier Band-Aids' with enterprise-grade, autonomous systems."
+    },
+    {
+        keywords: ['contact', 'email', 'hire', 'book', 'call', 'reach', 'touch', 'meeting'],
+        response: "You can reach Alfaz directly via email at contact@whoisalfaz.me, or you can use the Contact page on this site to book a free 30-minute discovery call."
+    },
+    {
+        keywords: ['stack', 'tech', 'technology', 'tools', 'software', 'build', 'framework'],
+        response: "Alfaz builds high-performance infrastructure. His core tech stack includes:\n• Next.js & React (Frontend/Backend)\n• n8n & Python (Enterprise Automation & AI)\n• Prisma (Database ORM)\n• Tailwind CSS (Styling)\n• Vercel & DigitalOcean (Deployment)"
+    },
+    {
+        keywords: ['service', 'offer', 'do', 'help', 'automation', 'web', 'agency', 'saas'],
+        response: "Alfaz offers three core services:\n1. Custom Automation Workflows (n8n/Make)\n2. High-Performance Headless Web Apps (Next.js)\n3. RevOps Strategy & Consulting\n\nHe essentially builds the 'central nervous system' for scaling businesses so you can focus on revenue, not admin work."
+    }
+];
+
+const DEFAULT_RESPONSE = "I'm a localized virtual assistant trained on Alfaz's business. I can instantly answer questions about his pricing, services, tech stack, and background. What would you like to know?";
 
 export default function GlobalChatWidget() {
     const [isOpen, setIsOpen] = useState(false);
-    const messagesEndRef = useRef(null);
-
     const [inputValue, setInputValue] = useState('');
-
-    const { messages, status, sendMessage } = useChat({
-        api: '/api/chat',
-        initialMessages: [
-            {
-                id: '1',
-                role: 'assistant',
-                content: "Hi! I'm Alfaz AI. Ask me anything about automation or web dev.",
-            }
-        ]
-    });
-
-    const isLoading = status === 'streaming' || status === 'submitted';
+    const [messages, setMessages] = useState([
+        {
+            id: '1',
+            role: 'assistant',
+            content: "Hi! I'm Alfaz's virtual assistant. Ask me anything about his pricing, services, or tech stack.",
+        }
+    ]);
+    const [isTyping, setIsTyping] = useState(false);
+    const messagesEndRef = useRef(null);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -31,19 +49,36 @@ export default function GlobalChatWidget() {
 
     useEffect(() => {
         if (isOpen) scrollToBottom();
-    }, [messages, isLoading, isOpen]);
+    }, [messages, isTyping, isOpen]);
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        if (!inputValue.trim() || isLoading) return;
+        const userText = inputValue.trim();
+        if (!userText || isTyping) return;
 
-        const tempVal = inputValue;
-        setInputValue(''); // Clear immediately for UX
+        // 1. Add User Message
+        const newMessages = [...messages, { id: Date.now().toString(), role: 'user', content: userText }];
+        setMessages(newMessages);
+        setInputValue('');
+        setIsTyping(true);
 
-        sendMessage({
-            role: 'user',
-            content: tempVal
-        });
+        // 2. Simulate AI Processing Delay (creates a more natural feel)
+        setTimeout(() => {
+            const lowerInput = userText.toLowerCase();
+            let aiResponse = DEFAULT_RESPONSE;
+
+            // 3. Keyword Matching Algorithm
+            for (const item of KNOWLEDGE_BASE) {
+                if (item.keywords.some(kw => lowerInput.includes(kw))) {
+                    aiResponse = item.response;
+                    break;
+                }
+            }
+
+            // 4. Inject Response
+            setMessages([...newMessages, { id: (Date.now() + 1).toString(), role: 'assistant', content: aiResponse }]);
+            setIsTyping(false);
+        }, 800);
     };
 
     return (
@@ -101,7 +136,7 @@ export default function GlobalChatWidget() {
                                 </div>
                             ))}
 
-                            {isLoading && messages[messages.length - 1]?.role === 'user' && (
+                            {isTyping && (
                                 <div className="flex gap-3">
                                     <div className="w-6 h-6 rounded flex-shrink-0 bg-black/50 border border-white/10 overflow-hidden">
                                         <Image src="/logo.png" alt="AI" width={24} height={24} className="object-cover" />
@@ -128,7 +163,7 @@ export default function GlobalChatWidget() {
                                 />
                                 <button
                                     type="submit"
-                                    disabled={!inputValue.trim() || isLoading}
+                                    disabled={!inputValue.trim() || isTyping}
                                     className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 bg-teal-500 text-black rounded-lg hover:bg-teal-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                                 >
                                     <Send size={16} />
