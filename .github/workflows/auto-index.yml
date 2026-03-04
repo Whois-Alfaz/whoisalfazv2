@@ -1,0 +1,22 @@
+name: Auto-Index SEO
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  index-urls:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for DigitalOcean App Platform Deployment
+        run: |
+          echo "Waiting 3 minutes for DigitalOcean to build and deploy the new container..."
+          sleep 180
+
+      - name: Trigger Triple Threat Indexing API
+        run: |
+          echo "Triggering SEO Auto-Indexer..."
+          curl -s -X GET "https://whoisalfaz.me/api/bing/submit?secret=bing_auto_submission_secret_2024"
+          echo -e "\nIndexing Payload Submitted."
