@@ -17,7 +17,7 @@ seoDescription: >-
   logic, and returns a JSON response in milliseconds.
 image: /images/blog/how-to-build-an-api-with-n8n-featured.webp
 categories:
-  - 30 Days of n8n and automation
+  - Learn Automation in 30 Days
 ---
 
 **How to Build a Serverless API with n8n: The Ultimate Webhook Guide**
@@ -108,7 +108,7 @@ Imagine your frontend sends this JSON body:
 
 JSON
 
-```
+```text
 {
   "email": "client@whoisalfaz.me"
 }
@@ -207,7 +207,7 @@ Let's test our creation. You don't need a website to test an API; you can use yo
 
 Bash
 
-```
+```text
 curl -X POST https://n8n.whoisalfaz.me/webhook-test/verify-user \
 -H "Content-Type: application/json" \
 -H "x-api-key: sk_prod_8293482394" \

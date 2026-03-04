@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, UserCircle } from 'lucide-react';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import rehypeHighlight from 'rehype-highlight';
 
 export async function generateStaticParams() {
     // This catch-all route now only handles MDX blog posts accessed via short URLs
@@ -137,7 +136,7 @@ export default async function Page({ params }) {
                ${isServices ? 'prose-p:mx-auto prose-headings:mx-auto' : ''}
              `}
                     >
-                        <MDXRemote source={data.content} options={{ mdxOptions: { format: 'md', rehypePlugins: [rehypeHighlight] } }} />
+                        <MDXRemote source={data.content} options={{ mdxOptions: { format: 'md' } }} />
                     </div>
                 </article>
             </div>

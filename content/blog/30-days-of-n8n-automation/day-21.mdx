@@ -20,7 +20,7 @@ seoDescription: >-
   grind.
 image: /images/blog/automate-personal-branding-with-n8n-featured.webp
 categories:
-  - 30 Days of n8n and automation
+  - Learn Automation in 30 Days
 ---
 
 Welcome back to **Day 21** of the *30 Days of n8n & Automation* series here on `whoisalfaz.me`.
@@ -105,7 +105,7 @@ To make this data usable for WordPress, we need to merge these outputs.
 
 JavaScript
 
-```
+```text
 // n8n Code Node: Preparing the WordPress Payload
 const title = items&#91;0].json.title;
 const content = items&#91;0].json.content; // Markdown from Agent C
@@ -233,7 +233,7 @@ The JSON response from Google is massive. We need to parse it using a `Function`
 
 JavaScript
 
-```
+```text
 // Extracting Key Metrics
 const lighthouse = items&#91;0].json.lighthouseResult.audits;
 const score = items&#91;0].json.lighthouseResult.categories.performance.score * 100;
@@ -284,7 +284,7 @@ We can **automate personal branding with n8n** by injecting dynamic Schema marku
 
 JSON
 
-```
+```text
 {
   "@context": "https://schema.org",
   "@type": "Person",

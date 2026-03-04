@@ -1,22 +1,13 @@
 ---
-title: >-
-  n8n Debugging & Error Handling Basics (Logs, Retries, Alerts to Slack &
-  Email)-30 Days of n8n & Automation- Day 7
+title: "n8n Debugging & Error Handling Basics (Logs, Retries, Alerts to Slack & Email)-30 Days of n8n & Automation- Day 7"
 slug: n8n-debugging-error-handling-basics
-description: >-
-  Master n8n debugging and error handling with logs, retries, and alerts. Real
-  examples for SaaS & agencies by Alfaz Mahmud Rizve at whoisalfaz.me.
+description: "Master n8n debugging and error handling with logs, retries, and alerts. Real examples for SaaS & agencies by Alfaz Mahmud Rizve at whoisalfaz.me."
 date: '2026-03-02'
-seoTitle: >-
-  n8n Debugging & Error Handling Basics (Logs, Retries, Alerts to Slack &
-  Email)-30 Days of n8n & Automation- Day 7 - AI automation for SaaS & agencies
-  | Alfaz Mahmud Rizve
-seoDescription: >-
-  Master n8n debugging and error handling with logs, retries, and alerts. Real
-  examples for SaaS & agencies by Alfaz Mahmud Rizve at whoisalfaz.me.
+seoTitle: "n8n Debugging & Error Handling Basics (Logs, Retries, Alerts to Slack & Email)-30 Days of n8n & Automation- Day 7 - AI automation for SaaS & agencies | Alfaz Mahmud Rizve"
+seoDescription: "Master n8n debugging and error handling with logs, retries, and alerts. Real examples for SaaS & agencies by Alfaz Mahmud Rizve at whoisalfaz.me."
 image: /images/blog/n8n-debugging-error-handling-basics-featured.webp
 categories:
-  - 30 Days of n8n and automation
+  - Learn Automation in 30 Days
 affiliates:
   - n8n
   - vultr
@@ -56,13 +47,13 @@ Every workflow run creates logs. Most people never look at them. That's a mistak
 
 In n8n:
 
-1. $1
+1. Open any workflow in n8n.
 
-2. $1
+2. Click the "Executions" tab on the left sidebar.
 
-3. $1
+3. Select any failed execution (marked in red).
 
-4. $1
+4. Click on the node that failed to see the detailed JSON error output.
 
 That error message is your **n8n debugging clue**. It tells you:
 
@@ -76,9 +67,8 @@ That error message is your **n8n debugging clue**. It tells you:
 
 Let's say your HTTP Request node fails with:
 
-```
-text`Error: 401 Unauthorized
-`
+```text
+Error: 401 Unauthorized
 ```
 
 This means your API credentials are wrong or expired. Without **n8n debugging**, you'd spend hours guessing. With it, you know in seconds: re-check your API key.
@@ -91,15 +81,15 @@ This means your API credentials are wrong or expired. Without **n8n debugging**,
 
 When building **n8n debugging workflows**, expect these errors:
 
-1. $1
+1. **API Rate Limiting:** Hitting endpoint limits resulting in 429 errors.
 
-2. $1
+2. **Missing Credentials:** 401/403 errors from expired or missing keys.
 
-3. $1
+3. **Malformed JSON:** Trying to parse invalid strings or mapping objects incorrectly.
 
-4. $1
+4. **Timeouts:** External services taking too long to respond.
 
-5. $1
+5. **Missing Fields:** Nodes trying to access a field that doesn't exist in the input data.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
@@ -111,13 +101,13 @@ A retry automatically runs a failed node again, usually after a short delay. Thi
 
 ## **How to set up retries in n8n**
 
-1. $1
+1. Open the node you want to retry (e.g., HTTP Request).
 
-2. $1
+2. Click the gear icon (Settings) in the top right of the node panel.
 
-3. $1
+3. Toggle "On Error" to "Retry Node".
 
-4. $1
+4. Set the max retries (e.g., 3) and wait time between retries (e.g., 5000ms).
 
 ## **When retries work**
 
@@ -151,23 +141,23 @@ Retries are good, but they fail eventually. When they do, you need **error handl
 
 This is the most powerful **n8n debugging pattern**. Here's how:
 
-1. $1
+1. **Try:** Attempt the risky operation (like an API call).
 
-2. $1
+2. **Catch:** If it fails, capture the error data instead of breaking the workflow.
 
-3. $1
+3. **Handle:** Route the error data to an alert node or fallback process.
 
 ## **How to build Try-Catch in n8n**
 
 n8n doesn't have a visual "Try-Catch" node, but you can simulate it:
 
-1. $1
+1. Go to the Settings of your risky node.
 
-2. $1
+2. Change "On Error" to "Continue On Fail".
 
-3. $1
+3. Add an IF node immediately after it.
 
-4. $1
+4. Set the IF condition to check if `{{$json.error}}` exists to route successes and failures differently.
 
 ## **Real workflow example**
 
@@ -177,15 +167,15 @@ Let's build a simple but powerful **n8n debugging workflow**:
 
 **Nodes:**
 
-1. $1
+1. **Webhook:** Catches the lead data.
 
-2. $1
+2. **Set Node:** Formats the payload.
 
-3. $1
+3. **HubSpot CRM:** Attempts to create the contact (Continue On Fail enabled).
 
-4. $1
+4. **IF Node:** Checks if HubSpot returned an error.
 
-5. $1
+5. **Slack Node:** Sends the error alert if the IF node evaluates to true.
 
 This workflow ensures **no lead is lost** ΓÇô even if the CRM fails, you have a log and know about it.
 
@@ -209,21 +199,20 @@ Slack is usually the best choice because:
 
 **Setup:**
 
-1. $1
+1. Create a dedicated `#n8n-alerts` channel in Slack.
 
-2. $1
+2. Add a Slack node to your error handling branch.
 
-3. $1
+3. Authenticate using OAuth2.
 
-4. $1
+4. Use Block Kit to format the error message for readability.
 
-```
-text`Workflow: Lead Sync Failed
+```text
+Workflow: Lead Sync Failed
 Error: API returned 500
 Lead Email: {{$json["email"]}}
 Time: {{$now.toISO()}}
 Action: Check CRM status, retry manually if needed
-`
 ```
 
 **Pro tip from [Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/):**┬áUse message formatting with bullet points so your team can scan it quickly.
@@ -234,16 +223,16 @@ Slack is great, but emails create a record and work even if Slack is down.
 
 **Setup:**
 
-1. $1
+1. Add a Send Email node (or equivalent) to the error branch.
 
-2. $1
+2. Set the recipient to your ops or engineering team.
 
-3. $1
+3. Include the workflow ID and execution ID in the subject line.
 
-4. $1
+4. Map the full error stack trace into the email body.
 
-```
-text`Workflow: {{workflow_name}}
+```text
+Workflow: {{workflow_name}}
 Error: {{error_message}}
 Node: {{failed_node_name}}
 Time: {{execution_time}}
@@ -253,7 +242,6 @@ Next steps:
 1. Check logs in n8n dashboard
 2. Verify API credentials
 3. Retry manually if it's a temporary issue
-`
 ```
 
 ## **Option 3: Combined Alerts (best)**
@@ -280,23 +268,23 @@ Let's bring it all together. Here's a **real n8n debugging workflow** you can co
 
 **Nodes (in order):**
 
-1. $1
+1. **Pipedrive Trigger:** "Deal Won".
 
-2. $1
+2. **Notion Node:** Create Client Portal (Continue On Fail enabled).
 
-3. $1
+3. **IF Node:** Checks for Notion error.
 
-4. $1
+4. **Google Sheets:** Add to client tracker.
 
 **Error Handler (if Notion fails):**
 
-1. $1
+1. **Set Node:** Format the error details.
 
-2. $1
+2. **Slack Node:** Alert the team about the failed portal creation.
 
-3. $1
+3. **Google Sheets (Error Log):** Record the failure timestamp and reason.
 
-4. $1
+4. **Stop Node:** Gracefully end execution for this branch.
 
 This workflow ensures:
 

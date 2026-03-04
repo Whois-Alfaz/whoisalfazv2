@@ -1,6 +1,6 @@
 # SOP: Blog Refurbishment Workflow
 
-This file is the single source of truth for refurbishing and posting blogs in the "30 Days of n8n & Automation" series. Read this **EVERY TIME** before starting a blog task.
+This file is the single source of truth for refurbishing and posting blogs in the "Learn Automation in 30 Days" series. Read this **EVERY TIME** before starting a blog task.
 
 ## 1. Filename Policy
 - **NEVER** change the existing filename of an MDX file once it is established (e.g., `day-5.mdx`).
@@ -18,7 +18,7 @@ This file is the single source of truth for refurbishing and posting blogs in th
 
 ## 4. Structural Hierarchy & Spacing
 - **Heading Spacing**: ALWAYS leave exactly one empty line before and after a heading (`##` or `###`).
-- **Section Dividers**: Use the horizontal rule component exactly as shown in Day 1: `<hr class="wp-block-separator has-alpha-channel-opacity"/>`. Ensure it has one empty line above and below.
+- **Template Utilization**: Do NOT manually add `<hr>` tags or "By Alfaz..." author bylines. These are organically injected by the Next.js `app/blog/[slug]/page.js` render template. Use pure markdown formatting globally.
 - **Image Placement**: Use the standard markdown syntax for images: `![Alt Text](/images/blog/filename.webp)`. Add one empty line before and after the image.
 - **Bullet Points**: Use consistent indentation and spacing for nested lists.
 
@@ -35,7 +35,10 @@ Example Affiliate Links:
 - **Brevo**: `https://get.brevo.com/6b88c13841c4`
 - **Databox**: `https://join.databox.com/qfzdqmwp7elc`
 - **Pinecone**: `https://try.pinecone.io/ra3cq48xakg6`
-
+- **Emergent**: `https://get.emergent.sh/f7yhqncomeyr`
+- **Tapstitch**: `https://affiliate.tapstitch.com/7k2jjtg3dl0f`
+- **AiSDR**: `https://partner.aisdr.com/2jffam3qqf6h`
+- **Accelerated Growth**: `https://acceleratedgrowthstudio.partnerlinks.io/ferzzxgyi9p3`
 ## 5. Mandatory "Deploying the Stacks" Section
 Every post **MUST** end with a dedicated "Deploying the Stacks" section before the final Strategy Call CTA. Use separate `###` headers for each tool mentioned in the post.
 
@@ -51,10 +54,23 @@ Example Format:
 ... [Repeat for others] ...
 ```
 
-## 6. Verification Checklist
+## 6. Internal Linking
+- **Contextual Linking**: Always proactively identify keywords related to previous 30-Day posts (e.g. "Day 9", "Day 8", "Webhook", "Error Handling") and inject markdown links to those posts using relative paths (e.g., `[Day 8](/blog/capture-n8n-lead-data...)`).
+
+## 7. Stability Rules (Mandatory)
+- **Frontmatter format**: All YAML values MUST use single-line double-quoted strings. **NEVER** use `>-` folded scalars — they cause `gray-matter` parsing failures that crash the entire site.
+- **Code block language**: Every fenced code block MUST specify a language (e.g. ` ```json `, ` ```text `, ` ```javascript `). Empty ` ``` ` blocks are **FORBIDDEN** — they trigger catastrophic regex backtracking in the MDX compiler.
+- **Category name**: Must always be `Learn Automation in 30 Days`. Never use legacy names.
+- **Visual verification**: Before declaring ANY blog complete, open it in the browser and visually confirm spacing, headers, images, and code blocks render correctly. Screenshots recommended.
+
+## 8. Verification Checklist
 - [ ] Filenames unchanged?
 - [ ] Slug matches user request?
 - [ ] Day numbers are mathematically correct (Today = X, Tomorrow = X+1)?
 - [ ] All 6 potential affiliate links checked?
+- [ ] Internal links to previous days included?
 - [ ] "Deploying the Stacks" section included?
-- [ ] SSG Build passes (`npx next build`)?
+- [ ] Frontmatter uses single-line quoted strings (no `>-`)?
+- [ ] All code blocks have explicit language tags?
+- [ ] SSG Build passes (`npm run build`)?
+- [ ] Visually verified in browser?

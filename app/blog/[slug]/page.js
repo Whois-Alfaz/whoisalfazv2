@@ -6,10 +6,10 @@ import Image from 'next/image';
 import { ArrowLeft, Calendar, Clock, Twitter, Linkedin, Link as LinkIcon } from 'lucide-react';
 import TableOfContents from '@/components/TableOfContents';
 import NewsletterForm from '@/components/NewsletterForm';
+import CodeBlock from '@/components/CodeBlock';
 import SearchWidget from '@/components/SearchWidget';
 import DeployingTheStacks from '@/components/DeployingTheStacks';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import rehypeHighlight from 'rehype-highlight';
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
@@ -244,8 +244,6 @@ export default async function Post({ params }) {
               prose-li:text-slate-300 prose-li:mb-4 prose-li:leading-7
               prose-strong:text-white prose-strong:font-bold
               prose-blockquote:border-l-4 prose-blockquote:border-teal-500 prose-blockquote:bg-teal-950/20 prose-blockquote:px-8 prose-blockquote:py-4 prose-blockquote:rounded-r-2xl prose-blockquote:text-slate-200 prose-blockquote:italic
-              prose-code:text-teal-300 prose-code:bg-slate-900 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:before:content-none prose-code:after:content-none
-              prose-pre:bg-[#0f172a] prose-pre:border prose-pre:border-white/10 prose-pre:max-w-full prose-pre:overflow-x-auto
               prose-hr:my-12 prose-hr:border-white/10 prose-hr:w-full
             ">
             {/* Affiliate Disclosure */}
@@ -263,9 +261,10 @@ export default async function Post({ params }) {
             <MDXRemote
               source={post.content}
               components={{
-                hr: () => <hr className="wp-block-separator has-alpha-channel-opacity my-16 border-white/10 w-full" />
+                hr: () => <hr className="wp-block-separator has-alpha-channel-opacity my-16 border-white/10 w-full" />,
+                pre: CodeBlock
               }}
-              options={{ mdxOptions: { format: 'md', rehypePlugins: [rehypeHighlight] } }}
+              options={{ mdxOptions: { format: 'md' } }}
             />
 
             {/* Dynamic Affiliate Links Injection */}
