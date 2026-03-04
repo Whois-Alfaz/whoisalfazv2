@@ -12,8 +12,8 @@ jobs:
     steps:
       - name: Wait for DigitalOcean App Platform Deployment
         run: |
-          echo "Waiting 3 minutes for DigitalOcean to build and deploy the new container..."
-          sleep 180
+          echo "Waiting 7 minutes for DigitalOcean to build and deploy the new container..."
+          sleep 420
 
       - name: Trigger Triple Threat Indexing API
         run: |
