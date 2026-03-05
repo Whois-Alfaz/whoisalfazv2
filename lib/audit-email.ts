@@ -200,6 +200,17 @@ function buildReportHTML(name: string, results: AuditResults): string {
             ${recommendationsHTML}
 
             <!-- CTA -->
+            ${results.overallScore >= 80 ? `
+            <div style="background:linear-gradient(135deg,#064e3b 0%,#0f172a 100%);border:1px solid #059669;border-radius:16px;padding:32px;text-align:center;margin:32px 0;">
+                <h3 style="color:#f8fafc;font-size:20px;margin-bottom:8px;">Your Site is in Great Shape 🎯</h3>
+                <p style="color:#94a3b8;font-size:14px;margin-bottom:20px;line-height:1.5;">
+                    Solid score. Most sites don't get here.<br>
+                    If you're looking to scale further — faster load times, advanced automation, or a full redesign — I can help take it to the next level.
+                </p>
+                <a href="https://whoisalfaz.me/contact/" style="display:inline-block;background:#2dd4bf;color:#0a0a0a;font-weight:700;font-size:14px;padding:14px 32px;border-radius:8px;text-decoration:none;">Let's Talk Growth</a>
+                <p style="color:#475569;font-size:11px;margin-top:12px;">No obligation. Just a straight conversation.</p>
+            </div>
+            ` : `
             <div style="background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);border:1px solid #334155;border-radius:16px;padding:32px;text-align:center;margin:32px 0;">
                 <h3 style="color:#f8fafc;font-size:20px;margin-bottom:8px;">Want These Fixed?</h3>
                 <p style="color:#94a3b8;font-size:14px;margin-bottom:20px;line-height:1.5;">
@@ -209,6 +220,7 @@ function buildReportHTML(name: string, results: AuditResults): string {
                 <a href="https://whoisalfaz.me/contact/" style="display:inline-block;background:#2dd4bf;color:#0a0a0a;font-weight:700;font-size:14px;padding:14px 32px;border-radius:8px;text-decoration:none;">Book a Strategy Call</a>
                 <p style="color:#475569;font-size:11px;margin-top:12px;">No obligation. No pitch deck. Just a straight conversation.</p>
             </div>
+            `}
 
             <!-- Footer -->
             <div style="border-top:1px solid #1e293b;padding-top:24px;margin-top:32px;text-align:center;">
