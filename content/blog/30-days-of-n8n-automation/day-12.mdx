@@ -37,6 +37,8 @@ Imagine a VP of Engineering replies to your first email on Day 2, saying, "Yes, 
 
 Professional RevOps architecture requires the **Check-Wait-Check pattern**. Before a server ever sends a follow-up payload, it must query the master database to verify the current "State" of the lead. If the state has changed to REPLIED, the automation must terminate immediately.
 
+![Isometric diagram illustrating the Check-Wait-Check automated email follow-up logic](/images/blog/automated-email-follow-up-n8n-brevo-unnamed-12.webp)
+
 ## Infrastructure Prerequisites (The Hard Requirements)
 
 To build a stateful sequence, you cannot use a standard Gmail or Outlook node. Native email clients do not easily expose robust webhooks for reply tracking. You must use a dedicated transactional email engine.
@@ -88,6 +90,8 @@ This microservice runs invisibly in the background 24/7. It guarantees that the 
 ## Phase 2: Building the Outbound Sequence (The Entry Point)
 
 Now, we build the actual automated drip campaign. Create a new n8n workflow named **Core: Autonomous Outbound Sequence**.
+
+![n8n workflow diagram for automated email follow-ups with Brevo](/images/blog/automated-email-follow-up-n8n-brevo-unnamed-11.webp)
 
 ### Node 1: The Trigger
 
@@ -158,6 +162,8 @@ You can chain this exact logic `Wait ➡️ Get Contact ➡️ IF ➡️ Send` a
 A clear indicator that you are using an automated email follow up tool is when a prospect receives a highly technical B2B pitch at 4:00 AM on a Sunday.
 
 If you set a Wait node for "3 Days", and the original email was sent on a Thursday, the follow-up will trigger on Sunday. We must engineer a JavaScript filter to respect standard business hours.
+
+![Business hours filter logic](/images/blog/automated-email-follow-up-n8n-brevo-unnamed-13.webp)
 
 Before the "Send Email 2" node, insert a Code Node with this logic:
 

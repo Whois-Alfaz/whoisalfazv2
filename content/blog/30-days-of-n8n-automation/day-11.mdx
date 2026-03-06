@@ -88,6 +88,8 @@ return {
 ```
 
 - **The Logic Gate (IF Node)**: We do not want to waste API credits trying to enrich a `@gmail.com` address. Add an IF node.
+
+![n8n domain extraction architecture flowchart](/images/blog/lead-enrichment-with-n8n-Generated-Image-December-30-2025-11_37PM.webp)
     - If `is_b2b_domain` is `true`, proceed to Phase 2.
     - If `false`, route the lead directly to the database without enrichment.
 
@@ -96,6 +98,8 @@ return {
 Now we query the external database.
 
 Attach an **HTTP Request** node to the True branch of your IF node.
+
+![n8n HTTP Request Node configured for Apollo enrichment API](/images/blog/lead-enrichment-with-n8n-Generated-Image-December-30-2025-11_38PM.webp)
 
 - **Method**: Set to `GET` (or POST, depending on your provider's documentation).
 - **URL**: Enter the API endpoint (e.g., `https://api.apollo.io/v1/organizations/enrich`).
@@ -113,6 +117,8 @@ Execute the node. If the domain is valid (e.g., `stripe.com`), the HTTP Request 
 APIs return deeply nested, chaotic JSON structures. If you attempt to map this raw API response directly into your CRM, it will likely fail. You must sanitize and normalize the data first.
 
 Attach a **Set (Edit Fields)** node after your HTTP Request.
+
+![n8n Set Node for firmographic data normalization](/images/blog/lead-enrichment-with-n8n-Generated-Image-December-30-2025-11_48PM.webp)
 
 We will cherry-pick only the data we actually need and assign it to clean, standardized keys. Toggle the node to "**Keep Only Set**" to strip out the excess API bloat (reducing server memory usage).
 
