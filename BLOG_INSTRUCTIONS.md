@@ -39,20 +39,8 @@ Example Affiliate Links:
 - **Tapstitch**: `https://affiliate.tapstitch.com/7k2jjtg3dl0f`
 - **AiSDR**: `https://partner.aisdr.com/2jffam3qqf6h`
 - **Accelerated Growth**: `https://acceleratedgrowthstudio.partnerlinks.io/ferzzxgyi9p3`
-## 5. Mandatory "Deploying the Stacks" Section
-Every post **MUST** end with a dedicated "Deploying the Stacks" section before the final Strategy Call CTA. Use separate `###` headers for each tool mentioned in the post.
-
-Example Format:
-```markdown
-## Deploying the Stacks
-[Brief intro about the tools used today]
-
-### 1. The Engine: [n8n](...)
-[Description]
-[CTA Link]
-
-... [Repeat for others] ...
-```
+## 5. Do Not Include "Deploying the Stacks" Section
+We now use a dynamic deploy stack setup. Do **NOT** manually append a "Deploying the Stacks" markdown section to the end of any blog posts. Just list the required platforms inside the `affiliates:` array in the YAML frontmatter, and the frontend will dynamically generate the block.
 
 ## 6. Internal Linking
 - **Contextual Linking**: Always proactively identify keywords related to previous 30-Day posts (e.g. "Day 9", "Day 8", "Webhook", "Error Handling") and inject markdown links to those posts using relative paths (e.g., `[Day 8](/blog/capture-n8n-lead-data...)`).
