@@ -1,272 +1,215 @@
 ---
-title: >-
-  Automated Content Research: Build an Infinite Strategy Engine with n8n – 30
-  Days of n8n & Automation – Day 15
-slug: automated-content-research-by-alfaz-mahmud-rizve
-description: >-
-  Automated content research with n8n: pull trending topics and keywords
-  straight into Google Sheets with Alfaz Mahmud Rizve so you never guess what to
-  write again
-date: '2026-01-03'
-seoTitle: >-
-  Automated Content Research: Build an Infinite Strategy Engine with n8n - 30
-  Days of n8n & Automation - Day 15 - AI automation for SaaS & agencies | Alfaz
-  Mahmud Rizve
-seoDescription: >-
-  Automated content research with n8n: pull trending topics and keywords
-  straight into Google Sheets with Alfaz Mahmud Rizve so you never guess what to
-  write again
-image: /images/blog/automated-content-research-by-alfaz-mahmud-rizve-featured.webp
+title: "Automated Content Research: Build an Infinite Strategy Engine with n8n – 30 Days of n8n & Automation – Day 15"
+slug: "automated-content-research-by-alfaz-mahmud-rizve"
+description: "Automated content research with n8n: pull trending topics and keywords straight into Google Sheets with Alfaz Mahmud Rizve so you never guess what to write again."
+date: "2026-03-10"
+seoTitle: "Automated Content Research: Build an Infinite Strategy Engine with n8n | Day 15"
+seoDescription: "Learn how to build an automated content research pipeline in n8n using NewsAPI, Google Sheets, and AI to generate endless SEO topics and outlines."
+image: "/images/blog/automated-content-research-by-alfaz-mahmud-rizve-featured.webp"
 categories:
-  - Learn Automation in 30 Days
+  - "Learn Automation in 30 Days"
+affiliates:
+  - "n8n"
+  - "vultr"
 ---
 
-You know you need to publish content to grow your SaaS or agency. But staring at a blank Google Doc while frantically searching for "trending topics" or scrolling through Twitter is not a strategy. It is a recipe for burnout.
+By [Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/) | RevOps & Full Stack Automation Architect at [whoisalfaz.me](https://whoisalfaz.me)
 
-Most content marketers and founders spend 80% of their time researching and only 20% writing. They get stuck in analysis paralysis, trying to find the "perfect" keyword. What if you could flip that ratio?
+---
 
-Welcome to **Day 15** of the **[30 Days of n8n & Automation](https://whoisalfaz.me/blog/category/n8n-automation/)** series. In our previous posts[,](https://whoisalfaz.me/blog/category/n8n-automation/) we have automated social media distribution and client onboarding. Today, we are going upstream to the source. We are going to build a system for **automated content research** that delivers high-value topics, keywords, and competitor data directly to your dashboard while you sleep.
+You know you need to publish content to grow your SaaS or agency. But staring at a blank Google Doc while frantically searching Google Trends for "trending topics" or scrolling through Reddit for inspiration is not a strategy. It is a recipe for burnout.
 
-I’m **Alfaz Mahmud Rizve**, and at **whoisalfaz.me**, we believe research should be a system, not a scavenger hunt. Let’s build your infinite strategy engine.
+When I audit marketing operations at high-growth agencies, I consistently find that content teams spend 80% of their time researching and only 20% writing. They get stuck in analysis paralysis, trying to find the "perfect" keyword or the perfect angle.
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+What if you could completely flip that ratio?
 
-## Why Automated Content Research Wins Deals
+Welcome to Day 15 of our **[30 Days of n8n & Automation](/blog/category/learn-automation-in-30-days)** sprint. In our previous builds, we engineered client onboarding pipelines and automated marketing reporting dashboards (Day 14). Today, we are moving upstream to the absolute top of the funnel. We are going to build a system for automated content research that scrapes the internet for high-value topics, filters out the noise, uses AI to generate unique writing angles, and delivers them directly into a Google Sheet database before you even wake up.
 
-Manual research is slow, biased, and inconsistent. You might check Google Trends on Monday, forget on Tuesday because of a client fire, and spend three hours down a Reddit rabbit hole on Wednesday. This inconsistency kills momentum and leaves huge gaps in your content calendar.
+We are going to stop guessing. We are going to build your infinite strategy engine.
 
-**Automated content research** standardizes the intake of market intelligence. It ensures you never miss a trend because a robot is watching the market for you 24/7. It separates the *gathering* of ideas from the *execution* of ideas.
+---
 
-**Alfaz Mahmud Rizve has seen** agencies double their content output simply by removing the "what should we write about?" meeting from their weekly calendar. When you open your laptop on Monday morning, the ideas should already be there, sorted by potential impact and ready for production.
+## The Architectural Mandate: Why Manual Research Kills Momentum
 
-This workflow is perfect for:
+Manual research is slow, inherently biased, and hopelessly inconsistent. You might check a competitor's blog on Monday, forget to check on Tuesday because of a client fire, and spend three hours falling down a Twitter rabbit hole on Wednesday. This inconsistency leaves massive gaps in your content calendar.
 
-- **SaaS Founders:** Monitoring feature requests, competitor changelogs, and industry complaints.
+Automated content research fundamentally shifts your operations by standardizing the intake of market intelligence. It ensures you never miss a trend because a server is watching the market for you 24/7. It separates the gathering of ideas from the execution of ideas.
 
-- **Agencies:** Generating endless topic lists for clients without billing manual research hours.
+When you deploy this architecture, you completely eliminate the dreaded "what should we write about this week?" meeting. When your writers open their laptops on Monday morning, a fully populated Kanban board of trending topics, AI-generated outlines, and virality scores is already waiting for them.
 
-- **SEO Strategists:** Tracking keyword volume changes automatically without logging into Semrush daily.
+![Comparison of stressful manual research vs automated content research workflows by Alfaz Mahmud Rizve for SaaS and agencies.](/images/blog/automated-content-research-by-alfaz-mahmud-rizve-unnamed-22.webp)
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+This specific n8n workflow is engineered for:
+- **SaaS Founders:** Monitoring industry news, competitor changelogs, and feature requests.
+- **SEO Strategists:** Tracking keyword shifts and news cycles without paying for expensive SEO software seats.
+- **Agencies:** Generating endless topic lists for client retainers without billing manual research hours to the client.
 
-![Comparison of stressful manual research vs automated content research workflows by Alfaz Mahmud Rizve for SaaS and agencies.
+---
 
-Image 2: Configuring the API Node](/images/blog/automated-content-research-by-alfaz-mahmud-rizve-unnamed-22.webp)
+## Infrastructure Prerequisites: The Research Stack
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+To build this engine, we need three core components: an Orchestrator, a Data Source, and an Intelligence Layer.
 
-## The Architecture: n8n + NewsAPI + Sheets
+*(Architect's Note: Because this workflow relies on a strict daily cron schedule, you cannot execute it reliably on a sleeping local machine. I strongly recommend hosting this on a dedicated **[Vultr VPS](https://www.vultr.com/?ref=9859101-9J)** or an active **[n8n Cloud](https://n8n.partnerlinks.io/ch585gsqzanp)** instance).*
 
-To build this engine, we need three core components: a Trigger (Time), a Source (Data), and a Destination (Storage). We aren't just dumping links; we are building a structured database of ideas.
+1. **The Data Source (NewsAPI):** We need an API that searches the entire web programmatically. For this blueprint, we will use `NewsAPI.org` because it provides a highly accessible JSON REST API that searches over 150,000 news sources and blogs. You must generate a free API key from their developer dashboard before proceeding.
+2. **The Database (Google Sheets):** We are not just dumping raw links into a Slack channel; we are building a structured content ledger. Ensure you have the [Google Sheets credentials we established in Day 8](/blog/capture-n8n-lead-data) active.
+3. **The Intelligence Layer (OpenAI or Gemini):** We will use an LLM node to analyze the raw news articles and extract bespoke writing outlines. Have your OpenAI or Gemini API key securely stored in n8n's credential vault.
 
-### The Stack
+---
 
-1. $1
+## Phase 1: The "Wake Up" Trigger (Cron Scheduling)
 
-2. $1
+We want this report ready before you log in. Consistency is the heartbeat of automated content research.
+- Create a new n8n workflow named `Core: AI Content Research Engine`.
+- Add a **Schedule Trigger** node.
+- Trigger Interval: Days.
+- Hour: 6:00 AM.
 
-3. $1
+By setting this to run daily at dawn, you remove human willpower from the equation. You do not have to "decide" to do research today; the research simply happens.
 
-At **whoisalfaz.me**, we use this exact stack to track low-code automation trends before they hit the mainstream media. It allows us to pivot our content strategy in real-time.
+---
 
-## Step 1: The "Wake Up" Trigger
+## Phase 2: Fetching Market Intelligence (HTTP Request)
 
-We want this report ready before you log in. Consistency is the heartbeat of **automated content research**.
+Now, we connect our server to the global news cycle. We will use the native **HTTP Request** node to query the NewsAPI `/v2/everything` endpoint.
 
-1. $1
+- Attach an **HTTP Request** node to your trigger.
+- Method: `GET`.
+- URL: `https://newsapi.org/v2/everything`.
+- Send Query Parameters: Toggle this to `True`.
 
-2. $1
+Here is exactly how to configure your query parameters to filter out the noise and return only hyper-relevant SaaS and RevOps data:
+- **Name:** `q` | **Value:** `("SaaS" OR "marketing automation") AND "AI"` (We use Boolean logic here to force the API to only return articles mentioning AI alongside our core niches).
+- **Name:** `sortBy` | **Value:** `popularity` (Do not sort by `publishedAt`. You will get overwhelmed by low-quality press releases. Sorting by popularity guarantees high-impact news).
+- **Name:** `language` | **Value:** `en`.
+- **Name:** `apiKey` | **Value:** `[YOUR_NEWSAPI_KEY]`.
 
-3. $1
+When you execute this node, the NewsAPI will return a large JSON object containing a `totalResults` integer and an `articles` array. The payload structure looks exactly like this:
 
-4. $1
-
-By setting this to run daily, you remove willpower from the equation. You don't "decide" to do research; the research happens to you.
-
-## Step 2: Fetching Intelligence via API
-
-Now, let's get the data. We will use an **HTTP Request** node to query an external API. For this tutorial, we will use `NewsAPI.org` as an example because it’s free for developers and easy to use, but you can swap this for the [Google Trends API via RapidAPI](https://www.google.com/search?q=https://rapidapi.com/blog/how-to-use-google-trends-api/) or a keyword tool API.
-
-**Configuration for HTTP Request Node:**
-
-- **Method:** `GET`
-
-- **URL:** `https://newsapi.org/v2/everything`
-
-- **Authentication:** Header Auth (or Query Parameter depending on the API).
-
-- **Query Parameters:**
-<ul class="wp-block-list">
-<li>`q`: `("SaaS marketing" OR "automation") AND "AI"` (Use boolean logic to get specific).
-
-- `sortBy`: `popularity` (We want high-impact news).
-
-- `language`: `en`
-
-- `apiKey`: `[YOUR_API_KEY]`
-
-</li>
-</ul>
-
-**Alfaz Mahmud Rizve's Pro Tip:** Be specific with your query. Broad keywords like "Business" return noise. Specific keywords like `"churn reduction" OR "customer retention"` return actionable insights.
-
-Here is what the JSON output usually looks like:
-
-JSON
-
-```text
+```json
 {
   "status": "ok",
   "totalResults": 124,
-  "articles": &#91;
+  "articles": [
     {
       "source": { "name": "TechCrunch" },
       "author": "Tech Writer",
       "title": "The Future of AI in 2026: What SaaS Founders Need to Know",
       "description": "As automation takes over, founders must pivot...",
       "url": "https://techcrunch.com/...",
-      "publishedAt": "2026-01-03T10:00:00Z"
+      "publishedAt": "2026-03-09T10:00:00Z"
     }
   ]
 }
-
 ```
 
-If you see this green output, you have successfully pulled raw intelligence from the web.
+If you see this payload in your n8n output, your server is successfully pulling raw intelligence from the web.
 
 ![Configuring the HTTP Request node for automated content research in n8n by Alfaz Mahmud Rizve.](/images/blog/automated-content-research-by-alfaz-mahmud-rizve-unnamed-21.webp)
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+---
 
-- 
+## Phase 3: The Deduplication Engine (The Merge Node)
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+Raw data is messy. If you simply push the top 20 articles from the API into your Google Sheet every single morning, by Friday, your database will be a graveyard of duplicate URLs.
 
-## Step 3: Cleaning and Deduplication
+We must build a deduplication engine to ensure only net-new articles enter the pipeline.
 
-Raw data is messy. If you just dump 100 API results into a spreadsheet every day, you will hate using it. It will become a graveyard of links. We need to clean it up.
+### Step 1: Splitting the Array
+The HTTP Request node outputs one single item containing an array of 20 articles. n8n nodes process data best when each article is its own distinct item.
+1. Attach an **Item Lists (Split Out)** node.
+2. Field to Split Out: `articles`.
 
-### Splitting the Item Lists
+### Step 2: Querying the Historical Database
+We need to know what URLs we have already saved. 
+1. Parallel to your API flow, add a **Google Sheets** node.
+2. Operation: **Get Many**.
+3. Select your "Content Research" sheet and pull the column containing your historically saved URLs.
 
-The API gives us a nested list (an array) of articles inside the `articles` object. n8n processes items, so we need to split this array.
+### Step 3: The Compare Datasets Logic
+We will use the **Merge** node to act as a gatekeeper.
+1. Attach a **Merge** node to the canvas.
+2. Connect Input 1 to your Split Out node (The new API articles).
+3. Connect Input 2 to your Google Sheets node (The historical articles).
+4. Mode: Set this to **Compare Datasets**.
+5. Match By: Match the API `url` string against the Google Sheets `Saved_URL` string.
+6. Output: Select **Items only in Input 1**.
 
-- Add a **Split Out** node (formerly Item Lists).
+---
 
-- Field to Split Out: `articles`
+## Phase 4: AI Enrichment (The Secret Sauce)
 
-Now, instead of 1 item with 100 articles, you have 100 items.
+A list of clean URLs is a good start, but a list of bespoke writing angles is what actually drives revenue. We are going to pass every deduplicated article through a Large Language Model (LLM).
 
-### The Deduplication Logic
+Attach an **OpenAI** (or Google Gemini) node to the output of your Merge node.
+- Resource: Chat.
+- Operation: Generate Message.
+- Model: Select a fast, cheap model like `gpt-4o-mini` or `gemini-1.5-flash`.
 
-You don't want to see the same article today that you saw yesterday. This is a common mistake beginners make.
+### The System Prompt Architecture
+Do not ask the AI to write the blog post. AI-generated blog posts rank poorly on Google and lack a unique voice. We are using the AI purely as a high-level content strategist.
 
-1. $1
+Map your variables ( `{{ $json.title }}` and `{{ $json.description }}` ) directly into this prompt:
 
-2. $1
+> **System Prompt:** 
+> You are an elite SaaS Content Strategist and SEO Expert. I have intercepted a trending industry article. 
+> Source Headline: `{{ $json.title }}`
+> Source Description: `{{ $json.description }}`
+>
+> Analyze this trend and provide a strategic content brief for an agency blog. You must return your response in a strict, parsable format with three distinct sections:
+> 1. **Angles:** Provide 3 unique, contrarian, or highly-actionable headline ideas based on this news.
+> 2. **Virality Score:** Estimate the B2B SaaS interest level for this topic on a scale of 1-10.
+> 3. **Outline:** Provide a concise, 4-bullet-point outline for how our agency should structure this blog post to provide maximum value.
 
-3. $1
+### Data Normalization (The Set Node)
+When the LLM replies, use a **Set node** to map the AI's output ( `{{ $json.message.content }}` ) into a clean variable named `AI_Brief` so it is ready for database insertion.
 
-This logic is critical. It ensures your **automated content research** dashboard remains a source of *fresh* inspiration, not stale news.
+At **whoisalfaz.me**, this specific AI enrichment layer saves our team roughly 30 minutes of brainstorming per article. We never start from a blank page; we start from a structured, AI-generated first draft.
 
-## Step 4: AI Enrichment (The Secret Sauce)
+---
 
-Here is where we add the real value. A list of links is okay, but a list of *angles* is better. We don't just want to know *what* is trending; we want to know *how* to write about it.
+## Phase 5: The Database Commit
 
-Add a **Google Gemini** or **OpenAI** node after your Merge node. We are going to process each new article through an LLM.
+The intelligence is clean, deduplicated, and enriched. Now we push it to the final dashboard.
 
-**The Prompt to use:**
+Attach a final **Google Sheets** node.
+1. Operation: **Append Row**.
+2. Map your polished n8n variables to your spreadsheet headers:
+   - Date Fetched: `{{ $now.format('YYYY-MM-DD') }}`
+   - Original Headline: `{{ $json.title }}`
+   - Source Publisher: `{{ $json.source.name }}`
+   - Content Brief & Outline: `{{ $json.AI_Brief }}`
+   - Original URL: `{{ $json.url }}`
+   - Production Status: Hardcode this string as `To Do`.
 
-> 
-> 
-"I found a trending article titled '{{$json.title}}' with this description: '{{$json.description}}'.
+*(Architect's Note: Always include a "Status" column with a data-validation dropdown menu in your Google Sheet (e.g., To Do, In Progress, Published, Ignored). This instantly turns a static spreadsheet into an active production Kanban board).*
 
-> 
-> 
-> 
-> 
-Please act as a SaaS Content Strategist.
+---
 
-> 
-> 
-> 
-> 
-> 1. $1
-> 
-> 
-> 
-> 
-> 2. $1
-> 
-> 
-> 
-> 
-> 3. $1
-> 
-> 
-> 
+## Defensive Engineering: Avoiding the Pitfalls
 
-Map the Output:
+Even with a flawless n8n architecture, external APIs can break your pipeline. Watch out for these common traps:
 
-Use the Edit Fields (Set) node to clean up the AI response into separate fields:
+1. **The Null Array Crash:** What happens on a slow news day if the NewsAPI returns 0 articles? The Split Out node will fail. You must insert an **IF Node** immediately after the HTTP Request to check if `{{ $json.totalResults }}` > 0.
+2. **API Rate Limiting:** The free tier of NewsAPI limits your total requests. Because we are running this on a cron schedule at 6:00 AM once a day, we stay well within our safe limits.
+3. **The Hallucination Risk:** Occasionally, the LLM node will ignore your formatting instructions. Ensure your Google Sheet columns are set to "Wrap Text" so long AI outputs don't break your layout.
 
-- `AI Titles`
+![The final automated content research dashboard in Google Sheets showing AI-enriched topics by Alfaz Mahmud Rizve for agencies.](/images/blog/automated-content-research-by-alfaz-mahmud-rizve-unnamed-23.webp)
 
-- `Outline`
+---
 
-- `Virality Score`
+## Your Day 15 Deployment Mandate
 
-At **whoisalfaz.me**, this step saves us about 30 minutes of brainstorming per article. We don't start from zero; we start from a structured first draft.
+You now have the blueprint for an infinite idea machine. You have transitioned from "guessing" what your market cares about to programmatically "extracting" what they care about.
 
-## Step 5: The Final Dump to Google Sheets
+1. Sign up for your NewsAPI developer key.
+2. Configure your Boolean search queries in the HTTP Request node to target your specific niche.
+3. Build the Merge node deduplication engine to protect your database from spam.
+4. Deploy the LLM prompt to automatically generate your outlines.
 
-Finally, map the enriched data to your Google Sheet. Your sheet headers should look like this:
+If your writers are staring at a blank Google Doc today, they are wasting company time. Give them the dashboard.
 
-<table class="has-fixed-layout"><thead><tr><td>**Date Fetched**</td><td>**Original Headline**</td><td>**Source**</td><td>**Virality Score**</td><td>**AI Suggested Angles**</td><td>**Outline**</td><td>**Status**</td></tr></thead><tbody><tr><td>Jan 03</td><td>AI Trends 2026...</td><td>TechCrunch</td><td>9/10</td><td>1. How to survive...</td><td>– Point 1...</td><td>To Do</td></tr></tbody></table>
+In tomorrow's post, **Day 16**, we will take this data-driven strategy a step further. We are going to build an automated rank-tracking pipeline to monitor exactly how these new blog posts perform on Google, pushing weekly SEO summaries directly into your Slack channel.
 
-**Alfaz Mahmud Rizve's Rule:** Always include a "Status" column with a dropdown menu (To Do, Ignored, In Progress). This turns your research sheet into a production Kanban board.
-
-![The final automated content research dashboard in Google Sheets showing AI-enriched topics by Alfaz Mahmud Rizve for agencies. Here is the complete blog post for Day 15, strictly adhering to your style guide, SEO requirements, and including all generated images in their correct positions.](/images/blog/automated-content-research-by-alfaz-mahmud-rizve-unnamed-23.webp)
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-- 
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-## Common Pitfalls and How to Avoid Them
-
-Even with a robust system, things can break. Here is what I advise you to watch out for:
-
-1. $1
-
-2. $1
-
-3. $1
-
-## Checklist: Build Your Research Engine
-
-Ready to stop guessing and start strategizing? Here is your action plan for today.
-
-- [ ] **Select Your Source:** Sign up for [NewsAPI](https://newsapi.org/) or subscribe to a RapidAPI plan for Google Trends.
-
-- [ ] **Prepare the Sheet:** Create a new Google Sheet with the headers listed in Step 5.
-
-- [ ] **Set the Schedule:** Configure the n8n Trigger for 6:00 AM daily.
-
-- [ ] **Connect the API:** Use the HTTP Request node to pull data.
-
-- [ ] **Deduplicate:** Implement the Merge node logic to block existing URLs.
-
-- [ ] **Enrich with AI:** Connect your LLM to generate titles and outlines.
-
-- [ ] **Test Run:** Click "Execute Workflow" and watch your sheet fill up with magic.
-
-## What’s Next?
-
-You now have a system that feeds you high-value topics every morning. You have moved from "guessing" to "strategizing." This is the foundation of a scalable content machine.
-
-In tomorrow's post, **Day 16**, we will take this data-driven approach one step further. We will cover **"Track keyword rankings automatically (ranking API → Google Sheets → weekly summary)"**. I will show you how to monitor the performance of the content you create without paying for expensive SEO dashboards.
-
-**Don't miss the next workflow.** [Subscribe to the 30 Days of n8n series](/contact/) at **whoisalfaz.me** and let's automate your agency together.
-
-See you in the next workflow!
+Subscribe to the **[30 Days of n8n & Automation](/blog/category/learn-automation-in-30-days)** series at **whoisalfaz.me**, and I will see you on the canvas tomorrow.

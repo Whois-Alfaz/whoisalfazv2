@@ -1,27 +1,21 @@
 ---
-title: >-
-  Build an Automated Rank Tracker Tool with n8n (Save $1,200/Year)- 30 Days of
-  n8n & Automation – Day 16
-slug: build-an-automated-rank-tracker-tool-with-n8n
-description: >-
-  Stop paying for expensive SEO software. Learn how to build your own automated
-  rank tracker tool with n8n, SerpApi, and Google Sheets. A step-by-step guide
-  by Alfaz Mahmud Rizve at whoisalfaz.me
-date: '2026-01-05'
-seoTitle: >-
-  Build an Automated Rank Tracker Tool with n8n (Save $1,200/Year)- 30 Days of
-  n8n & Automation - Day 16 - AI automation for SaaS & agencies | Alfaz Mahmud
-  Rizve
-seoDescription: >-
-  Stop paying for expensive SEO software. Learn how to build your own automated
-  rank tracker tool with n8n, SerpApi, and Google Sheets. A step-by-step guide
-  by Alfaz Mahmud Rizve at whoisalfaz.me
-image: /images/blog/build-an-automated-rank-tracker-tool-with-n8n-featured.webp
+title: "Build an Automated Rank Tracker Tool with n8n (Save $1,200/Year) – 30 Days of n8n & Automation – Day 16"
+slug: "build-an-automated-rank-tracker-tool-with-n8n"
+description: "Stop paying for expensive SEO software. Learn how to build your own automated rank tracker tool with n8n, SerpApi, and Google Sheets."
+date: "2026-01-04"
+seoTitle: "Build an Automated Rank Tracker Tool with n8n (Save $1,200/Year) | Day 16"
+seoDescription: "Learn how to build an automated rank tracker tool with n8n, SerpApi, and Google Sheets. A step-by-step guide to tracking SEO rankings for free."
+image: "/images/blog/build-an-automated-rank-tracker-tool-with-n8n-featured.webp"
 categories:
-  - Learn Automation in 30 Days
+  - "Learn Automation in 30 Days"
+affiliates:
+  - "n8n"
+  - "vultr"
 ---
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+By [Alfaz Mahmud Rizve](https://whoisalfaz.me/blog/who-is-alfaz-mahmud-rizve/) | RevOps & Full Stack Automation Architect at [whoisalfaz.me](https://whoisalfaz.me)
+
+---
 
 Every Monday morning, SEO professionals, agency owners, and SaaS founders face the exact same ritual. You log into Ahrefs, Semrush, or Moz, holding your breath to see if your "money keywords" went up or down.
 
@@ -31,13 +25,9 @@ Here is the dirty secret of the SEO industry: **Most rank tracking tools are jus
 
 What if you could build your own **automated rank tracker tool** that runs on autopilot, costs $0/month (thanks to generous free tiers), and sends the data exactly where you need it?
 
-Welcome to **Day 16** of the [**30 Days of n8n & Automation** series](https://whoisalfaz.me/blog/category/n8n-automation/). In our previous post [(Day 15](https://whoisalfaz.me/blog/automated-content-research-by-alfaz-mahmud-rizve/)), we built an [automated content research engine](https://whoisalfaz.me/blog/automated-content-research-by-alfaz-mahmud-rizve/) to find what to write. Today, we are building the scoreboard. We will create a fully custom **automated rank tracker tool** using n8n, SerpApi, and Google Sheets that rivals the expensive SaaS competitors.
+Welcome to Day 16 of our **[30 Days of n8n & Automation](/blog/category/learn-automation-in-30-days)** series. In our previous post ([Day 15](/blog/automated-content-research-by-alfaz-mahmud-rizve)), we built an [automated content research engine](/blog/automated-content-research-by-alfaz-mahmud-rizve) to find what to write. Today, we are building the scoreboard. We will create a fully custom **automated rank tracker tool** using n8n, SerpApi, and Google Sheets that rivals the expensive SaaS competitors.
 
-We will architect a fully custom **automated rank tracker tool** using **n8n**, **Serper.dev**, and **Google Sheets**. This isn't a toy project; this is a scalable system capable of tracking hundreds of keywords for free.
-
-I’m **[Alfaz Mahmud Rizve](/portfolio/)**, and at **whoisalfaz.me**, we believe you should own your data, not rent it. Let’s build your custom SEO engine.
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+---
 
 ## Part 1: The Economics of "Build vs. Buy"
 
@@ -47,195 +37,120 @@ Most SaaS rank trackers charge based on "keyword credits." If you want to track 
 
 ### The Cost Comparison (Per 1,000 Searches)
 
-<table class="has-fixed-layout"><thead><tr><td>**Solution**</td><td>**Cost**</td><td>**Notes**</td></tr></thead><tbody><tr><td>**Ahrefs / Semrush**</td><td>**$99 – $199/mo**</td><td>Includes other tools you might not use.</td></tr><tr><td>**Wincher / Nightwatch**</td><td>**$49/mo**</td><td>Cheaper, but still a monthly recurring cost.</td></tr><tr><td>**Serper.dev (Direct API)**</td><td>**$1.00**</td><td>You pay per 1,000 searches. First 2,500 are free.</td></tr><tr><td>**SerpApi (Direct API)**</td><td>**$0.00 – $50**</td><td>Great for non-Google engines (Bing/Yahoo).</td></tr></tbody></table>
+| Solution | Cost | Notes |
+| :--- | :--- | :--- |
+| **Ahrefs / Semrush** | **$99 – $199/mo** | Includes other tools you might not use. |
+| **Wincher / Nightwatch** | **$49/mo** | Cheaper, but still a monthly recurring cost. |
+| **Serper.dev (Direct API)** | **$1.00** | You pay per 1,000 searches. First 2,500 are free. |
+| **SerpApi (Direct API)** | **$0.00 – $50** | Great for non-Google engines (Bing/Yahoo). |
 
 By building this **automated rank tracker tool**, you unlock three massive advantages:
+1. **Zero Markup:** You only pay for the raw data you use.
+2. **Data Ownership:** Your rankings stay in your own Google Sheet, not a proprietary dashboard.
+3. **Custom Alerts:** Trigger Slack notifications only when a keyword drops below Page 1.
 
-1. $1
+![Cost comparison infographic showing expensive expensive SEO software subscriptions versus the free automated rank tracker tool using n8n and the Serper.dev API.](/images/blog/build-an-automated-rank-tracker-tool-with-n8n-unnamed-28.webp)
 
-2. $1
-
-3. $1
-
-<img src="image_9.png" alt="Cost comparison chart showing the difference between expensive SEO software and a custom automated rank tracker tool using n8n by Alfaz Mahmud Rizve." style="width: 100%; height: auto;">
-
-![Cost comparison infographic showing expensive expensive SEO software subscriptions versus the free automated rank tracker tool using n8n and the Serper.dev API.by Alfaz Mahmud Rizve at whoisalfaz.me](/images/blog/build-an-automated-rank-tracker-tool-with-n8n-unnamed-28.webp)
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+---
 
 ## Part 2: The Architecture & Tech Stack
 
 We aren't just connecting two apps; we are building a data pipeline.
 
-**The Stack:**
-
+### The Stack:
 - **n8n:** The orchestrator. It handles the scheduling, looping, and logic.
+- **Serper.dev:** The "Eyes." This is a high-speed Google Search API built for scrapers.
+- **Google Sheets:** The "Database." We will use it to store our keyword list and historical data.
 
-- **Serper.dev:** The "Eyes." This is a high-speed Google Search API built for LLMs and scrapers. It is faster and cheaper than traditional proxies.
-
-- **Google Sheets:** The "Database." We will use it to store our keyword list and our historical data.
-
-- **Looker Studio (Optional):** The "Dashboard." We can connect our Sheet to Looker to give clients a live link (more on this later).
-
-The Workflow Logic:
-
+### The Workflow Logic:
 Trigger (Monday 9AM) → Read Keywords from Sheet → Loop (Batch of 1) → Call Serper API → Find URL Position → Calculate Change → Save to History → Aggregate Results → Send Slack Alert.
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+---
 
 ## Part 3: Prerequisites & Setup
 
 Do not skip this. The success of your automation depends on proper authentication.
 
 ### 1. Get your Serper.dev API Key
-
-1. $1
-
-2. $1
-
-3. $1
-
-4. $1
+1. Visit **[Serper.dev](https://serper.dev)**.
+2. Sign up (The first 2,500 requests are free).
+3. Copy your API Key from the dashboard.
 
 ### 2. Prepare Google Sheets
-
 Create a new Google Sheet. You need **two specific tabs**:
 
-**Tab 1 Name: `Keywords`**
-
-- **Row 1 Headers:**
-<ul class="wp-block-list">
-<li>Column A: `Keyword` (e.g., "n8n automation")
-
+#### Tab 1 Name: `Keywords`
+- Column A: `Keyword` (e.g., "n8n automation")
 - Column B: `Target URL` (e.g., "whoisalfaz.me")
-
-- Column C: `Location` (e.g., "us", "uk", "bd") – *Crucial for local SEO.*
-
+- Column C: `Location` (e.g., "us", "uk", "bd")
 - Column D: `Device` (e.g., "desktop" or "mobile")
 
-</li>
-</ul>
-
-**Tab 2 Name: `History`**
-
-- **Row 1 Headers:**
-<ul class="wp-block-list">
-<li>Column A: `Date`
-
+#### Tab 2 Name: `History`
+- Column A: `Date`
 - Column B: `Keyword`
-
 - Column C: `Rank`
-
 - Column D: `Change`
-
 - Column E: `URL Found`
 
-</li>
-</ul>
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+---
 
 ## Part 4: Building the Engine (Step-by-Step)
 
-![n8n workflow diagram visualized, showing the Split In Batches loop logic used to iterate through keywords and hit the Serper.dev API for automated rank tracking.by Alfaz Mahmud Rizve at whoisalfaz.me](/images/blog/build-an-automated-rank-tracker-tool-with-n8n-unnamed-29.webp)
+![n8n workflow diagram visualized, showing the Split In Batches loop logic used to iterate through keywords and hit the Serper.dev API for automated rank tracking.](/images/blog/build-an-automated-rank-tracker-tool-with-n8n-unnamed-29.webp)
 
 Open your n8n editor. Let's build this node by node.
 
 ### Step 1: The "Wake Up" Trigger
-
-Rankings fluctuate hourly, but tracking them that closely is noise. A weekly check is standard for reporting.
-
+Rankings fluctuate daily, but a weekly check is standard for reporting.
 - **Node:** Schedule Trigger
-
-- **Settings:**
-<ul class="wp-block-list">
-<li>**Trigger Interval:** `Weeks`
-
-- **Weeks Between Triggers:** `1`
-
-- **Time:** `Monday` at `09:00 AM`
-
-</li>
-</ul>
+- **Interval:** Weeks.
+- **Time:** Monday at 09:00 AM.
 
 ### Step 2: Read Your Keyword Database
-
-We need to pull the list of what to track.
-
 - **Node:** Google Sheets
-
 - **Operation:** Get Many Rows
-
 - **Sheet ID:** (Select your sheet)
-
 - **Range:** `Keywords!A:D`
 
-- **Output:** Ensure "Data is contained in" is set to "JSON".
-
 ### Step 3: The "Split in Batches" Loop
-
-This is the most critical technical concept. We cannot send 100 keywords to the API instantly—we need to process them one by one (or in small batches) to handle the data correctly and avoid rate limits.
-
+We process keywords one by one to avoid hitting API rate limits and to allow for granular logic per search result.
 - **Node:** Split in Batches
-
-- **Batch Size:** `1`
-
-*Connect the "Google Sheets" node to this "Split in Batches" node.*
+- **Batch Size:** 1
 
 ### Step 4: The Serper.dev API Call
-
-Now, inside the loop, we hit the API.
-
+Inside the loop, we hit the API.
 - **Node:** HTTP Request
-
 - **Method:** `POST`
-
 - **URL:** `https://google.serper.dev/search`
-
-- **Authentication:** Generic Credential Type -> Header Auth.
-<ul class="wp-block-list">
-<li>*Name:* `X-API-KEY`
-
-- *Value:* Paste your Serper API Key.
-
-</li>
-
-<li>**Send Body:** Turn toggle ON.</li>
-
-<li>**Body Parameters (JSON):**JSON`{ "q": "{{$json.Keyword}}", "gl": "{{$json.Location}}", "hl": "en" } `*(Note: Drag and drop the `Keyword` and `Location` from the Input Data panel to make them dynamic variables).*</li>
-</ul>
-
-<img src="image_10.png" alt="n8n workflow diagram showing the Split In Batches loop logic for processing multiple keywords in an automated rank tracker tool." style="width: 100%; height: auto;">
+- **Headers:** `X-API-KEY`: `[YOUR_SERPER_API_KEY]`
+- **Body parameters (JSON):** 
+```json
+{ 
+  "q": "{{ $json.Keyword }}", 
+  "gl": "{{ $json.Location }}", 
+  "hl": "en" 
+}
+```
 
 ### Step 5: Parsing the JSON (The Intelligence)
+The API returns a huge JSON. We need to scan it to find where our target URL sits.
 
-The API returns a huge JSON with "organic", "peopleAlsoAsk", "relatedSearches", etc. We need to find *our* ranking.
+Attach a **Code Node** and paste this logic:
 
-- **Node:** Code (JavaScript)
+```javascript
+// Automated Rank Tracker: Parsing Logic
+const organicResults = $input.all()[0].json.organic;
+const targetUrl = $('Split in Batches').item.json['Target URL']; 
 
-- **Goal:** Scan the top 100 results for our `Target URL`.
-
-**Copy/Paste this Logic:**
-
-JavaScript
-
-```text
-// Input variables from previous nodes
-const organicResults = items&#91;0].json.organic;
-// We need to access the original keyword data from the SplitInBatches node context
-// In n8n, this usually requires referencing the specific node or ensuring data flow
-const targetUrl = $('Split in Batches').item.json&#91;'Target URL']; 
-
-let rank = "100+"; // Default if not found
+let rank = "100+"; 
 let foundUrl = "Not Found";
 
 if (organicResults) {
   for (let i = 0; i < organicResults.length; i++) {
-    // Check if the link contains our target domain
-    if (organicResults&#91;i].link.includes(targetUrl)) {
-      rank = organicResults&#91;i].position;
-      foundUrl = organicResults&#91;i].link;
-      break; // Stop the loop, we found it!
+    if (organicResults[i].link.includes(targetUrl)) {
+      rank = organicResults[i].position;
+      foundUrl = organicResults[i].link;
+      break; 
     }
   }
 }
@@ -245,131 +160,61 @@ return {
     rank: rank,
     found_url: foundUrl,
     checked_at: new Date().toISOString(),
-    keyword: $('Split in Batches').item.json&#91;'Keyword']
+    keyword: $('Split in Batches').item.json['Keyword']
   }
-}
-
+};
 ```
 
-### Step 6: Calculating "The Change" (Delta)
-
-Knowing you are #5 is good. Knowing you were #9 last week (so you went up +4) is better.
-
-To do this, we need to look up the *last* time we checked this keyword.
-
-- **Node:** Google Sheets (Get Many Rows)
-
+### Step 6: Saving the Data
+- **Node:** Google Sheets
+- **Operation:** Append Row
 - **Sheet:** `History`
+- **Mapping:** Map the fields `{ rank, found_url, checked_at, keyword }` to your columns.
 
-- **Logic:** This is complex to do purely in n8n without a database query.
-<ul class="wp-block-list">
-<li>*Simpler Alternative for V1:* Just record the rank. Let Google Sheets handle the delta calculation using a formula like `=C2-C3`.
+### Step 7: The "Wait" (Politeness Policy)
+Never hammer an API. Add a **Wait node** for 1 second before looping back to the next keyword.
 
-- *Advanced Alternative:* Use the "Google Sheets – Lookup" node to find the last row matching the keyword and subtract the values.
-
-</li>
-</ul>
-
-For this tutorial, we will append the data and let Sheets handle the visualization.
-
-### Step 7: Saving the Data
-
-- **Node:** Google Sheets (Append)
-
-- **Sheet:** `History`
-
-- **Mapping:** Map the fields from the Code node (`rank`, `found_url`) to the columns.
-
-### Step 8: The "Wait" (Politeness Policy)
-
-Never hammer an API.
-
-- **Node:** Wait
-
-- **Amount:** `1` Second.
-
-- *Connect this back to the input of the "Split in Batches" node to close the loop.*
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+---
 
 ## Part 5: The Notification System
 
-Once the loop finishes (the "Done" output of the `Split in Batches` node), we want a summary.
+Once the loop finishes, we want a summary digest. Use a **Slack node** or **Microsoft Teams node** connected to the "Done" output of the `Split in Batches` node.
 
-We don't want 50 emails. We want one digest.
+![The final automated weekly SEO report summary delivered via Slack notification on a smartphone, showing keyword position changes.](/images/blog/build-an-automated-rank-tracker-tool-with-n8n-unnamed-30.webp)
 
-1. $1
-
-2. $1
-
-3. $1
-
-4. $1
-
-<img src="image_11.png" alt="The final weekly summary of the automated rank tracker tool delivered via Slack notification, showing keyword position changes." style="width: 100%; height: auto;">
-
-![The final automated weekly SEO report summary delivered via Slack notification on a smartphone, showing keyword position changes.by Alfaz Mahmud Rizve at whoisalfaz.me](/images/blog/build-an-automated-rank-tracker-tool-with-n8n-unnamed-30.webp)
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+---
 
 ## Part 6: Visualizing Data (The Pro Tip)
 
-Raw data in Sheets is ugly. Let’s make it look like a $200 SaaS.
+Raw data in Sheets is okay, but interactive dashboards are better. Connect your Google Sheet to **Looker Studio**. 
+- Create a time-series chart for "Rank" per "Keyword".
+- Filter by "Page 1 Keywords" (Rank <= 10).
+- Share the link with your clients for a 24/7 live rank tracker.
 
-1. $1
-
-2. $1
-
-3. $1
-
-4. $1
-
-Now you have a dynamic, interactive dashboard you can share with clients via a simple link. They see their rankings improve, and you didn't pay a cent for software.
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+---
 
 ## Common Pitfalls & Troubleshooting
 
-**[Alfaz Mahmud Rizve](/portfolio/)** advises watching out for these specific issues when building your automated rank tracker tool:
+- **The "100+" Trap:** If your rank consistently says "100+", verify your `Target URL`. If you entered `https://whoisalfaz.me` but Google indexes `https://www.whoisalfaz.me`, the string match might fail. Use the root domain (e.g., `whoisalfaz`).
+- **Location Bias:** If your client is in London, searching from n8n's US-based server is useless. Always use the `gl` (Geo Location) parameter (e.g., `uk`).
+- **Mobile vs. Desktop:** Rankings differ wildly by device. You can change this in the API body logic.
 
-- **The "100+" Trap:** If your rank consistently says "100+", verify your `Target URL` in the Sheet. If you entered `https://whoisalfaz.me` but Google indexes `https://www.whoisalfaz.me`, the string match might fail. Use just the root domain (e.g., `whoisalfaz`) to be safe.
-
-- **Location Bias:** If you track "plumber" without a location, Google gives you generic results. If your client is in London, the generic US results are useless. Always use the `gl` (Geo Location) parameter (e.g., `uk`, `bd`, `ca`).
-
-- **Mobile vs. Desktop:** Rankings differ wildly by device. Serper.dev defaults to Desktop. If you are a B2C brand, mobile is more important. You can change this in the API body logic.
-
-- **Multi-Engine Tracking:** Serper.dev is Google-only. If you need **Bing, Yahoo, or YouTube** rankings, you must swap the API node for **SerpApi**. Note that SerpApi's free tier is lower (100 searches/mo), so use it sparingly for secondary engines.
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+---
 
 ## Deployment Checklist
 
-Ready to fire your expensive SEO tool and run your own?
-
-- [ ] **API Key:** Created account on **Serper.dev**.
-
+Ready to fire your expensive SEO tool?
+- [ ] **API Key:** Created account on **[Serper.dev](https://serper.dev)**.
 - [ ] **Database:** Created Google Sheet with "Keywords" and "History" tabs.
-
-- [ ] **Trigger:** Configured n8n **Schedule Trigger** (Weekly/Monday).
-
 - [ ] **The Loop:** Built the "Read -> Batch -> API -> Parse" loop correctly.
+- [ ] **Wait Node:** Added a 1-second delay to protect your credits.
 
-- [ ] **Logic:** Verified the JavaScript finds the correct domain.
-
-- [ ] **Storage:** Connected the Google Sheets Append node.
-
-- [ ] **Wait Node:** Added a 1-second delay to be safe.
-
-- [ ] **Test:** Ran it with 1-2 keywords first.
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+---
 
 ## What’s Next?
 
-You now have a live pulse on your SEO performance without the monthly subscription fees. You have built a customized **automated rank tracker tool** that works for *you*, not the other way around.
+You now have a live pulse on your SEO performance without the monthly subscription fees.
 
-But tracking data is only half the battle. Reporting to clients is the other half.
+But tracking data is only half the battle. Reporting to clients is the other half. In tomorrow’s post, **Day 17**, we will cover **Automated Client Reporting**. I will show you how to take this raw SEO data and auto-generate beautiful, branded PDF reports using Google Docs and n8n.
 
-In tomorrow’s post, **Day 17**, we will cover **Automated Client Reporting**. I will show you how to take this raw SEO data (and more) and auto-generate beautiful, branded PDF reports using Google Docs and n8n, ready to send to your clients automatically.
-
-**Stay tuned.** Subscribe to the[ 30 Days of n8n](https://whoisalfaz.me/blog/category/n8n-automation/) series so you don't miss the PDF generation workflow!
+Subscribe to the **[30 Days of n8n & Automation](/blog/category/learn-automation-in-30-days)** series, and let's automate your agency.
