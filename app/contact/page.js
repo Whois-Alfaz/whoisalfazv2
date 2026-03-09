@@ -67,7 +67,7 @@ export default function ContactPage() {
                     <div className="mt-16 pt-8 border-t border-white/10">
                         <h4 className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-4">Connect on Socials</h4>
                         <div className="flex gap-4">
-                            <a href="https://www.facebook.com/" target="_blank" className="p-3 bg-white/5 border border-white/10 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors">
+                            <a href="https://facebook.com/alfazmahmudrizve" target="_blank" className="p-3 bg-white/5 border border-white/10 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors">
                                 <Facebook size={20} />
                             </a>
                             <a href="https://www.linkedin.com/in/alfaz-mahmud-rizve/" target="_blank" className="p-3 bg-white/5 border border-white/10 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors">
