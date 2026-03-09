@@ -1,219 +1,207 @@
 ---
-title: >-
-  Automated Marketing Reporting: Send Weekly Lead Summaries with n8n – 30 Days
-  of n8n & Automation – Day 14
-slug: automated-marketing-reporting-with-n8n-at-whoisalfaz
-description: >-
-  Stop manually updating spreadsheets. Learn to build automated marketing
-  reporting with n8n. Send weekly lead summaries directly to your client's inbox
-  automatically. Day 14 guide.
-date: '2026-01-02'
-seoTitle: >-
-  Automated Marketing Reporting: Send Weekly Lead Summaries with n8n – 30 Days
-  of n8n & Automation – Day 14 - AI automation for SaaS & agencies | Alfaz
-  Mahmud Rizve
-seoDescription: >-
-  Stop manually updating spreadsheets. Learn to build automated marketing
-  reporting with n8n. Send weekly lead summaries directly to your client's inbox
-  automatically. Day 14 guide.
-image: >-
-  /images/blog/automated-marketing-reporting-with-n8n-at-whoisalfaz-featured.webp
+title: "Automated Marketing Reporting: Send Weekly Lead Summaries with n8n – 30 Days of n8n & Automation – Day 14"
+slug: "automated-marketing-reporting-with-n8n-at-whoisalfaz"
+description: "Stop manually building spreadsheets. Learn how to architect automated marketing reporting with n8n to send weekly data summaries directly to your client's inbox."
+date: "2026-03-09"
+seoTitle: "Automated Marketing Reporting: Build Weekly Lead Summaries in n8n | Day 14"
+seoDescription: "Learn how to build an automated marketing reporting engine using n8n. Query your database, aggregate the metrics via JavaScript, and email the HTML report."
+image: "/images/blog/automated-marketing-reporting-with-n8n-at-whoisalfaz-featured.webp"
 categories:
-  - Learn Automation in 30 Days
+  - "Learn Automation in 30 Days"
+affiliates:
+  - "n8n"
+  - "vultr"
 ---
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+---
+
 
 Dashboards are where data goes to die.
 
-We build them with the best intentions. We set up Looker Studio, Tableau, or complex CRM dashboards. But let’s be honest: **nobody logs in to check them.** Clients lose their login details, and sales managers are too busy closing deals to interpret line graphs.
+As operations professionals, we love building complex, interactive dashboards in Looker Studio, Databox, or Tableau. We spend hours perfecting the pie charts and configuring the date filters. But if you manage clients at a B2B agency or report to a non-technical SaaS founder, let's acknowledge the reality: They never log in to look at them.
 
-If you want your stakeholders to actually value your results, you must push the data to where they live: their inbox.
+Clients lose their passwords. CEOs are too busy running the company to remember the specific URL for their marketing metrics. If your stakeholders have to hunt for their ROI data, they will eventually assume you aren't generating any.
 
-![Comparison of manual spreadsheet chaos versus clean automated marketing reporting via email. Title reads '30 Days of n8n & Automation - Day 14'. Branded with whoisalfaz.me  by Alfaz Mahmud Rizve](/images/blog/automated-marketing-reporting-with-n8n-at-whoisalfaz-unnamed-17.webp)
+If you want your clients to actually respect the results you are driving, you must push the data to where they already live: their email inbox.
 
-**Automated marketing reporting** changes the dynamic from "passive tracking" to "active accountability." When a CEO or Agency Client wakes up every Monday to a clean summary of exactly how many leads came in, where they came from, and how many were qualified, the perceived value of your service skyrockets.
+This requires automated marketing reporting.
 
-In this Day 14 guide of **[30 Days of n8n & Automation](https://www.google.com/search?q=https://whoisalfaz.me/blog/category/n8n-automation/)**, we are building a "Push" reporting engine. We will aggregate data from the past week, summarize it by source, and deliver a beautiful HTML report via email—automatically.
+In Day 14 of our **[30 Days of n8n & Automation](/blog/category/learn-automation-in-30-days)** sprint, we are transitioning from "reactive" workflows (triggering instantly when a lead submits a form) to "batch processing" workflows. We are going to build a server-side aggregation engine that wakes up every Monday morning, queries your database for the past 7 days of performance, mathematically summarizes the metrics, and delivers a beautifully formatted HTML report directly to your client's inbox.
 
-Throughout this guide, examples come from the actual reporting pipelines **Alfaz Mahmud Rizve** builds for high-ticket agencies at **whoisalfaz.me**.
+This is the exact retention architecture I build for high-ticket agencies at **whoisalfaz.me** to guarantee their clients never question the value of their retainer.
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+---
+![Automated Marketing Reporting Table](/images/blog/automated-marketing-reporting-with-n8n-at-whoisalfaz-unnamed-17.webp)
 
-## Why "Push" Reporting Beats "Pull" Dashboards
+## The Architectural Shift: Push vs. Pull Reporting
 
-A "Pull" system (like a dashboard) requires willpower. You have to remember to log in, filter the dates, and interpret the data. A "Push" system (like **automated marketing reporting**) requires zero effort. It arrives like a newspaper.
+A dashboard is a "Pull" system. It requires the user to exert willpower to retrieve the data. An automated marketing reporting workflow is a "Push" system. It requires zero effort from the stakeholder; the data simply arrives.
 
-For agencies, this is a retention tool. If your client doesn't hear from you, they assume you aren't working. A weekly automated report saying *"We generated 43 leads this week"* is a heartbeat signal that proves your value.
+When an agency client wakes up at 8:00 AM on a Monday and sees an email explicitly stating: "Here are the 43 qualified leads we generated for you last week, broken down by ad source," the perceived value of your agency skyrockets. It acts as an operational heartbeat. It proves you are executing.
 
-At **whoisalfaz.me**, **Alfaz Mahmud Rizve** follows the **"Monday Morning Rule"**: *The most important metrics must be in the client's inbox before they finish their first coffee.*
+To build this in **[n8n](https://n8n.partnerlinks.io/ch585gsqzanp)**, we must utilize the **Aggregation Pattern**.
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+Unlike the [Facebook Lead Capture pipeline we built in Day 13](/blog/automated-facebook-leads-n8n), which processes a single JSON payload at a time, today's architecture must process an array of JSON payloads. It must fetch 50 rows of data, group them by a specific attribute (like UTM Source), count them, and then output a single, consolidated summary.
 
-## Architecture: The "Aggregation Pattern"
+---
 
-Unlike previous days where we reacted to a single event (New Lead), today we are processing **batches** of data.
 
-![n8n workflow diagram for automated marketing reporting showing the flow from scheduling to email delivery at whoisalfaz.me with alfaz mahmud rizve](/images/blog/automated-marketing-reporting-with-n8n-at-whoisalfaz-unnamed-18.webp)
 
-### The Workflow Logic:
+## Infrastructure Prerequisites
 
-1. $1
+To execute this batch-processing logic reliably, you need three components:
 
-2. $1
+- **The Orchestrator:** A stable **[n8n](https://n8n.partnerlinks.io/ch585gsqzanp)** environment. Because this workflow runs on a strict cron schedule, you cannot rely on a laptop that might be asleep. You must deploy this on a cloud server like n8n Cloud or a self-hosted **[Vultr VPS](https://www.vultr.com/?ref=9859101-9J)**.
+- **The Database:** A structured ledger containing your leads. For this tutorial, we will use the [Google Sheets database we established in Day 8](/blog/capture-n8n-lead-data). Ensure your sheet has a Timestamp column and a Source column.
+- **The Email Engine:** A standard SMTP connection (Gmail or Outlook node) to deliver the final HTML payload.
 
-3. $1
+---
 
-4. $1
+## Phase 1: The Cron Scheduler and Data Retrieval
 
-5. $1
+We begin by establishing the rhythm of the reporting engine and retrieving the raw dataset.
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+### Step 1: The Schedule Trigger
+1. Create a new n8n workflow named `Core: Weekly Marketing Report`.
+2. Add a **Schedule Trigger** node.
+3. Configure the trigger rules:
+   - Trigger Interval: Weeks.
+   - Days of Week: Monday.
+   - Hour: 8:00 AM.
 
-## Step-by-Step: Building Your Automated Marketing Reporting Engine
+*(Architect's Note: Always schedule reports for the recipient's local timezone. A report delivered at 3:00 AM gets buried under the morning spam. A report delivered exactly at 8:00 AM sits at the very top of their inbox when they open their laptop).*
 
-Let’s open n8n and build this reporting machine.
+### Step 2: Calculating the "Lookback" Window
+We do not want to pull the entire database; we only want the leads generated in the last 7 days. We must mathematically calculate last Monday's date.
 
-### Phase 1: The Schedule & The Fetch
+1. Attach a **Date & Time** node.
+2. Action: Calculate.
+3. Value: `{{ $now }}`.
+4. Operation: Subtract.
+5. Duration: 7 Days.
+6. Format: Output the result as a standard string: `YYYY-MM-DD`. (Let's assume this outputs `2026-03-02`).
 
-**Node 1: Schedule Trigger**
+### Step 3: Querying the Database
+Now we ask the database for the specific rows.
 
-- **Trigger Interval:** `Weeks`.
+1. Attach a **Google Sheets** node.
+2. Resource: Row.
+3. Operation: Get Many.
+4. Select your specific Lead Tracking sheet.
+5. Filter: This is crucial. We must filter the query so the Google API only returns rows where the Timestamp column is greater than or equal to the date string we generated in Step 2 (`2026-03-02`).
 
-- **Day:** `Monday`.
+If your agency generated 43 leads last week, this node will output a single JSON array containing 43 items.
 
-- **Hour:** `8` (or `9`).
+---
 
-- **Why:** Consistency is key. Your report should be as reliable as the sunrise.
+## Phase 2: The Aggregation Engine (JavaScript)
 
-**Node 2: Date & Time (The "Lookback" Window)**
+This is where n8n's programmatic superiority shines. We can summarize the entire 43-item array into a clean report using 12 lines of vanilla JavaScript.
 
-- **Action:** Calculate the date range.
+Attach a **Code Node** to your Google Sheets node. We want to group the leads by their marketing source (e.g., how many came from Facebook, how many from SEO) so the client can see which channels are actually driving ROI.
 
-- **Operation:** `Format a Date`.
+Paste this exact JavaScript aggregation logic:
 
-- **Value:** `{{ $now.minus({days: 7}) }}`.
+```javascript
+// Automated Marketing Reporting: Aggregation Logic
+// Authored by Alfaz Mahmud Rizve
 
-- **Format:** `YYYY-MM-DD`.
-
-- *Note:* We need this date to tell our database "Give me everything since last Monday."
-
-**Node 3: Google Sheets (or HubSpot/Pipedrive)**
-
-- **Operation:** `Get Many` or `Get All`.
-
-- **Filter:** Use the "Filter" option.
-
-- **Logic:** `Created_At` is *after* `{{ $json.date }}` (from Node 2).
-
-- *Result:* You now have a JSON array of every lead generated in the reporting period.
-
-### Phase 2: The Aggregation (The Brains)
-
-This is where n8n shines. Most **automated marketing reporting** tools charge extra for "custom logic." In n8n, it's just a few lines of JavaScript. We don't want to send a list of 50 names; we want a summary.
-
-**Node 4: Code Node (The Summarizer)** We need to group leads by source.
-
-- **Code Snippet:**
-
-JavaScript
-
-```text
-// Simple grouping logic for Marketing Reporting
+// 1. Ingest the raw array of leads from the Google Sheet
 const leads = $input.all().map(item => item.json);
-const summary = {};
 
+// 2. Initialize an empty object to hold our totals
+const summary = {};
+let totalLeads = 0;
+
+// 3. Loop through every lead and count them by Source
 leads.forEach(lead => {
-  // Ensure your column in Sheets/CRM is named 'Source'
-  const source = lead.Source || 'Unknown'; 
-  summary&#91;source] = (summary&#91;source] || 0) + 1;
+  // Check the 'Source' column. If blank, label it 'Unknown'
+  const source = lead.Source || 'Unknown Source'; 
+  
+  // Increment the counter for that specific source
+  summary[source] = (summary[source] || 0) + 1;
+  totalLeads++;
 });
 
-// Convert back to n8n format for the HTML node
-return Object.keys(summary).map(key => ({
-  json: { "Marketing Source": key, "Lead Count": summary&#91;key] }
+// 4. Convert the summary object back into an n8n-friendly JSON array
+const reportData = Object.keys(summary).map(key => ({
+  json: { 
+    "Marketing Channel": key, 
+    "Total Leads Generated": summary[key] 
+  }
 }));
 
+// 5. Append the grand total as the final row for the report
+reportData.push({
+    json: {
+        "Marketing Channel": "GRAND TOTAL",
+        "Total Leads Generated": totalLeads
+    }
+});
+
+return reportData;
 ```
 
-- *Output:* `[{ "Marketing Source": "Facebook Ads", "Lead Count": 12 }, { "Marketing Source": "SEO", "Lead Count": 5 }]`
+Execute the node. Your messy array of 43 individual leads has just been instantly transformed into a clean, mathematical summary:
 
-### Phase 3: The Formatting (Making it Beautiful)
+- Facebook Ads: 25
+- Organic SEO: 12
+- LinkedIn Outbound: 6
+- **GRAND TOTAL: 43**
 
-Sending raw JSON is ugly. Executives want tables.
+---
 
-**Node 5: HTML (or "Create HTML Table")**
+## Phase 3: The HTML Formatter
 
-- **Node Type:** `HTML` (or utilize the `Spreadsheet File` node if you want to attach a CSV).
+Executives do not read JSON. They read tables. We must convert this clean data array into an HTML format that renders beautifully inside a standard email client.
 
-- **Operation:** `Convert to HTML Table`.
+1. Attach an **HTML node** to your Code Node.
+2. Operation: Convert to HTML Table.
+3. Property: By default, it will take the keys from your Code Node (**Marketing Channel** and **Total Leads Generated**) and turn them into the table headers.
 
-- **Input Data:** The output from the Code node.
+*(Pro-Tip: If you know basic CSS, you can inject inline styles into the HTML node to ensure the table borders are crisp and the header row matches your agency's brand colors).*
 
-- **Styling:** Add some simple CSS to make the headers bold (e.g., `style="border: 1px solid #ddd; padding: 8px;"`).
+---
+![Automated Marketing Reporting Table](/images/blog/automated-marketing-reporting-with-n8n-at-whoisalfaz-unnamed-18.webp)
 
-### Phase 4: Delivery
+## Phase 4: The Delivery Payload
 
-**Node 6: Gmail / Outlook**
+The data is compiled and formatted. Now we push it to the stakeholder.
 
-- **Recipient:** The Client, CEO, or Sales Manager.
+1. Attach an **Email Node** (Gmail or Outlook).
+2. Recipient: `client@theircompany.com` (and CC your internal Account Manager).
+3. Subject: `📈 Weekly Performance Report: {{ $('Date & Time').item.json.formatted_date }} to {{ $now.format('YYYY-MM-DD') }}`
+4. Message Format: Toggle to HTML.
 
-- **Subject:** `Weekly Marketing Report: {{ $today.format('MMM DD') }}`
+---
 
-- **Body (HTML):****Good morning,** Here is your **Automated Marketing Report** for the past 7 days. **Total Leads:** {{ $input.all().length }} {{ $json.html_table }} *Automated by whoisalfaz.me*
+## Defensive Engineering: The Null State Error
 
-![Example of an automated marketing reporting email displayed on a mobile device with a lead summary table at whoisalfaz.me with alfaz mahmud rizve](/images/blog/automated-marketing-reporting-with-n8n-at-whoisalfaz-unnamed-19.webp)
+There is one critical edge-case you must engineer for: What happens if your agency generates **zero leads** during the week?
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+If the Google Sheets node returns 0 rows, the Code Node will fail, the workflow will crash, and the email will never send. When a client doesn't receive their Monday report, they panic.
 
-## Real-World Use Case: The "Health Score" Highlight
+You must handle the **Null State**. Between the Google Sheets node and the Code Node, insert an **IF Node**.
 
-At **whoisalfaz.me**, we take **automated marketing reporting** a step further. We don't just count leads; we grade them.
+- **Condition:** Check if the length of the Google Sheets output array is greater than 0.
+- **True Branch:** Route to the Code Node and build the table as normal.
+- **False Branch:** Route directly to a separate Email Node that sends a polite, pre-written message: *"Good morning. Just a quick automated update: We recorded 0 new inbound leads during the holiday week. Ad spend has been paused accordingly."*
 
-In the aggregation step, we calculate a **"Lead Health Score"**:
+---
+![Automated Marketing Reporting Table](/images/blog/automated-marketing-reporting-with-n8n-at-whoisalfaz-unnamed-19.webp)
 
-1. $1
+## Your Day 14 Deployment Mandate
 
-2. $1
+You now possess the architectural blueprint to completely eliminate manual spreadsheet reporting from your agency operations.
 
-3. $1
+By deploying automated marketing reporting, you are no longer relying on your client to log into a dashboard to understand your value. You are forcing your ROI directly into their line of sight every single Monday morning. It is the ultimate operational flex.
 
-If the "Speed to Lead" is over 1 hour, we set a flag to highlight that row in **RED** in the HTML email. This turns the report from a "summary" into a "call to action."
+1. Configure your 7-day lookback window.
+2. Deploy the JavaScript aggregation engine to group the leads.
+3. Format the payload into an HTML table.
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+If your Account Managers are spending their Friday afternoons manually counting leads in a spreadsheet, you are burning cash. Build the machine today.
 
-## Common Mistakes with Automated Reporting
+Tomorrow, in Day 15 of our **[30 Days of n8n & Automation](/blog/category/learn-automation-in-30-days)** sprint, we will pivot to handling client finances: **Automated Stripe Invoice Reconciliation**.
 
-1. $1
-
-2. $1
-
-3. $1
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-## Checklist: Go Live
-
-- ✅ **Date Filter:** Verified the workflow only pulls the *last 7 days* of data.
-
-- ✅ **Math Check:** Manually counted the leads in the sheet vs. the report to ensure accuracy.
-
-- ✅ **Mobile Test:** Opened the email on a phone to ensure the table doesn't break the layout.
-
-- ✅ **Zero-Data Handler:** Added logic for what happens if there are no leads.
-
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
-
-## Series Context
-
-This article is part of the **30 Days of n8n & Automation** series at **whoisalfaz.me**.
-
-Earlier posts you should read next:
-
-- **Day 13:** **[Facebook Lead Ads Automation](https://www.google.com/search?q=https://whoisalfaz.me/blog/facebook-lead-ads-automation-n8n-day-13/)** – The raw data source feeding this report.
-
-- **Day 8:** **[Capture n8n lead data to Google Sheets](/blog/capture-n8n-lead-data-from-wordpress-elementor/-from-wordpress-elementor/-from-wordpress-elementor/)** – How to build the database we are querying today.
-
-If you are ready to stop being a data clerk and start being a strategic partner, build this **automated marketing reporting** workflow today.
-
-Then, subscribe to the newsletter at **[whoisalfaz.me](https://whoisalfaz.me/blog/)** so you do not miss tomorrow’s Day 15 automation in the 30 Days of n8n & Automation series from **[Alfaz Mahmud Rizve](/portfolio/)**.
+Subscribe to the newsletter, and I will see you on the canvas tomorrow.
