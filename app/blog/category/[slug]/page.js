@@ -34,7 +34,7 @@ export default async function CategoryPage({ params }) {
             <div className="fixed inset-0 bg-[#0a0a0a] -z-20" />
             <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/10 via-[#0a0a0a] to-[#0a0a0a] -z-10" />
 
-            <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_350px] gap-16">
+            <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_350px] gap-16 items-start">
 
                 {/* === LEFT COLUMN: MAIN CONTENT === */}
                 <div>
@@ -103,7 +103,8 @@ export default async function CategoryPage({ params }) {
                 </div>
 
                 {/* === RIGHT COLUMN: SIDEBAR === */}
-                <aside className="space-y-12 h-fit sticky top-32">
+                <div className="hidden lg:block sticky top-32 h-[calc(100vh-8rem)] min-w-[350px]">
+                    <aside className="h-full overflow-y-auto pb-8 space-y-12 scrollbar-none">
 
                     {/* SEARCH */}
                     <Suspense fallback={<div className="h-12 bg-white/5 rounded-lg animate-pulse" />}>
@@ -141,7 +142,8 @@ export default async function CategoryPage({ params }) {
                         </ul>
                     </div>
 
-                </aside>
+                    </aside>
+                </div>
 
             </div>
         </main>

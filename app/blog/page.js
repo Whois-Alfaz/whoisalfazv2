@@ -37,7 +37,7 @@ export default async function BlogPage() {
             {/* BACKGROUND */}
             <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-teal-500/10 via-slate-50 to-slate-50 dark:from-blue-900/10 dark:via-[#0a0a0a] dark:to-[#0a0a0a] -z-10 transition-colors duration-300" />
 
-            <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_350px] gap-16">
+            <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_350px] gap-16 items-start">
 
                 {/* === LEFT COLUMN: MAIN CONTENT === */}
                 <div>
@@ -146,7 +146,8 @@ export default async function BlogPage() {
                 </div>
 
                 {/* === RIGHT COLUMN: SIDEBAR === */}
-                <aside className="space-y-12 h-[calc(100vh-8rem)] overflow-y-auto pb-8 sticky top-32 scrollbar-none hidden lg:block animate-in fade-in slide-in-from-right-8 duration-1000 delay-500">
+                <div className="hidden lg:block sticky top-32 h-[calc(100vh-8rem)] min-w-[350px]">
+                    <aside className="h-full overflow-y-auto pb-8 space-y-12 scrollbar-none animate-in fade-in slide-in-from-right-8 duration-1000 delay-500">
 
                     {/* SEARCH */}
                     <Suspense fallback={<div className="h-12 bg-white dark:bg-white/5 rounded-xl animate-pulse border border-slate-200 dark:border-transparent" />}>
@@ -196,7 +197,8 @@ export default async function BlogPage() {
                         </ul>
                     </div>
 
-                </aside>
+                    </aside>
+                </div>
 
             </div>
         </main>

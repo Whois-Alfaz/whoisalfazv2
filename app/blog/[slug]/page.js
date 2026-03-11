@@ -77,7 +77,7 @@ export default async function Post({ params }) {
   const readTime = Math.ceil(wordCount / 200);
 
   return (
-    <article className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300 selection:bg-teal-500/30 selection:text-teal-900 dark:selection:text-teal-200 pb-20 pt-24 overflow-x-hidden">
+    <article className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300 selection:bg-teal-500/30 selection:text-teal-900 dark:selection:text-teal-200 pb-20 pt-24">
 
       {/* AMBIENT GLOWS */}
       <div className="fixed top-0 left-0 w-full h-[500px] bg-gradient-to-b from-teal-500/5 to-transparent dark:from-teal-900/10 dark:to-transparent -z-10 transition-colors duration-300" />
@@ -188,44 +188,49 @@ export default async function Post({ params }) {
 
 
       {/* --- MAIN LAYOUT GRID (Left TOC, Center Content, Right Sidebar) --- */}
-      <div className="max-w-[90rem] mx-auto px-6 grid grid-cols-1 lg:grid-cols-[250px_1fr] xl:grid-cols-[250px_1fr_300px] gap-10 xl:gap-16 relative">
+      <div className="max-w-[90rem] mx-auto px-6 grid grid-cols-1 lg:grid-cols-[250px_1fr] xl:grid-cols-[250px_1fr_300px] gap-10 xl:gap-16 relative items-start">
 
-        {/* LEFT COLUMN: STICKY SIDEBAR (TOC + Share) */}
-        <aside className="hidden lg:block h-fit sticky top-32 space-y-12 min-w-0 w-full animate-in fade-in slide-in-from-left-8 duration-1000 delay-150 fill-mode-both">
-
-          {/* Table of Contents */}
-          <div className="bg-white dark:bg-transparent p-6 rounded-[2rem] border border-slate-200 dark:border-transparent shadow-sm dark:shadow-none">
-            <h4 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-6 border-b border-slate-100 dark:border-white/5 pb-3">Table of Contents</h4>
-            <div className="prose-toc">
+        {/* LEFT COLUMN: TABLE OF CONTENTS (Sticky) */}
+        <div className="hidden lg:block sticky top-32 h-fit">
+          <aside className="space-y-8">
+            <div className="bg-white dark:bg-white/5 p-6 rounded-[2.5rem] border border-slate-200 dark:border-white/5 shadow-sm dark:shadow-none animate-in fade-in slide-in-from-left-8 duration-1000 delay-300 fill-mode-both">
+              <h4 className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-6 border-b border-slate-100 dark:border-white/5 pb-3">
+                In this Article
+              </h4>
               <TableOfContents />
             </div>
-          </div>
 
-          {/* Social Share (Vertical) */}
-          <div className="bg-white dark:bg-transparent p-6 rounded-[2rem] border border-slate-200 dark:border-transparent shadow-sm dark:shadow-none">
-            <h4 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-6 border-b border-slate-100 dark:border-white/5 pb-3">Share</h4>
-            <div className="flex flex-col gap-3">
-              <button className="flex items-center gap-3 px-5 py-3 rounded-xl bg-slate-50 dark:bg-white/5 hover:bg-teal-50 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-white transition-colors text-xs font-black uppercase tracking-widest border border-slate-200 dark:border-white/5 shadow-sm dark:shadow-none">
-                <Twitter size={16} className="text-blue-500 dark:text-blue-400" /> Twitter
-              </button>
-              <button className="flex items-center gap-3 px-5 py-3 rounded-xl bg-slate-50 dark:bg-white/5 hover:bg-blue-50 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-white transition-colors text-xs font-black uppercase tracking-widest border border-slate-200 dark:border-white/5 shadow-sm dark:shadow-none">
-                <Linkedin size={16} className="text-blue-600 dark:text-blue-600" /> LinkedIn
-              </button>
-              <button className="flex items-center gap-3 px-5 py-3 rounded-xl bg-slate-50 dark:bg-white/5 hover:bg-purple-50 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 hover:text-purple-600 dark:hover:text-white transition-colors text-xs font-black uppercase tracking-widest border border-slate-200 dark:border-white/5 shadow-sm dark:shadow-none">
-                <LinkIcon size={16} className="text-purple-500 dark:text-purple-400" /> Copy Link
-              </button>
+            {/* SHARE AREA (Detached below TOC) */}
+            <div className="bg-white dark:bg-white/5 p-6 rounded-[2.5rem] border border-slate-200 dark:border-white/5 shadow-sm dark:shadow-none animate-in fade-in slide-in-from-left-8 duration-1000 delay-500 fill-mode-both">
+              <h4 className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-6 border-b border-slate-100 dark:border-white/5 pb-3">
+                Share
+              </h4>
+              <div className="flex flex-col gap-3">
+                <button className="flex items-center justify-center gap-3 w-full py-4 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-all group shadow-sm dark:shadow-none">
+                  <Twitter size={14} className="text-blue-400" />
+                  <span>Twitter</span>
+                </button>
+                <button className="flex items-center justify-center gap-3 w-full py-4 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-all group shadow-sm dark:shadow-none">
+                  <Linkedin size={14} className="text-blue-600" />
+                  <span>LinkedIn</span>
+                </button>
+                <button className="flex items-center justify-center gap-3 w-full py-4 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-all group shadow-sm dark:shadow-none">
+                  <LinkIcon size={14} className="text-purple-500" />
+                  <span>Copy Link</span>
+                </button>
+              </div>
             </div>
-          </div>
 
-          {/* Mini Newsletter (Sidebar) */}
-          <div className="p-8 rounded-[2rem] bg-slate-900 dark:bg-gradient-to-b dark:from-slate-900 dark:to-slate-950 border border-slate-800 dark:border-white/10 shadow-xl">
-            <h4 className="text-white font-black uppercase tracking-tight mb-3 text-lg">Join the Inner Circle</h4>
-            <p className="text-xs text-slate-400 font-medium mb-6 leading-relaxed">Exclusive automation tips, directly to your inbox.</p>
-            <NewsletterForm source="sidebar" />
-          </div>
-
-        </aside>
-
+            {/* NEWSLETTER (Detached) */}
+            <div className="animate-in fade-in slide-in-from-left-8 duration-1000 delay-700 fill-mode-both">
+              <div className="p-8 rounded-[2rem] bg-slate-900 dark:bg-gradient-to-b dark:from-slate-900 dark:to-slate-950 border border-slate-800 dark:border-white/10 shadow-xl">
+                <h4 className="text-white font-black uppercase tracking-tight mb-3 text-lg">Join the Inner Circle</h4>
+                <p className="text-xs text-slate-400 font-medium mb-6 leading-relaxed">Exclusive automation tips, directly to your inbox.</p>
+                <NewsletterForm />
+              </div>
+            </div>
+          </aside>
+        </div>
 
         {/* RIGHT COLUMN: ARTICLE CONTENT */}
         <main className="min-w-0 w-full overflow-x-hidden animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300 fill-mode-both">
@@ -301,26 +306,11 @@ export default async function Post({ params }) {
             </div>
           </div>
 
-          {/* Bottom CTA Area */}
-          <div className="mt-24 p-1.5 rounded-[3rem] bg-gradient-to-br from-teal-400 via-emerald-500 to-teal-600 dark:from-teal-500 dark:via-purple-600 dark:to-pink-500 shadow-2xl">
-            <div className="bg-white dark:bg-[#0f172a] rounded-[2.5rem] p-10 md:p-14 text-center">
-              <h3 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight">Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">automate your agency?</span></h3>
-              <p className="text-slate-600 dark:text-slate-400 font-medium text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">Skip the manual grunt work. Let's build a custom system that runs your business on autopilot 24/7.</p>
-              <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <Link href="/contact" className="px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-black font-black uppercase tracking-widest text-xs rounded-xl shadow-lg dark:shadow-none hover:bg-slate-800 dark:hover:bg-slate-200 transition-all hover:-translate-y-1">
-                  Book a Strategy Call
-                </Link>
-                <Link href="/services" className="px-8 py-4 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white font-black uppercase tracking-widest text-xs rounded-xl border border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 transition-all hover:-translate-y-1 shadow-sm dark:shadow-none">
-                  View Services
-                </Link>
-              </div>
-            </div>
-          </div>
-
         </main>
 
         {/* RIGHT COLUMN: STICKY SIDEBAR (Search, Recent, Categories) */}
-        <aside className="hidden xl:block space-y-12 h-[calc(100vh-8rem)] overflow-y-auto pb-8 sticky top-32 min-w-[300px] scrollbar-none animate-in fade-in slide-in-from-right-8 duration-1000 delay-500 fill-mode-both">
+        <div className="hidden xl:block sticky top-32 h-[calc(100vh-8rem)] min-w-[300px]">
+          <aside className="h-full overflow-y-auto pb-8 space-y-12 scrollbar-none animate-in fade-in slide-in-from-right-8 duration-1000 delay-500 fill-mode-both">
 
           {/* SEARCH */}
           <div className="bg-white dark:bg-transparent p-6 rounded-[2rem] border border-slate-200 dark:border-transparent shadow-sm dark:shadow-none">
@@ -369,8 +359,27 @@ export default async function Post({ params }) {
             </ul>
           </div>
 
-        </aside>
+          </aside>
+        </div>
 
+      </div>
+
+      {/* Bottom CTA Area (Moved Outside Grid to un-stick Sidebars here) */}
+      <div className="max-w-5xl mx-auto px-6 mt-32">
+        <div className="p-1.5 rounded-[3rem] bg-gradient-to-br from-teal-400 via-emerald-500 to-teal-600 dark:from-teal-500 dark:via-purple-600 dark:to-pink-500 shadow-2xl">
+          <div className="bg-white dark:bg-[#0f172a] rounded-[2.5rem] p-10 md:p-14 text-center">
+            <h3 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight">Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">automate your agency?</span></h3>
+            <p className="text-slate-600 dark:text-slate-400 font-medium text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">Skip the manual grunt work. Let's build a custom system that runs your business on autopilot 24/7.</p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Link href="/contact" className="px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-black font-black uppercase tracking-widest text-xs rounded-xl shadow-lg dark:shadow-none hover:bg-slate-800 dark:hover:bg-slate-200 transition-all hover:-translate-y-1">
+                Book a Strategy Call
+              </Link>
+              <Link href="/services" className="px-8 py-4 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white font-black uppercase tracking-widest text-xs rounded-xl border border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 transition-all hover:-translate-y-1 shadow-sm dark:shadow-none">
+                View Services
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
 
     </article >
