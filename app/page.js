@@ -23,7 +23,7 @@ export default async function Home() {
             AUTONOMOUS REVENUE SYSTEMS
           </div>
 
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-slate-900 dark:text-white mb-8 leading-[0.9] tracking-tighter max-w-5xl uppercase transition-colors duration-300">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white mb-8 leading-[0.9] tracking-tighter max-w-4xl uppercase transition-colors duration-300">
             Autonomous <span className="text-teal-600 dark:text-teal-400">Revenue Engines</span> <br /> Built on Sub-Second <span className="text-purple-600 dark:text-purple-400">Infrastructure</span>
           </h1>
 
@@ -54,7 +54,7 @@ export default async function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row gap-20 items-center">
             <div className="flex-1 animate-in fade-in slide-in-from-left-12 duration-1000 ease-out fill-mode-both">
-              <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-8 leading-[1.1] uppercase tracking-tight transition-colors duration-300">
+              <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-8 leading-[1.1] uppercase tracking-tight transition-colors duration-300">
                 Revenue Operations <br /> <span className="text-teal-600 dark:text-teal-400">Architects</span>
               </h2>
               <div className="space-y-8">
@@ -121,7 +121,7 @@ export default async function Home() {
             </div>
           </div>
 
-          <h2 className="text-5xl font-black text-slate-900 dark:text-white mb-4 tracking-tighter uppercase transition-colors duration-300">
+          <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-4 tracking-tighter uppercase transition-colors duration-300">
             Alfaz Mahmud Rizve
           </h2>
           <p className="text-xl text-slate-500 dark:text-slate-400 font-bold mb-8 tracking-widest uppercase transition-colors duration-300">RevOps Architect &bull; Automation Engineer &bull; Builder</p>
@@ -153,7 +153,7 @@ export default async function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
             <div className="max-w-2xl">
-              <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tight transition-colors duration-300">Technical <span className="text-teal-600 dark:text-teal-400">Solutions</span></h2>
+              <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tight transition-colors duration-300">Technical <span className="text-teal-600 dark:text-teal-400">Solutions</span></h2>
               <p className="text-lg text-slate-500 dark:text-slate-400 transition-colors duration-300">Engineered for sub-second performance and autonomous growth.</p>
             </div>
             <Link href="/services" className="text-teal-600 dark:text-teal-400 font-black uppercase text-sm flex items-center gap-2 group">
@@ -205,7 +205,7 @@ export default async function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
             <div className="max-w-2xl">
-              <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tight transition-colors duration-300">Latest <span className="text-purple-600 dark:text-purple-400">Dispatches</span></h2>
+              <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tight transition-colors duration-300">Latest <span className="text-purple-600 dark:text-purple-400">Dispatches</span></h2>
               <p className="text-lg text-slate-500 dark:text-slate-400 transition-colors duration-300">Autonomous insights, engineering logs, and automation protocols.</p>
             </div>
             <Link href="/blog" className="text-purple-600 dark:text-purple-400 font-black uppercase text-sm flex items-center gap-2 group">
@@ -216,9 +216,9 @@ export default async function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             {posts?.slice(0, 3).map((post, i) => (
               <Link key={post.slug} href={`/blog/${post.slug}`} className={`group h-full animate-in fade-in slide-in-from-bottom-12 zoom-in-[0.98] duration-1000 ease-out fill-mode-both delay-[${i * 150}ms]`}>
-                <article className="h-full bg-white dark:bg-[#1e293b] rounded-[2rem] overflow-hidden border border-slate-200 dark:border-slate-700 hover:shadow-2xl hover:-translate-y-2 dark:hover:border-blue-500/50 transition-all duration-500 flex flex-col">
+                <article className="h-full bg-white dark:bg-[#1e293b] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 hover:shadow-2xl hover:-translate-y-2 dark:hover:border-blue-500/50 transition-all duration-500 flex flex-col">
                   {/* TOP IMAGE AREA WITH PILLS */}
-                  <div className="h-64 bg-slate-100 dark:bg-slate-800 relative overflow-hidden p-6 flex flex-col justify-start">
+                  <div className="h-48 bg-slate-100 dark:bg-slate-800 relative overflow-hidden p-4 flex flex-col justify-start">
                     {post.image ? (
                       <Image src={post.image} alt={post.title} fill className="object-cover transition-transform duration-1000 group-hover:scale-105" />
                     ) : (
@@ -241,11 +241,11 @@ export default async function Home() {
                   </div>
                   
                   {/* BOTTOM CONTENT AREA */}
-                  <div className="p-8 flex flex-col flex-grow relative bg-white dark:bg-[#1e293b]">
-                    <h3 className="text-slate-900 dark:text-white font-black text-2xl mb-4 group-hover:text-teal-600 dark:group-hover:text-blue-400 transition-colors uppercase italic tracking-tighter leading-[1.1] text-balance">
+                   <div className="p-6 flex flex-col flex-grow relative bg-white dark:bg-[#1e293b]">
+                     <h3 className="text-slate-900 dark:text-white font-black text-lg mb-3 group-hover:text-teal-600 dark:group-hover:text-blue-400 transition-colors uppercase italic tracking-tighter leading-[1.1] text-balance">
                       {post.title}
                     </h3>
-                    <p className="text-slate-500 dark:text-slate-400 text-sm line-clamp-3 mb-8 flex-grow font-medium leading-relaxed">
+                     <p className="text-slate-500 dark:text-slate-400 text-sm line-clamp-2 mb-6 flex-grow font-medium leading-relaxed">
                       {post.description}
                     </p>
                     <div className="text-[11px] font-black text-slate-900 dark:text-white uppercase tracking-widest flex justify-end items-center w-full group-hover:text-teal-600 dark:group-hover:text-blue-400 transition-colors gap-1.5">
@@ -266,7 +266,7 @@ export default async function Home() {
           <div className="w-20 h-20 bg-teal-500/10 border border-teal-500/20 rounded-3xl flex items-center justify-center mx-auto mb-10 rotate-6 group-hover:rotate-0 transition-transform">
             <Mail className="text-teal-600 dark:text-teal-400" size={32} />
           </div>
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight transition-colors duration-300">The Inner <span className="text-teal-600 dark:text-teal-400">Circle</span></h2>
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight transition-colors duration-300">The Inner <span className="text-teal-600 dark:text-teal-400">Circle</span></h2>
           <p className="text-lg text-slate-500 dark:text-slate-400 mb-12 font-medium transition-colors duration-300">Daily AI automation playbooks and no-fluff growth strategies for the modern architect.</p>
 
           <div className="bg-white dark:bg-[#1e293b] rounded-[3rem] p-4 shadow-2xl border border-slate-100 dark:border-slate-700 max-w-xl mx-auto transition-colors duration-300">
