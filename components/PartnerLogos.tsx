@@ -1,5 +1,3 @@
-
-
 interface Partner {
     name: string;
     customPath: string;
@@ -23,24 +21,25 @@ export default function PartnerLogos({ title }: { title: string }) {
 
     return (
         <div className="w-full">
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-8 font-mono text-center">
+            <p className="text-[10px] sm:text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-[0.2em] mb-10 text-center">
                 {title}
             </p>
 
-            <div className="relative overflow-hidden">
-                <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10 pointer-events-none" />
-                <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#0a0a0a] to-transparent z-10 pointer-events-none" />
+            <div className="relative overflow-hidden w-full max-w-7xl mx-auto">
+                {/* Gradient Masks */}
+                <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-slate-50 dark:from-[#0a0a0a] to-transparent z-10 pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-slate-50 dark:from-[#0a0a0a] to-transparent z-10 pointer-events-none" />
 
-                <div className="flex gap-8 animate-marquee hover:[animation-play-state:paused]">
+                <div className="flex gap-6 sm:gap-10 items-center justify-start animate-marquee hover:[animation-play-state:paused] w-max">
                     {items.map((partner, i) => (
                         <div
                             key={`${partner.name}-${i}`}
-                            className="flex items-center gap-2.5 px-5 py-2.5 rounded-full border border-white/5 bg-white/[0.02] text-slate-400 hover:text-white hover:border-white/15 hover:bg-white/5 transition-all duration-300 shrink-0 cursor-default select-none"
+                            className="flex items-center gap-3 px-6 py-3 rounded-full border border-slate-200 dark:border-white/5 bg-white dark:bg-white/[0.02] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:border-slate-300 dark:hover:border-white/15 hover:bg-slate-50 dark:hover:bg-white/5 transition-all duration-300 shrink-0 cursor-default select-none shadow-sm dark:shadow-none"
                         >
-                            <svg role="img" viewBox="0 0 24 24" className="w-5 h-5 fill-current shrink-0">
+                            <svg role="img" viewBox="0 0 24 24" className="w-6 h-6 fill-current shrink-0">
                                 <path d={partner.customPath} />
                             </svg>
-                            <span className="text-xs font-semibold tracking-tight whitespace-nowrap uppercase">
+                            <span className="text-sm font-black tracking-tight whitespace-nowrap uppercase">
                                 {partner.name}
                             </span>
                         </div>

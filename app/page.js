@@ -1,12 +1,10 @@
 import { getAllPosts } from '@/lib/mdx';
 import WorkflowSteps from '../components/WorkflowSteps';
-
 import AuditTool from '../components/AuditTool';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, CheckCircle2, Zap, Layout, Search, BarChart3, Database, Globe, Mail, Video, Code2 } from 'lucide-react';
+import { ArrowRight, Database, Zap, Code2, Globe, Search, BarChart3, Mail, CheckCircle2, Layout } from 'lucide-react';
 import NewsletterForm from '../components/NewsletterForm';
-
 import PartnerLogos from '../components/PartnerLogos';
 
 export const metadata = {
@@ -19,274 +17,269 @@ export default async function Home() {
   const posts = await getAllPosts();
 
   return (
-    <main className="min-h-screen selection:bg-blue-500 selection:text-white pb-20 pt-24">
+    <main className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] selection:bg-teal-500/20 selection:text-teal-900 dark:selection:text-teal-100 overflow-hidden relative transition-colors duration-300 pb-20 pt-24">
       {/* BACKGROUND ELEMENTS */}
-      <div className="fixed inset-0 bg-[#0a0a0a] -z-20" />
-      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/10 via-[#0a0a0a] to-[#0a0a0a] -z-10" />
+      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-teal-50/50 via-slate-50 to-slate-50 dark:from-blue-900/10 dark:via-[#0a0a0a] dark:to-[#0a0a0a] -z-10 transition-colors duration-300" />
 
-      {/* SECTION 0: HERO (NEW) */}
-      <section className="max-w-7xl mx-auto px-6 pt-10 pb-24">
-        <div className="flex flex-col items-center text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight tracking-tight max-w-4xl">
-            Sub-Second <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-200">Headless Architectures</span>, <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">Custom Web Apps</span> & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-200">Autonomous Revenue Systems</span>
+      {/* SECTION 0: HERO */}
+      <section className="relative pt-10 pb-24 px-6 overflow-hidden">
+        <div className="max-w-7xl mx-auto flex flex-col items-center text-center relative z-10 animate-in fade-in slide-in-from-bottom-12 zoom-in-[0.98] duration-1000 ease-out fill-mode-both">
+          
+          <div className="inline-block px-4 py-1.5 bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-slate-200 dark:border-white/10 rounded-full text-xs font-bold text-teal-600 dark:text-teal-400 mb-8 shadow-sm">
+            NEXT-GEN HEADLESS ARCHITECTURES
+          </div>
+
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-slate-900 dark:text-white mb-8 leading-[0.9] tracking-tighter max-w-5xl uppercase transition-colors duration-300">
+            Sub-Second <span className="text-teal-600 dark:text-teal-400">Web Apps</span> <br /> & Autonomous <span className="text-purple-600 dark:text-purple-400">Revenue Systems</span>
           </h1>
-          <p className="text-lg text-slate-400 mb-10 leading-relaxed max-w-2xl mx-auto">
-            I help Marketing Agencies migrate off legacy CMS platforms to high-performance Next.js stacks, engineer bespoke internal applications, and eliminate manual bottlenecks with n8n automation
+
+          <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 mb-12 leading-relaxed max-w-2xl mx-auto font-medium transition-colors duration-300">
+            I help scaling agencies migrate to high-performance Next.js architectures, engineer bespoke full-stack applications, and eliminate manual bottlenecks with custom automation.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/contact" className="w-full sm:w-auto px-8 py-4 bg-teal-400 hover:bg-teal-300 text-black font-bold rounded-lg shadow-[0_0_20px_rgba(45,212,191,0.3)] hover:shadow-[0_0_30px_rgba(45,212,191,0.5)] transition-all transform hover:-translate-y-1 block text-center">
-              Book a free strategy call
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full max-w-md">
+            <Link href="/contact" className="w-full sm:w-auto px-10 py-5 bg-slate-900 dark:bg-teal-400 text-white dark:text-black font-black rounded-2xl shadow-xl hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] transition-all transform flex items-center justify-center gap-2">
+              Book Strategy Call <ArrowRight size={20} />
             </Link>
-            <Link href="/services" className="w-full sm:w-auto px-8 py-4 bg-white text-black font-bold rounded-lg hover:bg-slate-200 transition-colors block text-center">
-              Explore Services
+            <Link href="/services" className="w-full sm:w-auto px-10 py-5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white font-black rounded-2xl hover:bg-slate-50 dark:hover:bg-white/10 transition-all shadow-sm flex items-center justify-center">
+              Our Solutions
             </Link>
-          </div>
-        </div>
-
-        <div className="mt-16 border-t border-white/10 w-full mb-16"></div>
-
-        {/* PARTNER GRID - HOMEPAGE (High-Ticket Social Proof) */}
-        <div className="max-w-5xl mx-auto py-12 border-y border-white/5">
-          <PartnerLogos title="Official Technology Partners" />
-        </div>
-      </section>
-
-      {/* SECTION 1: VALUE PROP "Built for SaaS founders..." */}
-      <section className="max-w-6xl mx-auto px-6 mb-32">
-        <div className="bg-gradient-to-br from-orange-50/5 via-white/5 to-white/5 border border-white/10 rounded-3xl p-8 md:p-12">
-          <h2 className="text-3xl font-bold text-white mb-2">Engineered for Scaling SaaS Founders & Agencies</h2>
-          <p className="text-slate-400 mb-10">Replacing fragile "Zapier Band-Aids" with enterprise-grade, autonomous central nervous systems.</p>
-
-          <div className="grid md:grid-cols-2 gap-8 md:gap-16">
-            <ul className="space-y-6">
-              <li className="flex items-start gap-4 text-slate-300 group">
-                <div className="mt-1 bg-blue-500/10 p-1.5 rounded-lg border border-blue-500/20 group-hover:bg-blue-500/20 transition-colors shrink-0">
-                  <Database className="text-blue-500" size={18} />
-                </div>
-                <div>
-                  <span className="text-white font-bold block mb-1">Eliminate Data Silos</span>
-                  <p className="text-sm leading-relaxed">Your agency is scaling, but your data is trapped across disconnected tools and fragile, expensive API connections.</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-4 text-slate-300 group">
-                <div className="mt-1 bg-blue-500/10 p-1.5 rounded-lg border border-blue-500/20 group-hover:bg-blue-500/20 transition-colors shrink-0">
-                  <BarChart3 className="text-blue-500" size={18} />
-                </div>
-                <div>
-                  <span className="text-white font-bold block mb-1">Automated Lead Enrichment</span>
-                  <p className="text-sm leading-relaxed">Transform raw Apollo/web traffic into fully enriched, scored leads before they ever reach your sales team.</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-4 text-slate-300 group">
-                <div className="mt-1 bg-blue-500/10 p-1.5 rounded-lg border border-blue-500/20 group-hover:bg-blue-500/20 transition-colors shrink-0">
-                  <Layout className="text-blue-500" size={18} />
-                </div>
-                <div>
-                  <span className="text-white font-bold block mb-1">The Ultimate Work OS</span>
-                  <p className="text-sm leading-relaxed">Sync high-intent lead data directly into monday.com or HubSpot with zero manual data entry.</p>
-                </div>
-              </li>
-            </ul>
-            <ul className="space-y-6">
-              <li className="flex items-start gap-4 text-slate-300 group">
-                <div className="mt-1 bg-purple-500/10 p-1.5 rounded-lg border border-purple-500/20 group-hover:bg-purple-500/20 transition-colors shrink-0">
-                  <Globe className="text-purple-500" size={18} />
-                </div>
-                <div>
-                  <span className="text-white font-bold block mb-1">Headless Web Architecture</span>
-                  <p className="text-sm leading-relaxed">Migrate SaaS and agency clients off legacy CMS platforms to high-performance, custom Next.js web applications.</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-4 text-slate-300 group">
-                <div className="mt-1 bg-purple-500/10 p-1.5 rounded-lg border border-purple-500/20 group-hover:bg-purple-500/20 transition-colors shrink-0">
-                  <Zap className="text-purple-500" size={18} />
-                </div>
-                <div>
-                  <span className="text-white font-bold block mb-1">Deploy AI Agents</span>
-                  <p className="text-sm leading-relaxed">Integrate secure, custom AI agents (via n8n and local LLMs) to handle repetitive onboarding, reporting, and routing tasks.</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-4 text-slate-300 group">
-                <div className="mt-1 bg-purple-500/10 p-1.5 rounded-lg border border-purple-500/20 group-hover:bg-purple-500/20 transition-colors shrink-0">
-                  <CheckCircle2 className="text-purple-500" size={18} />
-                </div>
-                <div>
-                  <span className="text-white font-bold block mb-1">Focus on Revenue, Not Admin</span>
-                  <p className="text-sm leading-relaxed">Stop duct-taping your operations together. Build a sustainable RevOps engine while you focus on closing deals.</p>
-                </div>
-              </li>
-            </ul>
           </div>
         </div>
       </section>
 
-      {/* SECTION 2: PROCESS "4-Step Workflow" */}
-      <section className="max-w-6xl mx-auto px-6 text-center mb-32">
-        <h2 className="text-3xl font-bold text-white mb-4">Our 4-Step Development Process</h2>
-        <p className="text-slate-400 max-w-2xl mx-auto mb-16">From strategy to deployment, we ensure your automation is reliable, scalable, and tailored to your business goals.</p>
-
-        <WorkflowSteps />
-      </section>
-
-      {/* SECTION 3: CENTERED PROFILE */}
-      <section className="max-w-4xl mx-auto px-6 text-center mb-32">
-        <div className="relative w-40 h-40 mx-auto mb-8">
-          <div className="absolute inset-0 bg-blue-500 blur-2xl opacity-20 rounded-full"></div>
-          <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/10 shadow-2xl">
-            <Image
-              src="/profile.jpg"
-              alt="Alfaz Mahmud"
-              fill
-              className="object-cover"
-              priority
-              sizes="(max-width: 768px) 160px, 300px"
-            />
-          </div>
-        </div>
-
-        <h2 className="text-4xl font-bold text-white mb-2">Alfaz Mahmud Rizve</h2>
-        <p className="text-slate-400 mb-8">Builder • Automator • Architect</p>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
-          <Link href="/portfolio" className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-purple-600 to-purple-500 text-white font-bold rounded-full shadow-[0_0_20px_rgba(168,85,247,0.3)] hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all transform hover:-translate-y-1">
-            View Portfolio
-          </Link>
-          <Link href="/blog" className="w-full sm:w-auto px-8 py-3 bg-white/5 border border-white/10 text-white font-bold rounded-full hover:bg-white/10 backdrop-blur-sm transition-all transform hover:-translate-y-1">
-            Read my Blogs
-          </Link>
-          <Link href="/contact" className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-teal-400 to-teal-500 text-black font-bold rounded-full shadow-[0_0_20px_rgba(45,212,191,0.3)] hover:shadow-[0_0_30px_rgba(45,212,191,0.5)] transition-all transform hover:-translate-y-1">
-            Book Free Strategy Call
-          </Link>
-        </div>
-
-        <p className="mt-12 text-lg text-slate-300 font-medium italic max-w-2xl mx-auto leading-relaxed border-l-4 border-blue-500 pl-6 py-2 bg-blue-500/5 rounded-r-lg">
-          I design business growth strategies and then architect the automated infrastructure to execute them - Alfaz Mahmud Rizve
-        </p>
-      </section>
-
-      {/* SECTION 4: SCALE WITH AUTOMATION (AUDIT TOOL) */}
-      <section className="max-w-6xl mx-auto px-6 mb-32">
-        <AuditTool />
-      </section>
-
-      {/* SECTION 5: LATEST INSIGHTS (BLOG) */}
-      <section className="max-w-6xl mx-auto px-6 mb-32">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-white mb-2">Latest Insights on n8n & Marketing Automation</h2>
-          <div className="h-1 w-20 bg-green-500 mx-auto rounded-full"></div>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          {posts?.slice(0, 3).map((post) => (
-            <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
-              <article className="h-full bg-[#1e293b] rounded-2xl overflow-hidden border border-slate-700 hover:border-blue-500/50 transition-colors">
-                <div className="h-48 bg-slate-800 relative">
-                  {post.image && (
-                    <Image src={post.image} alt={post.title} fill className="object-cover" />
-                  )}
-                </div>
-                <div className="p-6">
-                  <h3 className="text-white font-bold mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">{post.title}</h3>
-                  <p className="text-slate-400 text-sm line-clamp-2">{post.description}</p>
-                </div>
-              </article>
-            </Link>
-          ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <Link href="/blog" className="px-6 py-2 bg-blue-500/10 text-blue-400 rounded-full text-sm font-medium hover:bg-blue-500/20 transition-colors">
-            View all posts
-          </Link>
+      {/* Partner Divider */}
+      <section className="py-20 bg-white/30 dark:bg-white/5 backdrop-blur-sm border-y border-slate-200 dark:border-white/10 transition-colors duration-300">
+        <div className="max-w-6xl mx-auto px-6">
+          <PartnerLogos title="POWERING SCALE FOR MODERN INFRASTRUCTURE" />
         </div>
       </section>
 
-      {/* SECTION 6: SERVICES GRID */}
-      <section className="max-w-6xl mx-auto px-6 mb-32">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-white">AI automation & growth services</h2>
-          <p className="text-slate-400 mt-2">End-to-end implementation for scaling your operations.</p>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          {[
-            {
-              title: "Custom Full-Stack Applications",
-              icon: Code2,
-              desc: "Bespoke Agency Infrastructure. When off-the-shelf software blocks your growth, I build the exact internal tools you need—proprietary client portals, dashboards, and revenue-tracking systems.",
-              bg: "bg-rose-500/10", border: "border-rose-500/20", text: "text-rose-400",
-              link: "/services/custom-full-stack"
-            },
-            {
-              title: "Headless CMS Architecture",
-              icon: Globe,
-              desc: "Enterprise-grade performance. We decouple your frontend to achieve sub-second load times and perfect Core Web Vitals, without sacrificing your marketing team's ability to edit content.",
-              bg: "bg-blue-500/10", border: "border-blue-500/20", text: "text-blue-400",
-              link: "/services/headless-architecture"
-            },
-            {
-              title: "Custom Workflow Automation",
-              icon: Zap,
-              desc: "Autonomous RevOps Infrastructure. Replace fragile manual flows with self-healing AI workflows that instantly enrich leads and scale your sales engine without adding headcount.",
-              bg: "bg-emerald-500/10", border: "border-emerald-500/20", text: "text-emerald-400",
-              link: "/services/n8n-automation"
-            },
-            {
-              title: "Technical SEO Audits",
-              icon: Search,
-              desc: "Deep dive analysis of your site's health. We find and fix the invisible technical errors killing your rankings.",
-              bg: "bg-orange-500/10", border: "border-orange-500/20", text: "text-orange-400",
-              link: "/services/technical-seo"
-            },
-            {
-              title: "Strategy & Growth Consulting",
-              icon: BarChart3,
-              desc: "Not sure what to automate? We analyze your business processes and create a roadmap to cut costs and scale revenue.",
-              bg: "bg-purple-500/10", border: "border-purple-500/20", text: "text-purple-400",
-              link: "/services/growth-consulting"
-            }
-          ].map((service, i) => (
-            <article key={i} className={`rounded-xl border ${service.border} ${service.bg} p-8 hover:-translate-y-1 transition-transform duration-300 flex flex-col backdrop-blur-sm group`}>
-              <div className={`w-12 h-12 rounded-lg ${service.bg} border ${service.border} flex items-center justify-center ${service.text} mb-6 group-hover:scale-110 transition-transform`}>
-                <service.icon size={24} />
+      {/* Value Proposition */}
+      <section className="py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row gap-20 items-center">
+            <div className="flex-1 animate-in fade-in slide-in-from-left-12 duration-1000 ease-out fill-mode-both">
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-8 leading-[1.1] uppercase tracking-tight transition-colors duration-300">
+                Enterprise-grade <br /> <span className="text-teal-600 dark:text-teal-400">Infrastructure Architects</span>
+              </h2>
+              <div className="space-y-8">
+                {[
+                  { icon: Code2, title: "Full-Stack Applications", desc: "Bespoke agency portals and client dashboards engineered for massive scale." },
+                  { icon: Globe, title: "Headless Architectures", desc: "Sub-second load times and perfect Core Web Vitals with Sanity & Strapi." },
+                  { icon: Zap, title: "Autonomous Workflows", desc: "Self-healing AI agents that instantly qualify leads and sync your CRM." }
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-6 group">
+                    <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-transform">
+                      <item.icon className="text-slate-900 dark:text-white" size={28} />
+                    </div>
+                    <div>
+                      <h4 className="text-xl font-bold text-slate-800 dark:text-slate-200 mb-1 transition-colors duration-300">{item.title}</h4>
+                      <p className="text-slate-500 dark:text-slate-400 leading-relaxed max-w-sm transition-colors duration-300">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <h3 className="text-white font-bold text-xl mb-4">{service.title}</h3>
-              <p className="text-slate-300 text-sm leading-relaxed mb-6 flex-grow">{service.desc}</p>
-              <Link href={service.link} className={`mt-auto w-full py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 ${service.bg} border ${service.border} ${service.text} hover:scale-[1.02] active:scale-[0.98] transition-all`}>
-                View Service <ArrowRight size={16} />
-              </Link>
-            </article>
-          ))}
-        </div>
-      </section>
+            </div>
 
-      {/* SECTION 7: MISSION */}
-      <section className="max-w-4xl mx-auto px-6 mb-32">
-        <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-3xl p-12 text-center md:text-left relative overflow-hidden">
-          <div className="relative z-10">
-            <span className="text-orange-600 font-bold uppercase tracking-wider text-xs mb-2 block">Our Mission</span>
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">Our mission</h2>
-            <p className="text-slate-700 mb-6 leading-relaxed">
-              We help scaling SaaS founders and agencies reclaim their focus by engineering autonomous revenue systems. By replacing fragile "Zapier Band-Aids" with enterprise-grade infrastructure, we empower you to focus on growth and strategy.
-            </p>
-            <p className="text-slate-700 leading-relaxed">
-              We believe in "No Fluff" growth—just high-performance architectures and self-healing systems that work reliably in the background 24/7.
-            </p>
+            <div className="flex-1 relative animate-in fade-in slide-in-from-right-12 duration-1000 ease-out fill-mode-both">
+              <div className="relative z-10 bg-white dark:bg-white/5 rounded-[3rem] p-8 shadow-2xl dark:shadow-2xl-dark border border-slate-200 dark:border-white/10 overflow-hidden group transition-colors duration-300">
+                <div className="aspect-[4/3] bg-slate-50 dark:bg-[#0a0a0a]/50 rounded-[2.5rem] relative overflow-hidden flex items-center justify-center p-12 transition-colors duration-300">
+                  <div className="relative w-full h-full">
+                    <Image
+                      src="/logo.png"
+                      alt="whoisalfaz Logo"
+                      fill
+                      className="object-contain transition-transform duration-700 group-hover:scale-110 grayscale brightness-0 dark:invert opacity-10"
+                    />
+                  </div>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
+                    <div className="w-24 h-24 mb-6 rounded-3xl bg-white dark:bg-white/10 shadow-xl flex items-center justify-center border border-slate-100 dark:border-white/10 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500">
+                      <Image src="/logo.png" alt="Logo" width={60} height={60} className="object-contain" />
+                    </div>
+                    <h3 className="text-2xl font-black text-slate-900 dark:text-white uppercase italic tracking-tighter transition-colors duration-300">Enterprise Protocol</h3>
+                    <p className="text-[10px] font-black text-teal-600 dark:text-teal-400 uppercase tracking-[0.3em] mt-2 transition-colors duration-300">Verified Infrastructure</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="absolute top-0 right-0 w-64 h-64 bg-orange-200 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-50"></div>
         </div>
       </section>
 
-      {/* SECTION 8: NEWSLETTER */}
-      <section className="max-w-xl mx-auto px-6 text-center pb-20">
-        <h2 className="text-xl text-white font-medium mb-8">Subscribe for daily AI automation playbooks and no-fluff growth tips</h2>
+      {/* Process Section */}
+      <section className="py-32 px-6 bg-white dark:bg-black/20 border-y border-slate-200 dark:border-white/10 overflow-hidden relative transition-colors duration-300">
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight transition-colors duration-300">
+            The Execution <span className="text-teal-600 dark:text-teal-400">Framework</span>
+          </h2>
+          <p className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto mb-20 text-lg font-medium transition-colors duration-300">Four phases of precision engineering to scale your technical operation.</p>
+          <WorkflowSteps />
+        </div>
+      </section>
 
-        <div className="bg-[#1e293b] p-8 rounded-2xl border border-slate-700">
-          <h3 className="text-white font-bold mb-1">Join Inner Circle</h3>
-          <p className="text-slate-500 text-xs mb-6">Weekly insights. Unsubscribe efficiently.</p>
+      {/* Profile Section */}
+      <section className="py-40 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="relative w-48 h-48 mx-auto mb-12">
+            <div className="relative w-full h-full rounded-[3rem] overflow-hidden border-8 border-white dark:border-slate-800 shadow-2xl dark:shadow-black/50 rotate-3 hover:rotate-0 transition-transform duration-500">
+              <Image src="/profile.jpg" alt="Alfaz Mahmud" fill className="object-cover" priority />
+            </div>
+          </div>
 
-          <NewsletterForm source="home_newsletter" />
+          <h2 className="text-5xl font-black text-slate-900 dark:text-white mb-4 tracking-tighter uppercase transition-colors duration-300">
+            Alfaz Mahmud Rizve
+          </h2>
+          <p className="text-xl text-slate-500 dark:text-slate-400 font-bold mb-8 tracking-widest uppercase transition-colors duration-300">Builder &bull; Architect &bull; Performance Engineer</p>
+
+          <p className="text-lg text-slate-400 dark:text-slate-500 font-medium italic mb-12 max-w-2xl mx-auto leading-relaxed transition-colors duration-300 border-l-4 border-blue-500 pl-6 py-2 bg-slate-100 dark:bg-blue-500/5 rounded-r-lg">
+            "I design business growth strategies and then architect the automated infrastructure to execute them - Alfaz Mahmud Rizve"
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-6">
+            <Link href="/portfolio" className="px-10 py-5 bg-teal-600 dark:bg-purple-600 text-white font-black rounded-2xl shadow-lg hover:shadow-teal-500/40 hover:-translate-y-1 transition-all">
+              PROJECTS LIBRARY
+            </Link>
+            <Link href="/contact" className="px-10 py-5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white font-black rounded-2xl shadow-sm hover:bg-slate-50 dark:hover:bg-white/10 transition-all flex items-center gap-2">
+              STRATEGY CALL <ArrowRight size={20} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Audit Tool Section */}
+      <section className="py-32 px-6 flex justify-center">
+        <div className="w-full max-w-6xl">
+          <AuditTool />
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="py-32 px-6 bg-slate-50/50 dark:bg-black/20 backdrop-blur-3xl border-y border-slate-200 dark:border-white/10 transition-colors duration-300">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+            <div className="max-w-2xl">
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tight transition-colors duration-300">Technical <span className="text-teal-600 dark:text-teal-400">Solutions</span></h2>
+              <p className="text-lg text-slate-500 dark:text-slate-400 transition-colors duration-300">Engineered for sub-second performance and autonomous growth.</p>
+            </div>
+            <Link href="/services" className="text-teal-600 dark:text-teal-400 font-black uppercase text-sm flex items-center gap-2 group">
+              View All Services <span className="group-hover:translate-x-1 transition-transform inline-block">→</span>
+            </Link>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Custom Full-Stack Applications",
+                icon: Code2,
+                desc: "Bespoke Agency Infrastructure. When off-the-shelf software blocks your growth, I build the exact internal tools you need.",
+                bg: "bg-rose-500/10", border: "border-rose-500/20", text: "text-rose-500 dark:text-rose-400",
+                link: "/services/custom-full-stack"
+              },
+              {
+                title: "Headless CMS Architecture",
+                icon: Globe,
+                desc: "Enterprise-grade performance. Decouple your frontend to achieve sub-second load times and perfect Core Web Vitals.",
+                bg: "bg-blue-500/10", border: "border-blue-500/20", text: "text-blue-500 dark:text-blue-400",
+                link: "/services/headless-architecture"
+              },
+              {
+                title: "Custom Workflow Automation",
+                icon: Zap,
+                desc: "Self-healing AI workflows that instantly enrich leads and scale your sales engine without adding headcount.",
+                bg: "bg-emerald-500/10", border: "border-emerald-500/20", text: "text-emerald-500 dark:text-emerald-400",
+                link: "/services/n8n-automation"
+              }
+            ].map((service, i) => (
+              <article key={i} style={{ animationDelay: `${i * 150}ms` }} className={`animate-in fade-in slide-in-from-bottom-8 duration-700 fill-mode-both rounded-[2rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-8 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 flex flex-col group`}>
+                <div className={`w-14 h-14 rounded-2xl ${service.bg} border ${service.border} flex items-center justify-center ${service.text} mb-8 group-hover:scale-110 transition-transform`}>
+                  <service.icon size={28} />
+                </div>
+                <h3 className="text-slate-900 dark:text-white font-bold text-xl mb-4 uppercase tracking-tight transition-colors duration-300">{service.title}</h3>
+                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-8 flex-grow transition-colors duration-300">{service.desc}</p>
+                <Link href={service.link} className={`mt-auto w-full py-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 ${service.bg} border ${service.border} ${service.text} hover:scale-[1.02] active:scale-[0.98] transition-all`}>
+                  Details <ArrowRight size={16} />
+                </Link>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Latest Dispatches Section */}
+      <section className="py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+            <div className="max-w-2xl">
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tight transition-colors duration-300">Latest <span className="text-purple-600 dark:text-purple-400">Dispatches</span></h2>
+              <p className="text-lg text-slate-500 dark:text-slate-400 transition-colors duration-300">Autonomous insights, engineering logs, and automation protocols.</p>
+            </div>
+            <Link href="/blog" className="text-purple-600 dark:text-purple-400 font-black uppercase text-sm flex items-center gap-2 group">
+              Library Access <span className="group-hover:translate-x-1 transition-transform inline-block">→</span>
+            </Link>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {posts?.slice(0, 3).map((post, i) => (
+              <Link key={post.slug} href={`/blog/${post.slug}`} className={`group h-full animate-in fade-in slide-in-from-bottom-12 zoom-in-[0.98] duration-1000 ease-out fill-mode-both delay-[${i * 150}ms]`}>
+                <article className="h-full bg-white dark:bg-[#1e293b] rounded-[2rem] overflow-hidden border border-slate-200 dark:border-slate-700 hover:shadow-2xl hover:-translate-y-2 dark:hover:border-blue-500/50 transition-all duration-500 flex flex-col">
+                  {/* TOP IMAGE AREA WITH PILLS */}
+                  <div className="h-64 bg-slate-100 dark:bg-slate-800 relative overflow-hidden p-6 flex flex-col justify-start">
+                    {post.image ? (
+                      <Image src={post.image} alt={post.title} fill className="object-cover transition-transform duration-1000 group-hover:scale-105" />
+                    ) : (
+                      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-teal-500/20" />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    {/* Pills overlay */}
+                    <div className="relative z-10 flex flex-wrap gap-2">
+                       {post.categories && post.categories.length > 0 ? post.categories.slice(0, 3).map(cat => (
+                         <span key={cat} className="px-3 py-1 bg-white/90 dark:bg-black/70 backdrop-blur-md border border-white/20 dark:border-white/10 rounded-full text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-white shadow-sm">
+                           {cat}
+                         </span>
+                       )) : (
+                         <span className="px-3 py-1 bg-white/90 dark:bg-black/70 backdrop-blur-md border border-white/20 dark:border-white/10 rounded-full text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-white shadow-sm">
+                           DISPATCH
+                         </span>
+                       )}
+                    </div>
+                  </div>
+                  
+                  {/* BOTTOM CONTENT AREA */}
+                  <div className="p-8 flex flex-col flex-grow relative bg-white dark:bg-[#1e293b]">
+                    <h3 className="text-slate-900 dark:text-white font-black text-2xl mb-4 group-hover:text-teal-600 dark:group-hover:text-blue-400 transition-colors uppercase italic tracking-tighter leading-[1.1] text-balance">
+                      {post.title}
+                    </h3>
+                    <p className="text-slate-500 dark:text-slate-400 text-sm line-clamp-3 mb-8 flex-grow font-medium leading-relaxed">
+                      {post.description}
+                    </p>
+                    <div className="text-[11px] font-black text-slate-900 dark:text-white uppercase tracking-widest flex justify-end items-center w-full group-hover:text-teal-600 dark:group-hover:text-blue-400 transition-colors gap-1.5">
+                       <span>DETAILS</span>
+                       <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                </article>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter Section */}
+      <section className="py-40 px-6 relative overflow-hidden">
+        <div className="max-w-3xl mx-auto relative z-10 text-center">
+          <div className="w-20 h-20 bg-teal-500/10 border border-teal-500/20 rounded-3xl flex items-center justify-center mx-auto mb-10 rotate-6 group-hover:rotate-0 transition-transform">
+            <Mail className="text-teal-600 dark:text-teal-400" size={32} />
+          </div>
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight transition-colors duration-300">The Inner <span className="text-teal-600 dark:text-teal-400">Circle</span></h2>
+          <p className="text-lg text-slate-500 dark:text-slate-400 mb-12 font-medium transition-colors duration-300">Daily AI automation playbooks and no-fluff growth strategies for the modern architect.</p>
+
+          <div className="bg-white dark:bg-[#1e293b] rounded-[3rem] p-4 shadow-2xl border border-slate-100 dark:border-slate-700 max-w-xl mx-auto transition-colors duration-300">
+            <div className="p-8 bg-slate-50 dark:bg-slate-900/50 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 transition-colors duration-300">
+              <NewsletterForm source="home_newsletter_luxury" />
+            </div>
+          </div>
         </div>
       </section>
     </main>

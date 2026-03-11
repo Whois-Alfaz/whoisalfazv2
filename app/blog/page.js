@@ -1,4 +1,3 @@
-
 import { Suspense } from 'react';
 
 import { getAllPosts, getAllCategories } from '@/lib/mdx';
@@ -34,97 +33,110 @@ export default async function BlogPage() {
     const recentPosts = posts?.slice(0, 5); // Top 5 for sidebar
 
     return (
-        <main className="min-h-screen pt-32 pb-20 px-6">
+        <main className="min-h-screen pt-32 pb-20 px-6 bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300">
             {/* BACKGROUND */}
-            <div className="fixed inset-0 bg-[#0a0a0a] -z-20" />
-            <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/10 via-[#0a0a0a] to-[#0a0a0a] -z-10" />
+            <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-teal-500/10 via-slate-50 to-slate-50 dark:from-blue-900/10 dark:via-[#0a0a0a] dark:to-[#0a0a0a] -z-10 transition-colors duration-300" />
 
             <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_350px] gap-16">
 
                 {/* === LEFT COLUMN: MAIN CONTENT === */}
                 <div>
                     {/* HERO SECTION */}
-                    <section className="mb-20 text-center lg:text-left">
-                        <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-                            AI automation, Next.js, SEO and growth for SaaS and agencies
+                    <section className="mb-20 text-center lg:text-left animate-in fade-in slide-in-from-bottom-12 zoom-in-[0.98] duration-1000 ease-out fill-mode-both">
+                        <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-6 leading-tight uppercase tracking-tight">
+                            AI automation, Next.js, SEO and <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-blue-400 dark:to-purple-400">growth for SaaS and agencies</span>
                         </h1>
-                        <p className="text-slate-400 text-lg mb-12 max-w-2xl">
+                        <p className="text-slate-500 dark:text-slate-400 text-lg mb-12 max-w-2xl font-medium">
                             Discover insights, tools, and resources to enhance your tech skills.
                         </p>
 
                         {/* FEATURED: START YOUR JOURNEY */}
-                        <div className="bg-gradient-to-r from-[#0f172a] to-[#1e293b] border border-white/10 rounded-2xl p-8 md:p-12 relative overflow-hidden group">
+                        <div className="bg-white dark:bg-gradient-to-r dark:from-[#0f172a] dark:to-[#1e293b] border border-slate-200 dark:border-white/10 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden group shadow-2xl dark:shadow-lg transition-colors duration-300">
                             <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center">
                                 <div>
-                                    <h2 className="text-2xl font-bold text-white mb-4">Start your Automation Journey Today</h2>
-                                    <p className="text-slate-400 mb-8 leading-relaxed text-sm">
-                                        Discover a variety of topics tailored to your interests. Our blog categories cover everything from AI tool reviews to practical case studies, enriching your knowledge and keeping you informed. Navigate easily and find content that resonates with you.
+                                    <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tight">Start your Automation Journey Today</h2>
+                                    <p className="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed text-[15px] font-medium">
+                                        Discover a variety of topics tailored to your interests. Our blog categories cover everything from AI tool reviews to practical case studies, enriching your knowledge and keeping you informed.
                                     </p>
-                                    <button className="px-6 py-3 bg-transparent border border-white text-white font-semibold rounded-lg hover:bg-white hover:text-black transition-all">
+                                    <button className="px-8 py-4 bg-teal-600 dark:bg-transparent border-2 border-transparent dark:border-white text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-teal-700 dark:hover:bg-white dark:hover:text-black transition-all shadow-md dark:shadow-none">
                                         Get a Free Playbook
                                     </button>
                                 </div>
-                                {/* Placeholder for Book Cover similar to image */}
                                 {/* Playbook Image */}
                                 <div className="relative h-64 w-full flex items-center justify-center overflow-hidden">
                                     <Image src="/playbook.jpg" alt="Start Your AI Automation Today with n8n" fill className="object-contain drop-shadow-2xl" />
                                 </div>
                             </div>
                             {/* Glow Effect */}
-                            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 dark:bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
                         </div>
                     </section>
 
                     {/* TOPICS / CATEGORIES */}
-                    <section className="mb-16">
-                        <h3 className="text-xl font-bold text-white mb-6 border-b border-white/10 pb-2">Topics</h3>
-                        <div className="space-y-1">
-                            {categories?.map((cat) => (
-                                <Link key={cat.slug} href={`/blog/category/${cat.slug}`} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5 hover:border-blue-500/50 transition-colors group cursor-pointer">
-                                    <span className="text-slate-300 font-medium group-hover:text-blue-400 transition-colors flex items-center gap-2">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                    <section className="mb-20 animate-in fade-in slide-in-from-bottom-12 zoom-in-[0.98] duration-1000 ease-out fill-mode-both delay-150">
+                        <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-8 border-b border-slate-200 dark:border-white/10 pb-4 uppercase tracking-tight">Topics</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                            {categories?.map((cat, i) => (
+                                <Link key={cat.slug} href={`/blog/category/${cat.slug}`} style={{ animationDelay: `${i * 100}ms` }} className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both flex items-center justify-between p-4 bg-white dark:bg-white/5 rounded-xl border border-slate-200 dark:border-white/5 hover:border-teal-500/50 dark:hover:border-blue-500/50 transition-all group cursor-pointer shadow-sm hover:shadow-md dark:shadow-none">
+                                    <span className="text-slate-700 dark:text-slate-300 font-bold group-hover:text-teal-600 dark:group-hover:text-blue-400 transition-colors flex items-center gap-3">
+                                        <span className="w-2 h-2 rounded-full bg-teal-500 dark:bg-blue-500"></span>
                                         {cat.name}
                                     </span>
-                                    <span className="text-xs text-slate-500 bg-black/50 px-2 py-0.5 rounded-full">{cat.count}</span>
+                                    <span className="text-[10px] font-black uppercase text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-black/50 px-2.5 py-1 rounded-md">{cat.count}</span>
                                 </Link>
                             ))}
-                            {!categories && <div className="text-slate-500 text-sm italic">Loading topics...</div>}
+                            {!categories && <div className="text-slate-500 text-sm font-medium animate-pulse">Loading topics...</div>}
                         </div>
                     </section>
 
                     {/* BLOG ARCHIVE */}
-                    <section>
-                        <div className="text-center mb-10">
-                            <h3 className="text-xl font-bold text-white inline-block border-b-2 border-white pb-1">Blog Archive</h3>
+                    <section className="animate-in fade-in slide-in-from-bottom-12 zoom-in-[0.98] duration-1000 ease-out fill-mode-both delay-300">
+                        <div className="text-center md:text-left mb-12 border-b border-slate-200 dark:border-white/10 pb-4">
+                            <h3 className="text-2xl font-black text-slate-900 dark:text-white inline-block uppercase tracking-tight">Blog Archive</h3>
                         </div>
 
                         <div className="grid md:grid-cols-2 gap-8">
-                            {/* Reusing Post Card Logic */}
-                            {posts?.map((post) => (
-                                <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
-                                    <article className="h-full bg-[#0a0a0a] border border-white/10 rounded-xl overflow-hidden hover:border-blue-500/50 transition-all hover:-translate-y-1">
-                                        <div className="h-48 bg-slate-800 relative">
+                            {posts?.map((post, i) => (
+                                <Link key={post.slug} href={`/blog/${post.slug}`} style={{ animationDelay: `${(i % 5) * 150}ms` }} className={`group h-full animate-in fade-in slide-in-from-bottom-12 zoom-in-[0.98] duration-1000 ease-out fill-mode-both`}>
+                                    <article className="h-full bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 rounded-[2rem] overflow-hidden hover:border-teal-400/50 dark:hover:border-blue-500/50 transition-all duration-500 hover:-translate-y-2 shadow-xl dark:shadow-sm flex flex-col">
+                                        
+                                        {/* TOP IMAGE AREA WITH PILLS */}
+                                        <div className="h-64 bg-slate-100 dark:bg-slate-800 relative overflow-hidden p-6 flex flex-col justify-start">
                                             {post.image ? (
-                                                <Image src={post.image} alt={post.title} fill className="object-cover" />
+                                                <Image src={post.image} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-1000" />
                                             ) : (
-                                                <div className="absolute inset-0 flex items-center justify-center bg-slate-900 text-slate-700">
-                                                    <span className="text-xs">No Image</span>
-                                                </div>
+                                                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-teal-500/20" />
                                             )}
-                                            {/* Overlay Date */}
-                                            <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-[10px] text-white font-mono flex items-center gap-1">
-                                                <Clock size={10} />
-                                                {new Date(post.date).toLocaleDateString()}
+                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                            
+                                            {/* Pills overlay */}
+                                            <div className="relative z-10 flex flex-wrap gap-2">
+                                                {/* Date Pill */}
+                                                <span className="px-3 py-1 bg-white/90 dark:bg-black/70 backdrop-blur-md border border-white/20 dark:border-white/10 rounded-full text-[10px] text-slate-900 dark:text-white font-black uppercase tracking-widest flex items-center gap-1.5 shadow-sm">
+                                                    <Clock size={12} />
+                                                    {new Date(post.date).toLocaleDateString()}
+                                                </span>
+                                                {/* Category Pills */}
+                                                {post.categories && post.categories.length > 0 && post.categories.slice(0, 2).map(cat => (
+                                                    <span key={cat} className="px-3 py-1 bg-white/90 dark:bg-black/70 backdrop-blur-md border border-white/20 dark:border-white/10 rounded-full text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-white shadow-sm">
+                                                        {cat}
+                                                    </span>
+                                                ))}
                                             </div>
                                         </div>
-                                        <div className="p-6">
-                                            <h3 className="text-white font-bold text-lg mb-3 group-hover:text-blue-400 transition-colors leading-snug">
+
+                                        {/* BOTTOM CONTENT AREA */}
+                                        <div className="p-8 flex flex-col flex-grow relative bg-white dark:bg-[#0a0a0a]">
+                                            <h3 className="text-slate-900 dark:text-white font-black text-2xl mb-4 group-hover:text-teal-600 dark:group-hover:text-blue-400 transition-colors uppercase italic tracking-tighter leading-[1.1] text-balance">
                                                 {post.title}
                                             </h3>
-                                            <p className="text-slate-400 text-xs line-clamp-3 leading-relaxed mb-4">{post.description}</p>
-                                            <span className="text-blue-500 text-xs font-bold uppercase tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">
-                                                Read Article <ArrowRight size={12} />
-                                            </span>
+                                            <p className="text-slate-500 dark:text-slate-400 text-[15px] font-medium line-clamp-3 leading-relaxed mb-8 flex-grow">
+                                                {post.description}
+                                            </p>
+                                            <div className="text-[11px] font-black text-slate-900 dark:text-white uppercase tracking-widest flex justify-end items-center w-full group-hover:text-teal-600 dark:group-hover:text-blue-400 transition-colors gap-1.5">
+                                                <span>DETAILS</span>
+                                                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                                            </div>
                                         </div>
                                     </article>
                                 </Link>
@@ -134,24 +146,24 @@ export default async function BlogPage() {
                 </div>
 
                 {/* === RIGHT COLUMN: SIDEBAR === */}
-                <aside className="space-y-12 h-[calc(100vh-8rem)] overflow-y-auto pb-8 sticky top-32 scrollbar-thin scrollbar-thumb-white/10 hover:scrollbar-thumb-white/20">
+                <aside className="space-y-12 h-[calc(100vh-8rem)] overflow-y-auto pb-8 sticky top-32 scrollbar-none hidden lg:block animate-in fade-in slide-in-from-right-8 duration-1000 delay-500">
 
                     {/* SEARCH */}
-                    <Suspense fallback={<div className="h-12 bg-white/5 rounded-lg animate-pulse" />}>
+                    <Suspense fallback={<div className="h-12 bg-white dark:bg-white/5 rounded-xl animate-pulse border border-slate-200 dark:border-transparent" />}>
                         <SearchWidget />
                     </Suspense>
 
                     {/* RECENT POSTS */}
-                    <div>
-                        <h4 className="text-xl font-bold text-white mb-6">Recent Posts</h4>
-                        <ul className="space-y-4">
-                            {recentPosts?.map(post => (
-                                <li key={post.slug}>
+                    <div className="bg-white dark:bg-transparent p-6 rounded-[2rem] border border-slate-200 dark:border-transparent shadow-sm dark:shadow-none">
+                        <h4 className="text-xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight">Recent Posts</h4>
+                        <ul className="space-y-6">
+                            {recentPosts?.map((post, i) => (
+                                <li key={post.slug} style={{ animationDelay: `${i * 100}ms` }} className="animate-in fade-in slide-in-from-right-4 duration-500 fill-mode-both">
                                     <Link href={`/blog/${post.slug}`} className="group block">
-                                        <h5 className="text-slate-300 text-sm font-medium group-hover:text-blue-400 transition-colors line-clamp-2 mb-1">
+                                        <h5 className="text-slate-800 dark:text-slate-300 text-[15px] font-bold group-hover:text-teal-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2 mb-2 leading-snug">
                                             {post.title}
                                         </h5>
-                                        <span className="text-xs text-slate-600 block">{new Date(post.date).toLocaleDateString()}</span>
+                                        <span className="text-[10px] uppercase font-black tracking-widest text-slate-400 dark:text-slate-600 block">{new Date(post.date).toLocaleDateString()}</span>
                                     </Link>
                                 </li>
                             ))}
@@ -161,22 +173,23 @@ export default async function BlogPage() {
 
 
                     {/* ARCHIVES (Mock) */}
-                    <div>
-                        <h4 className="text-xl font-bold text-white mb-6">Archives</h4>
-                        <ul className="space-y-2 text-sm text-slate-400">
-                            <li><Link href="#" className="hover:text-blue-400 block py-1">January 2026</Link></li>
-                            <li><Link href="#" className="hover:text-blue-400 block py-1">December 2025</Link></li>
+                    <div className="bg-white dark:bg-transparent p-6 rounded-[2rem] border border-slate-200 dark:border-transparent shadow-sm dark:shadow-none">
+                        <h4 className="text-xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight">Archives</h4>
+                        <ul className="space-y-3 text-[15px] font-medium text-slate-500 dark:text-slate-400">
+                            <li><Link href="#" className="hover:text-teal-600 dark:hover:text-blue-400 block py-1 transition-colors">January 2026</Link></li>
+                            <li><Link href="#" className="hover:text-teal-600 dark:hover:text-blue-400 block py-1 transition-colors">December 2025</Link></li>
                         </ul>
                     </div>
 
                     {/* CATEGORIES (Sidebar Duplicate) */}
-                    <div>
-                        <h4 className="text-xl font-bold text-white mb-6">Categories</h4>
-                        <ul className="space-y-2">
+                    <div className="bg-white dark:bg-transparent p-6 rounded-[2rem] border border-slate-200 dark:border-transparent shadow-sm dark:shadow-none">
+                        <h4 className="text-xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight">Categories</h4>
+                        <ul className="space-y-3">
                             {categories?.map(cat => (
                                 <li key={cat.slug}>
-                                    <Link href={`/blog/category/${cat.slug}`} className="text-sm text-slate-400 hover:text-blue-400 block py-1 border-b border-white/5 pb-2">
-                                        {cat.name}
+                                    <Link href={`/blog/category/${cat.slug}`} className="text-[14px] font-bold text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-blue-400 flex items-center justify-between py-2 border-b border-slate-100 dark:border-white/5 group transition-colors">
+                                        <span>{cat.name}</span>
+                                        <span className="opacity-0 group-hover:opacity-100 transition-opacity"><ChevronRight size={14} /></span>
                                     </Link>
                                 </li>
                             ))}

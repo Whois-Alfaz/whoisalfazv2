@@ -35,7 +35,7 @@ export default function CodeBlock({ children, className, ...props }) {
             </div>
 
             {/* Code Content */}
-            <div className="p-4 overflow-x-auto text-sm">
+            <div className="p-4 overflow-x-auto text-sm text-slate-300">
                 <pre ref={codeRef} {...props} className={className}>
                     {children}
                 </pre>

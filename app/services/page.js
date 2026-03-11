@@ -1,4 +1,3 @@
-
 import AuditTool from '../../components/AuditTool';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -35,10 +34,14 @@ export default function ServicesPage() {
             price: "2,500",
             icon: Code2,
             color: "rose", // Rose
-            bg: "bg-rose-500/10",
-            border: "border-rose-500/20",
-            text: "text-rose-400",
-            btn: "bg-rose-500 hover:bg-rose-400",
+            bgLight: "bg-rose-50",
+            bgDark: "bg-rose-500/10",
+            borderLight: "border-rose-100",
+            borderDark: "border-rose-500/20",
+            textLight: "text-rose-600",
+            textDark: "text-rose-400",
+            btnLight: "bg-rose-600 hover:bg-rose-700 text-white",
+            btnDark: "bg-rose-500 hover:bg-rose-400 text-white",
             cta: "Build My Custom App"
         },
         {
@@ -48,10 +51,14 @@ export default function ServicesPage() {
             price: "1,500",
             icon: Globe,
             color: "blue", // Blue
-            bg: "bg-blue-500/10",
-            border: "border-blue-500/20",
-            text: "text-blue-400",
-            btn: "bg-blue-500 hover:bg-blue-400",
+            bgLight: "bg-blue-50",
+            bgDark: "bg-blue-500/10",
+            borderLight: "border-blue-100",
+            borderDark: "border-blue-500/20",
+            textLight: "text-blue-600",
+            textDark: "text-blue-400",
+            btnLight: "bg-blue-600 hover:bg-blue-700 text-white",
+            btnDark: "bg-blue-500 hover:bg-blue-400 text-white",
             cta: "Build My Headless System"
         },
         {
@@ -61,10 +68,14 @@ export default function ServicesPage() {
             price: "750",
             icon: Zap,
             color: "emerald", // Green
-            bg: "bg-emerald-500/10",
-            border: "border-emerald-500/20",
-            text: "text-emerald-400",
-            btn: "bg-emerald-500 hover:bg-emerald-400",
+            bgLight: "bg-emerald-50",
+            bgDark: "bg-emerald-500/10",
+            borderLight: "border-emerald-100",
+            borderDark: "border-emerald-500/20",
+            textLight: "text-emerald-600",
+            textDark: "text-emerald-400",
+            btnLight: "bg-emerald-600 hover:bg-emerald-700 text-white",
+            btnDark: "bg-emerald-500 hover:bg-emerald-400 text-white",
             cta: "Automate Your Workflows"
         },
         {
@@ -74,10 +85,14 @@ export default function ServicesPage() {
             price: "350",
             icon: Search,
             color: "orange", // Orange
-            bg: "bg-orange-500/10",
-            border: "border-orange-500/20",
-            text: "text-orange-400",
-            btn: "bg-orange-500 hover:bg-orange-400",
+            bgLight: "bg-orange-50",
+            bgDark: "bg-orange-500/10",
+            borderLight: "border-orange-100",
+            borderDark: "border-orange-500/20",
+            textLight: "text-orange-600",
+            textDark: "text-orange-400",
+            btnLight: "bg-orange-600 hover:bg-orange-700 text-white",
+            btnDark: "bg-orange-500 hover:bg-orange-400 text-white",
             cta: "Find My Ranking Errors"
         },
         {
@@ -87,10 +102,14 @@ export default function ServicesPage() {
             price: "200/h",
             icon: BarChart3,
             color: "purple", // Purple
-            bg: "bg-purple-500/10",
-            border: "border-purple-500/20",
-            text: "text-purple-400",
-            btn: "bg-purple-500 hover:bg-purple-400",
+            bgLight: "bg-purple-50",
+            bgDark: "bg-purple-500/10",
+            borderLight: "border-purple-100",
+            borderDark: "border-purple-500/20",
+            textLight: "text-purple-600",
+            textDark: "text-purple-400",
+            btnLight: "bg-purple-600 hover:bg-purple-700 text-white",
+            btnDark: "bg-purple-500 hover:bg-purple-400 text-white",
             cta: "Get My Growth Roadmap"
         }
     ];
@@ -125,29 +144,29 @@ export default function ServicesPage() {
     ];
 
     return (
-        <main className="min-h-screen pt-32 pb-20 px-6 overflow-x-hidden">
+        <main className="min-h-screen pt-32 pb-20 px-6 overflow-x-hidden bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
 
             {/* BACKGROUND ELEMENTS */}
-            <div className="fixed inset-0 bg-[#0a0a0a] -z-20" />
-            <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-green-900/10 via-[#0a0a0a] to-[#0a0a0a] -z-10" />
+            <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-teal-500/10 via-slate-50 to-slate-50 dark:from-green-900/10 dark:via-[#0a0a0a] dark:to-[#0a0a0a] -z-10 transition-colors duration-300" />
 
 
             {/* HERO: DONE FOR YOU AUTOMATIONS */}
-            <div className="max-w-4xl mx-auto text-center mb-16">
-                <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-                    Technical Expertise Meets <span className="text-emerald-400">Creative Strategy</span>
+            <div className="max-w-4xl mx-auto text-center mb-16 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+                <h1 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white mb-6 leading-tight uppercase tracking-tight">
+                    Technical Expertise Meets <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-400 dark:from-emerald-400 dark:to-teal-300">Creative Strategy</span>
                 </h1>
-                <p className="text-slate-400 text-lg mb-12">
+                <p className="text-slate-500 dark:text-slate-400 text-lg md:text-xl font-medium mb-12 max-w-2xl mx-auto leading-relaxed">
                     Scaling your business with custom automation, high-performance web development, and data-driven marketing.
                 </p>
 
                 {/* Audit Tool Embed */}
-                <div className="bg-[#0f172a] border border-slate-800 p-8 rounded-3xl relative shadow-2xl max-w-6xl mx-auto">
-                    <h3 className="text-white font-bold mb-6">Receive Free Audit</h3>
+                <div className="bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 p-8 rounded-[3rem] shadow-2xl dark:shadow-2xl max-w-6xl mx-auto relative overflow-hidden transition-colors duration-300">
+                    <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-teal-400 via-emerald-500 to-teal-400 dark:from-emerald-600 dark:via-blue-500 dark:to-purple-500"></div>
+                    <h3 className="text-slate-900 dark:text-white font-black text-xl mb-8 uppercase tracking-tight">Receive Free Audit</h3>
                     <div className="audit-tool-wrapper">
                         <AuditTool />
                     </div>
@@ -155,14 +174,14 @@ export default function ServicesPage() {
             </div>
 
             {/* ALERT SECTION */}
-            <div className="max-w-4xl mx-auto mb-24">
-                <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-8 text-center md:text-left flex flex-col md:flex-row items-center gap-6">
-                    <div className="bg-red-500/20 p-4 rounded-full text-red-400">
+            <div className="max-w-4xl mx-auto mb-24 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-150 fill-mode-both">
+                <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 shadow-md dark:shadow-none rounded-[2rem] p-8 text-center md:text-left flex flex-col md:flex-row items-center gap-6 transition-colors duration-300">
+                    <div className="bg-red-100 dark:bg-red-500/20 p-4 rounded-full text-red-600 dark:text-red-400 shrink-0 shadow-inner dark:shadow-none">
                         <BarChart3 size={32} />
                     </div>
                     <div>
-                        <h3 className="text-red-400 font-bold text-lg mb-2">Want to eliminate the "Agency Grunt Work"?</h3>
-                        <p className="text-red-200/70 text-sm leading-relaxed">
+                        <h3 className="text-red-700 dark:text-red-400 font-black text-xl mb-2 uppercase tracking-tight">Want to eliminate the "Agency Grunt Work"?</h3>
+                        <p className="text-red-600 dark:text-red-200/70 text-sm md:text-[15px] font-medium leading-relaxed">
                             Most agencies waste 40+ hours/week on copy-paste tasks. Our automations eliminate this instantly.
                             If you are still doing it via spreadsheets, you are losing money every hour.
                         </p>
@@ -171,26 +190,26 @@ export default function ServicesPage() {
             </div>
 
             {/* SERVICES GRID */}
-            <section className="max-w-6xl mx-auto mb-32">
+            <section className="max-w-6xl mx-auto mb-32 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300 fill-mode-both">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl font-bold text-white mb-2">Our Services</h2>
-                    <p className="text-slate-500 text-sm">Flexible solutions for every stage of growth.</p>
+                    <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tight">Our Services</h2>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">Flexible solutions for every stage of growth.</p>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid md:grid-cols-2 gap-8">
                     {services.map((s, i) => (
-                        <div key={i} className={`rounded-xl border ${s.border} ${s.bg} p-8 hover:-translate-y-1 transition-transform duration-300 flex flex-col backdrop-blur-sm`}>
-                            <div className={`w-12 h-12 rounded-lg ${s.bg} border ${s.border} flex items-center justify-center ${s.text} mb-6`}>
-                                <s.icon size={24} />
+                        <div key={i} style={{ animationDelay: `${i * 150}ms` }} className={`animate-in fade-in zoom-in-[0.95] slide-in-from-bottom-4 duration-700 fill-mode-both rounded-[3rem] border ${s.borderLight} dark:${s.borderDark} ${s.bgLight} dark:${s.bgDark} p-10 hover:-translate-y-2 transition-all duration-300 flex flex-col backdrop-blur-sm shadow-xl dark:shadow-sm`}>
+                            <div className={`w-14 h-14 rounded-2xl bg-white dark:bg-black/20 border ${s.borderLight} dark:${s.borderDark} flex items-center justify-center ${s.textLight} dark:${s.textDark} mb-8 shadow-sm dark:shadow-none`}>
+                                <s.icon size={28} />
                             </div>
-                            <h3 className="text-white font-bold text-xl mb-4">{s.title}</h3>
-                            <p className="text-slate-300 text-sm leading-relaxed mb-8 flex-grow">
+                            <h3 className="text-slate-900 dark:text-white font-black text-2xl mb-4 uppercase tracking-tight">{s.title}</h3>
+                            <p className="text-slate-600 dark:text-slate-300 text-[15px] font-medium leading-relaxed mb-8 flex-grow">
                                 {s.desc}
                             </p>
 
-                            <div className="mt-auto pt-6 border-t border-white/5">
-                                <div className="text-xs text-slate-400 mb-4">Starting From <span className="text-white font-bold text-lg block">${s.price}</span></div>
-                                <Link href={`/services/${s.slug}`} className={`w-full block py-3 text-center rounded-lg text-white font-bold text-sm transition-opacity hover:opacity-90 ${s.btn}`}>
+                            <div className={`mt-auto pt-8 border-t ${s.borderLight} dark:${s.borderDark}`}>
+                                <div className="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-6">Starting From <span className={`font-black text-2xl block mt-2 ${s.textLight} dark:text-white`}>${s.price}</span></div>
+                                <Link href={`/services/${s.slug}`} className={`w-full block py-4 text-center rounded-xl font-black uppercase tracking-widest text-xs transition-transform hover:-translate-y-1 shadow-lg dark:shadow-md ${s.btnLight} dark:${s.btnDark}`}>
                                     {s.cta}
                                 </Link>
                             </div>
@@ -200,16 +219,16 @@ export default function ServicesPage() {
             </section>
 
             {/* GENERAL CONSULTATION */}
-            <section className="bg-[#0f172a] border-y border-white/5 py-16 mb-32">
+            <section className="bg-white dark:bg-[#0f172a] border-y border-slate-200 dark:border-white/5 py-24 mb-32 transition-colors duration-300 animate-in fade-in duration-1000 delay-500 fill-mode-both">
                 <div className="max-w-5xl mx-auto text-center px-6">
-                    <h2 className="text-3xl font-bold text-white mb-4">Unsure What You Need?</h2>
-                    <p className="text-slate-400 mb-8 text-lg">Let's discuss your unique challenges and define a custom path forward.</p>
-                    <Link href="/contact" className="inline-block px-8 py-4 border border-white/20 text-white font-bold rounded-lg hover:bg-white hover:text-black transition-all mb-20">
-                        Book a General Discovery Call
+                    <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight">Unsure What You Need?</h2>
+                    <p className="text-slate-500 dark:text-slate-400 mb-10 text-lg md:text-xl max-w-2xl mx-auto font-medium">Let's discuss your unique challenges and define a custom path forward.</p>
+                    <Link href="/contact" className="inline-block px-10 py-5 border-2 border-slate-900 dark:border-white/20 text-slate-900 dark:text-white font-black uppercase tracking-widest text-sm rounded-full hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all mb-24 shadow-sm hover:shadow-xl">
+                        Book a Discovery Call
                     </Link>
 
                     {/* Consulting Stack Social Proof */}
-                    <div className="pt-16 border-t border-white/5">
+                    <div className="pt-16 border-t border-slate-200 dark:border-white/5">
                         <PartnerLogos
                             title="Supported Infrastructure"
                             subtitle="The enterprise stack I orchestrate for high-ticket consulting builds."
@@ -219,62 +238,61 @@ export default function ServicesPage() {
             </section>
 
             {/* BONUS PLAYBOOK */}
-            <section className="max-w-5xl mx-auto mb-32">
-                <div className="text-center mb-8">
-                    <h2 className="text-2xl font-bold text-emerald-400">Bonus!!! Here's a free playbook for you to get started</h2>
+            <section className="max-w-5xl mx-auto mb-32 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500 fill-mode-both">
+                <div className="text-center mb-10">
+                    <h2 className="text-2xl font-black text-teal-600 dark:text-emerald-400 uppercase tracking-widest leading-relaxed px-4">Bonus!!! Here's a free playbook to get started</h2>
                 </div>
-                <div className="bg-[#0f172a] border border-slate-800 p-8 rounded-3xl flex flex-col md:flex-row items-center gap-12 max-w-4xl mx-auto">
-                    <div className="flex-1">
-                        <h3 className="text-white font-bold text-xl mb-4">Scale with automation</h3>
-                        <p className="text-slate-400 text-sm mb-6">get 30+ ready-to-use n8n blueprints for agencies. Stop reinventing the wheel.</p>
+                <div className="bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 p-10 md:p-14 rounded-[3rem] flex flex-col md:flex-row items-center gap-12 max-w-4xl mx-auto shadow-2xl transition-colors duration-300">
+                    <div className="flex-1 text-center md:text-left">
+                        <h3 className="text-slate-900 dark:text-white font-black text-3xl mb-4 uppercase tracking-tight">Scale with automation</h3>
+                        <p className="text-slate-500 dark:text-slate-400 text-[15px] font-medium mb-8 leading-relaxed">Get 30+ ready-to-use n8n blueprints for agencies. Stop reinventing the wheel.</p>
                         <NewsletterForm source="services_newsletter" />
-                        <p className="text-xs text-slate-600 mt-4 text-center">No spam. Unsubscribe anytime.</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mt-6 text-center">No spam. Unsubscribe anytime.</p>
                     </div>
                     {/* Book visual placeholder */}
-                    {/* Book visual placeholder */}
-                    <div className="w-48 h-64 border border-white/10 rounded-lg flex items-center justify-center relative shadow-2xl skew-y-3 transform hover:skew-y-0 transition-transform duration-500 overflow-hidden">
+                    <div className="hidden md:flex w-48 h-64 border border-slate-200 dark:border-white/10 rounded-xl items-center justify-center relative shadow-2xl skew-y-3 transform hover:skew-y-0 transition-transform duration-500 overflow-hidden bg-slate-50 dark:bg-[#050505]">
                         <Image src="/playbook.jpg" alt="Playbook Cover" fill className="object-contain" />
                     </div>
                 </div>
             </section>
 
             {/* PORTFOLIO PREVIEW */}
-            <section className="max-w-4xl mx-auto mb-32 text-center">
-                <span className="text-slate-500 text-xs uppercase tracking-widest mb-2 block">Our Work</span>
-                <h2 className="text-3xl font-bold text-white mb-12">Explore Our Professional n8n Automation Projects</h2>
+            <section className="max-w-4xl mx-auto mb-32 text-center animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-700 fill-mode-both">
+                <span className="text-slate-400 dark:text-slate-500 text-xs font-black uppercase tracking-widest mb-4 block">Our Work</span>
+                <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-14 uppercase tracking-tight max-w-2xl mx-auto leading-tight">Explore Our Professional n8n Automation Projects</h2>
 
-                <div className="bg-black/40 border border-white/10 rounded-2xl p-8 flex flex-col md:flex-row items-center gap-8 hover:border-emerald-500/30 transition-colors cursor-pointer group">
-                    <div className="w-24 h-24 relative rounded-xl overflow-hidden border border-white/10 flex-shrink-0">
+                <div className="bg-white dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-[2.5rem] p-10 flex flex-col md:flex-row items-center gap-8 hover:border-teal-500/50 hover:shadow-2xl dark:hover:border-emerald-500/30 transition-all cursor-pointer group shadow-xl dark:shadow-sm">
+                    <div className="w-24 h-24 relative rounded-2xl overflow-hidden border border-slate-100 dark:border-white/10 flex-shrink-0 bg-slate-50 dark:bg-[#050505] shadow-inner">
                         <Image src="/icon.png" alt="Project" fill className="object-contain p-2" />
                     </div>
-                    <div className="text-left flex-1">
-                        <h3 className="text-white font-bold text-xl mb-2 group-hover:text-emerald-400 transition-colors">WhoIsAlfaz.me</h3>
-                        <p className="text-slate-400 text-sm mb-4 line-clamp-2">
+                    <div className="text-center md:text-left flex-1">
+                        <h3 className="text-slate-900 dark:text-white font-black text-2xl mb-3 group-hover:text-teal-600 dark:group-hover:text-emerald-400 transition-colors uppercase tracking-tight">WhoIsAlfaz.me</h3>
+                        <p className="text-slate-500 dark:text-slate-400 text-[15px] font-medium mb-6 line-clamp-2 leading-relaxed">
                             The exact site you are looking at. Built with Next.js, Native MDX Architecture, and automated deployment pipelines.
                         </p>
-                        <div className="flex gap-2">
-                            <span className="px-2 py-1 bg-white/5 rounded text-[10px] text-slate-300 border border-white/5">Next.js</span>
-                            <span className="px-2 py-1 bg-white/5 rounded text-[10px] text-slate-300 border border-white/5">Automation</span>
-                            <span className="px-2 py-1 bg-white/5 rounded text-[10px] text-slate-300 border border-white/5">SEO</span>
+                        <div className="flex flex-wrap justify-center md:justify-start gap-2">
+                            <span className="px-3 py-1.5 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-transparent rounded-full text-[10px] text-slate-500 dark:text-slate-300 uppercase tracking-widest font-black shadow-sm dark:shadow-none">Next.js</span>
+                            <span className="px-3 py-1.5 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-transparent rounded-full text-[10px] text-slate-500 dark:text-slate-300 uppercase tracking-widest font-black shadow-sm dark:shadow-none">Automation</span>
+                            <span className="px-3 py-1.5 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-transparent rounded-full text-[10px] text-slate-500 dark:text-slate-300 uppercase tracking-widest font-black shadow-sm dark:shadow-none">SEO</span>
                         </div>
                     </div>
-                    <div>
-                        <Link href="/portfolio" className="px-6 py-2 bg-emerald-500/10 text-emerald-400 rounded-lg text-sm font-bold hover:bg-emerald-500 hover:text-white transition-all whitespace-nowrap">
+                    <div className="mt-4 md:mt-0">
+                        <Link href="/portfolio" className="px-6 py-3 bg-teal-50 dark:bg-emerald-500/10 text-teal-600 dark:text-emerald-400 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-teal-600 hover:text-white dark:hover:bg-emerald-500 dark:hover:text-white transition-all whitespace-nowrap shadow-sm hover:shadow-md">
                             See Details
                         </Link>
                     </div>
                 </div>
 
-                <div className="mt-8">
-                    <Link href="/portfolio" className="text-slate-400 text-sm hover:text-white transition-colors underline decoration-slate-700 underline-offset-4">
+                <div className="mt-12">
+                    <Link href="/portfolio" className="text-slate-500 dark:text-slate-400 text-sm font-bold uppercase tracking-widest hover:text-teal-600 dark:hover:text-white transition-colors underline decoration-slate-300 dark:decoration-slate-700 underline-offset-8">
                         View Full Portfolio
                     </Link>
                 </div>
             </section>
 
             {/* FAQ */}
-            <section className="max-w-3xl mx-auto mb-20">
-                <h2 className="text-2xl font-bold text-white mb-8 text-center">Frequently Asked Questions</h2>
+            <section className="max-w-3xl mx-auto mb-20 animate-in fade-in duration-1000 delay-[900ms] fill-mode-both">
+                <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-10 text-center uppercase tracking-tight">Frequently Asked Questions</h2>
                 <div className="space-y-4">
                     {[
                         {
@@ -298,12 +316,12 @@ export default function ServicesPage() {
                             a: "You have two options: Cloud (approx $20/mo) or Self-Hosted (approx $5-10/mo on a VPS). We can set up either for you, but we usually recommend self-hosting for maximum data privacy and lower costs at scale."
                         }
                     ].map((item, i) => (
-                        <details key={i} className="bg-[#0f172a] border border-slate-800 rounded-xl overflow-hidden group">
-                            <summary className="flex items-center justify-between p-6 cursor-pointer list-none select-none">
-                                <span className="text-slate-300 font-medium group-hover:text-white transition-colors">{item.q}</span>
-                                <ChevronDown size={16} className="text-slate-500 group-open:rotate-180 transition-transform duration-300" />
+                        <details key={i} style={{ animationDelay: `${i * 100}ms` }} className="animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden group shadow-sm transition-colors duration-300">
+                            <summary className="flex items-center justify-between p-6 cursor-pointer list-none select-none outline-none">
+                                <span className="text-slate-900 dark:text-slate-300 font-bold group-hover:text-teal-600 dark:group-hover:text-white transition-colors">{item.q}</span>
+                                <ChevronDown size={18} className="text-slate-400 group-open:rotate-180 transition-transform duration-300" />
                             </summary>
-                            <div className="px-6 pb-6 pt-0 text-slate-400 text-sm leading-relaxed border-t border-white/5 mt-2">
+                            <div className="px-6 pb-6 pt-0 text-slate-500 dark:text-slate-400 text-[15px] font-medium leading-relaxed border-t border-slate-100 dark:border-white/5 mt-2 transition-colors duration-300">
                                 {item.a}
                             </div>
                         </details>

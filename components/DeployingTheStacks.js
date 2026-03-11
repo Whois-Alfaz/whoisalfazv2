@@ -109,18 +109,25 @@ const AFFILIATE_DATA = {
     }
 };
 
-const AffiliateCard = ({ data, id }) => (
-    <Link href={data.url} target="_blank" rel="noopener noreferrer" key={id} className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 hover:border-teal-500/50 transition-all group overflow-hidden relative block flex flex-col justify-between h-full">
+const AffiliateCard = ({ data, id, index = 0 }) => (
+    <Link 
+        href={data.url} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        key={id} 
+        style={{ animationDelay: `${index * 150}ms` }}
+        className="animate-in fade-in zoom-in-[0.98] duration-700 fill-mode-both bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 rounded-2xl p-6 shadow-xl dark:shadow-none hover:border-teal-500/50 hover:shadow-2xl transition-all group overflow-hidden relative block flex flex-col justify-between h-full"
+    >
         <div>
             {/* Hover Glow */}
             <div className="absolute inset-0 bg-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
 
             <div className="mb-6 relative z-10">
-                <span className="inline-block px-2.5 py-1 rounded bg-slate-900 border border-white/5 text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-4">
+                <span className="inline-block px-2.5 py-1 rounded bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/5 text-slate-500 dark:text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-4">
                     {data.badge}
                 </span>
-                <h4 className="text-lg font-bold text-white mb-2">{data.title}</h4>
-                <p className="text-sm text-slate-400 line-clamp-2">{data.description}</p>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">{data.title}</h4>
+                <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2">{data.description}</p>
             </div>
         </div>
 
@@ -163,12 +170,12 @@ export default function DeployingTheStacks({ affiliates = [] }) {
             {/* Primary Section */}
             {primaryKeys.length > 0 && (
                 <div className="mb-16 relative z-10">
-                    <h3 className="text-3xl font-bold text-white mb-6 tracking-tight relative z-10">Core Deployment Stack</h3>
-                    <p className="text-slate-300 mb-10 leading-relaxed max-w-2xl relative z-10">
+                    <h3 className="text-3xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight relative z-10">Core Deployment Stack</h3>
+                    <p className="text-slate-600 dark:text-slate-300 mb-10 leading-relaxed max-w-2xl relative z-10">
                         To build this exact architecture in production, you will need the core infrastructure. I strictly use and recommend the following enterprise-grade platforms.
                     </p>
                     <div className="grid sm:grid-cols-2 gap-10">
-                        {primaryKeys.map((key) => <AffiliateCard key={key} id={key} data={AFFILIATE_DATA[key]} />)}
+                        {primaryKeys.map((key, index) => <AffiliateCard key={key} id={key} data={AFFILIATE_DATA[key]} index={index} />)}
                     </div>
                 </div>
             )}
@@ -176,9 +183,9 @@ export default function DeployingTheStacks({ affiliates = [] }) {
             {/* Secondary Section */}
             {secondaryKeys.length > 0 && (
                 <div className="relative z-10">
-                    <h4 className="text-2xl font-bold text-slate-200 mb-8 tracking-tight border-b border-white/5 pb-4">Complementary RevOps Toolchain</h4>
+                    <h4 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-8 tracking-tight border-b border-slate-200 dark:border-white/5 pb-4">Complementary RevOps Toolchain</h4>
                     <div className="grid sm:grid-cols-2 gap-10">
-                        {secondaryKeys.map((key) => <AffiliateCard key={key} id={key} data={AFFILIATE_DATA[key]} />)}
+                        {secondaryKeys.map((key, index) => <AffiliateCard key={key} id={key} data={AFFILIATE_DATA[key]} index={index} />)}
                     </div>
                 </div>
             )}

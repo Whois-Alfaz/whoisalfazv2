@@ -20,7 +20,7 @@ export default function StepList({ children, ...props }) {
                     </div>
 
                     {/* Content */}
-                    <div className="flex-1 pb-8 pt-1.5 text-slate-300 leading-7 [&>p]:mb-0">
+                    <div className="flex-1 pb-8 pt-1.5 text-slate-700 dark:text-slate-300 leading-7 [&>p]:mb-0">
                         {item.props.children}
                     </div>
                 </div>

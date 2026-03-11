@@ -1,11 +1,19 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 :root {
+  --background: #f8fafc;
+  --foreground: #020617;
+  --accent: #2dd4bf;
+  --font-inter: "Inter", sans-serif;
+  --font-jetbrains-mono: "JetBrains Mono", monospace;
+}
+
+.dark {
   --background: #0a0a0a;
   --foreground: #f8fafc;
   --accent: #3b82f6;
-  --font-inter: "Inter", sans-serif;
-  --font-jetbrains-mono: "JetBrains Mono", monospace;
 }
 
 body {
@@ -94,7 +102,7 @@ body {
   font-weight: 700;
   margin-top: 2rem;
   margin-bottom: 1rem;
-  color: white;
+  @apply text-slate-900 dark:text-white;
 }
 
 .prose ul {
@@ -107,8 +115,8 @@ body {
 .prose ul li {
   margin-bottom: 0.75rem;
   padding-left: 0.5rem;
-  color: #cbd5e1;
   line-height: 1.75;
+  @apply text-slate-600 dark:text-slate-300;
 }
 
 .prose ul li::marker {
@@ -118,5 +126,5 @@ body {
 .prose p {
   margin-bottom: 2rem;
   line-height: 2;
-  color: #cbd5e1;
+  @apply text-slate-600 dark:text-slate-300;
 }
