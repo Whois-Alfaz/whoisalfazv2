@@ -47,9 +47,12 @@ export async function generateMetadata({ params }) {
       description: seoDesc,
       url: canonicalUrl,
       type: 'article',
+      publishedTime: post.date ? new Date(post.date).toISOString() : undefined,
+      authors: ['Alfaz Mahmud Rizve'],
+      section: post.categories?.[0] || 'Technology',
       images: [
         {
-          url: post.image || '/profile.jpg',
+          url: post.image || '/featured-image.png',
         },
       ],
     },

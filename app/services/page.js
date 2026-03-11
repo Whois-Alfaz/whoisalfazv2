@@ -6,21 +6,21 @@ import NewsletterForm from '../../components/NewsletterForm';
 import PartnerLogos from '../../components/PartnerLogos';
 
 export const metadata = {
-    title: "AI Automation & Web Services | Alfaz Mahmud Rizve",
-    description: "End-to-end implementation for scaling your operations. Explore custom Headless CMS, n8n Automation, and Web Development services natively.",
+    title: "Revenue Automation & Technical Solutions | Alfaz Mahmud Rizve",
+    description: "Eliminate manual bottlenecks with autonomous n8n workflows, bespoke full-stack applications, and high-performance headless infrastructure.",
     alternates: {
         canonical: '/services/',
     },
     openGraph: {
-        title: "AI Automation & Web Services | Alfaz Mahmud Rizve",
-        description: "End-to-end implementation for scaling your operations. Explore custom Headless CMS, n8n Automation, and Web Development services natively.",
+        title: "Revenue Automation & Technical Solutions | Alfaz Mahmud Rizve",
+        description: "Eliminate manual bottlenecks with autonomous n8n workflows, bespoke full-stack applications, and high-performance headless infrastructure.",
         url: 'https://whoisalfaz.me/services/',
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: "AI Automation & Web Services | Alfaz Mahmud Rizve",
-        description: "End-to-end implementation for scaling your operations. Explore custom Headless CMS, n8n Automation, and Web Development services natively.",
+        title: "Revenue Automation & Technical Solutions | Alfaz Mahmud Rizve",
+        description: "Eliminate manual bottlenecks with autonomous n8n workflows, bespoke full-stack applications, and high-performance headless infrastructure.",
     }
 };
 
@@ -28,55 +28,43 @@ export default function ServicesPage() {
 
     const services = [
         {
-            title: "Custom Full-Stack Applications",
-            slug: "custom-full-stack",
-            desc: "When off-the-shelf software falls short, I build the exact tool you need. As a Full-Stack Architect, I develop custom web applications, bespoke internal agency portals, and secure client dashboards from the ground up.",
-            price: "2,500",
-            icon: Code2,
-            color: "rose", // Rose
-            bgLight: "bg-rose-50",
-            bgDark: "bg-rose-500/10",
-            borderLight: "border-rose-100",
-            borderDark: "border-rose-500/20",
-            textLight: "text-rose-600",
-            textDark: "text-rose-400",
-            btnLight: "bg-rose-600 hover:bg-rose-700 text-white",
-            btnDark: "bg-rose-500 hover:bg-rose-400 text-white",
-            cta: "Build My Custom App"
-        },
-        {
-            title: "Headless CMS Architecture",
-            slug: "headless-architecture",
-            desc: "Enterprise-grade performance. We decouple your frontend to achieve sub-second load times and perfect Core Web Vitals, without sacrificing your marketing team's ability to edit content.",
-            price: "1,500",
-            icon: Globe,
-            color: "blue", // Blue
-            bgLight: "bg-blue-50",
-            bgDark: "bg-blue-500/10",
-            borderLight: "border-blue-100",
-            borderDark: "border-blue-500/20",
-            textLight: "text-blue-600",
-            textDark: "text-blue-400",
-            btnLight: "bg-blue-600 hover:bg-blue-700 text-white",
-            btnDark: "bg-blue-500 hover:bg-blue-400 text-white",
-            cta: "Build My Headless System"
-        },
-        {
             title: "Custom Workflow Automation",
             slug: "n8n-automation",
             desc: "Replace your manual data entry with autonomous agents. We build self-healing workflows that instantly qualify leads and sync your CRM, saving your team 20+ hours a week.",
             price: "750",
             icon: Zap,
-            color: "emerald", // Green
-            bgLight: "bg-emerald-50",
-            bgDark: "bg-emerald-500/10",
-            borderLight: "border-emerald-100",
-            borderDark: "border-emerald-500/20",
-            textLight: "text-emerald-600",
-            textDark: "text-emerald-400",
-            btnLight: "bg-emerald-600 hover:bg-emerald-700 text-white",
-            btnDark: "bg-emerald-500 hover:bg-emerald-400 text-white",
+            cardClass: "bg-emerald-50 dark:bg-emerald-500/10 border-emerald-100 dark:border-emerald-500/20",
+            iconClass: "border-emerald-100 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400",
+            borderClass: "border-emerald-100 dark:border-emerald-500/20",
+            priceClass: "text-emerald-600",
+            btnClass: "bg-emerald-600 hover:bg-emerald-700 text-white dark:bg-emerald-500 dark:hover:bg-emerald-400",
             cta: "Automate Your Workflows"
+        },
+        {
+            title: "Custom Full-Stack Applications",
+            slug: "custom-full-stack",
+            desc: "When off-the-shelf software falls short, I build the exact tool you need. As a Full-Stack Architect, I develop custom web applications, bespoke internal agency portals, and secure client dashboards from the ground up.",
+            price: "2,500",
+            icon: Code2,
+            cardClass: "bg-rose-50 dark:bg-rose-500/10 border-rose-100 dark:border-rose-500/20",
+            iconClass: "border-rose-100 dark:border-rose-500/20 text-rose-600 dark:text-rose-400",
+            borderClass: "border-rose-100 dark:border-rose-500/20",
+            priceClass: "text-rose-600",
+            btnClass: "bg-rose-600 hover:bg-rose-700 text-white dark:bg-rose-500 dark:hover:bg-rose-400",
+            cta: "Build My Custom App"
+        },
+        {
+            title: "Headless CMS Infrastructure",
+            slug: "headless-architecture",
+            desc: "The high-performance foundation your revenue engine runs on. Sub-second load times, perfect Core Web Vitals, and full content editing for your marketing team.",
+            price: "1,500",
+            icon: Globe,
+            cardClass: "bg-blue-50 dark:bg-blue-500/10 border-blue-100 dark:border-blue-500/20",
+            iconClass: "border-blue-100 dark:border-blue-500/20 text-blue-600 dark:text-blue-400",
+            borderClass: "border-blue-100 dark:border-blue-500/20",
+            priceClass: "text-blue-600",
+            btnClass: "bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-500 dark:hover:bg-blue-400",
+            cta: "Build My Headless System"
         },
         {
             title: "Technical SEO Audits",
@@ -84,15 +72,11 @@ export default function ServicesPage() {
             desc: "Deep dive analysis of your site's health. We find and fix the invisible technical errors killing your rankings.",
             price: "350",
             icon: Search,
-            color: "orange", // Orange
-            bgLight: "bg-orange-50",
-            bgDark: "bg-orange-500/10",
-            borderLight: "border-orange-100",
-            borderDark: "border-orange-500/20",
-            textLight: "text-orange-600",
-            textDark: "text-orange-400",
-            btnLight: "bg-orange-600 hover:bg-orange-700 text-white",
-            btnDark: "bg-orange-500 hover:bg-orange-400 text-white",
+            cardClass: "bg-orange-50 dark:bg-orange-500/10 border-orange-100 dark:border-orange-500/20",
+            iconClass: "border-orange-100 dark:border-orange-500/20 text-orange-600 dark:text-orange-400",
+            borderClass: "border-orange-100 dark:border-orange-500/20",
+            priceClass: "text-orange-600",
+            btnClass: "bg-orange-600 hover:bg-orange-700 text-white dark:bg-orange-500 dark:hover:bg-orange-400",
             cta: "Find My Ranking Errors"
         },
         {
@@ -101,15 +85,11 @@ export default function ServicesPage() {
             desc: "Not sure what to automate? We analyze your business processes and create a roadmap to cut costs and scale revenue.",
             price: "200/h",
             icon: BarChart3,
-            color: "purple", // Purple
-            bgLight: "bg-purple-50",
-            bgDark: "bg-purple-500/10",
-            borderLight: "border-purple-100",
-            borderDark: "border-purple-500/20",
-            textLight: "text-purple-600",
-            textDark: "text-purple-400",
-            btnLight: "bg-purple-600 hover:bg-purple-700 text-white",
-            btnDark: "bg-purple-500 hover:bg-purple-400 text-white",
+            cardClass: "bg-purple-50 dark:bg-purple-500/10 border-purple-100 dark:border-purple-500/20",
+            iconClass: "border-purple-100 dark:border-purple-500/20 text-purple-600 dark:text-purple-400",
+            borderClass: "border-purple-100 dark:border-purple-500/20",
+            priceClass: "text-purple-600",
+            btnClass: "bg-purple-600 hover:bg-purple-700 text-white dark:bg-purple-500 dark:hover:bg-purple-400",
             cta: "Get My Growth Roadmap"
         }
     ];
@@ -157,10 +137,10 @@ export default function ServicesPage() {
             {/* HERO: DONE FOR YOU AUTOMATIONS */}
             <div className="max-w-4xl mx-auto text-center mb-16 animate-in fade-in slide-in-from-bottom-8 duration-1000">
                 <h1 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white mb-6 leading-tight uppercase tracking-tight">
-                    Technical Expertise Meets <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-400 dark:from-emerald-400 dark:to-teal-300">Creative Strategy</span>
+                    Revenue Operations That <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-400 dark:from-emerald-400 dark:to-teal-300">Run On Autopilot</span>
                 </h1>
                 <p className="text-slate-500 dark:text-slate-400 text-lg md:text-xl font-medium mb-12 max-w-2xl mx-auto leading-relaxed">
-                    Scaling your business with custom automation, high-performance web development, and data-driven marketing.
+                    Autonomous workflows, bespoke applications, and the high-performance infrastructure to scale without adding headcount.
                 </p>
 
                 {/* Audit Tool Embed */}
@@ -196,20 +176,20 @@ export default function ServicesPage() {
                     <p className="text-slate-500 dark:text-slate-400 font-medium">Flexible solutions for every stage of growth.</p>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-8">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {services.map((s, i) => (
-                        <div key={i} style={{ animationDelay: `${i * 150}ms` }} className={`animate-in fade-in zoom-in-[0.95] slide-in-from-bottom-4 duration-700 fill-mode-both rounded-[3rem] border ${s.borderLight} dark:${s.borderDark} ${s.bgLight} dark:${s.bgDark} p-10 hover:-translate-y-2 transition-all duration-300 flex flex-col backdrop-blur-sm shadow-xl dark:shadow-sm`}>
-                            <div className={`w-14 h-14 rounded-2xl bg-white dark:bg-black/20 border ${s.borderLight} dark:${s.borderDark} flex items-center justify-center ${s.textLight} dark:${s.textDark} mb-8 shadow-sm dark:shadow-none`}>
-                                <s.icon size={28} />
+                        <div key={i} style={{ animationDelay: `${i * 150}ms` }} className={`animate-in fade-in zoom-in-[0.95] slide-in-from-bottom-4 duration-700 fill-mode-both rounded-2xl border ${s.cardClass} p-7 hover:-translate-y-2 transition-all duration-300 flex flex-col backdrop-blur-sm shadow-lg dark:shadow-sm`}>
+                            <div className={`w-12 h-12 rounded-xl bg-white dark:bg-black/20 border ${s.iconClass} flex items-center justify-center mb-5 shadow-sm dark:shadow-none`}>
+                                <s.icon size={22} />
                             </div>
-                            <h3 className="text-slate-900 dark:text-white font-black text-2xl mb-4 uppercase tracking-tight">{s.title}</h3>
-                            <p className="text-slate-600 dark:text-slate-300 text-[15px] font-medium leading-relaxed mb-8 flex-grow">
+                            <h3 className="text-slate-900 dark:text-white font-black text-lg mb-3 uppercase tracking-tight">{s.title}</h3>
+                            <p className="text-slate-600 dark:text-slate-300 text-sm font-medium leading-relaxed mb-6 flex-grow">
                                 {s.desc}
                             </p>
 
-                            <div className={`mt-auto pt-8 border-t ${s.borderLight} dark:${s.borderDark}`}>
-                                <div className="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-6">Starting From <span className={`font-black text-2xl block mt-2 ${s.textLight} dark:text-white`}>${s.price}</span></div>
-                                <Link href={`/services/${s.slug}`} className={`w-full block py-4 text-center rounded-xl font-black uppercase tracking-widest text-xs transition-transform hover:-translate-y-1 shadow-lg dark:shadow-md ${s.btnLight} dark:${s.btnDark}`}>
+                            <div className={`mt-auto pt-6 border-t ${s.borderClass}`}>
+                                <div className="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-4">Starting From <span className={`font-black text-xl block mt-1 ${s.priceClass} dark:text-white`}>${s.price}</span></div>
+                                <Link href={`/services/${s.slug}`} className={`w-full block py-3 text-center rounded-lg font-black uppercase tracking-widest text-xs transition-transform hover:-translate-y-1 shadow-md dark:shadow-sm ${s.btnClass}`}>
                                     {s.cta}
                                 </Link>
                             </div>

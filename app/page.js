@@ -3,15 +3,9 @@ import WorkflowSteps from '../components/WorkflowSteps';
 import AuditTool from '../components/AuditTool';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Database, Zap, Code2, Globe, Search, BarChart3, Mail, CheckCircle2, Layout } from 'lucide-react';
+import { ArrowRight, Zap, Code2, Globe, Mail } from 'lucide-react';
 import NewsletterForm from '../components/NewsletterForm';
 import PartnerLogos from '../components/PartnerLogos';
-
-export const metadata = {
-  alternates: {
-    canonical: '/',
-  },
-};
 
 export default async function Home() {
   const posts = await getAllPosts();
@@ -26,15 +20,15 @@ export default async function Home() {
         <div className="max-w-7xl mx-auto flex flex-col items-center text-center relative z-10 animate-in fade-in slide-in-from-bottom-12 zoom-in-[0.98] duration-1000 ease-out fill-mode-both">
           
           <div className="inline-block px-4 py-1.5 bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-slate-200 dark:border-white/10 rounded-full text-xs font-bold text-teal-600 dark:text-teal-400 mb-8 shadow-sm">
-            NEXT-GEN HEADLESS ARCHITECTURES
+            AUTONOMOUS REVENUE SYSTEMS
           </div>
 
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-slate-900 dark:text-white mb-8 leading-[0.9] tracking-tighter max-w-5xl uppercase transition-colors duration-300">
-            Sub-Second <span className="text-teal-600 dark:text-teal-400">Web Apps</span> <br /> & Autonomous <span className="text-purple-600 dark:text-purple-400">Revenue Systems</span>
+            Autonomous <span className="text-teal-600 dark:text-teal-400">Revenue Engines</span> <br /> Built on Sub-Second <span className="text-purple-600 dark:text-purple-400">Infrastructure</span>
           </h1>
 
           <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 mb-12 leading-relaxed max-w-2xl mx-auto font-medium transition-colors duration-300">
-            I help scaling agencies migrate to high-performance Next.js architectures, engineer bespoke full-stack applications, and eliminate manual bottlenecks with custom automation.
+            I eliminate manual bottlenecks for scaling agencies with self-healing n8n workflows, AI agents, and high-performance Next.js architecture.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full max-w-md">
@@ -61,13 +55,13 @@ export default async function Home() {
           <div className="flex flex-col md:flex-row gap-20 items-center">
             <div className="flex-1 animate-in fade-in slide-in-from-left-12 duration-1000 ease-out fill-mode-both">
               <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-8 leading-[1.1] uppercase tracking-tight transition-colors duration-300">
-                Enterprise-grade <br /> <span className="text-teal-600 dark:text-teal-400">Infrastructure Architects</span>
+                Revenue Operations <br /> <span className="text-teal-600 dark:text-teal-400">Architects</span>
               </h2>
               <div className="space-y-8">
                 {[
+                  { icon: Zap, title: "Autonomous Workflows", desc: "Self-healing AI agents that instantly qualify leads, sync your CRM, and scale your pipeline." },
                   { icon: Code2, title: "Full-Stack Applications", desc: "Bespoke agency portals and client dashboards engineered for massive scale." },
-                  { icon: Globe, title: "Headless Architectures", desc: "Sub-second load times and perfect Core Web Vitals with Sanity & Strapi." },
-                  { icon: Zap, title: "Autonomous Workflows", desc: "Self-healing AI agents that instantly qualify leads and sync your CRM." }
+                  { icon: Globe, title: "Headless Infrastructure", desc: "The high-performance Next.js foundation that powers your entire revenue engine." }
                 ].map((item, i) => (
                   <div key={i} className="flex gap-6 group">
                     <div className="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-transform">
@@ -130,10 +124,10 @@ export default async function Home() {
           <h2 className="text-5xl font-black text-slate-900 dark:text-white mb-4 tracking-tighter uppercase transition-colors duration-300">
             Alfaz Mahmud Rizve
           </h2>
-          <p className="text-xl text-slate-500 dark:text-slate-400 font-bold mb-8 tracking-widest uppercase transition-colors duration-300">Builder &bull; Architect &bull; Performance Engineer</p>
+          <p className="text-xl text-slate-500 dark:text-slate-400 font-bold mb-8 tracking-widest uppercase transition-colors duration-300">RevOps Architect &bull; Automation Engineer &bull; Builder</p>
 
           <p className="text-lg text-slate-400 dark:text-slate-500 font-medium italic mb-12 max-w-2xl mx-auto leading-relaxed transition-colors duration-300 border-l-4 border-blue-500 pl-6 py-2 bg-slate-100 dark:bg-blue-500/5 rounded-r-lg">
-            "I design business growth strategies and then architect the automated infrastructure to execute them - Alfaz Mahmud Rizve"
+            "I design revenue growth strategies and then architect the automated infrastructure to execute them" - Alfaz Mahmud Rizve
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-6">
@@ -170,6 +164,13 @@ export default async function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
+                title: "Custom Workflow Automation",
+                icon: Zap,
+                desc: "Self-healing AI workflows that instantly enrich leads and scale your sales engine without adding headcount.",
+                bg: "bg-emerald-500/10", border: "border-emerald-500/20", text: "text-emerald-500 dark:text-emerald-400",
+                link: "/services/n8n-automation"
+              },
+              {
                 title: "Custom Full-Stack Applications",
                 icon: Code2,
                 desc: "Bespoke Agency Infrastructure. When off-the-shelf software blocks your growth, I build the exact internal tools you need.",
@@ -177,18 +178,11 @@ export default async function Home() {
                 link: "/services/custom-full-stack"
               },
               {
-                title: "Headless CMS Architecture",
+                title: "Headless CMS Infrastructure",
                 icon: Globe,
-                desc: "Enterprise-grade performance. Decouple your frontend to achieve sub-second load times and perfect Core Web Vitals.",
+                desc: "The high-performance Next.js foundation that powers your revenue engine with sub-second load times.",
                 bg: "bg-blue-500/10", border: "border-blue-500/20", text: "text-blue-500 dark:text-blue-400",
                 link: "/services/headless-architecture"
-              },
-              {
-                title: "Custom Workflow Automation",
-                icon: Zap,
-                desc: "Self-healing AI workflows that instantly enrich leads and scale your sales engine without adding headcount.",
-                bg: "bg-emerald-500/10", border: "border-emerald-500/20", text: "text-emerald-500 dark:text-emerald-400",
-                link: "/services/n8n-automation"
               }
             ].map((service, i) => (
               <article key={i} style={{ animationDelay: `${i * 150}ms` }} className={`animate-in fade-in slide-in-from-bottom-8 duration-700 fill-mode-both rounded-[2rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-8 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 flex flex-col group`}>
