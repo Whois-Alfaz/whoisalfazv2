@@ -19,7 +19,7 @@ export default async function Home() {
       <section className="relative pt-10 pb-24 px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col items-center text-center relative z-10 animate-in fade-in slide-in-from-bottom-12 zoom-in-[0.98] duration-1000 ease-out fill-mode-both">
           
-          <div className="inline-block px-4 py-1.5 bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-slate-200 dark:border-white/10 rounded-full text-xs font-bold text-teal-600 dark:text-teal-400 mb-8 shadow-sm">
+          <div className="inline-block px-4 py-1.5 bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-slate-200 dark:border-white/10 rounded-full text-xs font-bold text-teal-700 dark:text-teal-300 mb-8 shadow-sm">
             AUTONOMOUS REVENUE SYSTEMS
           </div>
 
@@ -117,7 +117,7 @@ export default async function Home() {
         <div className="max-w-4xl mx-auto text-center">
           <div className="relative w-48 h-48 mx-auto mb-12">
             <div className="relative w-full h-full rounded-[3rem] overflow-hidden border-8 border-white dark:border-slate-800 shadow-2xl dark:shadow-black/50 rotate-3 hover:rotate-0 transition-transform duration-500">
-              <Image src="/profile.jpg" alt="Alfaz Mahmud" fill className="object-cover" priority />
+              <Image src="/profile.jpg" alt="Alfaz Mahmud Rizve — RevOps & Full Stack Automation Architect" fill sizes="192px" className="object-cover" priority />
             </div>
           </div>
 
@@ -126,7 +126,7 @@ export default async function Home() {
           </h2>
           <p className="text-xl text-slate-500 dark:text-slate-400 font-bold mb-8 tracking-widest uppercase transition-colors duration-300">RevOps Architect &bull; Automation Engineer &bull; Builder</p>
 
-          <p className="text-lg text-slate-400 dark:text-slate-500 font-medium italic mb-12 max-w-2xl mx-auto leading-relaxed transition-colors duration-300 border-l-4 border-blue-500 pl-6 py-2 bg-slate-100 dark:bg-blue-500/5 rounded-r-lg">
+          <p className="text-lg text-slate-600 dark:text-slate-400 font-medium italic mb-12 max-w-2xl mx-auto leading-relaxed transition-colors duration-300 border-l-4 border-blue-500 pl-6 py-2 bg-slate-100 dark:bg-blue-500/5 rounded-r-lg">
             "I design revenue growth strategies and then architect the automated infrastructure to execute them" - Alfaz Mahmud Rizve
           </p>
 

@@ -110,11 +110,11 @@ const nextConfig: NextConfig = {
   async headers() {
     const cspHeader = `
         default-src 'self';
-        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com;
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://analytics.ahrefs.com https://static.cloudflareinsights.com;
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
         img-src 'self' data: https://whoisalfaz.me https://www.googletagmanager.com;
         font-src 'self' https://fonts.gstatic.com data:;
-        connect-src 'self' https://pagespeedonline.googleapis.com https://www.google-analytics.com;
+        connect-src 'self' https://pagespeedonline.googleapis.com https://www.google-analytics.com https://analytics.ahrefs.com https://cloudflareinsights.com;
         frame-src 'self';
         object-src 'none';
         upgrade-insecure-requests;

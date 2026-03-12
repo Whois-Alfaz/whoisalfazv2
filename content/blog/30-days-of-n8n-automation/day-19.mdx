@@ -1,292 +1,238 @@
 ---
 title: >-
-  n8n Tips and Tricks – The “Speedrun Protocol” to Build Workflows 5x Faster –
-  30 days of n8n and automation – Day 19
+  5 n8n Hidden Tricks That Save Agency Owners 10+ Hours a Week – Day 19
 slug: n8n-tips-and-tricks-by-alfaz-mahmud-rizve
-description: "\"Stop clicking and start flying. \U0001F680 Master the Speedrun Protocol with these essential n8n tips and tricks. Learn to build workflows 5x faster using Pinning & Hotkeys"
-date: '2026-01-07'
+description: >-
+  Stop rebuilding workflows from scratch. These 5 advanced n8n tips — from
+  workflow templates to batch processing — will cut your build time in half.
+date: '2026-03-14'
 seoTitle: >-
-  n8n Tips and Tricks – The "Speedrun Protocol" to Build Workflows 5x Faster -
-  30 days of n8n and automation - Day 19 - AI automation for SaaS & agencies |
-  Alfaz Mahmud Rizve
-seoDescription: "\"Stop clicking and start flying. \U0001F680 Master the Speedrun Protocol with these essential n8n tips and tricks. Learn to build workflows 5x faster using Pinning & Hotkeys"
+  5 n8n Tips That Save 10+ Hours a Week (Advanced Agency Tricks) | Alfaz Mahmud Rizve
+seoDescription: >-
+  Discover 5 advanced n8n tips and tricks used by top automation agencies: workflow
+  templates, batch processing, error-proofing, and execution speed optimization.
 image: /images/blog/n8n-tips-and-tricks-by-alfaz-mahmud-rizve-featured.webp
 categories:
   - Learn Automation in 30 Days
 ---
 
+By Alfaz Mahmud Rizve | RevOps & Full Stack Automation Architect at [whoisalfaz.me](https://whoisalfaz.me)
+
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
 Welcome back to **Day 19 of 30 Days of n8n & Automation**.
 
-In[ Day 17](https://whoisalfaz.me/blog/n8n-production-workflows-by-alfaz-mahmud-rizve/), we discussed reliability—building systems that don't crash.
+In [Day 17](https://whoisalfaz.me/blog/n8n-production-workflows-by-alfaz-mahmud-rizve/) we hardened your systems against crashes. In [Day 18](https://whoisalfaz.me/blog/n8n-data-privacy-security-guide/) we locked them down against data leaks. Today we talk about the metric that directly impacts your bank account: **Velocity.**
 
-In [Day 18,](https://whoisalfaz.me/blog/n8n-data-privacy-security-guide/) we discussed privacy—ensuring you don't leak client data.
+If you run an automation agency or build SaaS backends, speed is your profit margin.
 
-Today, we talk about the one metric that directly impacts your bank account: **Velocity.**
+- A workflow that takes **4 hours** at **$500** = $125/hr
+- The same workflow built in **45 minutes** = $666/hr
 
-If you run an automation agency or build SaaS backends, **speed is your profit margin.**
+The difference is not talent. It is **technique.** Most beginners treat n8n like a drag-and-drop toy. They drag every node. They manually type every variable. They wait for webhooks to fire live. That is the amateur path.
 
-- If a workflow takes you 4 hours to build and you charge $500, your hourly rate is **$125**.
-
-- If you can build that *exact same workflow* in 45 minutes, your hourly rate jumps to **$666**.
-
-Most beginners treat n8n like a "Drag-and-Drop" tool. They drag every node. They manually type every variable. They wait for webhooks to fire. This is the "Amateur Path."
-
-Today, I am handing you my internal agency playbook: **The Speedrun Protocol**. These are the specific **n8n tips and tricks** I use to build complex, agency-grade systems in minutes, not hours.
+Today I am sharing the **Speedrun Protocol** — the exact n8n tips and tricks I use inside my agency to build complex, enterprise-grade systems in a fraction of the time.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **Phase 1: The "No-Mouse" Philosophy (Keyboard Shortcuts)**
+## Phase 1: The "No-Mouse" Philosophy (Keyboard Shortcuts)
 
-![A split-screen comparison showing a slow, tangled manual workflow building process versus a fast, clean "Speedrun Protocol" using keyboard shortcuts and pinning, ,alfaz mahmud rizve shared n8n tips and tricks](/images/blog/n8n-tips-and-tricks-by-alfaz-mahmud-rizve-unnamed-37.webp)
+![n8n workflow keyboard shortcuts and speedrun building technique by Alfaz Mahmud Rizve, RevOps Architect at whoisalfaz.me](/images/blog/n8n-tips-and-tricks-by-alfaz-mahmud-rizve-unnamed-37.webp)
 
-The first rule of the Speedrun Protocol is simple: **The mouse is slow.**
+**The mouse is slow.** Every time you move your hand from the keyboard to find the node menu, scroll, and drag, you lose 3-5 seconds. Across a 50-node workflow, that is 20 minutes of pure friction.
 
-Every time you move your hand from the keyboard to the mouse, find the node menu, scroll, and drag, you lose 3-5 seconds. In a 50-node workflow, that adds up to 20 minutes of wasted "micro-movements."
+### The Core Speedrun Shortcuts
 
-To master **n8n tips and tricks**, you must master the keyboard.
+| Shortcut | Action | When to Use |
+|---|---|---|
+| `Ctrl + D` | **Duplicate Node** | Never configure a node twice. Set up your HTTP Request with auth headers once, then duplicate and change the URL. |
+| `Ctrl + Click` | **Multi-Select** | Move entire logic blocks across the canvas in one drag instead of repositioning nodes one by one. |
+| `Shift + Drag` | **Box Select** | Delete or move entire workflow sections. Draw a box around 20 nodes and hit Delete. Instant cleanup. |
+| `Ctrl + Space` | **Auto-Complete in Expressions** | Inside a `{{ }}` expression, press this to see a dropdown of all available JSON variables. Stop guessing paths. |
+| `/` or `Tab` | **Quick Node Search** | Press `/`, type "Set", hit Enter. Faster than scrolling the sidebar by 10x. |
 
-### **The "God Mode" Shortcuts**
-
-You probably know `Ctrl+C` and `Ctrl+V`. But do you know the chords that actually build logic?
-
-<table class="has-fixed-layout"><thead><tr><td>**Shortcut**</td><td>**Action**</td><td>**The Agency Use Case**</td></tr></thead><tbody><tr><td>**`Ctrl + Click`**</td><td>**Multi-Select**</td><td>Don't move nodes one by one. Hold Ctrl, click 5 nodes, and drag the entire logic block to a new position.</td></tr><tr><td>**`Shift + Drag`**</td><td>**Box Select**</td><td>Need to delete a whole section? Shift+Drag a box around 20 nodes and hit Delete. Instant cleanup.</td></tr><tr><td>**`Ctrl + D`**</td><td>**Duplicate**</td><td>**Never configure a node twice.** If you have an "HTTP Request" set up with your Auth headers, click it and hit `Ctrl+D`. Now you just change the URL.</td></tr><tr><td>**`Ctrl + Space`**</td><td>**Auto-Complete**</td><td>Inside an Expression `{{ }}`, press this to see a dropdown of all available variables. Stop guessing JSON paths.</td></tr></tbody></table>
-
-### **The "Search" Hack (`Ctrl + K` / `/`)**
-
-Stop scrolling through the node menu on the right.
-
-- **The Old Way:** Click "+" -> Click "Helpers" -> Scroll -> Click "Set".
-
-- **The Speedrun Way:** Press `/` (or `Tab` in some versions), type "Set", hit Enter.
-
-It takes 0.5 seconds. Once you build muscle memory for this, you will feel physically slow using the mouse menu.
+Build muscle memory for these five before anything else. After two days of deliberate practice, using the mouse menu will feel physically painful.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **Phase 2: The "Time Machine" (Pinning Data)**
+## Phase 2: The "Time Machine" — Pin Data
 
-![The 'Time Machine' (Pinning Data)" section. Alt Text: A close-up of the n8n workflow editor showing a Webhook node with a glowing 'Pin Data' icon, illustrating how to cache data and develop workflows offline ,alfaz mahmud rizve shared n8n tips and tricks ](/images/blog/n8n-tips-and-tricks-by-alfaz-mahmud-rizve-unnamed-38.webp)
+![n8n Pin Data feature for offline workflow testing by Alfaz Mahmud Rizve](/images/blog/n8n-tips-and-tricks-by-alfaz-mahmud-rizve-unnamed-38.webp)
 
-This is the single biggest bottleneck for beginners.
+This is the single biggest time drain for beginners, and most don't even realize it.
 
-**The Scenario:** You are building a Lead Gen bot (like we did in [Day 13](https://whoisalfaz.me/blog/facebook-lead-ads-automation-by-alfaz-mahmud-rizve/)). You need to test if the "Google Sheets" node works.
+**The scenario:** You are building a lead pipeline. You need to test if your Google Sheets node writes the data correctly.
 
-- **The Amateur Way:** You open the landing page in a new tab. You fill out the form. You hit submit. You wait for the webhook. You check n8n. *It failed.* You fix the node. **You go back to the landing page and fill out the form again.**
+- **Amateur approach:** Open a tab, fill the form, submit, wait for the webhook to fire, check n8n, see it failed, fix the node, go back and fill the form again. Repeat 8 times.
+- **Result:** 50% of your build time is spent filling out your own test forms.
 
-- **The Result:** You spend 50% of your time filling out your own forms.
+### How Pin Data Works
 
-### **The Fix: "Pin Data"**
+1. Run your Webhook node once to capture a real payload.
+2. Right-click the node output and select **"Pin Data."**
+3. n8n caches that exact JSON response inside the node permanently.
 
-n8n allows you to "Freeze" time.
+That pinned response now fires instantly every time you click "Execute Node." You can iterate on downstream logic — changing the Sheets node, adding filters, testing HTTP requests — without triggering a live webhook again.
 
-1. $1
+**Advanced use:** Edit the pinned data manually. Need to test what happens when a user submits a duplicate email? Open the pinned data, change the email field to one already in your CRM, and test. No real user required. This is how you build airtight edge-case handling without burning API calls.
 
-2. $1
-
-3. $1
-
-What just happened?
-
-n8n has cached that specific JSON response inside the node.
-
-Now, you can execute the rest of your workflow 1,000 times. You can change the Google Sheets node, add logic, and test the HTTP request. Every time you click "Execute Node," it uses the Pinned Data instantly.
-
-Pro Tip: You can even edit the Pinned Data manually.
-
-Need to test what happens if a user submits an invalid email?
-
-1. $1
-
-2. $1
-
-3. $1
-
-This is how you debug edge cases without needing a real user to make a mistake.
+> [!TIP]
+> **Affiliate resource:** Want a hosted n8n environment with better debugging tools? Check out **[n8n Cloud](https://n8n.io/cloud/)** — it comes with built-in execution history and a visual debugger that pairs perfectly with Pin Data.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **Phase 3: The "JSON Teleport" (Copy-Paste Magic)**
+## Phase 3: The JSON Teleport — Copy-Paste Workflows
 
-Here is a secret that separates the "forum dwellers" from the Agency Owners:
+Here is something most n8n users do not realize: **nodes are just JSON.**
 
-n8n nodes are just text.
+When you select five nodes and press `Ctrl+C`, you have copied a raw JSON string to your clipboard. That means you can:
 
-If you select 5 nodes and press `Ctrl+C`, you haven't just copied an image. You have copied a **JSON string** to your clipboard.
+1. **Paste into a text file** — save it as a reusable "snippet" indefinitely.
+2. **Paste into a different workflow** — instantly transplant a fully configured logic block, no setup required.
+3. **Share with a team member or a client** — they paste it and your exact configuration appears.
 
-### **Why this changes everything**
+### The Agency Snippet Library Strategy
 
-You can paste that text anywhere:
+At my agency, we maintain a "Core Snippets" document containing pre-built, battle-tested logic blocks:
 
-1. $1
+- **The Sentinel** — Our standard Error Handler with Slack alerting (from [Day 17](https://whoisalfaz.me/blog/n8n-production-workflows-by-alfaz-mahmud-rizve/))
+- **The Data Sanitizer** — Phone number and email normalization pre-mapped to our CRM schema
+- **The Privacy Layer** — Ghost Mode configuration with AES-encrypted credential calls (from [Day 18](https://whoisalfaz.me/blog/n8n-data-privacy-security-guide/))
+- **The Audit Logger** — Structured logging to Google Sheets with timestamps and execution IDs
 
-2. $1
-
-3. $1
-
-### **The "Agency Snippet" Strategy**
-
-At my agency, we have a "Core Snippets" document containing:
-
-- **The Sentinel:** Our standard Error Handler (from [Day 17](https://whoisalfaz.me/blog/n8n-production-workflows-by-alfaz-mahmud-rizve/)).
-
-- **The Cleaner:** A specific regex pattern we use to clean phone numbers.
-
-- **The Logger:** A structured logging format for Google Sheets.
-
-We never build these from scratch. We **teleport** them.
+We never build these blocks from scratch. We teleport them. Every new client workflow starts at 30% completion before we write a single node.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **Phase 4: Drag-and-Drop Variable Mapping**
+## Phase 4: Drag-and-Drop Variable Mapping
 
-Typing variables manually is a recipe for disaster.
+Typing variables manually is a reliability hazard. One character difference—a capital letter, an underscore—breaks the entire automation silently.
 
-- *Typing:* `{{ $json.body["First Name"] }}` -> Error (Case sensitive).
+- Typing `{{ $json.body["First Name"] }}` → Error (case-sensitive)
+- Typing `{{ $json.body.firstName }}` → Error (key doesn't exist in that schema)
 
-- *Typing:* `{{ $json.body.firstName }}` -> Error (Undefined).
+### The Drag Trick
 
-One typo breaks your entire automation.
+In the left panel of any n8n node, n8n displays all incoming JSON fields. You can **drag** any field directly into the value input instead of typing the path.
 
-### **The "Drag" Trick**
+1. Open the destination node (e.g., the "Set" node or a Sheets column).
+2. Click the gear icon to switch to **Expression mode**.
+3. From the left panel, drag the field you want — n8n inserts the exact, validated JSON path automatically.
 
-Most people know you can click variables in the side menu. But did you know you can **drag** them?
+Two concrete advantages:
 
-1. $1
+- **Zero typos** — n8n generates the syntactically correct path for you.
+- **Deep nesting** — If the path is `$json.data.orders[0].items[3].sku`, dragging it takes 2 seconds. Typing it correctly takes 30.
 
-2. $1
-
-3. $1
-
-**Why is this better?**
-
-- **Zero Typos:** n8n generates the exact JSON path for you.
-
-- **Complex Paths:** If the data is buried deep (e.g., `$json.data.orders[0].items[3].price`), typing it is a nightmare. Dragging it is instant.
+This alone eliminates a significant percentage of the "it's not working" debugging sessions that beginners waste hours on.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **Phase 5: Modularity (The "Execute Workflow" Node)**
+## Phase 5: Modular Architecture — The Execute Workflow Node
 
-The biggest mistake I see in "Day 1" setups is the Spaghetti Monster.
+The most common mistake I see in clients who come to me for "workflow rescue" projects is the Spaghetti Monster.
 
-![A diagram illustrating a modular n8n workflow architecture, showing a main conductor workflow calling smaller, reusable sub-workflows for Enrichment, CRM, and Alerts.](/images/blog/n8n-tips-and-tricks-by-alfaz-mahmud-rizve-unnamed-39.webp)
+![Modular n8n sub-workflow architecture diagram for scalable agency automation built by Alfaz Mahmud Rizve](/images/blog/n8n-tips-and-tricks-by-alfaz-mahmud-rizve-unnamed-39.webp)
 
-This is a single workflow with 150 nodes, trying to do everything: Lead Gen -> Email -> CRM -> Slack -> SMS -> Invoice.
+A single workflow with 120+ nodes trying to handle lead capture, email sequencing, CRM sync, Slack alerts, invoicing, and error handling simultaneously. When one node fails, the entire system stops. When a client asks for a change, you spend 40 minutes scrolling to find the right section.
 
-If one part breaks, the whole thing stops. And good luck scrolling through 150 nodes to find the bug.
+### The Modular Fix
 
-### **The "Function" Approach**
-
-In programming, we don't write 10,000 lines of code in one file. We write Functions.
-
-In n8n, you should use the "Execute Workflow" node.
+In software engineering we use Functions. In n8n we use the **"Execute Workflow"** node.
 
 **How to structure it:**
 
-1. $1
+1. Build a "Conductor" workflow — its only job is to receive the trigger and call sub-workflows in sequence.
+2. Build isolated sub-workflows: `Lead Enrichment`, `CRM Sync`, `Slack Notifications`, `Invoice Generation`.
+3. Connect them via Execute Workflow nodes.
+4. Each sub-workflow can receive input data from the Conductor and return a result.
 
-2. $1
+**The compounding benefit:** Your `Slack Notification` sub-workflow becomes a reusable company asset. Every automation across your agency that needs to send an alert calls the same sub-workflow. When you change the Slack channel ID, you update it once and every workflow inherits the change instantly. This is how agencies scale without technical debt accumulating.
 
-3. $1
-
-4. $1
-
-The Main Workflow simply calls: *Execute A -> Execute B -> Execute C.*
-
-**The Benefit:**
-
-- **Reusability:** You can call the "Slack Alert" sub-workflow from *any* automation in your company. Update the Slack channel ID in one place, and it updates everywhere.
-
-- **Testing:** You can test the "CRM Sync" part in isolation without triggering the whole chain.
-
-> 
-> 
-
-> 
+> [!TIP]
+> **Affiliate resource:** If you are self-hosting and need persistent sub-workflow communication, **[Vultr's High Frequency Compute](https://www.vultr.com/?ref=9849830-9J)** provides the low-latency, dedicated infrastructure that keeps parallel sub-workflow execution stable under load.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **Phase 6: The "Expression Preview" Hack**
+## Phase 6: The Expression Preview Hack
 
-When you are writing complex Javascript inside an Expression (e.g., manipulating dates or strings), you usually have to run the node to see if it works.
+When writing JavaScript inside an n8n Expression — manipulating dates, reformatting strings, conditional logic — most developers write the code and then run the entire node to see if it worked. That is a slow feedback loop.
 
-The Fix:
+**The hack:** n8n evaluates your expressions in **real-time** against the pinned input data.
 
-Look at the "Expression Result" text below the input field.
+As you type `{{ $json.name.toUpperCase() }}`, look at the small preview text below the input field. If it shows `ALFAZ`, your logic is correct before executing. If it shows `[object Object]` or `Error`, fix it in place.
 
-n8n evaluates expressions in real-time based on the input data.
+Combined with Pin Data from Phase 2, this lets you write and validate complex JavaScript transformations without running a single execution. Your iteration speed becomes nearly instant.
 
-- **Example:** You type `{{ $json.name.toUpperCase() }}`.
+Some practical expression patterns worth knowing:
 
-- **Preview:** Look below the box. If it says `ALFAZ`, your code is correct. If it says `[Object Object]` or `Error`, fix it *before* you run the node.
+```javascript
+// Format a date cleanly
+{{ new Date($json.timestamp).toLocaleDateString('en-US') }}
 
-Use this combined with **Pin Data** to write perfect Javascript logic without ever hitting "Execute."
+// Fallback value if a field is empty
+{{ $json.company || 'Unknown Company' }}
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+// Conditional string
+{{ $json.plan === 'enterprise' ? 'Priority' : 'Standard' }}
 
-## **Phase 7: Organization & Notes**
-
-An "Agency-Grade" workflow is not just code; it is documentation.
-
-If you hand over a workflow to a client and it looks like a bowl of noodles, they won't trust you.
-
-### **The "Sticky Note" Standard**
-
-- **Grouping:** Use the mouse to select a group of related nodes (e.g., the "Google Sheets" section).
-
-- **Right Click -> Add Sticky Note.**
-
-- **Color Coding:**
-<ul class="wp-block-list">
-<li>**Green:** Triggers & Inputs.
-
-- **Blue:** Logic & Processing.
-
-- **Red:** Error Handling (The Sentinel).
-
-- **Yellow:** External API calls.
-
-</li>
-</ul>
-
-When a client logs in and sees a neatly organized, color-coded map, the perceived value of your work doubles. It looks like a **System**, not a hack.
+// Extract domain from email
+{{ $json.email.split('@')[1] }}
+```
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## **Summary: The Speedrun Checklist**
+## Phase 7: Organization — The Sticky Note Standard
 
-If you want to graduate from "Hobbyist" to "Automation Engineer," here is your daily practice routine:
+An agency-grade workflow is not just functional. It is a deliverable.
 
-1. $1
+When you hand over a workflow to a client and they see a canvas full of unlabeled nodes and random connections, their trust in you drops. When they see a neatly organized, color-coded architecture with documentation, the perceived value of the work doubles. It looks like a System, not a script.
 
-2. $1
+### The Color-Coding Convention
 
-3. $1
+Create Sticky Notes to group related logic, and use this color convention consistently:
 
-4. $1
+- **Green** — Triggers, webhooks, and entry points
+- **Blue** — Core data processing and transformation
+- **Yellow** — External API calls and third-party integrations
+- **Red** — Error handlers and fallback logic (The Sentinel)
+- **Purple** — Sub-workflow calls (Execute Workflow nodes)
 
-5. $1
-
-### **What’s Coming Next?**
-
-You now have the **Strategy** (Day 1-15), the **Reliability** (Day 17), the **Security** (Day 18), and the **Speed** (Day 19).
-
-You are technically ready to run an agency. But there is one missing piece.
-
-How do you charge for this?
-
-Do you charge by the hour? By the workflow? By the node?
-
-Most beginners get this wrong and trap themselves in low-paying maintenance work.
-
-Tomorrow, in **Day 20**, we dive into **" The Pricing Models for Automation Agencies."** I will reveal exactly how I structure high-ticket retainers so you stop trading time for money.
+Label each section with one sentence describing what it does. When a client or a new team member opens the workflow three months from now, they can understand the architecture in 60 seconds without asking you a single question. That is what professional delivery looks like.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-About the Author:
+## The Speedrun Checklist
 
-Alfaz Mahmud Rizve is a RevOps Engineer and Automation Architect helping SaaS Founders and Agencies build "Reliability-First" revenue systems. He is the creator of the Agency-Grade Protocol, a framework for building self-healing, scalable automations on self-hosted infrastructure.
+Apply this every time you start a new workflow build:
 
-*Follow the full journey: [30 Days of n8n & Automation](https://whoisalfaz.me/blog/category/n8n-automation/)*
+- [ ] **Pin Data first.** Run the trigger once, pin it, and never touch the real webhook again during development.
+- [ ] **Use `/` search** to add every node — no mouse menus.
+- [ ] **Duplicate, don't rebuild.** Start with the closest node you have configured before, duplicate, and modify.
+- [ ] **Drag variables.** Never type a JSON path manually.
+- [ ] **Modularize immediately.** If any single logic block exceeds 15 nodes, extract it to a sub-workflow.
+- [ ] **Preview expressions** before executing. Fix logic at the expression level, not the execution level.
+- [ ] **Apply sticky notes** before delivery. Green → Blue → Yellow → Red → Purple.
+
+These are not guidelines. They are the operational standards of a professional automation engineer.
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+## What's Next
+
+You now have the full technical stack:
+
+- **Strategy** (Days 1-15): What to build and why
+- **Reliability** (Day 17): Systems that don't crash
+- **Security** (Day 18): Systems that don't leak
+- **Speed** (Day 19): Systems built fast
+
+Tomorrow in **Day 20**, we step into the strategic side of automation engineering: building a **Google Analytics 4 data pipeline** with n8n that pushes clean, structured performance data into a reporting layer your clients can actually use.
+
+*Follow the full series: [30 Days of n8n & Automation](https://whoisalfaz.me/blog/)*
+
+---
+
+**About the Author**
+
+Alfaz Mahmud Rizve is a RevOps Engineer and Automation Architect. He helps SaaS founders and scaling agencies eliminate manual revenue bottlenecks by building self-healing, autonomous systems on hardened infrastructure. Explore his work at [whoisalfaz.me](https://whoisalfaz.me).

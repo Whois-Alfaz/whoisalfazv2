@@ -1,299 +1,234 @@
 ---
 title: >-
-  The “Iron Man” Protocol – Building Your Personal AI Operating System (AIOS)The
-  Content Treadmill is Dead. Long Live the Neural Network – 30 Days of n8n &
-  Automation – Day 29
+  Stop Managing 5 Dashboards — Build Your Personal AI Operating System with n8n – Day 29
 slug: build-personal-ai-assistant
 description: >-
-  Stop running separate scripts. On Day 29, we build the Master Orchestrator—a
-  single n8n workflow that routes your commands to Research, Video, and Finance
-  agents automatically. Connect your entire digital life to one Telegram chat.
-date: '2026-01-29'
+  Siloed automation tools are dead weight. Build a Master Orchestrator AIOS in n8n
+  that routes natural language Telegram commands to your Research, Video, and Finance
+  agents automatically — like a personal J.A.R.V.I.S.
+date: '2026-03-24'
 seoTitle: >-
-  The "Iron Man" Protocol – Building Your Personal AI Operating System (AIOS)The
-  Content Treadmill is Dead. Long Live the Neural Network - 30 Days of n8n &
-  Automation - Day 29 - AI automation for SaaS & agencies | Alfaz Mahmud Rizve
+  Build a Personal AI Operating System with n8n: The JARVIS Router Protocol | Alfaz
 seoDescription: >-
-  Stop running separate scripts. On Day 29, we build the Master Orchestrator—a
-  single n8n workflow that routes your commands to Research, Video, and Finance
-  agents automatically. Connect your entire digital life to one Telegram chat.
+  Build a personal AI Operating System (AIOS) in n8n that routes Telegram commands to
+  specialized agents for research, content, finance, and general chat using GPT-4o.
 image: /images/blog/build-personal-ai-assistant-featured.webp
 categories:
   - Learn Automation in 30 Days
 ---
 
-**The Content Treadmill is Dead. Long Live the Neural Network.**
+By Alfaz Mahmud Rizve | RevOps & Full Stack Automation Architect at [whoisalfaz.me](https://whoisalfaz.me)
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+
+**TL;DR:** Build a personal AI Operating System (AIOS) in n8n by combining a Telegram Trigger, GPT-4o intent classification (JSON Mode), and a Switch node that routes commands to specialized sub-agent workflows. The "Central Cortex" pattern lets you text natural language like "Research DeepSeek" or "Log $50 lunch expense" and have your entire automation stack respond correctly without managing multiple interfaces or dashboards.
+
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
 
 Welcome back to **Day 29** of the *30 Days of n8n & Automation* series here on `whoisalfaz.me`.
 
 We are at the finish line.
 
-Over the last 28 days, we have built an arsenal of digital weapons. We created a [**Researcher** ](https://whoisalfaz.me/blog/automated-content-research-by-alfaz-mahmud-rizve/)that reads the internet (Day 15). We built a **Video Factory** that generates [YouTube Shorts](https://whoisalfaz.me/blog/automated-youtube-shorts-generator/) (Day 28). We deployed **The Sentinel** to guard our leads (Day 26) and built **CashOps** to track our finances.
+Over the last 28 days, we have built an arsenal of specialized automation tools. We created a [Researcher](https://whoisalfaz.me/blog/automated-content-research-by-alfaz-mahmud-rizve/) that reads the internet (Day 15). We built a [Video Factory](https://whoisalfaz.me/blog/automated-youtube-shorts-generator/) that generates YouTube Shorts (Day 28). We deployed a [Knowledge Base](https://whoisalfaz.me/blog/n8n-rag-tutorial/) to answer document questions (Day 26) and an [AI Receptionist](https://whoisalfaz.me/blog/n8n-ai-receptionist/) to handle phone calls (Day 27).
 
-But right now, we have a problem. A problem that plagues almost every automation engineer eventually.
+But right now, we have a problem that plagues every automation engineer eventually: **The Silo Problem.**
 
-**The Silo Problem.**
+To use your Researcher, you open the n8n editor and click "Execute." To generate a video, you trigger a different webhook. To log a finance transaction, you open yet another workflow. You are not an Automation Architect — you are a System Administrator manually toggling switches.
 
-To use your Researcher, you have to open the n8n editor and hit "Execute." To check your finances, you have to log into CashOps. To generate a video, you have to run a different webhook. You are not an Automation Architect; you are a **System Administrator** manually toggling switches.
+True automation is invisible. It should not require you to open a dashboard. It should just *work*.
 
-True automation is invisible. It shouldn't require you to open a dashboard. It should just *work*.
-
-Today, we are going to fix this. We are not building a new tool. We are building the **Master Orchestrator**. We will create a single, unified interface—a **Personal AI Operating System (AIOS)**—that routes your natural language commands to the correct specialized agent.
-
-We are essentially building **J.A.R.V.I.S.**
+Today, we are not building a new tool. We are building the **Master Orchestrator** — a single, unified Telegram interface that routes your natural language commands to the correct specialized agent automatically. We are building **J.A.R.V.I.S.**
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## The Architecture: The "Router" Pattern
+## The Architecture: The Router Pattern
 
-In enterprise software engineering, this concept is known as the **Facade Pattern** or the **API Gateway Pattern**. In the world of AI Agents, we call it the **Router Architecture**.
+In enterprise software engineering, this is the **API Gateway Pattern** or the **Facade Pattern**. In the world of AI Agents, we call it the **Router Architecture**.
 
-Currently, your automations look like a messy desk: scattered tools, no organization.
+Your automations currently look like a messy desk — scattered tools with no central interface. The AIOS introduces a "Central Cortex" that sits between you and all your tools:
 
-- *Workflow A* handles Research.
+1. You send one natural language message to a single Telegram bot.
+2. GPT-4o classifies the intent and extracts parameters from the message.
+3. A Switch node routes the processed data to the correct specialized workflow.
+4. The specialist workflow executes and returns results.
+5. GPT-4o formats the technical result into a clean, human-readable Telegram reply.
 
-- *Workflow B* handles Finance.
-
-- *Workflow C* handles Content.
-
-If you want to use them, you need to remember three different triggers.
-
-The **AIOS Architecture** introduces a "Central Cortex"—a smart receptionist that sits between you and your tools.
-
-1. $1
-
-2. $1
-
-3. $1
-
-4. $1
-
-This is the difference between a "Script Kiddie" and an "Automation Agency." Scripts run linearly. Systems think, route, and execute.
+This is the difference between a "Script Collection" and an "Automation Agency." Scripts run linearly. Systems think, route, and execute.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-![Neon-style architecture diagram of an AI Operating System (AIOS) showing a central Router Node connecting User Input via Telegram to specialized Research, Content, and Finance agents.](/images/blog/build-personal-ai-assistant-unnamed-66.webp)
+![Neon-style architecture diagram of an AI Operating System showing a central Router Node connecting Telegram to Research, Content, and Finance agents — by Alfaz Mahmud Rizve](/images/blog/build-personal-ai-assistant-unnamed-66.webp)
 
 ## The Tech Stack: The Nervous System
 
-To build a brain, we need high-fidelity components.
-
-1. $1
-
-2. $1
-
-3. $1
-
-4. $1
+- **Telegram Bot** — The unified interface. Available on every device, free, supports voice messages.
+- **OpenAI GPT-4o (JSON Mode)** — The "Central Cortex" for intent classification.
+- **n8n Switch Node** — The switchboard that routes processed intents to sub-workflows.
+- **Execute Workflow Node** — The bridge that calls your existing Day 15-28 automations as modular functions.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
 ## Step 1: The Interface (Unified Command Line)
 
-We start with the entry point. You should be able to talk to your AI while walking the dog, driving, or sitting at your desktop.
+We start with the entry point. You should be able to talk to your AI while walking the dog, on a client call, or sitting at your desk.
 
-1. $1
+Create a new n8n workflow with a **Telegram Trigger** node as the starting point. Connect it to your Telegram Bot token (created via @BotFather — type `/newbot` to Telegram's bot management system).
 
-2. $1
+### The User Whitelist Security Layer
 
-3. $1
+Before processing any command, add an **IF** node immediately after the Telegram Trigger:
+- **Condition:** `{{ $json.message.from.id }}` equals `YOUR_TELEGRAM_USER_ID`
+- **True path:** Proceed to the Cortex.
+- **False path:** **No Operation** (silent termination).
 
-**The "User Whitelist" Security Layer** Before we proceed, we must secure the door. If someone finds your bot handle on Telegram, they shouldn't be able to trigger your agents or spend your API credits.
-
-- **Node:** **If** (Logic).
-
-- **Condition:** `{{ $json.message.from.id }}` **Equal to** `YOUR_TELEGRAM_ID`.
-
-- **Action:** If false, terminate immediately. This ensures the AIOS only answers to *you*.
+You can find your Telegram User ID by sending any message to @userinfobot. This single condition ensures that even if someone discovers your bot's handle, they cannot trigger your agents, spend your API credits, or access your private data.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
 ## Step 2: The Cortex (Intent Classification)
 
-This is the most critical node in your entire 30-day journey. If this node fails, the system is useless.
+This is the most critical node in your entire automation stack. If this node fails — returns ambiguous output, misclassifies an intent — the entire system is useless.
 
-We need to take the unstructured mess of human language and convert it into structured machine instructions. We will use **Function Calling** (or JSON Mode).
+We convert unstructured human language into structured machine instructions using GPT-4o in JSON Mode.
 
-- **Node:** **OpenAI Chat Model**.
+Add an **OpenAI Chat Model** node:
+- **Model:** `gpt-4o`
+- **Response Format:** JSON Object
 
-- **Model:** `gpt-4o`.
+**System Prompt:**
 
-- **System Prompt:** This is where the magic happens. We need to define the "Skills" our OS possesses.You are the Master Router for Alfaz's AI Operating System. Your job is to classify user intent and extract parameters.**Available Agents:**<li>**RESEARCH:** User wants information, web search, or summaries. (Param: `query`)
-- **CONTENT:** User wants to generate a blog, tweet, or video. (Param: `topic`, `format`)
-- **FINANCE:** User wants to log an expense or check budget stats via CashOps. (Param: `amount`, `category`, `description`)
-- **GENERAL:** General chat or questions about the system itself.
-**Output Rule:** You must return a JSON object containing `intent` (String) and `parameters` (Object). Do not output conversational text.</li>
+```text
+You are the Master Router for Alfaz's AI Operating System.
+Classify user intent and extract parameters.
 
-**Why JSON?** If you ask the AI to "Tell me what to do," it will write a paragraph. n8n cannot process paragraphs efficiently. n8n thrives on JSON. By forcing a JSON output, we make the decision "Machine Readable."
+Available Agents:
+- RESEARCH: User wants information, web search, or summaries. (Param: "query")
+- CONTENT: User wants to generate a blog post, tweet, or video. (Param: "topic", "format")
+- FINANCE: User wants to log an expense or check budget stats. (Param: "amount", "category", "description")
+- GENERAL: General conversation or questions about the system.
 
-**Example Test Cases:**
+Output Rule: Return ONLY a valid JSON object with "intent" (String) and "parameters" (Object). Do not output any other text.
+```
 
-- *Input:* "Find me the latest news on DeepSeek."
-<ul class="wp-block-list">
-<li>*Output:* `{ "intent": "RESEARCH", "parameters": { "query": "latest news DeepSeek" } }`
+**Test Cases:**
+- Input: `"Find me the latest news on DeepSeek"` → Output: `{"intent": "RESEARCH", "parameters": {"query": "latest news DeepSeek"}}`
+- Input: `"I just spent $15 on coffee"` → Output: `{"intent": "FINANCE", "parameters": {"amount": 15, "category": "Food", "description": "Coffee"}}`
+- Input: `"Make a YouTube Short about quantum computing"` → Output: `{"intent": "CONTENT", "parameters": {"topic": "quantum computing", "format": "youtube_short"}}`
 
-</li>
-
-<li>*Input:* "I just spent $15 on coffee."
-
-- *Output:* `{ "intent": "FINANCE", "parameters": { "amount": 15, "category": "Food", "description": "Coffee" } }`
-
-</li>
-</ul>
+**Why JSON?** n8n cannot efficiently process ambiguous prose. By forcing structured output, the classification becomes machine-readable and routes cleanly through the Switch node.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
 ## Step 3: The Switchboard (Routing Logic)
 
-Now that we have a clean JSON packet, we need to direct traffic.
+Now that we have a clean JSON packet from the Cortex, we direct traffic:
 
-- **Node:** **Switch**.
+Add a **Switch** node connected to the Cortex output:
+- **Output 1 (Research):** Condition `$json.intent` equals `RESEARCH`
+- **Output 2 (Content):** Condition `$json.intent` equals `CONTENT`
+- **Output 3 (Finance):** Condition `$json.intent` equals `FINANCE`
+- **Output 4 (General):** Condition `$json.intent` equals `GENERAL` (fallthrough)
 
-- **Mode:** Rules.
-
-- **Routing Logic:**
-<ul class="wp-block-list">
-<li>**Output 1 (Research):** Condition: `$json.intent` Equal to `RESEARCH`.
-
-- **Output 2 (Content):** Condition: `$json.intent` Equal to `CONTENT`.
-
-- **Output 3 (Finance):** Condition: `$json.intent` Equal to `FINANCE`.
-
-- **Output 4 (General):** Condition: `$json.intent` Equal to `GENERAL`.
-
-</li>
-</ul>
-
-This visualization is powerful. In your n8n canvas, you will see a single line (the input) branching into four distinct highways. This is the visual representation of your "Second Brain."
+In your n8n canvas, you will now see a single incoming line branching into four distinct highways. This visual representation is your "Second Brain" — a system that thinks before it acts.
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-![n8n workflow editor screenshot displaying a Telegram Trigger connected to an OpenAI Classifier node, leading into a Switch node that branches into three distinct workflows for Research, Content, and Finance.](/images/blog/build-personal-ai-assistant-unnamed-67.webp)
+![n8n workflow editor showing a Telegram Trigger connected to an OpenAI Classifier leading into a Switch node branching into Research, Content, and Finance workflows — by Alfaz Mahmud Rizve](/images/blog/build-personal-ai-assistant-unnamed-67.webp)
 
-## Step 4: The Sub-Agents (The "Execute Workflow" Pattern)
+## Step 4: The Sub-Agents (Execute Workflow Pattern)
 
-Here is a common mistake: Beginners try to build *all* the logic inside one massive workflow. They put the web scraper, the database connector, and the image generator all in one canvas. **Do not do this.** It creates a "Monolith" that is impossible to debug.
+The most common beginner mistake is building all logic inside one massive workflow — the scraper, the database connector, and the video generator all on one canvas. This creates a "monolith" that is impossible to debug and maintain.
 
-Instead, use the **Execute Workflow** node. This allows your Master Orchestrator to "call" other workflows as if they were functions in code.
+Instead, use the **Execute Workflow** node. This allows the Master Orchestrator to call your existing Day 15-28 automations as if they were functions in code.
 
-### **Path A: The Research Agent**
+### Path A: The Research Agent
+- **Node:** Execute Workflow
+- **Source:** Your Day 15 "Deep Research" workflow
+- **Data Passing:** Map `$json.parameters.query` to the workflow's input
+- **Benefit:** If you improve the Research Agent later by adding a new news source, the Master Router automatically benefits with zero changes.
 
-- **Node:** **Execute Workflow**.
+### Path B: The Finance Agent
+- **Node:** Postgres (or your preferred database)
+- **Operation:** Insert Row
+- **Table:** `transactions`
+- **Mapping:** `amount: {{ $json.parameters.amount }}`, `category: {{ $json.parameters.category }}`, `description: {{ $json.parameters.description }}`, `date: {{ $now }}`
 
-- **Source:** Select your "Deep Research" workflow (from Day 15).
+**The real magic:** You type *"Lunch $50"* in Telegram. GPT-4o strips the number, category, and description. The Finance Agent inserts it into your database. Next time you open your dashboard, the transaction is already there, reflected in your burn rate charts. This is **ecosystem integration** — tools that talk to each other automatically.
 
-- **Data Passing:** Map the `query` parameter from the Router to the input of the Research workflow.
+### Path C: The Content Agent
+- **Node:** Execute Workflow
+- **Source:** Your Day 28 YouTube Shorts Generator workflow
+- **Data Passing:** Map `$json.parameters.topic` to the video topic input.
 
-- **Why this wins:** If you improve your Research Agent later (e.g., adding a new news source), you don't need to touch the Master Router. It just works better automatically.
-
-### **Path B: The Finance Agent (CashOps Integration)**
-
-Here we integrate the **CashOps** project we refined yesterday.
-
-- **Node:** **Postgres** (or HTTP Request to your CashOps API).
-
-- **Operation:** Insert.
-
-- **Table:** `transactions`.
-
-- **Mapping:**
-<ul class="wp-block-list">
-<li>`amount`: `{{ $json.parameters.amount }}`
-
-- `category`: `{{ $json.parameters.category }}`
-
-- `description`: `{{ $json.parameters.description }}`
-
-- `date`: `{{ $now }}`
-
-</li>
-</ul>
-
-**The User Experience Magic:** You type *"Lunch $50"* into Telegram. Behind the scenes, GPT-4 extracts the number. The Router sends it to the Finance Agent. The Postgres node injects it into your CashOps Supabase/Neon database. Next time you open your CashOps dashboard (the one we built yesterday), that transaction is already there, affecting your burn rate charts. **This is ecosystem integration.**
-
-### **Path C: The General Chat (LLM Memory)**
-
-Sometimes you just want to talk.
-
-- **Node:** **OpenAI Chat Model**.
-
-- **Memory:** Connect the **Window Buffer Memory**.
-
-- **Context:** Give it access to your bio. *"You are Alfaz's assistant. You know he is a Full Stack Developer building an agency..."*
-
-- This ensures that even "General" chat feels personalized and grounded in your reality.
+### Path D: General Chat
+- **Node:** OpenAI Chat Model with Window Buffer Memory (10 turns)
+- **System Prompt:** Include your personal bio so responses feel contextually grounded. "You are Alfaz's personal assistant. He is a RevOps and Automation Architect building an agency..."
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Step 5: The Feedback Loop
+## Step 5: The Feedback Loop (Making It Talk Back)
 
-A system that listens but doesn't speak is broken. The final step is reporting the status back to the user.
+A system that executes but does not report is incomplete. The final step is translating technical outputs into readable Telegram messages.
 
-We cannot just send the raw data back. A JSON dump of a database row is ugly. We need the "Personality" layer.
+After each agent branch completes, connect its output to an **OpenAI Chat Model** node (the "Spokesperson"):
 
-- **Node:** **Edit Fields** (Data aggregation). Combine the outputs from whichever branch ran.
+```text
+The user asked: "{{ $json.original_message }}"
+The agent performed: {{ $json.agent_result }}
 
-- **Node:****OpenAI Chat Model** (The "Spokesperson").
-<ul class="wp-block-list">
-<li>*Prompt:* "You are the interface. The user asked X. The agent performed Y. Summarize the result in a concise, witty Telegram message. Use emojis."
+Summarize this result in a concise, witty Telegram message. Use emojis appropriately. Be brief.
+```
 
-</li>
+Then connect to a **Telegram** node → Send Message → `{{ $json.formatted_response }}`.
 
-<li>**Node:****Telegram**.
+**The complete experience:**
 
-- *Action:* Send Message.
+You: *"Research Acme Corp and log $50 for the tool I used."*
 
-- *Content:* The AI summary.
-
-</li>
-</ul>
-
-**The Final Result:** You: *"Analyze the competitor 'Acme Corp' and log $50 for the software tool I used to check them."* **AIOS:** *"🕵️‍♂️ **Mission Report:** I've analyzed Acme Corp. They are focusing heavily on SEO this month. Summary attached. 💸 **CashOps Update:** Logged $50 to 'Software'. Your burn rate is slightly up today. Watch it, boss."*
-
-![iPhone mockup showing a Telegram chat with an AI bot named Alfaz's AIOS. The chat interface displays a user query for 'DeepSeek news and logging coffee expense,' followed by two distinct automated responses from the Research and Finance agents.](/images/blog/build-personal-ai-assistant-unnamed-68.webp)
+AIOS: *"🕵️ I've analyzed Acme Corp — they're focusing heavily on SEO content this month. Full brief attached. 💸 CashOps updated: $50 logged to 'Software'. Your burn rate is slightly up today, boss."*
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## Advanced Capability: Voice Mode (The "Iron Man" Upgrade)
-
-Typing is slow. Speaking is fast. Since we are using Telegram, we get **Voice Messages** for free. But n8n needs to understand audio.
-
-To upgrade your AIOS to "Iron Man" status:
-
-1. $1
-
-2. $1
-
-3. $1
-
-4. $1
-
-Now, you can press the microphone button on your watch or phone, mumble a command, and have your entire digital infrastructure react instantly.
+![iPhone mockup showing a Telegram chat with the AIOS bot responding to a dual-intent message about research and finance simultaneously — by Alfaz Mahmud Rizve](/images/blog/build-personal-ai-assistant-unnamed-68.webp)
 
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 
-## The Business Case: Selling the "Executive Dashboard"
+## The Iron Man Upgrade: Voice Mode
 
-This is not just a toy for you. This is a high-ticket product for clients.
+Typing is slow. Speaking is fast. Telegram supports native voice messages — and your AIOS can understand them too.
 
-CEOs and Founders suffer from "Dashboard Fatigue." They have logins for Stripe, HubSpot, Google Ads, and Xero. They hate logging in to check stats. You can sell them an **"Executive AI assistant"**—a Telegram bot that connects to all their APIs.
+Add an **IF** node at the very top of your workflow, before the Cortex, that checks `$json.message.voice` exists. If true:
+1. Download the Telegram voice OGG file via HTTP Request.
+2. Transcode to MP3 using a Code node or a conversion API.
+3. Run through **OpenAI Whisper** for transcription.
+4. Feed the text transcript into the Cortex as if it were a typed message.
 
-- **The Pitch:** "Stop checking 5 dashboards. Just text your bot 'How much money did we make today?' and it will query Stripe and tell you."
+Now you can press the microphone icon, mumble *"Research the latest AI news and make a video about it,"* and your entire automation stack executes instantly.
 
-- **The Price:** $2,000 Setup + $500/month Maintenance.
+## The Business Case: Selling the Executive Dashboard
 
-- **The Complexity:** Minimal. You already built the architecture today. You just need to swap the "CashOps" node for a "Stripe API" node.
+This is not just a toy for your own productivity. This is a high-ticket product.
 
-<hr class="wp-block-separator has-alpha-channel-opacity"/>
+CEOs and founders suffer from "Dashboard Fatigue." They have logins for Stripe, HubSpot, Google Ads, and Slack. They hate checking 5 apps to understand their business.
+
+**The Pitch:** "Stop checking dashboards. Text your secure business bot 'How much revenue did we make this week?' and it queries Stripe, formats the answer, and responds in 5 seconds."
+
+**The Pricing:** $2,500–$5,000 setup + $500/month maintenance. The complexity to you is minimal — you already built the architecture today. You just swap the "Finance" node for a "Stripe API" node and configure their data sources.
 
 ## Conclusion: You Are Now the Architect
 
-Congratulations. You have successfully centralized your digital life. You are no longer running disparate scripts. You are conversing with an Operating System that controls your business logic. You have achieved what 99% of developers never do: **Interoperability**.
+Congratulations. You have centralized your digital operations. You are no longer running disparate scripts — you are conversing with an Operating System that controls your entire business automation stack.
 
-Your Researcher talks to your Content Generator. Your Content Generator talks to your Finance Tracker. Your system is alive.
+Your Researcher talks to your Content Generator. Your Content Generator feeds your Finance Tracker. The system is *alive* — and it is yours.
 
-**What’s Next?** We have built the tools. We have connected the tools. We have the skills. But skills without strategy are just hobbies.
-
-Tomorrow is **Day 30**. The Grand Finale. We are not building a new tool. We are going to talk about **Monetization and Career Strategy**. I will show you exactly how to package these 29 days of knowledge into a **$10,000/month Automation Agency** offer. I will break down the pricing, the packaging, and the client acquisition strategy for an "Automation Architect."
+**What is Next?** Tomorrow is **Day 30 — The Grand Finale.** We are not building a new tool. We are talking about **Monetization and Strategy.** I will show you exactly how to package these 29 days of knowledge into a $10,000/month Automation Agency offer.
 
 **See you at the finish line.**
+
+*Follow the full series: [30 Days of n8n & Automation](https://whoisalfaz.me/blog/)*
+
+---
+
+**About the Author**
+
+Alfaz Mahmud Rizve is a RevOps Engineer and Automation Architect helping SaaS founders and scaling agencies build self-healing, autonomous revenue infrastructure. Explore his work at [whoisalfaz.me](https://whoisalfaz.me).
