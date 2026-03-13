@@ -258,11 +258,6 @@ export default async function Post({ params }) {
               </p>
             )}
 
-            {/* Hardcoded Article Byline */}
-            <p className="text-slate-900 dark:text-white font-black mb-16 text-lg uppercase tracking-tight flex items-center flex-wrap gap-2">
-              By Alfaz Mahmud Rizve <span className="text-slate-300 dark:text-slate-700">|</span> RevOps & Full Stack Automation Architect at
-              <a href="https://whoisalfaz.me" className="text-teal-600 dark:text-teal-400 no-underline hover:text-teal-500 ml-1">whoisalfaz.me</a>
-            </p>
 
             <MDXRemote
               source={post.content}
