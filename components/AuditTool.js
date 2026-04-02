@@ -80,6 +80,13 @@ export default function AuditTool() {
     setResults(null);
     setErrorMsg('');
     setExpandedChecks({});
+    
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'audit_started', {
+        event_category: 'Audit Tool',
+        event_label: cleanUrl
+      });
+    }
 
     let stepIndex = 0;
     const stepInterval = setInterval(() => {
@@ -102,6 +109,13 @@ export default function AuditTool() {
       if (response.ok && data.success) {
         setResults(data.results);
         setStatus('results');
+        
+        if (typeof window !== 'undefined' && window.gtag) {
+          window.gtag('event', 'audit_completed', {
+            event_category: 'Audit Tool',
+            event_label: cleanUrl
+          });
+        }
       } else {
         setErrorMsg(data.error || 'Something went wrong.');
         setStatus('error');
@@ -308,12 +322,29 @@ export default function AuditTool() {
                   navigator.clipboard.writeText(shareUrl);
                   setShareStatus('copied');
                   setTimeout(() => setShareStatus('idle'), 3000);
+                  
+                  if (typeof window !== 'undefined' && window.gtag) {
+                    window.gtag('event', 'audit_shared', {
+                      event_category: 'Audit Tool',
+                      event_label: url
+                    });
+                  }
                 }}
                 className="flex-1 px-6 py-4 rounded-[1.5rem] bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 font-bold uppercase tracking-tight text-sm hover:bg-slate-100 dark:hover:bg-white/[0.06] transition-all flex items-center justify-center gap-2 shadow-sm"
               >
                 {shareStatus === 'copied' ? <><Check size={16} className="text-green-500" /> Link Copied!</> : <><Share2 size={16} /> Share Results</>}
               </button>
-              <a href="/contact/" className="flex-1 px-6 py-4 rounded-[1.5rem] bg-slate-900 dark:bg-teal-500 text-white dark:text-black font-black uppercase tracking-tight text-sm hover:bg-slate-800 dark:hover:bg-teal-400 transition-all flex items-center justify-center gap-2 shadow-xl shadow-slate-900/10 dark:shadow-teal-500/10 hover:-translate-y-1">
+              <a 
+                href="/contact/" 
+                onClick={() => {
+                  if (typeof window !== 'undefined' && window.gtag) {
+                    window.gtag('event', 'audit_discuss_clicked', {
+                      event_category: 'Audit Tool',
+                      event_label: 'Discuss Results'
+                    });
+                  }
+                }}
+                className="flex-1 px-6 py-4 rounded-[1.5rem] bg-slate-900 dark:bg-teal-500 text-white dark:text-black font-black uppercase tracking-tight text-sm hover:bg-slate-800 dark:hover:bg-teal-400 transition-all flex items-center justify-center gap-2 shadow-xl shadow-slate-900/10 dark:shadow-teal-500/10 hover:-translate-y-1">
                 Discuss Results <ExternalLink size={16} />
               </a>
             </div>

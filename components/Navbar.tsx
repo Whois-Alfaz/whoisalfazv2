@@ -76,7 +76,18 @@ export default function Navbar() {
 
         {/* CTA Buttons */}
         <div className="hidden md:flex items-center gap-2">
-          <Link href="/audit" className="px-4 py-2 bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20 text-xs font-bold rounded-full hover:bg-teal-500/20 transition-all uppercase tracking-wider">
+          <Link
+            href="/audit"
+            onClick={() => {
+              if (typeof window !== 'undefined' && (window as any).gtag) {
+                (window as any).gtag('event', 'click_free_audit_nav', {
+                  event_category: 'Navigation',
+                  event_label: 'Free Audit Teal Pill'
+                });
+              }
+            }}
+            className="px-4 py-2 bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20 text-xs font-bold rounded-full hover:bg-teal-500/20 transition-all uppercase tracking-wider"
+          >
             Free Audit
           </Link>
           <a href="mailto:contact@whoisalfaz.me" className="px-5 py-2 bg-slate-900 dark:bg-white text-white dark:text-black text-xs font-bold rounded-full hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors shadow-sm">
