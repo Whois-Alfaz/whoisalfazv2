@@ -6,12 +6,66 @@ import Image from 'next/image';
 import { ArrowRight, Zap, Code2, Globe, Mail } from 'lucide-react';
 import NewsletterForm from '../components/NewsletterForm';
 import PartnerLogos from '../components/PartnerLogos';
+import HomeContentFooter from '../components/footers/HomeContentFooter';
 
 export default async function Home() {
   const posts = await getAllPosts();
 
+  const homeFaqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Who is Alfaz Mahmud Rizve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Alfaz Mahmud Rizve is a RevOps architect and full-stack automation engineer based in Bangladesh. He specializes in building autonomous revenue systems for SaaS companies, digital agencies, and small businesses using n8n workflows, AI agents, and high-performance Next.js infrastructure."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is workflow automation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Workflow automation is the process of replacing manual, repetitive business tasks with automated systems. Instead of manually copying data between your CRM, email tool, and spreadsheets, an automation engine like n8n handles it instantly via webhooks and API integrations."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does n8n cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "n8n offers a free self-hosted option that you can deploy on any cloud server for roughly $5-20/month in hosting costs. Unlike Zapier or Make, n8n does not charge per task execution. n8n Cloud plans start at $20/month for managed hosting."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a headless CMS?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A headless CMS decouples your content management from your frontend presentation. Your content lives in one system while your frontend is built with a modern framework like Next.js, delivering faster page loads, better SEO, and stronger security."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you offer free consultations?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Book a free strategy call to discuss your automation needs, current tech stack, and growth goals. There is no obligation."
+        }
+      }
+    ]
+  };
+
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] selection:bg-teal-500/20 selection:text-teal-900 dark:selection:text-teal-100 overflow-hidden relative transition-colors duration-300 pb-20 pt-24">
+      {/* FAQ SCHEMA */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeFaqSchema) }}
+      />
+
       {/* BACKGROUND ELEMENTS */}
       <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-teal-50/50 via-slate-50 to-slate-50 dark:from-blue-900/10 dark:via-[#0a0a0a] dark:to-[#0a0a0a] -z-10 transition-colors duration-300" />
 
@@ -290,6 +344,9 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* CONTEXTUAL CONTENT FOOTER */}
+      <HomeContentFooter />
     </main>
   );
 }

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Search, ChevronRight, BookOpen, Clock, ArrowRight } from 'lucide-react';
 
 import SearchWidget from '../../components/SearchWidget';
+import DefaultContentFooter from '../../components/footers/DefaultContentFooter';
 
 export const metadata = {
     title: "Blog | AI Automation, Next.js & RevOps Insights",
@@ -201,6 +202,9 @@ export default async function BlogPage() {
                 </div>
 
             </div>
+
+            {/* SEO CONTENT FOOTER */}
+            <DefaultContentFooter />
         </main>
     );
 }

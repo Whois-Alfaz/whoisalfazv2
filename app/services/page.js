@@ -1,4 +1,5 @@
 import AuditTool from '../../components/AuditTool';
+import DefaultContentFooter from '../../components/footers/DefaultContentFooter';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Zap, Globe, BarChart3, Search, Video, MessageSquare, ChevronDown, CheckCircle2, Code2 } from 'lucide-react';
@@ -308,6 +309,9 @@ export default function ServicesPage() {
                     ))}
                 </div>
             </section>
+
+                {/* SEO CONTENT FOOTER */}
+                <DefaultContentFooter />
 
         </main>
     );

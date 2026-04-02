@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowRight, Loader2, CheckCircle, AlertCircle, AlertTriangle, Mail, ExternalLink, ChevronDown, Shield, Globe, Zap, Search, Server, Lock, BarChart3 } from 'lucide-react';
+import { ArrowRight, Loader2, CheckCircle, AlertCircle, AlertTriangle, Mail, ExternalLink, ChevronDown, Shield, Globe, Zap, Search, Server, Lock, BarChart3, Share2, Copy, Check } from 'lucide-react';
+import { encodeAuditResult } from '@/lib/audit-share';
 
 const scanSteps = [
   "Resolving DNS & connectivity...",
@@ -52,6 +53,7 @@ export default function AuditTool() {
   const [results, setResults] = useState(null);
   const [errorMsg, setErrorMsg] = useState('');
   const [expandedChecks, setExpandedChecks] = useState({});
+  const [shareStatus, setShareStatus] = useState('idle'); // idle | copied
 
   const toggleCheck = (i) => setExpandedChecks(prev => ({ ...prev, [i]: !prev[i] }));
 
@@ -151,9 +153,13 @@ export default function AuditTool() {
               </div>
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest ml-1 transition-colors duration-300">Email</label>
-                <input type="email" placeholder="you@company.com" required className="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl p-4 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-700 focus:ring-2 focus:ring-teal-500/50 dark:focus:ring-blue-500/50 focus:border-teal-500/50 dark:focus:border-blue-500/50 outline-none transition-all duration-200 shadow-inner" value={email} onChange={(e) => setEmail(e.target.value)} disabled={status === 'loading'} />
+                <input type="email" placeholder="you@company.com (optional)" className="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl p-4 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-700 focus:ring-2 focus:ring-teal-500/50 dark:focus:ring-blue-500/50 focus:border-teal-500/50 dark:focus:border-blue-500/50 outline-none transition-all duration-200 shadow-inner" value={email} onChange={(e) => setEmail(e.target.value)} disabled={status === 'loading'} />
               </div>
             </div>
+            <p className="text-xs text-slate-400 dark:text-slate-500 -mt-1 ml-1 flex items-center gap-1.5 transition-colors duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+              Enter your email to get the full report with fix-it recommendations delivered to your inbox.
+            </p>
             <button type="submit" disabled={status === 'loading'} className="w-full bg-slate-900 dark:bg-blue-600 hover:bg-slate-800 dark:hover:bg-blue-500 disabled:bg-slate-900/50 dark:disabled:bg-blue-600/50 disabled:cursor-not-allowed text-white font-bold uppercase tracking-tight py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-slate-500/25 active:scale-[0.98]">
               {status === 'loading' ? 'Analyzing...' : 'Execute Analysis'} <ArrowRight size={18} />
             </button>
@@ -294,9 +300,23 @@ export default function AuditTool() {
                 );
               })}
             </div>
-            <a href="/contact/" className="w-full px-6 py-4 rounded-[1.5rem] bg-slate-900 dark:bg-teal-500 text-white dark:text-black font-black uppercase tracking-tight text-sm hover:bg-slate-800 dark:hover:bg-teal-400 transition-all flex items-center justify-center gap-2 shadow-xl shadow-slate-900/10 dark:shadow-teal-500/10 mt-6 hover:-translate-y-1">
-              Discuss Results <ExternalLink size={16} />
-            </a>
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => {
+                  const hash = encodeAuditResult(results);
+                  const shareUrl = `${window.location.origin}/audit/results/${hash}`;
+                  navigator.clipboard.writeText(shareUrl);
+                  setShareStatus('copied');
+                  setTimeout(() => setShareStatus('idle'), 3000);
+                }}
+                className="flex-1 px-6 py-4 rounded-[1.5rem] bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 font-bold uppercase tracking-tight text-sm hover:bg-slate-100 dark:hover:bg-white/[0.06] transition-all flex items-center justify-center gap-2 shadow-sm"
+              >
+                {shareStatus === 'copied' ? <><Check size={16} className="text-green-500" /> Link Copied!</> : <><Share2 size={16} /> Share Results</>}
+              </button>
+              <a href="/contact/" className="flex-1 px-6 py-4 rounded-[1.5rem] bg-slate-900 dark:bg-teal-500 text-white dark:text-black font-black uppercase tracking-tight text-sm hover:bg-slate-800 dark:hover:bg-teal-400 transition-all flex items-center justify-center gap-2 shadow-xl shadow-slate-900/10 dark:shadow-teal-500/10 hover:-translate-y-1">
+                Discuss Results <ExternalLink size={16} />
+              </a>
+            </div>
           </div>
         )}
       </div>

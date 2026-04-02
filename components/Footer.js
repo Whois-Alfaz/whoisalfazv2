@@ -7,17 +7,17 @@ export default function Footer() {
     return (
         <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0a0a0a] pt-16 pb-8 transition-colors duration-300">
             <div className="max-w-6xl mx-auto px-6">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 mb-16">
 
                     {/* Brand Column */}
-                    <div className="col-span-2 md:col-span-1">
+                    <div className="col-span-2 md:col-span-3 lg:col-span-2">
                         <Link href="/" className="flex items-center gap-1 group mb-4">
                             <span className="font-bold tracking-tight text-lg">
                                 <span className="text-teal-600 dark:text-teal-400">whois</span><span className="text-purple-600 dark:text-purple-500">alfaz</span> <span className="text-teal-600 dark:text-teal-400">.me</span>
                             </span>
                         </Link>
                         <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed transition-colors duration-300">
-                            Architecting autonomous revenue systems and high-performance headless infrastructures for scaling agencies.
+                            Alfaz Mahmud Rizve builds autonomous revenue systems and high-performance headless infrastructure for scaling agencies and SaaS businesses.
                         </p>
                     </div>
 
@@ -32,14 +32,24 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    {/* Resources Column */}
+                    {/* Free Tools Column */}
                     <div>
-                        <h4 className="text-slate-900 dark:text-white font-bold mb-4 transition-colors duration-300">Resources</h4>
+                        <h4 className="text-slate-900 dark:text-white font-bold mb-4 transition-colors duration-300">Free Tools</h4>
                         <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
-                            <li><Link href="/blog" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">Insights (Blog)</Link></li>
-                            <li><Link href="/portfolio" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">Portfolio</Link></li>
-                            <li><Link href="/partners" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">Partner Network</Link></li>
-                            <li><Link href="/contact" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">Strategy Call</Link></li>
+                            <li><Link href="/audit" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">Website Audit Tool</Link></li>
+                            <li><Link href="/labs/roi" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">ROI Calculator</Link></li>
+                            <li><Link href="/labs/chat" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">AI Chat Assistant</Link></li>
+                        </ul>
+                    </div>
+
+                    {/* Popular Guides Column */}
+                    <div>
+                        <h4 className="text-slate-900 dark:text-white font-bold mb-4 transition-colors duration-300">Popular Guides</h4>
+                        <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
+                            <li><Link href="/blog/automation-operating-system-for-saas" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">SaaS Automation OS</Link></li>
+                            <li><Link href="/blog/outstanding-ideas-for-b2b-lead-generation" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">B2B Lead Generation</Link></li>
+                            <li><Link href="/blog/outstanding-ideas-for-saas-mvps" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">SaaS MVP Ideas</Link></li>
+                            <li><Link href="/blog" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">View All Guides →</Link></li>
                         </ul>
                     </div>
 

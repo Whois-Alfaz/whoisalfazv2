@@ -16,10 +16,9 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: 'Blog', href: '/blog' },
-    { name: 'Case Studies', href: '/case-studies' },
-    { name: 'Lab', href: '/labs' },
     { name: 'Services', href: '/services' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'Lab', href: '/labs' },
     { name: 'Portfolio', href: '/portfolio' },
     { name: 'Contact', href: '/contact' },
   ];
@@ -41,7 +40,15 @@ export default function Navbar() {
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-400">
           {navLinks.map((link) => (
-            <Link key={link.name} href={link.href} className="hover:text-teal-600 dark:hover:text-white transition-colors duration-200">
+            <Link
+              key={link.name}
+              href={link.href}
+              className={
+                (link as any).highlight
+                  ? 'px-3 py-1 bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-teal-500/20 transition-all'
+                  : 'hover:text-teal-600 dark:hover:text-white transition-colors duration-200'
+              }
+            >
               {link.name}
             </Link>
           ))}
@@ -67,8 +74,11 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* CTA Button */}
-        <div className="hidden md:block">
+        {/* CTA Buttons */}
+        <div className="hidden md:flex items-center gap-2">
+          <Link href="/audit" className="px-4 py-2 bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20 text-xs font-bold rounded-full hover:bg-teal-500/20 transition-all uppercase tracking-wider">
+            Free Audit
+          </Link>
           <a href="mailto:contact@whoisalfaz.me" className="px-5 py-2 bg-slate-900 dark:bg-white text-white dark:text-black text-xs font-bold rounded-full hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors shadow-sm">
             Hire Me
           </a>

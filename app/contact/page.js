@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Mail, MessageSquare, Facebook, Linkedin, Instagram } from 'lucide-react';
 import ContactForm from '../../components/ContactForm';
+import DefaultContentFooter from '../../components/footers/DefaultContentFooter';
 
 export const metadata = {
     title: "Contact Alfaz | RevOps & Automation Consulting",
@@ -85,6 +86,9 @@ export default function ContactPage() {
                 </div>
 
             </div>
+
+            {/* SEO CONTENT FOOTER */}
+            <DefaultContentFooter />
         </main>
     );
 }

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { MapPin, GraduationCap, Briefcase, ArrowRight, ExternalLink, Code2, Cpu, Globe, Database, Layout, BarChart3 } from 'lucide-react';
+import DefaultContentFooter from '../../components/footers/DefaultContentFooter';
 
 export const metadata = {
     title: "Portfolio | Alfaz Mahmud Rizve",
@@ -321,6 +322,9 @@ export default function Portfolio() {
                     <div className="absolute top-0 right-0 w-96 h-96 bg-teal-500/20 dark:bg-blue-500/20 rounded-full blur-3xl -mr-32 -mt-32"></div>
                     <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/20 dark:bg-purple-500/20 rounded-full blur-3xl -ml-32 -mb-32"></div>
                 </section>
+
+                {/* SEO CONTENT FOOTER */}
+                <DefaultContentFooter />
 
             </div>
         </main>
