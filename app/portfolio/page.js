@@ -176,7 +176,7 @@ export default function Portfolio() {
                         </a>
 
                         {/* Project - Veloryc */}
-                        <Link href="/blog/case-studies/case-study-veloryc-premium-ecommerce" style={{ animationDelay: '150ms' }} className="animate-in fade-in zoom-in-95 duration-700 fill-mode-both group bg-white dark:bg-[#111] border border-slate-200 dark:border-white/10 rounded-[3rem] overflow-hidden hover:border-purple-500/50 shadow-xl hover:shadow-2xl dark:shadow-none transition-all cursor-pointer">
+                        <Link href="/blog/case-study-veloryc-premium-ecommerce/" style={{ animationDelay: '150ms' }} className="animate-in fade-in zoom-in-95 duration-700 fill-mode-both group bg-white dark:bg-[#111] border border-slate-200 dark:border-white/10 rounded-[3rem] overflow-hidden hover:border-purple-500/50 shadow-xl hover:shadow-2xl dark:shadow-none transition-all cursor-pointer">
                             <div className="h-48 bg-slate-50 dark:bg-[#050505] border-b border-slate-100 dark:border-white/5 group-hover:bg-purple-50 dark:group-hover:bg-purple-950/30 transition-colors relative p-8 flex items-center justify-center">
                                 <div className="relative w-full h-full">
                                     <Image src="/veloryc.png" alt="Veloryc Logo" fill className="object-contain" />
