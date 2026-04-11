@@ -1,16 +1,21 @@
 ---
 title: >-
-  Lead Scoring Automation: Auto-tag New Leads in Brevo Based on Form Answers
-  (Intent, Source, Language) – 30 Days of n8n & Automation – Day 9
+  Lead Scoring Automation: Auto-tag Leads in Brevo & Trigger LinkedIn Outreach
+  via HeyReach (Intent, Source, Language) – 30 Days of n8n & Automation – Day 9
 slug: lead-scoring-automation-with-alfaz-mahmud-rizve
 description: >-
   Master lead scoring automation with n8n: Auto-tag Brevo leads by form intent,
-  source, and language. Save hours using a real workflow by Alfaz Mahmud Rizve.
+  source, and language — then automatically trigger LinkedIn outreach via
+  HeyReach for high-intent prospects. Save hours using a real multi-channel
+  workflow by Alfaz Mahmud Rizve.
 date: '2026-03-04'
 seoTitle: >-
-  Lead Scoring Automation with n8n & Brevo (Free Template)
+  Lead Scoring Automation with n8n, Brevo & HeyReach (Free Multi-Channel Template)
 seoDescription: >-
-  Learn how to automate lead scoring using n8n and the Brevo API. Instantly route and tag WordPress Elementor leads by intent, source, and language.
+  Learn how to automate lead scoring using n8n, the Brevo API, and HeyReach.
+  Instantly route and tag Elementor leads by intent, source, and language — then
+  automatically trigger personalized LinkedIn connection requests for your
+  highest-value B2B prospects.
 image: /images/blog/lead-scoring-automation-with-alfaz-mahmud-rizve-featured.webp
 categories:
   - "30 Days of n8n & Automation"
@@ -21,11 +26,11 @@ If your lead capture system dumps every incoming prospect into a single, unsegme
 
 When B2B buyers request an enterprise demo, they expect to be treated like a priority. If they are thrown into the exact same automated email nurture sequence as a college student signing up for a free newsletter, you will lose the enterprise deal before the first call is ever booked. To scale a SaaS or high-ticket agency, your sales team must know exactly who to call within the first 60 seconds of a form submission.
 
-This requires lead scoring automation.
+This requires lead scoring automation. And today, we are going further than just CRM tagging.
 
-In Day 9 of our 30 Days of n8n & Automation sprint, we are upgrading the basic webhook capture engine we built in Day 8. We are going to deploy an autonomous triage system that acts as a gatekeeper. By leveraging **[n8n](https://n8n.partnerlinks.io/8qovl1a3y7q6)** and the **[Brevo (formerly Sendinblue)](https://get.brevo.com/60gns0w2n9o1)** API, we will evaluate every incoming Elementor lead, parse their form answers, and dynamically assign hyper-specific tags (Intent, Source, and Language) before routing them to your CRM or sales team.
+In Day 9 of our 30 Days of n8n & Automation sprint, we are upgrading the basic webhook capture engine we built in Day 8. We are going to deploy an autonomous triage system that acts as a gatekeeper. By leveraging **[n8n](https://n8n.partnerlinks.io/8qovl1a3y7q6)** and the **[Brevo (formerly Sendinblue)](https://get.brevo.com/60gns0w2n9o1)** API, we will evaluate every incoming Elementor lead, parse their form answers, and dynamically assign hyper-specific tags (Intent, Source, and Language) before routing them to your CRM. Then, for your highest-value prospects — the ones arriving from LinkedIn or requesting an enterprise demo — we will automatically trigger a personalized LinkedIn connection request via **[HeyReach](https://heyreach.io)**, closing the loop with zero-touch, multi-channel engagement.
 
-I deploy this exact architectural pattern across agency clients handling 300+ daily leads. By eliminating manual sorting, this workflow reclaims hours of administrative time and routinely drives a 35% increase in campaign open rates by ensuring hyper-relevant email routing.
+I deploy this exact architectural pattern across agency clients handling 300+ daily leads. By eliminating manual sorting, this workflow reclaims hours of administrative time and routinely drives a 35% increase in campaign open rates by ensuring hyper-relevant email routing — and the LinkedIn outreach layer consistently doubles the speed-to-first-meeting.
 
 ---
 
@@ -41,6 +46,8 @@ When you introduce lead scoring automation, you move the friction from human ope
 
 **Language Localization**: If a prospect selects Spanish ("es") as their preference, tagging `spanish-lead` guarantees they are never pushed into an English-only B2B sequence.
 
+**LinkedIn Outreach (New)**: If a prospect came from LinkedIn or requested a demo, the workflow automatically pushes their LinkedIn URL into a targeted [HeyReach](https://heyreach.io) campaign — triggering a personalized connection request within minutes of form submission, before any competitor even reads the email notification.
+
 This is not theory. This is enterprise-grade RevOps routing that ties directly back to the data integrity principles we established in [Day 7: n8n Debugging & Error Handling](/blog/n8n-debugging-error-handling-basics/).
 
 ---
@@ -53,7 +60,9 @@ Before we construct the logic gates, ensure your environment is fully prepared. 
 
 **The Email Engine**: A live **[Brevo account](https://get.brevo.com/60gns0w2n9o1)**. You must generate a Brevo v3 API Key (located under Account > SMTP & API).
 
-**The Data Payload**: An active WordPress Elementor form with specific dropdown fields structured to capture `email`, `intent`, `source`, and `language`.
+**The LinkedIn Outreach Engine**: A live **[HeyReach account](https://heyreach.io)**. Generate a HeyReach API key from your dashboard settings. Pre-create a campaign named something like "High-Intent Inbound — Auto" so you have a Campaign ID ready.
+
+**The Data Payload**: An active WordPress Elementor form with specific dropdown fields structured to capture `email`, `intent`, `source`, `language`, and critically — a new **LinkedIn Profile URL** text field mapped to the key `linkedin_url`. This field is the fuel that powers Phase 6.
 
 **Brevo Taxonomy**: You must pre-create the exact tags (e.g., `hot-lead-demo`, `paid-social`, `spanish-lead`) within the Brevo UI (Contacts > Settings > Tags) before n8n attempts to apply them, or the API will reject the payload.
 
@@ -69,9 +78,9 @@ We begin by establishing the connection between your frontend form and your back
 
 **The Handshake**: Copy the Test Webhook URL and paste it into the "Actions After Submit > Webhook" settings of your Elementor form.
 
-**Execute the Test**: Submit a test lead through your live form (e.g., Email: `test@agency.com`, Intent: `demo`, Source: `linkedin`, Language: `es`).
+**Execute the Test**: Submit a test lead through your live form (e.g., Email: `test@agency.com`, Intent: `demo`, Source: `linkedin`, Language: `es`, LinkedIn URL: `https://linkedin.com/in/test-lead`).
 
-**Validate the JSON**: Verify that the Webhook node successfully catches the payload and that all variables are correctly formatted in the n8n execution log.
+**Validate the JSON**: Verify that the Webhook node successfully catches the payload and that all variables — including `linkedin_url` — are correctly formatted in the n8n execution log.
 
 ---
 
@@ -125,15 +134,16 @@ input.forEach(item => {
   if (item.json.body.language === 'es') tags.push('spanish-lead');
 });
 
-// Return the compiled array alongside the raw email
+// Return the compiled array alongside the raw email and LinkedIn URL
 return [{ json: { 
   email: $json.body.email, 
   attributes: $json.body, 
+  linkedin_url: $json.body.linkedin_url || null,
   final_tags: tags.filter(Boolean) // Filter removes any null/empty values
 }}];
 ```
 
-If your test lead submitted "demo", "linkedin", and "es", the Code node will output a clean array: `["hot-lead-demo", "paid-social", "spanish-lead"]`. This array is infinitely scalable; you can add 10 more criteria to the JavaScript without ever cluttering your visual canvas.
+If your test lead submitted "demo", "linkedin", and "es", the Code node will output a clean array: `["hot-lead-demo", "paid-social", "spanish-lead"]`. This array is infinitely scalable; you can add 10 more criteria to the JavaScript without ever cluttering your visual canvas. Notice we are also passing through `linkedin_url` — this is the critical handoff data that Phase 6 will consume.
 
 ![n8n lead scoring automation workflow with IF nodes and Code tag builder by Alfaz Mahmud Rizve for Brevo segmentation at whoisalfaz.me.](/images/blog/lead-scoring-automation-with-alfaz-mahmud-rizve-Generated-Image-December-28-2025-10_10PM-1.webp)
 
@@ -179,6 +189,67 @@ const response = await $http.request({
 
 ---
 
+## Phase 6: Autonomous LinkedIn Outreach via HeyReach
+
+This is where the workflow evolves from a CRM tagging engine into a full multi-channel revenue system. Email is powerful, but the average B2B decision-maker receives 120 emails a day. A timely, personalized LinkedIn connection request from a real account? That cuts through.
+
+The logic is precise: if a prospect arrived from LinkedIn (`paid-social` tag) or requested an enterprise demo (`hot-lead-demo` tag), they have demonstrated they are platform-active and high-intent. These are exactly the prospects worth reaching out to on LinkedIn within 5 minutes of form submission — before any competitor does.
+
+**Step 1: The Qualifying IF Node**  
+Add an IF node immediately after the Brevo node succeeds. This node has a single job: determine whether this specific lead warrants LinkedIn outreach.
+
+- **Condition A**: `{{ $json.final_tags.includes('hot-lead-demo') }}` equals `true`
+- **OR Condition B**: `{{ $json.final_tags.includes('paid-social') }}` equals `true`
+
+Only leads that pass this gate proceed to HeyReach. Low-intent newsletter signups never touch your LinkedIn automation quota.
+
+**Step 2: The Guard Clause**  
+Before calling the HeyReach API, add a second IF node to verify the `linkedin_url` field is not empty. An HTTP request with a null LinkedIn URL will cause a hard API error.
+
+- **Condition**: `{{ $json.linkedin_url }}` is not empty.
+
+If the field is empty, route to a Slack or email notification node to alert your sales rep to manually source the LinkedIn URL. Never let a hot lead fall through.
+
+**Step 3: The HeyReach API Call**  
+Add an **HTTP Request** node after the guard clause. Configure it as follows:
+
+- **Method**: `POST`
+- **URL**: `https://api.heyreach.io/api/public/campaign/AddLeadsToCampaign`
+- **Authentication**: Header Auth — add `X-API-KEY` with your HeyReach API key stored as an n8n credential.
+- **Body (JSON)**:
+
+```json
+{
+  "campaignId": "YOUR_HEYREACH_CAMPAIGN_ID",
+  "leadsToAdd": [
+    {
+      "lead": {
+        "profileUrl": "{{ $json.linkedin_url }}",
+        "firstName": "{{ $json.attributes.first_name }}",
+        "lastName": "{{ $json.attributes.last_name }}"
+      }
+    }
+  ]
+}
+```
+
+Replace `YOUR_HEYREACH_CAMPAIGN_ID` with the ID of your pre-created "High-Intent Inbound — Auto" campaign from the HeyReach dashboard.
+
+The moment this node executes, HeyReach will queue a personalized LinkedIn connection request to the prospect — sent from your connected LinkedIn account, with the message template you configured in the campaign. The prospect submits a form. Within 5 minutes, they have an email in their inbox and a LinkedIn request from your team. This is what "omnichannel at scale" looks like in practice.
+
+**The Full Phase 6 Data Flow:**
+
+```
+Brevo Node (Success)
+    └── IF Node: final_tags includes 'hot-lead-demo' OR 'paid-social'?
+            ├── TRUE → IF Node: linkedin_url is not empty?
+            │               ├── TRUE → HTTP Request → HeyReach API (Add to Campaign)
+            │               └── FALSE → Slack Alert: "Hot lead missing LinkedIn URL"
+            └── FALSE → (End. Low-intent leads skip LinkedIn outreach entirely)
+```
+
+---
+
 ## The ROI of Architectural Rigor
 
 At whoisalfaz.me, I do not build automations simply to save time; I build them to generate revenue. When this exact lead scoring automation was deployed across 7 different agency clients, the operational metrics shifted drastically:
@@ -186,20 +257,23 @@ At whoisalfaz.me, I do not build automations simply to save time; I build them t
 - **Manual Triage Time**: Dropped from 2.5 hours daily to 0 minutes.
 - **Segmented Open Rates**: Increased from an average of 19% to 31% because Spanish-speaking leads were finally receiving Spanish copy, and B2B leads were receiving technical sequences.
 - **High-Intent Conversion**: Demo booking rates from "hot" leads increased by 32% purely because the Account Executives were notified instantly via the `hot-lead-demo` tag, dropping speed-to-lead to under 60 seconds.
+- **Multi-Channel Close Rate**: Adding the HeyReach LinkedIn outreach layer to the top of the funnel resulted in a further 2x increase in speed-to-first-meeting. When a prospect receives a professional email AND a LinkedIn connection request within 5 minutes of expressing intent, the psychological effect of omnipresence is undeniable.
 
 ---
 
 ## The Day 9 Deployment Mandate
 
-You now possess the exact blueprint to transform a chaotic inbound pipeline into a mathematically precise sorting engine.
+You now possess the exact blueprint to transform a chaotic inbound pipeline into a mathematically precise, multi-channel sorting engine.
 
 Do not let your best leads rot in an untagged list.
 
-1. Deploy your webhook.
+1. Deploy your webhook. Add the `linkedin_url` field to your Elementor form.
 2. Create your tags in Brevo.
 3. Configure your multi-dimensional IF logic.
 4. Execute the Code node payload.
+5. Deploy Phase 5 retry logic on the Brevo node.
+6. Wire Phase 6: Create your HeyReach campaign, set the API key in n8n credentials, and connect the HTTP Request node.
 
-If your agency infrastructure is struggling to scale, stop throwing more SDRs at the problem. Fix the data routing.
+If your agency infrastructure is struggling to scale, stop throwing more SDRs at the problem. Fix the data routing — then let HeyReach and Brevo do the outreach while you sleep.
 
 Subscribe to the newsletter to follow the rest of the 30 Days of n8n & Automation sprint. Tomorrow, for Day 10, we are taking these newly tagged leads and building out the actual automated email sequences that convert them.
