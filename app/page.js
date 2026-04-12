@@ -152,6 +152,7 @@ export default async function Home() {
                       src="/logo.png"
                       alt="whoisalfaz Logo"
                       fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-contain transition-transform duration-700 group-hover:scale-110 grayscale brightness-0 dark:invert opacity-10"
                     />
                   </div>
@@ -288,7 +289,7 @@ export default async function Home() {
                   {/* TOP IMAGE AREA WITH PILLS */}
                   <div className="h-48 bg-slate-100 dark:bg-slate-800 relative overflow-hidden p-4 flex flex-col justify-start">
                     {post.image ? (
-                      <Image src={post.image} alt={post.title} fill className="object-cover transition-transform duration-1000 group-hover:scale-105" />
+                      <Image src={post.image} alt={post.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition-transform duration-1000 group-hover:scale-105" />
                     ) : (
                       <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-teal-500/20" />
                     )}

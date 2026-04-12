@@ -93,22 +93,47 @@ export default async function Post({ params }) {
             "@context": "https://schema.org",
             "@type": "BlogPosting",
             "headline": post.seoTitle || post.title,
+            "description": post.seoDescription || post.description,
             "datePublished": post.date,
             "dateModified": post.date,
-            "image": post.image ? [post.image] : [],
+            "image": post.image ? [`https://whoisalfaz.me${post.image}`] : [],
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": `https://whoisalfaz.me/blog/${slug}/`
+            },
             "author": {
               "@type": "Person",
               "name": "Alfaz Mahmud Rizve",
-              "url": "https://whoisalfaz.me"
+              "url": "https://whoisalfaz.me",
+              "jobTitle": "RevOps Architect & Full Stack Automation Engineer",
+              "image": "https://whoisalfaz.me/profile.jpg",
+              "sameAs": [
+                "https://www.linkedin.com/in/alfazmahmudrizve/",
+                "https://x.com/whoisalfaz"
+              ]
             },
             "publisher": {
               "@type": "Organization",
-              "name": "Alfaz Mahmud Rizve",
+              "name": "whoisalfaz",
               "logo": {
                 "@type": "ImageObject",
                 "url": "https://whoisalfaz.me/logo.png"
               }
             }
+          })
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://whoisalfaz.me/" },
+              { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://whoisalfaz.me/blog/" },
+              { "@type": "ListItem", "position": 3, "name": post.seoTitle || post.title, "item": `https://whoisalfaz.me/blog/${slug}/` }
+            ]
           })
         }}
       />
@@ -147,7 +172,7 @@ export default async function Post({ params }) {
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-full bg-slate-100 dark:bg-slate-800 p-0.5 ring-2 ring-slate-200 dark:ring-white/10">
                   <div className="w-full h-full rounded-full overflow-hidden relative">
-                    <Image src="/profile.jpg" alt="Alfaz" fill className="object-cover" />
+                    <Image src="/profile.jpg" alt="Alfaz" fill sizes="56px" className="object-cover" />
                   </div>
                 </div>
                 <div className="leading-tight">
@@ -181,6 +206,7 @@ export default async function Post({ params }) {
               src={post.image}
               alt={post.title}
               fill
+              sizes="(max-width: 768px) 100vw, 1200px"
               className="object-cover transition-transform duration-1000 group-hover:scale-105"
               priority
             />
