@@ -13,6 +13,7 @@ import BlogImage from '@/components/BlogImage';
 import StepList from '@/components/StepList';
 import SearchWidget from '@/components/SearchWidget';
 import DeployingTheStacks from '@/components/DeployingTheStacks';
+import SeriesNavigation from '@/components/SeriesNavigation';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 
 export async function generateStaticParams() {
@@ -215,6 +216,9 @@ export default async function Post({ params }) {
           </div>
         )}
       </header>
+
+      {/* --- SERIES NAVIGATION (Part X of Y) --- */}
+      <SeriesNavigation currentPost={post} allPosts={posts} />
 
 
       {/* --- MAIN LAYOUT GRID (Left TOC, Center Content, Right Sidebar) --- */}
