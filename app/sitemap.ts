@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { getAllPosts } from '@/lib/mdx';
+import { getAllPosts, slugify } from '@/lib/mdx';
 import { serviceData } from '@/lib/serviceData';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -47,9 +47,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     posts.forEach((post: any) => {
         if (post.categories && Array.isArray(post.categories)) {
             post.categories.forEach((cat: string) => {
-                // Replicating category slug generation logic
-                const categorySlug = cat.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
-                categoriesSet.add(categorySlug);
+                categoriesSet.add(slugify(cat));
             });
         }
     });

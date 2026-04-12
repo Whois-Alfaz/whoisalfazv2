@@ -49,6 +49,12 @@ const nextConfig: NextConfig = {
         destination: '/blog/category/:slug',
         permanent: true,
       },
+      // 6b. Fix: Redirect old double-dash category slug to clean single-dash
+      {
+        source: '/blog/category/30-days-of-n8n--automation/',
+        destination: '/blog/category/30-days-of-n8n-automation/',
+        permanent: true,
+      },
       // 7. Affiliate Link Cloaking
       {
         source: '/go/monday',

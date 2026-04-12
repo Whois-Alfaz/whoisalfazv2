@@ -106,6 +106,14 @@ export function getAllPosts(): PostMeta[] {
 }
 
 /**
+ * Single source of truth for URL slug generation.
+ * Collapses all consecutive non-alphanumeric characters into a single dash.
+ */
+export function slugify(text: string): string {
+    return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+}
+
+/**
  * Get all unique categories across all posts.
  * Returns array of { name, slug, count }.
  */
@@ -121,7 +129,7 @@ export function getAllCategories(): { name: string; slug: string; count: number 
 
     return Array.from(categoryMap.entries()).map(([name, count]) => ({
         name,
-        slug: name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+        slug: slugify(name),
         count,
     }));
 }
@@ -141,7 +149,7 @@ export function getPostsByCategory(categorySlug: string): { posts: PostMeta[]; c
 
     const posts = allPosts.filter(post =>
         (post.categories || []).some(cat =>
-            cat.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === categorySlug
+            slugify(cat) === categorySlug
         )
     );
 
