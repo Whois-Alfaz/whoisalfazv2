@@ -66,6 +66,42 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeFaqSchema) }}
       />
 
+      {/* PERSON SCHEMA — E-E-A-T Entity Signal */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Alfaz Mahmud Rizve",
+          "url": "https://whoisalfaz.me",
+          "image": "https://whoisalfaz.me/profile.jpg",
+          "jobTitle": "RevOps Architect & Full Stack Automation Engineer",
+          "description": "Alfaz Mahmud Rizve is a RevOps architect and full-stack automation engineer specializing in building autonomous revenue systems for SaaS companies, digital agencies, and small businesses using n8n workflows, AI agents, and high-performance Next.js infrastructure.",
+          "sameAs": [
+            "https://www.linkedin.com/in/alfazmahmudrizve/",
+            "https://x.com/whoisalfaz",
+            "https://github.com/AlfazMahmudRizve"
+          ],
+          "knowsAbout": [
+            "n8n Workflow Automation",
+            "Revenue Operations (RevOps)",
+            "Next.js",
+            "Technical SEO",
+            "AI Agent Architecture",
+            "Headless CMS",
+            "Full Stack Development",
+            "Supabase",
+            "Lead Enrichment Automation",
+            "Progressive Web Apps"
+          ],
+          "worksFor": {
+            "@type": "Organization",
+            "name": "whoisalfaz",
+            "url": "https://whoisalfaz.me"
+          }
+        }) }}
+      />
+
       {/* BACKGROUND ELEMENTS */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-teal-50/50 via-slate-50 to-slate-50 dark:from-blue-900/10 dark:via-[#0a0a0a] dark:to-[#0a0a0a] -z-10 transition-colors duration-300" />
 

@@ -42,6 +42,36 @@ export default async function ServiceDetailPage({ params }) {
 
     return (
         <main className="min-h-screen pt-32 pb-20 px-6 bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300">
+            {/* SERVICE SCHEMA — Rich Result Signal */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "Service",
+                    "name": title,
+                    "description": subtitle,
+                    "serviceType": title,
+                    "provider": {
+                        "@type": "Person",
+                        "name": "Alfaz Mahmud Rizve",
+                        "url": "https://whoisalfaz.me",
+                        "jobTitle": "RevOps Architect & Full Stack Automation Engineer"
+                    },
+                    "url": `https://whoisalfaz.me/services/${slug}/`,
+                    "areaServed": "Worldwide",
+                    "offers": {
+                        "@type": "Offer",
+                        "price": price.replace(/[^0-9.]/g, ''),
+                        "priceCurrency": "USD",
+                        "priceSpecification": {
+                            "@type": "UnitPriceSpecification",
+                            "price": price.replace(/[^0-9.]/g, ''),
+                            "priceCurrency": "USD"
+                        }
+                    }
+                }) }}
+            />
+
             {/* BACKGROUND ELEMENTS */}
             <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100 via-slate-50 to-slate-50 dark:from-transparent dark:via-[#0a0a0a] dark:to-[#0a0a0a] -z-20 transition-colors duration-300" />
 

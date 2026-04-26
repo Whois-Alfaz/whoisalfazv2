@@ -90,9 +90,9 @@ export default function Navbar() {
           >
             Free Audit
           </Link>
-          <a href="mailto:contact@whoisalfaz.me" className="px-5 py-2 bg-slate-900 dark:bg-white text-white dark:text-black text-xs font-bold rounded-full hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors shadow-sm">
+          <Link href="/contact" className="px-5 py-2 bg-slate-900 dark:bg-white text-white dark:text-black text-xs font-bold rounded-full hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors shadow-sm">
             Hire Me
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Menu & Theme Toggle */}
@@ -186,13 +186,13 @@ export default function Navbar() {
               </Link>
             ))}
             <div className="h-px bg-slate-200 dark:bg-white/10 my-2 mx-2"></div>
-            <a
-              href="mailto:contact@whoisalfaz.me"
+            <Link
+              href="/contact"
               className="block px-4 py-3 text-center bg-slate-900 dark:bg-white text-white dark:text-black font-bold rounded-xl hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors mx-2 mb-2"
               onClick={() => setIsOpen(false)}
             >
               Hire Me
-            </a>
+            </Link>
           </div>
         </>
       )}

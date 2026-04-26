@@ -113,7 +113,7 @@ const AffiliateCard = ({ data, id, index = 0 }) => (
     <Link 
         href={data.url} 
         target="_blank" 
-        rel="noopener noreferrer" 
+        rel="noopener noreferrer sponsored" 
         key={id} 
         style={{ animationDelay: `${index * 150}ms` }}
         className="animate-in fade-in zoom-in-[0.98] duration-700 fill-mode-both bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 rounded-2xl p-6 shadow-xl dark:shadow-none hover:border-teal-500/50 hover:shadow-2xl transition-all group overflow-hidden relative block flex flex-col justify-between h-full"
