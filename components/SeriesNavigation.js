@@ -33,31 +33,43 @@ export default function SeriesNavigation({ currentPost, allPosts }) {
 
   return (
     <nav aria-label="Series navigation" className="max-w-7xl mx-auto px-6 mb-8">
-      <div className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl p-4 md:p-6">
 
-        {/* Previous */}
-        <div className="flex-1 min-w-0">
-          {prevPost ? (
-            <Link href={`/blog/${prevPost.slug}/`} className="group flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors">
-              <ChevronLeft size={16} className="shrink-0 group-hover:-translate-x-1 transition-transform" />
-              <span className="truncate">{prevPost.title}</span>
-            </Link>
-          ) : <div />}
+        {/* Desktop: 3-column grid with fixed center */}
+        <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] items-center gap-4">
+
+          {/* Previous */}
+          <div className="overflow-hidden">
+            {prevPost ? (
+              <Link href={`/blog/${prevPost.slug}/`} className="group flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors">
+                <ChevronLeft size={16} className="shrink-0 group-hover:-translate-x-1 transition-transform" />
+                <span className="truncate">{prevPost.title}</span>
+              </Link>
+            ) : <div />}
+          </div>
+
+          {/* Center: Part indicator */}
+          <div className="px-4 py-1.5 bg-teal-50 dark:bg-teal-500/10 border border-teal-100 dark:border-teal-500/20 rounded-full text-[10px] font-black text-teal-600 dark:text-teal-400 uppercase tracking-widest whitespace-nowrap">
+            Part {partNumber} of {totalParts}
+          </div>
+
+          {/* Next */}
+          <div className="overflow-hidden flex justify-end">
+            {nextPost ? (
+              <Link href={`/blog/${nextPost.slug}/`} className="group flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors overflow-hidden">
+                <span className="truncate">{nextPost.title}</span>
+                <ChevronRight size={16} className="shrink-0 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            ) : <div />}
+          </div>
+
         </div>
 
-        {/* Center: Part indicator */}
-        <div className="shrink-0 px-4 py-1.5 bg-teal-50 dark:bg-teal-500/10 border border-teal-100 dark:border-teal-500/20 rounded-full text-[10px] font-black text-teal-600 dark:text-teal-400 uppercase tracking-widest">
-          Part {partNumber} of {totalParts}
-        </div>
-
-        {/* Next */}
-        <div className="flex-1 min-w-0 flex justify-end">
-          {nextPost ? (
-            <Link href={`/blog/${nextPost.slug}/`} className="group flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors text-right">
-              <span className="truncate">{nextPost.title}</span>
-              <ChevronRight size={16} className="shrink-0 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          ) : <div />}
+        {/* Mobile: Just the part indicator */}
+        <div className="flex md:hidden justify-center">
+          <div className="px-4 py-1.5 bg-teal-50 dark:bg-teal-500/10 border border-teal-100 dark:border-teal-500/20 rounded-full text-[10px] font-black text-teal-600 dark:text-teal-400 uppercase tracking-widest whitespace-nowrap">
+            Part {partNumber} of {totalParts}
+          </div>
         </div>
 
       </div>
