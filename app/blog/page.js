@@ -35,6 +35,28 @@ export default async function BlogPage() {
 
     return (
         <main className="min-h-screen pt-32 pb-20 px-6 bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300">
+            {/* CollectionPage Schema */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "CollectionPage",
+                        "name": "Blog | AI Automation, Next.js & RevOps Insights",
+                        "description": "Actionable engineering playbooks, n8n automation tutorials, and architectural insights for scaling SaaS founders and agencies.",
+                        "url": "https://whoisalfaz.me/blog/",
+                        "mainEntity": {
+                            "@type": "ItemList",
+                            "numberOfItems": posts.length,
+                            "itemListElement": posts.slice(0, 10).map((post, i) => ({
+                                "@type": "ListItem",
+                                "position": i + 1,
+                                "url": `https://whoisalfaz.me/blog/${post.slug}/`
+                            }))
+                        }
+                    })
+                }}
+            />
             {/* BACKGROUND */}
             <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-teal-500/10 via-slate-50 to-slate-50 dark:from-blue-900/10 dark:via-[#0a0a0a] dark:to-[#0a0a0a] -z-10 transition-colors duration-300" />
 

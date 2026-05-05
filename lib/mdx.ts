@@ -9,6 +9,7 @@ export interface PostMeta {
     slug: string;
     description: string;
     date: string;
+    modified?: string;
     image?: string;
     categories?: string[];
     affiliates?: string[];
@@ -57,6 +58,7 @@ export function getPostBySlug(slug: string): Post | null {
                 slug: fileSlug,
                 description: data.description || '',
                 date: data.date || '',
+                modified: data.modified || '',
                 image: data.image || '',
                 categories: data.categories || [],
                 affiliates: data.affiliates || [],
@@ -91,6 +93,7 @@ export function getAllPosts(): PostMeta[] {
             slug: data.slug || slug,
             description: data.description || '',
             date: data.date || '',
+            modified: data.modified || '',
             image: data.image || '',
             categories: data.categories || [],
             affiliates: data.affiliates || [],

@@ -15,9 +15,23 @@ async function getSidebarData() {
 
 export async function generateMetadata({ params }) {
     const { slug } = await params;
+    const { category } = getPostsByCategory(slug);
+    const name = category?.name || slug;
+    const title = `${name} — Blog`;
+    const description = `Read all articles about ${name}. Technical tutorials, case studies, and architectural blueprints by Alfaz Mahmud Rizve.`;
+
     return {
-        title: `${slug.charAt(0).toUpperCase() + slug.slice(1)} | Blog Categories`,
-        description: `Articles about ${slug}`,
+        title,
+        description,
+        alternates: {
+            canonical: `/blog/category/${slug}/`,
+        },
+        openGraph: {
+            title,
+            description,
+            url: `https://whoisalfaz.me/blog/category/${slug}/`,
+            type: 'website',
+        },
     };
 }
 
@@ -29,6 +43,28 @@ export default async function CategoryPage({ params }) {
 
     return (
         <main className="min-h-screen pt-32 pb-20 px-6 bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300">
+            {/* CollectionPage Schema */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "CollectionPage",
+                        "name": `${category?.name || slug} — Blog`,
+                        "description": `All articles about ${category?.name || slug} by Alfaz Mahmud Rizve.`,
+                        "url": `https://whoisalfaz.me/blog/category/${slug}/`,
+                        "mainEntity": {
+                            "@type": "ItemList",
+                            "numberOfItems": posts.length,
+                            "itemListElement": posts.map((post, i) => ({
+                                "@type": "ListItem",
+                                "position": i + 1,
+                                "url": `https://whoisalfaz.me/blog/${post.slug}/`
+                            }))
+                        }
+                    })
+                }}
+            />
             {/* BACKGROUND */}
             <div className="fixed inset-0 bg-slate-50 dark:bg-[#0a0a0a] -z-20 transition-colors duration-300" />
             <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-teal-50/30 via-slate-50 to-slate-50 dark:from-blue-900/10 dark:via-[#0a0a0a] dark:to-[#0a0a0a] -z-10 transition-colors duration-300" />

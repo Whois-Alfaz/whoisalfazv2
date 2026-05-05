@@ -97,7 +97,7 @@ export default async function Post({ params }) {
             "headline": post.seoTitle || post.title,
             "description": post.seoDescription || post.description,
             "datePublished": post.date,
-            "dateModified": post.date,
+            "dateModified": post.modified || post.date,
             "image": post.image ? [`https://whoisalfaz.me${post.image}`] : [],
             "mainEntityOfPage": {
               "@type": "WebPage",
@@ -356,13 +356,10 @@ export default async function Post({ params }) {
             </ul>
           </div>
 
-          {/* ARCHIVES (Mock) */}
+          {/* TABLE OF CONTENTS (Desktop Sidebar) */}
           <div className="bg-white dark:bg-transparent p-6 rounded-[2rem] border border-slate-200 dark:border-transparent shadow-sm dark:shadow-none">
-            <h4 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8">Archives</h4>
-            <ul className="space-y-3 text-[15px] font-medium text-slate-500 dark:text-slate-400">
-              <li><Link href="#" className="hover:text-teal-600 dark:hover:text-blue-400 block py-1 transition-colors">January 2026</Link></li>
-              <li><Link href="#" className="hover:text-teal-600 dark:hover:text-blue-400 block py-1 transition-colors">December 2025</Link></li>
-            </ul>
+            <h4 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8">In This Article</h4>
+            <TableOfContents />
           </div>
 
           {/* CATEGORIES */}

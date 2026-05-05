@@ -1,0 +1,72 @@
+# whoisalfaz.me — Full Content Index
+
+> Alfaz Mahmud Rizve — RevOps & Full Stack Automation Architect
+> Site: https://whoisalfaz.me
+> Contact: contact@whoisalfaz.me
+
+## About
+
+whoisalfaz.me is the technical portfolio and blog of Alfaz Mahmud Rizve, a Revenue Operations (RevOps) architect specializing in autonomous business infrastructure. The site documents real-world automation architectures, case studies, and technical tutorials for agencies and SaaS companies.
+
+## Core Expertise
+
+- Revenue Operations (RevOps) Architecture
+- n8n Workflow Automation & Self-Hosting
+- Full Stack Web Development (Next.js, React, Supabase)
+- CRM Pipeline Engineering (HubSpot, Brevo, Apollo)
+- AI Agent Integration & LLM Orchestration
+- Technical SEO & Programmatic Indexing
+
+## Services
+
+- n8n Workflow Development: https://whoisalfaz.me/services/n8n-automation/
+- CRM & RevOps Architecture: https://whoisalfaz.me/services/revops-consulting/
+- Full Stack Web Development: https://whoisalfaz.me/services/web-development/
+- AI Integration & Agents: https://whoisalfaz.me/services/ai-integration/
+
+## Blog — 30 Days of n8n & Automation (Complete Series)
+
+- [What is n8n and How to Set It Up (Day 3)](https://whoisalfaz.me/blog/what-is-n8n-and-how-to-set-it-up/): Architectural differences between n8n Cloud and Self-Hosted deployments, Docker, Postgres, and Redis scaling.
+- [n8n Workflow Design Best Practices (Day 4)](https://whoisalfaz.me/blog/n8n-workflow-design-best-practices/): How to build error paths so your automations are reliable, crash-proof, and easy to scale.
+- [Picking Your First 3 Automations (Day 5)](https://whoisalfaz.me/blog/automations-for-saas-and-agencies/): The exact framework SaaS and agencies use to pick their first 3 revenue-generating automations.
+- [Essential n8n Core Nodes (Day 6)](https://whoisalfaz.me/blog/essential-n8n-core-nodes-by-alfaz-mahmud-rizve/): Master the 5 essential n8n core nodes (HTTP Request, IF, Set, Merge, Code) to build enterprise-grade architectures.
+- [n8n Debugging & Error Handling (Day 7)](https://whoisalfaz.me/blog/n8n-debugging-error-handling-basics/): Master n8n debugging and error handling with logs, retries, and alerts.
+- [Capture Lead Data from WordPress/Elementor (Day 8)](https://whoisalfaz.me/blog/capture-n8n-lead-data-from-wordpress-elementor/): Capture every lead from WordPress and Elementor into Google Sheets with instant email alerts.
+- [Lead Scoring Automation with Brevo & HeyReach (Day 9)](https://whoisalfaz.me/blog/lead-scoring-automation-with-alfaz-mahmud-rizve/): Auto-tag Brevo leads by form intent, source, and language, then trigger LinkedIn outreach for high-intent prospects.
+- [n8n Slack Notifications (Day 10)](https://whoisalfaz.me/blog/n8n-slack-notifications-by-alfaz-mahmud-rizve/): Push formatted, actionable lead data directly into Slack the millisecond a prospect submits a form.
+- [Lead Enrichment with n8n (Day 11)](https://whoisalfaz.me/blog/lead-enrichment-with-n8n/): Transform basic form fills into detailed prospect dossiers using Apollo and external data APIs.
+- [Automated Email Follow-Up with Brevo (Day 12)](https://whoisalfaz.me/blog/automated-email-follow-up-n8n-brevo/): Build a stateful follow-up sequence that checks for replies before sending the next email.
+- [Facebook Lead Ads Automation (Day 13)](https://whoisalfaz.me/blog/facebook-lead-ads-automation-by-alfaz-mahmud-rizve/): Real-time pipeline that captures Meta leads, cleans phone numbers with regex, and syncs to your CRM.
+- [Automated Marketing Reporting (Day 14)](https://whoisalfaz.me/blog/automated-marketing-reporting-with-n8n-at-whoisalfaz/): Build a batch-processing engine that aggregates weekly metrics and emails HTML reports to clients.
+- [Automated Content Research (Day 15)](https://whoisalfaz.me/blog/automated-content-research-by-alfaz-mahmud-rizve/): Scrape the internet for trending topics, filter noise with AI, and deliver writing briefs to Google Sheets.
+- [Automated Rank Tracker (Day 16)](https://whoisalfaz.me/blog/build-rank-tracker-tool-with-n8n/): Monitor keyword rankings across Google and push weekly SEO summaries to Slack.
+- [n8n Production Workflows (Day 17)](https://whoisalfaz.me/blog/n8n-production-workflows-by-alfaz-mahmud-rizve/): Harden workflows for production with versioning, environment variables, and backup strategies.
+- [Automate Personal Branding (Day 18)](https://whoisalfaz.me/blog/automate-personal-branding-with-n8n/): Build automated content distribution pipelines for LinkedIn, Twitter, and newsletter publishing.
+- [Automated Client Reporting with PDF (Day 22)](https://whoisalfaz.me/blog/automate-client-reporting-with-n8n/): Generate white-labeled PDF reports from GA4 data and deliver them automatically.
+- [n8n Global Error Handling (Day 23)](https://whoisalfaz.me/blog/n8n-global-error-handling/): Build a centralized Watchtower error handler that monitors your entire n8n instance.
+- [Build a Serverless API with n8n (Day 24)](https://whoisalfaz.me/blog/how-to-build-an-api-with-n8n/): Build a secure, serverless API with n8n that handles verification, form processing, and OpenAI proxying.
+- [n8n AI Agent Tools (Day 25)](https://whoisalfaz.me/blog/n8n-ai-agent-tools/): Give your AI real capabilities — live database lookups, API calls, and PDF generation using Function Calling.
+- [n8n RAG Tutorial (Day 26)](https://whoisalfaz.me/blog/n8n-rag-tutorial/): Build an n8n RAG pipeline that reads private PDFs, stores vectors in Pinecone, and answers with source accuracy.
+- [n8n AI Receptionist (Day 27)](https://whoisalfaz.me/blog/n8n-ai-receptionist/): Build an AI phone receptionist using Twilio and OpenAI Whisper that transcribes, classifies, and routes calls.
+- [Automated YouTube Shorts Generator (Day 28)](https://whoisalfaz.me/blog/automated-youtube-shorts-generator/): Script, illustrate, voice, render, and upload YouTube Shorts from a single text topic.
+- [Personal AI Operating System (Day 29)](https://whoisalfaz.me/blog/build-personal-ai-assistant/): Build a Master Orchestrator AIOS in n8n that routes Telegram commands to Research, Video, and Finance agents.
+- [AI Automation Agency Business Model (Day 30)](https://whoisalfaz.me/blog/ai-automation-agency-business-model/): Package n8n workflows into three high-ticket agency offers and land clients using the Trojan Horse method.
+
+## Case Studies — Architecture Teardowns
+
+- [Zero-Hardware Kitchen OS](https://whoisalfaz.me/blog/case-study-urban-cafe-foodtech-platform/): How browser-native TTS, dynamic load-balancing, and a Next.js PWA replaced a $2,000 POS system.
+- [CashOps Financial Dashboard](https://whoisalfaz.me/blog/case-study-cashops-financial-dashboard/): Developer-focused personal finance dashboard with instant data visualization and CSV bulk imports.
+- [CareerOps AI Resume Builder](https://whoisalfaz.me/blog/case-study-careerops-ai-resume-builder/): Privacy-first AI platform orchestrating real-time resume optimization using n8n and React PDF.
+- [Veloryc E-Commerce](https://whoisalfaz.me/blog/case-study-veloryc-premium-ecommerce/): Premium skincare storefront with Supabase Real-Time and zero-dependency CSS architecture.
+- [SEO Indexing Pipeline](https://whoisalfaz.me/blog/case-study-whoisalfaz-seo-indexing-engine/): Zero-touch pipeline submitting 41 URLs across 3 search engines on every deploy.
+- [Client Portfolio Delivery](https://whoisalfaz.me/blog/case-study-client-portfolio-delivery/): Transforming a static Google Site into a Prisma-backed Next.js experience.
+
+## Other Blog Posts
+
+- [Outstanding Ideas for B2B Lead Capture](https://whoisalfaz.me/blog/outstanding-ideas-for-b2b-lead-capture/): Proven B2B lead capture strategies and automation ideas.
+- [Outstanding Ideas for B2B Lead Generation](https://whoisalfaz.me/blog/outstanding-ideas-for-b2b-lead-generation/): Actionable B2B lead generation frameworks.
+- [Outstanding Ideas for SaaS MVPs](https://whoisalfaz.me/blog/outstanding-ideas-for-saas-mvps/): Ideas and architectures for building SaaS minimum viable products.
+- [Outstanding Ideas for YouTube Shorts](https://whoisalfaz.me/blog/outstanding-ideas-for-youtube-shorts/): Content strategies for YouTube Shorts creators.
+- [n8n Tips and Tricks](https://whoisalfaz.me/blog/n8n-tips-and-tricks-by-alfaz-mahmud-rizve/): Advanced n8n productivity tips and workflow patterns.
+- [n8n Data Privacy & Security Guide](https://whoisalfaz.me/blog/n8n-data-privacy-security-guide/): How to secure n8n workflows and handle sensitive data.
+- [Automation Operating System for SaaS](https://whoisalfaz.me/blog/automation-operating-system-for-saas/): Framework for building a unified automation layer across a SaaS business.
