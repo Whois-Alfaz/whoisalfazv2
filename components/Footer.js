@@ -39,6 +39,7 @@ export default function Footer() {
                             <li><Link href="/audit/" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">Website Audit Tool</Link></li>
                             <li><Link href="/labs/roi/" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">ROI Calculator</Link></li>
                             <li><Link href="/labs/chat/" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">AI Chat Assistant</Link></li>
+                            <li><Link href="/partners/" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">Sponsorships</Link></li>
                         </ul>
                     </div>
 
