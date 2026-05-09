@@ -1,20 +1,27 @@
-
 export async function submitToBing(urls: string[]) {
     const apiKey = process.env.BING_API_KEY;
     const siteUrl = 'https://whoisalfaz.me';
 
     if (!apiKey) {
-        throw new Error('BING_API_KEY is missing in environment variables.');
+        console.error('[Bing API] Missing BING_API_KEY environment variable');
+        throw new Error('BING_API_KEY is missing. Please set it in Vercel environment variables.');
     }
 
-    const endpoint = `https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlbatch?apikey=${apiKey}`;
+    // Submit in batches of 100 to avoid rate limits
+    const batchSize = 100;
+    const results = [];
 
-    const payload = {
-        siteUrl: siteUrl,
-        urlList: urls
-    };
+    for (let i = 0; i < urls.length; i += batchSize) {
+        const batch = urls.slice(i, i + batchSize);
+        console.log(`[Bing API] Submitting batch ${Math.floor(i / batchSize) + 1} (${batch.length} URLs)`);
 
-    try {
+        const endpoint = `https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlbatch?apikey=${apiKey}`;
+
+        const payload = {
+            siteUrl: siteUrl,
+            urlList: batch
+        };
+
         const response = await fetch(endpoint, {
             method: 'POST',
             headers: {
@@ -26,24 +33,32 @@ export async function submitToBing(urls: string[]) {
 
         if (!response.ok) {
             const errorText = await response.text();
-            throw new Error(`Bing API Error: ${response.status} ${response.statusText} - ${errorText}`);
+            console.error(`[Bing API] Batch ${Math.floor(i / batchSize) + 1} failed:`, errorText);
+            throw new Error(`Bing API Error: ${response.status} - ${errorText}`);
         }
 
         const data = await response.json();
-        return data;
+        results.push(data);
 
-    } catch (error) {
-        console.error('Failed to submit URLs to Bing:', error);
-        throw error;
+        // Small delay between batches
+        if (i + batchSize < urls.length) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
     }
+
+    return { success: true, batches: results.length, totalUrls: urls.length };
 }
 
 export async function submitToIndexNow(urls: string[]) {
+    const key = process.env.INDEXNOW_KEY || 'ad4ebd88b14a40879951cbab5300d6aa';
+    const host = 'whoisalfaz.me';
+    const keyLocation = `https://whoisalfaz.me/${key}.txt`;
+
     const endpoint = 'https://api.indexnow.org/indexnow';
     const payload = {
-        host: 'whoisalfaz.me',
-        key: 'ad4ebd88b14a40879951cbab5300d6aa',
-        keyLocation: 'https://whoisalfaz.me/ad4ebd88b14a40879951cbab5300d6aa.txt',
+        host: host,
+        key: key,
+        keyLocation: keyLocation,
         urlList: urls
     };
 
@@ -59,12 +74,13 @@ export async function submitToIndexNow(urls: string[]) {
 
         if (!response.ok) {
             const errorText = await response.text();
-            throw new Error(`IndexNow API Error: ${response.status} ${response.statusText} - ${errorText}`);
+            console.error(`[IndexNow API] Failed:`, errorText);
+            throw new Error(`IndexNow API Error: ${response.status} - ${errorText}`);
         }
 
-        return { success: true, message: "IndexNow submission queued successfully" };
+        return { success: true, submittedUrls: urls.length };
     } catch (error) {
-        console.error('Failed to submit URLs to IndexNow:', error);
+        console.error('[IndexNow API] Submission failed:', error);
         throw error;
     }
 }
@@ -77,11 +93,11 @@ export async function pingGoogle() {
         const response = await fetch(endpoint, { method: 'GET' });
         if (!response.ok) {
             const errorText = await response.text();
-            throw new Error(`Google Ping Error: ${response.status} ${response.statusText} - ${errorText}`);
+            throw new Error(`Google Ping Error: ${response.status} - ${errorText}`);
         }
         return { success: true, message: "Google sitemap ping successful" };
     } catch (error) {
-        console.error('Failed to ping Google:', error);
+        console.error('[Google Ping] Failed:', error);
         throw error;
     }
 }
