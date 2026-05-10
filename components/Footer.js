@@ -47,8 +47,8 @@ export default function Footer() {
                         <h4 className="text-slate-900 dark:text-white font-bold mb-4 transition-colors duration-300">Popular Guides</h4>
                         <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
                             <li><Link href="/blog/automation-operating-system-for-saas/" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">SaaS Automation OS</Link></li>
-                            <li><Link href="/blog/outstanding-ideas-for-b2b-lead-generation/" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">B2B Lead Generation</Link></li>
-                            <li><Link href="/blog/outstanding-ideas-for-saas-mvps/" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">SaaS MVP Ideas</Link></li>
+                            <li><Link href="/blog/n8n-global-error-handling/" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">Global Error Handling</Link></li>
+                            <li><Link href="/blog/automate-personal-branding-with-n8n/" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">Automate Personal Branding</Link></li>
                             <li><Link href="/blog/" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">View All Guides →</Link></li>
                         </ul>
                     </div>
