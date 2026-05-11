@@ -106,6 +106,13 @@ const AFFILIATE_DATA = {
         url: "https://acceleratedgrowthstudio.partnerlinks.io/ferzzxgyi9p3",
         buttonText: "Explore AGS",
         badge: "Growth"
+    },
+    manychat: {
+        title: "ManyChat",
+        description: "The #1 conversational marketing platform for Instagram, Facebook, and WhatsApp.",
+        url: "https://manychat.partnerlinks.io/jugrrxxzawym",
+        buttonText: "Get ManyChat",
+        badge: "Social Automation"
     }
 };
 
