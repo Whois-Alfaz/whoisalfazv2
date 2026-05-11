@@ -122,10 +122,10 @@ export default async function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full max-w-md">
-            <Link href="/contact" className="w-full sm:w-auto px-10 py-5 bg-slate-900 dark:bg-teal-400 text-white dark:text-black font-black rounded-2xl shadow-xl hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] transition-all transform flex items-center justify-center gap-2">
+            <Link href="/contact/" className="w-full sm:w-auto px-10 py-5 bg-slate-900 dark:bg-teal-400 text-white dark:text-black font-black rounded-2xl shadow-xl hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] transition-all transform flex items-center justify-center gap-2">
               Book Strategy Call <ArrowRight size={20} />
             </Link>
-            <Link href="/services" className="w-full sm:w-auto px-10 py-5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white font-black rounded-2xl hover:bg-slate-50 dark:hover:bg-white/10 transition-all shadow-sm flex items-center justify-center">
+            <Link href="/services/" className="w-full sm:w-auto px-10 py-5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white font-black rounded-2xl hover:bg-slate-50 dark:hover:bg-white/10 transition-all shadow-sm flex items-center justify-center">
               Our Solutions
             </Link>
           </div>
@@ -236,10 +236,10 @@ export default async function Home() {
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/portfolio" className="px-8 py-4 bg-teal-600 dark:bg-purple-600 text-white font-black rounded-2xl shadow-lg hover:shadow-teal-500/40 hover:-translate-y-1 transition-all">
+            <Link href="/portfolio/" className="px-8 py-4 bg-teal-600 dark:bg-purple-600 text-white font-black rounded-2xl shadow-lg hover:shadow-teal-500/40 hover:-translate-y-1 transition-all">
               PROJECTS LIBRARY
             </Link>
-            <Link href="/contact" className="px-8 py-4 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white font-black rounded-2xl shadow-sm hover:bg-slate-50 dark:hover:bg-white/10 transition-all flex items-center gap-2">
+            <Link href="/contact/" className="px-8 py-4 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white font-black rounded-2xl shadow-sm hover:bg-slate-50 dark:hover:bg-white/10 transition-all flex items-center gap-2">
               STRATEGY CALL <ArrowRight size={18} />
             </Link>
           </div>
@@ -262,7 +262,7 @@ export default async function Home() {
               <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-3 uppercase tracking-tight transition-colors duration-300">Technical <span className="text-teal-600 dark:text-teal-400">Solutions</span></h2>
               <p className="text-base text-slate-500 dark:text-slate-400 transition-colors duration-300">Engineered for sub-second performance and autonomous growth.</p>
             </div>
-            <Link href="/services" className="text-teal-600 dark:text-teal-400 font-black uppercase text-xs flex items-center gap-2 group">
+            <Link href="/services/" className="text-teal-600 dark:text-teal-400 font-black uppercase text-xs flex items-center gap-2 group">
               View All Services <span className="group-hover:translate-x-1 transition-transform inline-block">→</span>
             </Link>
           </div>
@@ -273,19 +273,19 @@ export default async function Home() {
                 title: "Custom Workflow Automation", icon: Zap,
                 desc: "Self-healing AI workflows that instantly enrich leads and scale your sales engine without adding headcount.",
                 bg: "bg-emerald-500/10", border: "border-emerald-500/20", text: "text-emerald-500 dark:text-emerald-400",
-                link: "/services/n8n-automation"
+                link: "/services/n8n-automation/"
               },
               {
                 title: "Custom Full-Stack Applications", icon: Code2,
                 desc: "Bespoke Agency Infrastructure. When off-the-shelf software blocks your growth, I build the exact internal tools you need.",
                 bg: "bg-rose-500/10", border: "border-rose-500/20", text: "text-rose-500 dark:text-rose-400",
-                link: "/services/custom-full-stack"
+                link: "/services/custom-full-stack/"
               },
               {
                 title: "Headless CMS Infrastructure", icon: Globe,
                 desc: "The high-performance Next.js foundation that powers your revenue engine with sub-second load times.",
                 bg: "bg-blue-500/10", border: "border-blue-500/20", text: "text-blue-500 dark:text-blue-400",
-                link: "/services/headless-architecture"
+                link: "/services/headless-architecture/"
               }
             ].map((service, i) => (
               <article key={i} style={{ animationDelay: `${i * 150}ms` }} className={`animate-in fade-in slide-in-from-bottom-8 duration-700 fill-mode-both rounded-[2rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-6 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 flex flex-col group`}>
@@ -311,14 +311,14 @@ export default async function Home() {
               <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-3 uppercase tracking-tight transition-colors duration-300">Latest <span className="text-purple-600 dark:text-purple-400">Dispatches</span></h2>
               <p className="text-base text-slate-500 dark:text-slate-400 transition-colors duration-300">Autonomous insights, engineering logs, and automation protocols.</p>
             </div>
-            <Link href="/blog" className="text-purple-600 dark:text-purple-400 font-black uppercase text-xs flex items-center gap-2 group">
+            <Link href="/blog/" className="text-purple-600 dark:text-purple-400 font-black uppercase text-xs flex items-center gap-2 group">
               Library Access <span className="group-hover:translate-x-1 transition-transform inline-block">→</span>
             </Link>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
             {posts?.slice(0, 3).map((post, i) => (
-              <Link key={post.slug} href={`/blog/${post.slug}`} className={`group h-full animate-in fade-in slide-in-from-bottom-12 zoom-in-[0.98] duration-1000 ease-out fill-mode-both delay-[${i * 150}ms]`}>
+              <Link key={post.slug} href={`/blog/${post.slug}/`} className={`group h-full animate-in fade-in slide-in-from-bottom-12 zoom-in-[0.98] duration-1000 ease-out fill-mode-both delay-[${i * 150}ms]`}>
                 <article className="h-full bg-white dark:bg-[#1e293b] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 hover:shadow-2xl hover:-translate-y-2 dark:hover:border-blue-500/50 transition-all duration-500 flex flex-col">
                   {/* TOP IMAGE AREA WITH PILLS */}
                   <div className="h-40 bg-slate-100 dark:bg-slate-800 relative overflow-hidden p-4 flex flex-col justify-start">

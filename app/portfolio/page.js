@@ -49,10 +49,10 @@ export default function Portfolio() {
                         </div>
 
                         <div className="flex flex-wrap gap-4 pt-4">
-                            <Link href="/contact" className="px-8 py-4 bg-slate-900 text-white dark:bg-white dark:text-black font-black uppercase tracking-widest text-sm rounded-full hover:bg-teal-600 dark:hover:bg-slate-200 transition-all shadow-xl hover:shadow-teal-500/20 dark:shadow-white/10 hover:-translate-y-1">
+                            <Link href="/contact/" className="px-8 py-4 bg-slate-900 text-white dark:bg-white dark:text-black font-black uppercase tracking-widest text-sm rounded-full hover:bg-teal-600 dark:hover:bg-slate-200 transition-all shadow-xl hover:shadow-teal-500/20 dark:shadow-white/10 hover:-translate-y-1">
                                 Start a Project
                             </Link>
-                            <Link href="/services" className="px-8 py-4 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white font-black uppercase tracking-widest text-sm rounded-full transition-all flex items-center gap-2 shadow-sm hover:shadow-md">
+                            <Link href="/services/" className="px-8 py-4 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white font-black uppercase tracking-widest text-sm rounded-full transition-all flex items-center gap-2 shadow-sm hover:shadow-md">
                                 Explore Services
                             </Link>
                         </div>
@@ -148,7 +148,7 @@ export default function Portfolio() {
                             <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-2 uppercase tracking-tight">Featured Work</h2>
                             <p className="text-slate-500 dark:text-slate-400 font-medium">Selected automation and web projects.</p>
                         </div>
-                        <Link href="/services" className="text-teal-600 dark:text-blue-400 font-bold text-sm hover:text-teal-700 dark:hover:text-white transition-colors hidden md:block uppercase tracking-wider">View Services &rarr;</Link>
+                        <Link href="/services/" className="text-teal-600 dark:text-blue-400 font-bold text-sm hover:text-teal-700 dark:hover:text-white transition-colors hidden md:block uppercase tracking-wider">View Services &rarr;</Link>
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

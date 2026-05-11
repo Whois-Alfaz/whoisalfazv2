@@ -144,7 +144,7 @@ export default async function Post({ params }) {
       <header className="max-w-7xl mx-auto px-6 mb-10 animate-in fade-in slide-in-from-bottom-8 duration-1000">
 
         {/* Back Link */}
-        <Link href="/blog" className="inline-flex items-center gap-2 text-slate-500 font-bold uppercase tracking-widest hover:text-slate-900 dark:hover:text-white transition-colors mb-12 text-xs group">
+        <Link href="/blog/" className="inline-flex items-center gap-2 text-slate-500 font-bold uppercase tracking-widest hover:text-slate-900 dark:hover:text-white transition-colors mb-12 text-xs group">
           <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Library
         </Link>
 
@@ -299,14 +299,14 @@ export default async function Post({ params }) {
             {(prevPost || nextPost) && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-24 pt-12 border-t border-slate-200 dark:border-white/10">
                 {prevPost ? (
-                  <Link href={`/blog/${prevPost.slug}`} className="group p-8 rounded-[2rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-teal-500/50 hover:shadow-xl dark:shadow-none transition-all flex flex-col justify-center">
+                  <Link href={`/blog/${prevPost.slug}/`} className="group p-8 rounded-[2rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-teal-500/50 hover:shadow-xl dark:shadow-none transition-all flex flex-col justify-center">
                     <span className="text-[10px] text-slate-500 uppercase font-black tracking-widest mb-3 flex items-center gap-2"><ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> Previous Post</span>
                     <h4 className="text-slate-900 dark:text-white font-black text-lg group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors line-clamp-2 uppercase tracking-tight">{prevPost.title}</h4>
                   </Link>
                 ) : <div />}
 
                 {nextPost ? (
-                  <Link href={`/blog/${nextPost.slug}`} className="group p-8 rounded-[2rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-teal-500/50 hover:shadow-xl dark:shadow-none transition-all flex flex-col justify-center text-right">
+                  <Link href={`/blog/${nextPost.slug}/`} className="group p-8 rounded-[2rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-teal-500/50 hover:shadow-xl dark:shadow-none transition-all flex flex-col justify-center text-right">
                     <span className="text-[10px] text-slate-500 uppercase font-black tracking-widest mb-3 flex items-center justify-end gap-2">Next Post <ArrowLeft size={14} className="rotate-180 group-hover:translate-x-1 transition-transform" /></span>
                     <h4 className="text-slate-900 dark:text-white font-black text-lg group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors line-clamp-2 uppercase tracking-tight">{nextPost.title}</h4>
                   </Link>
@@ -342,7 +342,7 @@ export default async function Post({ params }) {
             <ul className="space-y-6">
               {recentPosts?.map(post => (
                 <li key={post.slug}>
-                  <Link href={`/blog/${post.slug}`} className="group block">
+                  <Link href={`/blog/${post.slug}/`} className="group block">
                     <h5 className="text-slate-800 dark:text-slate-300 text-[15px] font-bold group-hover:text-teal-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2 mb-2 leading-snug">
                       {post.title}
                     </h5>
@@ -359,7 +359,7 @@ export default async function Post({ params }) {
             <ul className="space-y-3">
               {categories?.map(cat => (
                 <li key={cat.slug}>
-                  <Link href={`/blog/category/${cat.slug}`} className="text-[14px] font-bold text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-blue-400 block py-2 border-b border-slate-100 dark:border-white/5 transition-colors">
+                  <Link href={`/blog/category/${cat.slug}/`} className="text-[14px] font-bold text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-blue-400 block py-2 border-b border-slate-100 dark:border-white/5 transition-colors">
                     {cat.name}
                   </Link>
                 </li>
@@ -379,10 +379,10 @@ export default async function Post({ params }) {
             <h3 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight">Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-500 dark:from-teal-400 dark:to-emerald-300">automate your agency?</span></h3>
             <p className="text-slate-600 dark:text-slate-400 font-medium text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">Skip the manual grunt work. Let's build a custom system that runs your business on autopilot 24/7.</p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link href="/contact" className="px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-black font-black uppercase tracking-widest text-xs rounded-xl shadow-lg dark:shadow-none hover:bg-slate-800 dark:hover:bg-slate-200 transition-all hover:-translate-y-1">
+              <Link href="/contact/" className="px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-black font-black uppercase tracking-widest text-xs rounded-xl shadow-lg dark:shadow-none hover:bg-slate-800 dark:hover:bg-slate-200 transition-all hover:-translate-y-1">
                 Book a Strategy Call
               </Link>
-              <Link href="/services" className="px-8 py-4 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white font-black uppercase tracking-widest text-xs rounded-xl border border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 transition-all hover:-translate-y-1 shadow-sm dark:shadow-none">
+              <Link href="/services/" className="px-8 py-4 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white font-black uppercase tracking-widest text-xs rounded-xl border border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 transition-all hover:-translate-y-1 shadow-sm dark:shadow-none">
                 View Services
               </Link>
             </div>

@@ -79,7 +79,7 @@ export default function SharedResultsPage() {
           </div>
           <h1 className="text-3xl font-black text-slate-900 dark:text-white mb-4 uppercase">Invalid Results Link</h1>
           <p className="text-slate-500 dark:text-slate-400 mb-8">This audit results link is invalid or has been corrupted.</p>
-          <Link href="/audit" className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 dark:bg-teal-500 text-white dark:text-black font-bold uppercase tracking-wider text-sm rounded-full hover:bg-slate-800 dark:hover:bg-teal-400 transition-all">
+          <Link href="/audit/" className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 dark:bg-teal-500 text-white dark:text-black font-bold uppercase tracking-wider text-sm rounded-full hover:bg-slate-800 dark:hover:bg-teal-400 transition-all">
             Run Your Own Audit <ArrowRight size={16} />
           </Link>
         </div>
@@ -161,7 +161,7 @@ export default function SharedResultsPage() {
             {copied ? <><Check size={16} className="text-green-500" /> Copied!</> : <><Copy size={16} /> Copy Link</>}
           </button>
           <Link
-            href="/audit"
+            href="/audit/"
             className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-slate-900 dark:bg-teal-500 text-white dark:text-black font-black uppercase tracking-wider text-sm rounded-2xl hover:bg-slate-800 dark:hover:bg-teal-400 transition-all shadow-xl hover:-translate-y-0.5"
           >
             Run Your Own Free Audit <ArrowRight size={16} />

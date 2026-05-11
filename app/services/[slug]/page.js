@@ -99,7 +99,7 @@ export default async function ServiceDetailPage({ params }) {
             />
 
             <div className="max-w-6xl mx-auto">
-                <Link href="/services" className="inline-flex items-center gap-2 text-slate-500 font-bold uppercase tracking-widest hover:text-slate-900 dark:hover:text-white transition-colors mb-12 text-xs">
+                <Link href="/services/" className="inline-flex items-center gap-2 text-slate-500 font-bold uppercase tracking-widest hover:text-slate-900 dark:hover:text-white transition-colors mb-12 text-xs">
                     <ArrowRight className="rotate-180" size={16} /> Back to Services
                 </Link>
 

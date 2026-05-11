@@ -33,7 +33,7 @@ export default function ROICalculator() {
 
             <div className="max-w-4xl mx-auto">
                 {/* Nav Back */}
-                <Link href="/labs" className="inline-flex items-center gap-2 text-slate-500 hover:text-white transition-colors mb-12 text-sm font-medium group">
+                <Link href="/labs/" className="inline-flex items-center gap-2 text-slate-500 hover:text-white transition-colors mb-12 text-sm font-medium group">
                     <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
                     Back to Labs
                 </Link>
@@ -139,7 +139,7 @@ export default function ROICalculator() {
                             </div>
 
                             <Link
-                                href="/contact"
+                                href="/contact/"
                                 className="w-full py-4 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl shadow-lg shadow-red-600/20 transition-all transform hover:-translate-y-1 text-center flex items-center justify-center gap-2 group"
                             >
                                 Stop Losing Money – Book a Fix

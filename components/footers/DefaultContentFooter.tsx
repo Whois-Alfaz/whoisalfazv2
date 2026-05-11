@@ -7,7 +7,7 @@ export default function DefaultContentFooter() {
       <div className="max-w-4xl mx-auto">
         <div className="grid sm:grid-cols-2 gap-5">
           <Link
-            href="/audit"
+            href="/audit/"
             className="group p-8 rounded-2xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 hover:border-teal-500/30 dark:hover:border-teal-500/20 transition-all hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-none"
           >
             <div className="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-500 dark:text-teal-400 mb-5 group-hover:scale-110 transition-transform">
@@ -25,7 +25,7 @@ export default function DefaultContentFooter() {
           </Link>
 
           <Link
-            href="/services"
+            href="/services/"
             className="group p-8 rounded-2xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 hover:border-purple-500/30 dark:hover:border-purple-500/20 transition-all hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-none"
           >
             <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-500 dark:text-purple-400 mb-5 group-hover:scale-110 transition-transform">

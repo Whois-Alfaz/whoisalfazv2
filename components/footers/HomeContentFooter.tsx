@@ -14,7 +14,7 @@ const techStack = [
     bg: 'bg-orange-500/10',
     border: 'border-orange-500/20',
     desc: 'Open-source automation engine for building self-healing workflows. No per-task pricing.',
-    link: '/services/n8n-automation',
+    link: '/services/n8n-automation/',
   },
   {
     name: 'Next.js',
@@ -24,7 +24,7 @@ const techStack = [
     bg: 'bg-white/5',
     border: 'border-white/10',
     desc: 'React framework for server-rendered, SEO-optimized web applications with sub-second load times.',
-    link: '/services/headless-architecture',
+    link: '/services/headless-architecture/',
   },
   {
     name: 'Custom Apps',
@@ -34,7 +34,7 @@ const techStack = [
     bg: 'bg-rose-500/10',
     border: 'border-rose-500/20',
     desc: 'Bespoke internal tools, dashboards, and client portals engineered for your specific business logic.',
-    link: '/services/custom-full-stack',
+    link: '/services/custom-full-stack/',
   },
   {
     name: 'AI Agents',
@@ -44,7 +44,7 @@ const techStack = [
     bg: 'bg-purple-500/10',
     border: 'border-purple-500/20',
     desc: 'LLM-powered agents for lead qualification, content generation, and autonomous decision-making.',
-    link: '/blog',
+    link: '/blog/',
   },
   {
     name: 'Technical SEO',
@@ -54,7 +54,7 @@ const techStack = [
     bg: 'bg-teal-500/10',
     border: 'border-teal-500/20',
     desc: 'Structured data, Core Web Vitals optimization, sitemap architecture, and crawl budget management.',
-    link: '/services/technical-seo',
+    link: '/services/technical-seo/',
   },
   {
     name: 'Email Systems',
@@ -64,7 +64,7 @@ const techStack = [
     bg: 'bg-blue-500/10',
     border: 'border-blue-500/20',
     desc: 'Automated drip sequences, transactional emails, and newsletter infrastructure via Brevo.',
-    link: '/contact',
+    link: '/contact/',
   },
 ];
 
@@ -125,18 +125,18 @@ export default function HomeContentFooter() {
                   With a focus on practical, revenue-driven engineering, Alfaz helps business owners escape the &quot;Content Treadmill&quot; — replacing fragile Zapier chains and manual processes with enterprise-grade automation architectures that run 24/7 without human intervention. His work spans custom full-stack applications, headless CMS infrastructure, technical SEO, and workflow automation consulting.
                 </p>
                 <p>
-                  Through <Link href="/blog" className="text-teal-600 dark:text-blue-400 font-bold hover:underline">his blog</Link>, Alfaz documents the exact systems, tools, and frameworks he uses — including the 30-day automation engineering series and in-depth technical guides. He also provides <Link href="/audit" className="text-teal-600 dark:text-blue-400 font-bold hover:underline">a free website audit tool</Link> and an <Link href="/labs/roi" className="text-teal-600 dark:text-blue-400 font-bold hover:underline">ROI calculator</Link> to help agencies measure automation impact before investing.
+                  Through <Link href="/blog/" className="text-teal-600 dark:text-blue-400 font-bold hover:underline">his blog</Link>, Alfaz documents the exact systems, tools, and frameworks he uses — including the 30-day automation engineering series and in-depth technical guides. He also provides <Link href="/audit/" className="text-teal-600 dark:text-blue-400 font-bold hover:underline">a free website audit tool</Link> and an <Link href="/labs/roi/" className="text-teal-600 dark:text-blue-400 font-bold hover:underline">ROI calculator</Link> to help agencies measure automation impact before investing.
                 </p>
               </div>
               <div className="flex flex-wrap gap-3 mt-8">
                 <Link
-                  href="/portfolio"
+                  href="/portfolio/"
                   className="px-6 py-3 bg-slate-900 dark:bg-white/10 text-white font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-slate-800 dark:hover:bg-white/15 transition-all"
                 >
                   View Portfolio
                 </Link>
                 <Link
-                  href="/contact"
+                  href="/contact/"
                   className="px-6 py-3 bg-slate-100 dark:bg-white/5 text-slate-900 dark:text-white font-bold text-xs uppercase tracking-widest rounded-xl border border-slate-200 dark:border-white/10 hover:bg-slate-200 dark:hover:bg-white/10 transition-all"
                 >
                   Book Strategy Call

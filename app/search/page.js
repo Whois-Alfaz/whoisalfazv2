@@ -79,7 +79,7 @@ export default async function SearchPage({ searchParams }) {
                     <div className="text-center py-20 bg-slate-100 dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-white/10 transition-colors duration-300">
                         <Search size={48} className="mx-auto text-slate-300 dark:text-slate-600 mb-4" />
                         <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 transition-colors duration-300">{q ? "No results found" : "Enter a search term"}</h3>
-                        <p className="text-slate-500 dark:text-slate-400">Try searching for a different keyword or browse our <Link href="/blog" className="text-teal-600 dark:text-blue-400 hover:underline">Blog</Link>.</p>
+                        <p className="text-slate-500 dark:text-slate-400">Try searching for a different keyword or browse our <Link href="/blog/" className="text-teal-600 dark:text-blue-400 hover:underline">Blog</Link>.</p>
                     </div>
                 )}
             </div>

@@ -16,11 +16,11 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: 'Services', href: '/services' },
-    { name: 'Case Studies', href: '/blog/category/architecture-teardowns' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Lab', href: '/labs' },
-    { name: 'Portfolio', href: '/portfolio' },
+    { name: 'Services', href: '/services/' },
+    { name: 'Case Studies', href: '/blog/category/architecture-teardowns/' },
+    { name: 'Blog', href: '/blog/' },
+    { name: 'Lab', href: '/labs/' },
+    { name: 'Portfolio', href: '/portfolio/' },
   ];
 
   return (
@@ -77,7 +77,7 @@ export default function Navbar() {
         {/* CTA Buttons */}
         <div className="hidden md:flex items-center gap-2">
           <Link
-            href="/audit"
+            href="/audit/"
             onClick={() => {
               if (typeof window !== 'undefined' && (window as any).gtag) {
                 (window as any).gtag('event', 'click_free_audit_nav', {
@@ -90,7 +90,7 @@ export default function Navbar() {
           >
             Free Audit
           </Link>
-          <Link href="/contact" className="px-5 py-2 bg-slate-900 dark:bg-white text-white dark:text-black text-xs font-bold rounded-full hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors shadow-sm">
+          <Link href="/contact/" className="px-5 py-2 bg-slate-900 dark:bg-white text-white dark:text-black text-xs font-bold rounded-full hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors shadow-sm">
             Work With Me
           </Link>
         </div>
@@ -124,7 +124,7 @@ export default function Navbar() {
                 const target = e.currentTarget;
                 const input = target.elements.namedItem('search') as HTMLInputElement;
                 const query = input?.value;
-                if (query) window.location.href = `/search?q=${encodeURIComponent(query)}`;
+                if (query) window.location.href = `/search/?q=${encodeURIComponent(query)}`;
               }}
             >
               <input
@@ -161,7 +161,7 @@ export default function Navbar() {
                   const target = e.currentTarget;
                   const input = target.elements.namedItem('searchMobile') as HTMLInputElement;
                   const query = input?.value;
-                  if (query) window.location.href = `/search?q=${encodeURIComponent(query)}`;
+                  if (query) window.location.href = `/search/?q=${encodeURIComponent(query)}`;
                 }}
               >
                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
@@ -187,7 +187,7 @@ export default function Navbar() {
             ))}
             <div className="h-px bg-slate-200 dark:bg-white/10 my-2 mx-2"></div>
             <Link
-              href="/contact"
+              href="/contact/"
               className="block px-4 py-3 text-center bg-slate-900 dark:bg-white text-white dark:text-black font-bold rounded-xl hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors mx-2 mb-2"
               onClick={() => setIsOpen(false)}
             >

@@ -204,7 +204,7 @@ export default function ServicesPage() {
                 <div className="max-w-5xl mx-auto text-center px-6">
                     <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight">Unsure What You Need?</h2>
                     <p className="text-slate-500 dark:text-slate-400 mb-10 text-lg md:text-xl max-w-2xl mx-auto font-medium">Let's discuss your unique challenges and define a custom path forward.</p>
-                    <Link href="/contact" className="inline-block px-10 py-5 border-2 border-slate-900 dark:border-white/20 text-slate-900 dark:text-white font-black uppercase tracking-widest text-sm rounded-full hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all mb-24 shadow-sm hover:shadow-xl">
+                    <Link href="/contact/" className="inline-block px-10 py-5 border-2 border-slate-900 dark:border-white/20 text-slate-900 dark:text-white font-black uppercase tracking-widest text-sm rounded-full hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all mb-24 shadow-sm hover:shadow-xl">
                         Book a Discovery Call
                     </Link>
 
@@ -258,14 +258,14 @@ export default function ServicesPage() {
                         </div>
                     </div>
                     <div className="mt-4 md:mt-0">
-                        <Link href="/portfolio" className="px-6 py-3 bg-teal-50 dark:bg-emerald-500/10 text-teal-600 dark:text-emerald-400 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-teal-600 hover:text-white dark:hover:bg-emerald-500 dark:hover:text-white transition-all whitespace-nowrap shadow-sm hover:shadow-md">
+                        <Link href="/portfolio/" className="px-6 py-3 bg-teal-50 dark:bg-emerald-500/10 text-teal-600 dark:text-emerald-400 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-teal-600 hover:text-white dark:hover:bg-emerald-500 dark:hover:text-white transition-all whitespace-nowrap shadow-sm hover:shadow-md">
                             See Details
                         </Link>
                     </div>
                 </div>
 
                 <div className="mt-12">
-                    <Link href="/portfolio" className="text-slate-500 dark:text-slate-400 text-sm font-bold uppercase tracking-widest hover:text-teal-600 dark:hover:text-white transition-colors underline decoration-slate-300 dark:decoration-slate-700 underline-offset-8">
+                    <Link href="/portfolio/" className="text-slate-500 dark:text-slate-400 text-sm font-bold uppercase tracking-widest hover:text-teal-600 dark:hover:text-white transition-colors underline decoration-slate-300 dark:decoration-slate-700 underline-offset-8">
                         View Full Portfolio
                     </Link>
                 </div>
