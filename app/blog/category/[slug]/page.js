@@ -1,7 +1,7 @@
 
 import { Suspense } from 'react';
 
-import { getPostsByCategory, getAllCategories, getAllPosts } from '@/lib/mdx';
+import { getSanityPostsByCategory, getSanityCategories, getSanityPosts, getSanityCategoryBySlug } from '@/lib/sanity.client';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Search, ChevronRight, BookOpen, Clock, ArrowRight } from 'lucide-react';
@@ -9,13 +9,13 @@ import SearchWidget from '../../../../components/SearchWidget';
 
 // Helper to get cached posts for sidebar (optional optimization)
 async function getSidebarData() {
-    const posts = getAllPosts();
+    const posts = await getSanityPosts();
     return posts?.slice(0, 5) || [];
 }
 
 export async function generateMetadata({ params }) {
     const { slug } = await params;
-    const { category } = getPostsByCategory(slug);
+    const category = await getSanityCategoryBySlug(slug);
     const name = category?.name || slug;
     const title = `${name} — Blog`;
     const description = `Read all articles about ${name}. Technical tutorials, case studies, and architectural blueprints by Alfaz Mahmud Rizve.`;
@@ -37,8 +37,9 @@ export async function generateMetadata({ params }) {
 
 export default async function CategoryPage({ params }) {
     const { slug } = await params;
-    const { posts, category } = getPostsByCategory(slug);
-    const allCategories = getAllCategories();
+    const posts = await getSanityPostsByCategory(slug);
+    const category = await getSanityCategoryBySlug(slug);
+    const allCategories = await getSanityCategories();
     const recentPosts = await getSidebarData();
 
     return (
@@ -59,7 +60,7 @@ export default async function CategoryPage({ params }) {
                             "itemListElement": posts.map((post, i) => ({
                                 "@type": "ListItem",
                                 "position": i + 1,
-                                "url": `https://whoisalfaz.me/blog/${post.slug}/`
+                                "url": `https://whoisalfaz.me/blog/${post.slug.current}/`
                             }))
                         }
                     })
@@ -95,7 +96,7 @@ export default async function CategoryPage({ params }) {
                         {posts.length > 0 ? (
                             <div className="grid md:grid-cols-2 gap-8">
                                 {posts.map((post) => (
-                                    <Link key={post.slug} href={`/blog/${post.slug}/`} className="group">
+                                    <Link key={post.slug.current} href={`/blog/${post.slug.current}/`} className="group">
                                         <article className="h-full bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 rounded-xl overflow-hidden hover:border-teal-500/50 dark:hover:border-blue-500/50 transition-all hover:-translate-y-1 shadow-sm dark:shadow-none">
                                             <div className="h-48 bg-slate-100 dark:bg-slate-800 relative">
                                                 {post.image ? (
@@ -151,8 +152,8 @@ export default async function CategoryPage({ params }) {
                         <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-6 transition-colors duration-300">Recent Posts</h4>
                         <ul className="space-y-4">
                             {recentPosts?.map(post => (
-                                <li key={post.slug}>
-                                    <Link href={`/blog/${post.slug}/`} className="group block">
+                                <li key={post.slug.current}>
+                                    <Link href={`/blog/${post.slug.current}/`} className="group block">
                                         <h5 className="text-slate-600 dark:text-slate-300 text-sm font-medium group-hover:text-teal-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2 mb-1">
                                             {post.title}
                                         </h5>
@@ -168,8 +169,8 @@ export default async function CategoryPage({ params }) {
                         <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-6 transition-colors duration-300">Categories</h4>
                         <ul className="space-y-2">
                             {allCategories?.map(cat => (
-                                <li key={cat.slug}>
-                                    <Link href={`/blog/category/${cat.slug}/`} className={`text-sm block py-1 border-b border-slate-200 dark:border-white/5 pb-2 transition-colors ${cat.slug === slug ? 'text-teal-600 dark:text-blue-400 font-bold' : 'text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-blue-400'}`}>
+                                <li key={cat.slug.current}>
+                                    <Link href={`/blog/category/${cat.slug.current}/`} className={`text-sm block py-1 border-b border-slate-200 dark:border-white/5 pb-2 transition-colors ${cat.slug.current === slug ? 'text-teal-600 dark:text-blue-400 font-bold' : 'text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-blue-400'}`}>
                                         {cat.name}
                                     </Link>
                                 </li>

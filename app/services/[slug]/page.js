@@ -4,7 +4,7 @@ import Image from 'next/image';
 import ContactForm from '../../../components/ContactForm';
 import { ArrowRight, CheckCircle2, ExternalLink } from 'lucide-react';
 import { serviceData } from '../../../lib/serviceData';
-import { getAllPosts } from '@/lib/mdx';
+import { getSanityPosts } from '@/lib/sanity.client';
 
 export const generateMetadata = async ({ params }) => {
     const { slug } = await params;
@@ -47,9 +47,9 @@ export default async function ServiceDetailPage({ params }) {
         notFound();
     }
 
-    const allPosts = await getAllPosts();
+    const allPosts = await getSanityPosts();
     const relatedCaseStudies = (serviceCaseStudyMap[slug] || [])
-        .map(csSlug => allPosts.find(p => p.slug === csSlug))
+        .map(csSlug => allPosts.find(p => p.slug.current === csSlug))
         .filter(Boolean)
         .slice(0, 3);
 
@@ -149,7 +149,7 @@ export default async function ServiceDetailPage({ params }) {
                                 <p className="text-slate-500 dark:text-slate-400 text-sm font-medium mb-8">Real-world examples of this service in production.</p>
                                 <div className="space-y-6">
                                     {relatedCaseStudies.map((cs) => (
-                                        <Link key={cs.slug} href={`/blog/${cs.slug}/`} className="group block">
+                                        <Link key={cs.slug.current} href={`/blog/${cs.slug.current}/`} className="group block">
                                             <article className="flex gap-6 items-start p-6 bg-slate-50 dark:bg-white/5 rounded-2xl border border-slate-100 dark:border-white/5 hover:border-slate-300 dark:hover:border-white/20 transition-all">
                                                 <div className="relative w-20 h-20 shrink-0 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800">
                                                     {cs.image ? (

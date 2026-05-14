@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 
-import { getAllPosts, getAllCategories } from '@/lib/mdx';
+import { getSanityPosts, getSanityCategories } from '@/lib/sanity.client';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Search, ChevronRight, BookOpen, Clock, ArrowRight } from 'lucide-react';
@@ -29,8 +29,8 @@ export const metadata = {
 };
 
 export default async function BlogPage() {
-    const posts = await getAllPosts();
-    const categories = await getAllCategories();
+    const posts = await getSanityPosts();
+    const categories = await getSanityCategories();
 
     const recentPosts = posts?.slice(0, 5); // Top 5 for sidebar
 
@@ -101,7 +101,7 @@ export default async function BlogPage() {
                         <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-8 border-b border-slate-200 dark:border-white/10 pb-4 uppercase tracking-tight">Topics</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                             {categories?.map((cat, i) => (
-                                <Link key={cat.slug} href={`/blog/category/${cat.slug}/`} style={{ animationDelay: `${i * 100}ms` }} className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both flex items-center justify-between p-4 bg-white dark:bg-white/5 rounded-xl border border-slate-200 dark:border-white/5 hover:border-teal-500/50 dark:hover:border-blue-500/50 transition-all group cursor-pointer shadow-sm hover:shadow-md dark:shadow-none">
+                                <Link key={cat.slug.current} href={`/blog/category/${cat.slug.current}/`} style={{ animationDelay: `${i * 100}ms` }} className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both flex items-center justify-between p-4 bg-white dark:bg-white/5 rounded-xl border border-slate-200 dark:border-white/5 hover:border-teal-500/50 dark:hover:border-blue-500/50 transition-all group cursor-pointer shadow-sm hover:shadow-md dark:shadow-none">
                                     <span className="text-slate-700 dark:text-slate-300 font-bold group-hover:text-teal-600 dark:group-hover:text-blue-400 transition-colors flex items-center gap-3">
                                         <span className="w-2 h-2 rounded-full bg-teal-500 dark:bg-blue-500"></span>
                                         {cat.name}
@@ -121,8 +121,8 @@ export default async function BlogPage() {
 
                         <StaggerContainer className="grid md:grid-cols-2 gap-8">
                             {posts?.map((post, i) => (
-                                <StaggerItem key={post.slug} className="h-full">
-                                    <Link href={`/blog/${post.slug}/`} className="group block h-full">
+                                <StaggerItem key={post.slug.current} className="h-full">
+                                    <Link href={`/blog/${post.slug.current}/`} className="group block h-full">
                                         <article className="h-full bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 rounded-[2rem] overflow-hidden hover:border-teal-400/50 dark:hover:border-blue-500/50 transition-all duration-500 hover:-translate-y-2 shadow-xl dark:shadow-sm flex flex-col">
                                             
                                             {/* TOP IMAGE AREA WITH PILLS */}
@@ -185,8 +185,8 @@ export default async function BlogPage() {
                         <h4 className="text-xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tight">Recent Posts</h4>
                         <StaggerContainer className="space-y-6">
                             {recentPosts?.map((post, i) => (
-                                <StaggerItem key={post.slug} className="block">
-                                    <Link href={`/blog/${post.slug}/`} className="group block">
+                                <StaggerItem key={post.slug.current} className="block">
+                                    <Link href={`/blog/${post.slug.current}/`} className="group block">
                                         <h5 className="text-slate-800 dark:text-slate-300 text-[15px] font-bold group-hover:text-teal-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2 mb-2 leading-snug">
                                             {post.title}
                                         </h5>

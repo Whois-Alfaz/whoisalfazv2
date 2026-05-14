@@ -1,4 +1,4 @@
-import { getAllPosts } from '@/lib/mdx';
+import { getSanityPosts } from '@/lib/sanity.client';
 
 const escapeXml = (unsafe) => {
     return unsafe.replace(/[<>&'"]/g, (c) => {
@@ -13,7 +13,7 @@ const escapeXml = (unsafe) => {
 };
 
 export async function GET() {
-    const posts = getAllPosts();
+    const posts = await getSanityPosts();
     const baseUrl = 'https://whoisalfaz.me';
 
     let rss = `<?xml version="1.0" encoding="UTF-8"?>
@@ -27,7 +27,7 @@ export async function GET() {
     <atom:link href="${baseUrl}/feed.xml" rel="self" type="application/rss+xml" />`;
 
     posts.forEach((post) => {
-        const link = `${baseUrl}/blog/${post.slug}`;
+        const link = `${baseUrl}/blog/${post.slug.current}`;
         rss += `
     <item>
       <title>${escapeXml(post.title)}</title>

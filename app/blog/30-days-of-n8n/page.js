@@ -1,4 +1,4 @@
-import { getPostsByCategory } from '@/lib/mdx';
+import { getSanityPostsByCategory } from '@/lib/sanity.client';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Clock, ArrowRight, PlayCircle } from 'lucide-react';
@@ -11,8 +11,8 @@ export const metadata = {
   },
 };
 
-export default function SeriesIndexPage() {
-  const { posts } = getPostsByCategory('30-days-of-n8n-automation');
+export default async function SeriesIndexPage() {
+  const posts = await getSanityPostsByCategory('30-days-of-n8n-automation');
 
   // Sort posts chronologically for a series
   const seriesPosts = [...posts].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
@@ -57,7 +57,7 @@ export default function SeriesIndexPage() {
         {/* Series Posts Grid */}
         <div className="space-y-4">
           {seriesPosts.map((post, i) => (
-            <Link key={post.slug} href={`/blog/${post.slug}/`} className="group block">
+            <Link key={post.slug.current} href={`/blog/${post.slug.current}/`} className="group block">
               <article className="flex flex-col md:flex-row items-center gap-6 md:gap-8 bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 p-4 md:p-6 rounded-3xl hover:border-teal-500/50 dark:hover:border-teal-400/50 hover:shadow-xl transition-all duration-300">
                 
                 {/* Number Indicator */}

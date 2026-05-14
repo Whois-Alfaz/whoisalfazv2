@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { getPostsByCategory, getAllCategories } from '@/lib/mdx';
+import { getSanityPostsByCategory } from '@/lib/sanity.client';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Clock, ArrowRight } from 'lucide-react';
@@ -13,7 +13,7 @@ export const metadata = {
 
 export default async function CaseStudiesPage() {
     // We already know the category name we want
-    const { posts } = getPostsByCategory('architecture-teardowns');
+    const posts = await getSanityPostsByCategory('architecture-teardowns');
 
     return (
         <main className="min-h-screen pt-32 pb-20 px-6 bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300">
@@ -51,7 +51,7 @@ export default async function CaseStudiesPage() {
                         ) : (
                             <div className="grid md:grid-cols-2 gap-8">
                                 {posts.map((post, i) => (
-                                    <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
+                                    <Link key={post.slug.current} href={`/blog/${post.slug.current}`} className="group">
                                         <article style={{ animationDelay: `${i * 150}ms` }} className="animate-in fade-in zoom-in-95 duration-700 fill-mode-both h-full bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 rounded-[2rem] overflow-hidden hover:border-blue-400/50 dark:hover:border-blue-500/50 transition-all hover:-translate-y-2 shadow-xl dark:shadow-sm">
                                             <div className="h-48 bg-slate-100 dark:bg-slate-800 relative overflow-hidden">
                                                 {post.image ? (

@@ -1,4 +1,4 @@
-import { getAllPosts } from '@/lib/mdx';
+import { getSanityPosts } from '@/lib/sanity.client';
 import WorkflowSteps from '../components/WorkflowSteps';
 import LazyAuditTool from '../components/LazyAuditTool';
 import Link from 'next/link';
@@ -10,7 +10,7 @@ import HomeContentFooter from '../components/footers/HomeContentFooter';
 import { FadeUp, FadeIn, StaggerContainer, StaggerItem } from '@/components/MotionWrappers';
 
 export default async function Home() {
-  const posts = await getAllPosts();
+  const posts = await getSanityPosts();
 
   const homeFaqSchema = {
     "@context": "https://schema.org",
@@ -319,7 +319,7 @@ export default async function Home() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {posts?.slice(0, 3).map((post, i) => (
-              <Link key={post.slug} href={`/blog/${post.slug}/`} className={`group h-full animate-in fade-in slide-in-from-bottom-12 zoom-in-[0.98] duration-1000 ease-out fill-mode-both delay-[${i * 150}ms]`}>
+              <Link key={post.slug.current} href={`/blog/${post.slug.current}/`} className={`group h-full animate-in fade-in slide-in-from-bottom-12 zoom-in-[0.98] duration-1000 ease-out fill-mode-both delay-[${i * 150}ms]`}>
                 <article className="h-full bg-white dark:bg-[#1e293b] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 hover:shadow-2xl hover:-translate-y-2 dark:hover:border-blue-500/50 transition-all duration-500 flex flex-col">
                   {/* TOP IMAGE AREA WITH PILLS */}
                   <div className="h-40 bg-slate-100 dark:bg-slate-800 relative overflow-hidden p-4 flex flex-col justify-start">

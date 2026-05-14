@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAllPosts } from '@/lib/mdx';
+import { getSanityPosts } from '@/lib/sanity.client';
 import { submitToBing, submitToIndexNow } from '@/lib/bing';
 
 // Explicitly set dynamic force so Next.js doesn't cache this route and always executes it
@@ -29,8 +29,8 @@ export async function GET(request: Request) {
         ].map(route => `${baseUrl}${route}`);
 
         // 2. Dynamic Routes (Blog Posts)
-        const posts = await getAllPosts();
-        const blogRoutes = posts.map((post: any) => `${baseUrl}/blog/${post.slug}`);
+        const posts = await getSanityPosts();
+        const blogRoutes = posts.map((post: any) => `${baseUrl}/blog/${post.slug.current}`);
 
         const allUrls = [...staticRoutes, ...blogRoutes];
 

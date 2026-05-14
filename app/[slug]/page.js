@@ -1,4 +1,4 @@
-import { getPostBySlug, getAllPosts } from '@/lib/mdx';
+import { getSanityPostBySlug, getSanityPosts } from '@/lib/sanity.client';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,13 +7,13 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 
 export async function generateStaticParams() {
     // This catch-all route now only handles MDX blog posts accessed via short URLs
-    const posts = getAllPosts();
-    return posts.map(p => ({ slug: p.slug }));
+    const posts = await getSanityPosts();
+    return posts.map(p => ({ slug: p.slug.current }));
 }
 
 export async function generateMetadata({ params }) {
     const { slug } = await params;
-    const data = getPostBySlug(slug);
+    const data = await getSanityPostBySlug(slug);
 
     if (!data) return {
         title: 'Page Not Found',
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }) {
 export default async function Page({ params }) {
     const { slug } = await params;
 
-    const data = getPostBySlug(slug);
+    const data = await getSanityPostBySlug(slug);
 
     if (!data) {
         notFound();
@@ -136,7 +136,7 @@ export default async function Page({ params }) {
                ${isServices ? 'prose-p:mx-auto prose-headings:mx-auto' : ''}
              `}
                     >
-                        <MDXRemote source={data.content} options={{ mdxOptions: { format: 'md' } }} />
+                        <MDXRemote source={data.body || ''} options={{ mdxOptions: { format: 'md' } }} />
                     </div>
                 </article>
             </div>

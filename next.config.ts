@@ -3,6 +3,12 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+      },
+    ],
   },
   trailingSlash: true,
   output: 'standalone',
@@ -120,9 +126,9 @@ const nextConfig: NextConfig = {
         default-src 'self';
         script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://analytics.ahrefs.com https://static.cloudflareinsights.com;
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-        img-src 'self' data: https://whoisalfaz.me https://www.googletagmanager.com;
+        img-src 'self' data: https://whoisalfaz.me https://www.googletagmanager.com https://cdn.sanity.io;
         font-src 'self' https://fonts.gstatic.com data:;
-        connect-src 'self' https://pagespeedonline.googleapis.com https://*.google-analytics.com https://www.google-analytics.com https://*.analytics.google.com https://analytics.ahrefs.com https://cloudflareinsights.com;
+        connect-src 'self' https://pagespeedonline.googleapis.com https://*.google-analytics.com https://www.google-analytics.com https://*.analytics.google.com https://analytics.ahrefs.com https://cloudflareinsights.com https://*.sanity.io;
         frame-src 'self';
         object-src 'none';
         ${isDev ? '' : 'upgrade-insecure-requests;'}

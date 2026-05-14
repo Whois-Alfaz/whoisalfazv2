@@ -23,7 +23,7 @@ export default function SeriesNavigation({ currentPost, allPosts }) {
   // Only show navigation if there are at least 3 posts in the series
   if (seriesPosts.length < 3) return null;
 
-  const currentIndex = seriesPosts.findIndex(p => p.slug === currentPost.slug);
+  const currentIndex = seriesPosts.findIndex(p => p.slug.current === currentPost.slug.current);
   if (currentIndex === -1) return null;
 
   const partNumber = currentIndex + 1;
@@ -41,7 +41,7 @@ export default function SeriesNavigation({ currentPost, allPosts }) {
           {/* Previous */}
           <div className="overflow-hidden">
             {prevPost ? (
-              <Link href={`/blog/${prevPost.slug}/`} className="group flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors">
+              <Link href={`/blog/${prevPost.slug.current}/`} className="group flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors">
                 <ChevronLeft size={16} className="shrink-0 group-hover:-translate-x-1 transition-transform" />
                 <span className="truncate">{prevPost.title}</span>
               </Link>
@@ -56,7 +56,7 @@ export default function SeriesNavigation({ currentPost, allPosts }) {
           {/* Next */}
           <div className="overflow-hidden flex justify-end">
             {nextPost ? (
-              <Link href={`/blog/${nextPost.slug}/`} className="group flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors overflow-hidden">
+              <Link href={`/blog/${nextPost.slug.current}/`} className="group flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors overflow-hidden">
                 <span className="truncate">{nextPost.title}</span>
                 <ChevronRight size={16} className="shrink-0 group-hover:translate-x-1 transition-transform" />
               </Link>

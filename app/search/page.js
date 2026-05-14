@@ -1,5 +1,5 @@
 
-import { getAllPosts } from '@/lib/mdx';
+import { getSanityPosts } from '@/lib/sanity.client';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Search, Clock, ArrowRight } from 'lucide-react';
@@ -8,7 +8,7 @@ import { Suspense } from 'react';
 import SearchWidget from '../../components/SearchWidget';
 
 export default async function SearchPage({ searchParams }) {
-    const posts = getAllPosts();
+    const posts = await getSanityPosts();
 
     // Handle Search Filter (Next.js 15+ async searchParams)
     const { q } = searchParams ? await searchParams : {};
@@ -46,7 +46,7 @@ export default async function SearchPage({ searchParams }) {
                 {displayPosts?.length > 0 ? (
                     <div className="grid md:grid-cols-2 gap-8">
                         {displayPosts?.map((post) => (
-                            <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
+                            <Link key={post.slug.current} href={`/blog/${post.slug.current}`} className="group">
                                 <article className="h-full bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 rounded-xl overflow-hidden hover:border-teal-500/50 dark:hover:border-blue-500/50 transition-all hover:-translate-y-1 shadow-sm dark:shadow-none">
                                     <div className="h-48 bg-slate-100 dark:bg-slate-800 relative">
                                         {post.image ? (

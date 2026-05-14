@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { getAllPosts, getPostBySlug, getAllCategories } from '@/lib/mdx';
+import { getSanityPosts, getSanityPostBySlug, getSanityCategories } from '@/lib/sanity.client';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -18,15 +18,15 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import rehypeRaw from 'rehype-raw';
 
 export async function generateStaticParams() {
-  const posts = getAllPosts();
+  const posts = await getSanityPosts();
   return posts.map((post) => ({
-    slug: post.slug,
+    slug: post.slug.current,
   }));
 }
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getSanityPostBySlug(slug);
 
   if (!post) {
     return {
@@ -64,12 +64,12 @@ export async function generateMetadata({ params }) {
 
 export default async function Post({ params }) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
-  const posts = getAllPosts();
-  const categories = getAllCategories();
-  const recentPosts = posts.filter(p => p.slug !== slug).slice(0, 5);
+  const post = await getSanityPostBySlug(slug);
+  const posts = await getSanityPosts();
+  const categories = await getSanityCategories();
+  const recentPosts = posts.filter(p => p.slug.current !== slug).slice(0, 5);
 
-  const currentIndex = posts.findIndex(p => p.slug === slug);
+  const currentIndex = posts.findIndex(p => p.slug.current === slug);
   const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
   const prevPost = currentIndex !== -1 && currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
 
@@ -79,7 +79,7 @@ export default async function Post({ params }) {
   }
 
   // Calculate read time
-  const wordCount = post.content?.split(/\s+/g).length || 0;
+  const wordCount = post.body?.split(/\s+/g).length || 0;
   const readTime = Math.ceil(wordCount / 200);
 
   return (
@@ -279,7 +279,7 @@ export default async function Post({ params }) {
 
 
             <MDXRemote
-              source={post.content}
+              source={post.body || ''}
               components={{
                 hr: () => <hr className="wp-block-separator has-alpha-channel-opacity my-16 border-slate-200 dark:border-white/10 w-full" />,
                 pre: CodeBlock,
@@ -299,14 +299,14 @@ export default async function Post({ params }) {
             {(prevPost || nextPost) && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-24 pt-12 border-t border-slate-200 dark:border-white/10">
                 {prevPost ? (
-                  <Link href={`/blog/${prevPost.slug}/`} className="group p-8 rounded-[2rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-teal-500/50 hover:shadow-xl dark:shadow-none transition-all flex flex-col justify-center">
+                  <Link href={`/blog/${prevPost.slug.current}/`} className="group p-8 rounded-[2rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-teal-500/50 hover:shadow-xl dark:shadow-none transition-all flex flex-col justify-center">
                     <span className="text-[10px] text-slate-500 uppercase font-black tracking-widest mb-3 flex items-center gap-2"><ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> Previous Post</span>
                     <h4 className="text-slate-900 dark:text-white font-black text-lg group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors line-clamp-2 uppercase tracking-tight">{prevPost.title}</h4>
                   </Link>
                 ) : <div />}
 
                 {nextPost ? (
-                  <Link href={`/blog/${nextPost.slug}/`} className="group p-8 rounded-[2rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-teal-500/50 hover:shadow-xl dark:shadow-none transition-all flex flex-col justify-center text-right">
+                  <Link href={`/blog/${nextPost.slug.current}/`} className="group p-8 rounded-[2rem] bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-teal-500/50 hover:shadow-xl dark:shadow-none transition-all flex flex-col justify-center text-right">
                     <span className="text-[10px] text-slate-500 uppercase font-black tracking-widest mb-3 flex items-center justify-end gap-2">Next Post <ArrowLeft size={14} className="rotate-180 group-hover:translate-x-1 transition-transform" /></span>
                     <h4 className="text-slate-900 dark:text-white font-black text-lg group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors line-clamp-2 uppercase tracking-tight">{nextPost.title}</h4>
                   </Link>
@@ -341,8 +341,8 @@ export default async function Post({ params }) {
             <h4 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight mb-8">Recent Posts</h4>
             <ul className="space-y-6">
               {recentPosts?.map(post => (
-                <li key={post.slug}>
-                  <Link href={`/blog/${post.slug}/`} className="group block">
+                <li key={post.slug.current}>
+                  <Link href={`/blog/${post.slug.current}/`} className="group block">
                     <h5 className="text-slate-800 dark:text-slate-300 text-[15px] font-bold group-hover:text-teal-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2 mb-2 leading-snug">
                       {post.title}
                     </h5>
