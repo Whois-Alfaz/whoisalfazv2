@@ -154,6 +154,11 @@ const nextConfig: NextConfig = {
         destination: 'https://www.vultr.com/?ref=9859100',
         permanent: true,
       },
+      {
+        source: '/go/manychat',
+        destination: 'https://manychat.partnerlinks.io/jugrrxxzawym',
+        permanent: true,
+      },
     ];
   },
   async headers() {
