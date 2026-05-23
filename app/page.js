@@ -117,48 +117,46 @@ export default async function Home() {
             
             {/* Left Column: Headings, CTAs & Stats */}
             <div className="lg:col-span-7 flex flex-col items-start text-left">
-              <FadeUp>
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-slate-200 dark:border-white/10 rounded-full text-xs font-bold text-teal-700 dark:text-teal-300 mb-8 shadow-sm">
-                  <span className="w-1.5 h-1.5 rounded-full bg-teal-500 dark:bg-teal-400 animate-led-blink shrink-0" />
-                  <span>AUTONOMOUS REVENUE SYSTEMS</span>
-                </div>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-slate-200 dark:border-white/10 rounded-full text-xs font-bold text-teal-700 dark:text-teal-300 mb-8 shadow-sm hero-animate-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-teal-500 dark:bg-teal-400 animate-led-blink shrink-0" />
+                <span>AUTONOMOUS REVENUE SYSTEMS</span>
+              </div>
 
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white mb-8 leading-[0.9] tracking-tighter uppercase transition-colors duration-300">
-                  Autonomous <span className="text-teal-600 dark:text-teal-400">Revenue Engines</span> <br /> Built on Sub-Second <span className="text-purple-600 dark:text-purple-400">Infrastructure</span>
-                </h1>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white mb-8 leading-[0.9] tracking-tighter uppercase transition-colors duration-300 hero-animate-2">
+                Autonomous <span className="text-teal-600 dark:text-teal-400">Revenue Engines</span> <br /> Built on Sub-Second <span className="text-purple-600 dark:text-purple-400">Infrastructure</span>
+              </h1>
 
-                <p className="text-base md:text-lg text-slate-500 dark:text-slate-400 mb-12 leading-relaxed max-w-xl font-medium transition-colors duration-300">
-                  I eliminate manual bottlenecks for scaling agencies with self-healing n8n workflows, AI agents, and high-performance Next.js architecture.
-                </p>
+              <p className="text-base md:text-lg text-slate-500 dark:text-slate-400 mb-12 leading-relaxed max-w-xl font-medium transition-colors duration-300 hero-animate-3">
+                I eliminate manual bottlenecks for scaling agencies with self-healing n8n workflows, AI agents, and high-performance Next.js architecture.
+              </p>
 
-                <div className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-md mb-12">
-                  <Link href="/contact/" className="w-full sm:w-auto px-8 py-4.5 bg-slate-900 dark:bg-teal-400 text-white dark:text-black font-black rounded-2xl shadow-xl hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] transition-all transform flex items-center justify-center gap-2 btn-shimmer">
-                    Book Strategy Call <ArrowRight size={18} />
-                  </Link>
-                  <Link href="/services/" className="w-full sm:w-auto px-8 py-4.5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white font-black rounded-2xl hover:bg-slate-50 dark:hover:bg-white/10 transition-all shadow-sm flex items-center justify-center">
-                    Our Solutions
-                  </Link>
-                </div>
+              <div className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-md mb-12 hero-animate-3">
+                <Link href="/contact/" className="w-full sm:w-auto px-8 py-4.5 bg-slate-900 dark:bg-teal-400 text-white dark:text-black font-black rounded-2xl shadow-xl hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] transition-all transform flex items-center justify-center gap-2 btn-shimmer">
+                  Book Strategy Call <ArrowRight size={18} />
+                </Link>
+                <Link href="/services/" className="w-full sm:w-auto px-8 py-4.5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white font-black rounded-2xl hover:bg-slate-50 dark:hover:bg-white/10 transition-all shadow-sm flex items-center justify-center">
+                  Our Solutions
+                </Link>
+              </div>
 
-                {/* Stat Bar - Bento Glassmorphic Strip */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 p-6 sm:p-5 bento-card rounded-[2rem] w-full max-w-2xl">
-                  {[
-                    { value: '30+', label: 'Systems Documented' },
-                    { value: '6', label: 'AI Integrations' },
-                    { value: '< 1s', label: 'Load Time' },
-                  ].map((stat, i) => (
-                    <div key={i} className="flex flex-col items-center text-center gap-0.5">
-                      <span className="text-xl md:text-2xl font-black text-slate-900 dark:text-white tracking-tighter transition-colors duration-300">{stat.value}</span>
-                      <span className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest transition-colors duration-300">{stat.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </FadeUp>
+              {/* Stat Bar - Bento Glassmorphic Strip */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 p-6 sm:p-5 bento-card rounded-[2rem] w-full max-w-2xl hero-animate-3">
+                {[
+                  { value: '30+', label: 'Systems Documented' },
+                  { value: '6', label: 'AI Integrations' },
+                  { value: '< 1s', label: 'Load Time' },
+                ].map((stat, i) => (
+                  <div key={i} className="flex flex-col items-center text-center gap-0.5">
+                    <span className="text-xl md:text-2xl font-black text-slate-900 dark:text-white tracking-tighter transition-colors duration-300">{stat.value}</span>
+                    <span className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest transition-colors duration-300">{stat.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Right Column: Premium Interactive Tech Graphic */}
             <div className="lg:col-span-5 flex justify-center">
-              <FadeUp delay={0.2} className="w-full max-w-md aspect-[4/3] flex">
+              <div className="w-full max-w-md aspect-[4/3] flex hero-animate-3">
                 <div className="bento-card w-full rounded-[2.5rem] p-6 flex flex-col justify-between overflow-hidden relative group">
                   
                   {/* Floating blurred orb background inside visual */}
@@ -227,7 +225,7 @@ export default async function Home() {
                   </div>
 
                 </div>
-              </FadeUp>
+              </div>
             </div>
 
           </div>
@@ -268,7 +266,7 @@ export default async function Home() {
                         <item.icon className="text-slate-900 dark:text-white" size={20} />
                       </div>
                       <div>
-                        <h4 className="text-base font-bold text-slate-800 dark:text-slate-200 mb-1 transition-colors duration-300">{item.title}</h4>
+                        <h3 className="text-base font-bold text-slate-800 dark:text-slate-200 mb-1 transition-colors duration-300">{item.title}</h3>
                         <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed transition-colors duration-300">{item.desc}</p>
                       </div>
                     </div>
@@ -394,7 +392,7 @@ export default async function Home() {
               
               <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden border-4 border-white dark:border-slate-800 shadow-2xl group-hover/photo:scale-[1.02] transition-transform duration-500">
                 <Image 
-                  src="/profile.jpg" 
+                  src="/profile.webp" 
                   alt="Alfaz Mahmud Rizve — RevOps & Full Stack Automation Architect" 
                   fill 
                   sizes="160px" 
@@ -408,7 +406,9 @@ export default async function Home() {
             </div>
 
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-3 tracking-tighter uppercase transition-colors duration-300">
-              Alfaz Mahmud Rizve
+              <Link href="/about/alfaz-mahmud-rizve" className="hover:text-teal-600 dark:text-teal-400 transition-colors">
+                Alfaz Mahmud Rizve
+              </Link>
             </h2>
             
             {/* Premium Pill Badges for Titles */}
@@ -432,10 +432,16 @@ export default async function Home() {
             </div>
 
             {/* Tactile Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-2xl mx-auto">
+              <Link 
+                href="/about/alfaz-mahmud-rizve" 
+                className="w-full sm:w-auto px-8 py-4.5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white font-black rounded-2xl shadow-sm hover:bg-slate-50 dark:hover:bg-white/10 transition-all flex items-center justify-center"
+              >
+                ABOUT ME
+              </Link>
               <Link 
                 href="/portfolio/" 
-                className="w-full sm:w-auto px-8 py-4.5 bg-gradient-to-r from-teal-600 to-teal-500 dark:from-purple-600 dark:to-purple-500 text-white font-black rounded-2xl shadow-xl hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] transition-all transform flex items-center justify-center gap-2 btn-shimmer"
+                className="w-full sm:w-auto px-8 py-4.5 bg-gradient-to-r from-teal-700 to-teal-600 dark:from-purple-600 dark:to-purple-500 text-white font-black rounded-2xl shadow-xl hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] transition-all transform flex items-center justify-center gap-2 btn-shimmer"
               >
                 PROJECTS LIBRARY
               </Link>
@@ -458,7 +464,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Services
+      {/* Services */}
 
       <section className="py-16 px-6 bg-slate-50/50 dark:bg-black/20 backdrop-blur-sm border-y border-slate-200 dark:border-white/10 transition-colors duration-300">
         <div className="max-w-7xl mx-auto">

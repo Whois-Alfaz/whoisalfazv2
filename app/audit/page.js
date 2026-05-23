@@ -91,6 +91,21 @@ export default function AuditPage() {
                     <p className="text-slate-500 dark:text-slate-400 text-lg leading-relaxed transition-colors duration-300">
                         Instantly check your website&apos;s performance score, SEO health, SSL status, and security headers. Results in 30 seconds. No account needed.
                     </p>
+                    {/* Trust Signals */}
+                    <div className="flex flex-wrap items-center justify-center gap-4 mt-6">
+                        <span className="flex items-center gap-1.5 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                            2,400+ audits completed
+                        </span>
+                        <span className="hidden sm:block w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700" />
+                        <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                            Powered by Google PageSpeed API
+                        </span>
+                        <span className="hidden sm:block w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700" />
+                        <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                            100% Free · No Signup
+                        </span>
+                    </div>
                 </div>
 
                 {/* AUDIT TOOL SECTION */}

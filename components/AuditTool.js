@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Loader2, CheckCircle, AlertCircle, AlertTriangle, ExternalLink, ChevronDown, Shield, Globe, Zap, Search, Server, Lock, BarChart3, Share2, Check } from 'lucide-react';
+import { ArrowRight, Loader2, CheckCircle, AlertCircle, AlertTriangle, ExternalLink, ChevronDown, Shield, Globe, Zap, Search, Server, Lock, BarChart3, Share2, Check, Code2, Gauge, Calculator } from 'lucide-react';
 import { encodeAuditResult } from '@/lib/audit-share';
 
 const scanSteps = [
@@ -171,7 +171,7 @@ export default function AuditTool() {
                 <input type="email" placeholder="you@company.com (optional)" className="w-full bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl p-4 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-700 focus:ring-2 focus:ring-teal-500/50 dark:focus:ring-blue-500/50 focus:border-teal-500/50 dark:focus:border-blue-500/50 outline-none transition-all duration-200 shadow-inner" value={email} onChange={(e) => setEmail(e.target.value)} disabled={status === 'loading'} />
               </div>
             </div>
-            <p className="text-xs text-slate-400 dark:text-slate-500 -mt-1 ml-1 flex items-center gap-1.5 transition-colors duration-300">
+            <p className="text-xs text-slate-500 dark:text-slate-400 -mt-1 ml-1 flex items-center gap-1.5 transition-colors duration-300">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
               Enter your email to get the full report with fix-it recommendations delivered to your inbox.
             </p>
@@ -315,6 +315,8 @@ export default function AuditTool() {
                 );
               })}
             </div>
+
+            {/* ── Action Buttons ── */}
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => {
@@ -349,6 +351,127 @@ export default function AuditTool() {
                 Discuss Results <ExternalLink size={16} />
               </Link>
             </div>
+
+            {/* ── Social Share Strip ── */}
+            <div className="mt-4 p-4 rounded-2xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5">
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3 text-center">Share your score & challenge others</p>
+              <div className="flex items-center justify-center gap-3">
+                {/* Twitter/X */}
+                <button
+                  onClick={() => {
+                    const hash = encodeAuditResult(results);
+                    const shareUrl = `${window.location.origin}/audit/results/${hash}`;
+                    const text = `My website scored ${results.overallScore}/100 on whoisalfaz.me's free audit tool! 🔍 Check yours:`;
+                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`, '_blank', 'width=600,height=400');
+                    if (typeof window !== 'undefined' && window.gtag) {
+                      window.gtag('event', 'audit_social_share', { event_category: 'Audit Tool', event_label: 'Twitter' });
+                    }
+                  }}
+                  className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all hover:scale-110"
+                  title="Share on X"
+                >
+                  <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
+                </button>
+                {/* LinkedIn */}
+                <button
+                  onClick={() => {
+                    const hash = encodeAuditResult(results);
+                    const shareUrl = `${window.location.origin}/audit/results/${hash}`;
+                    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`, '_blank', 'width=600,height=400');
+                    if (typeof window !== 'undefined' && window.gtag) {
+                      window.gtag('event', 'audit_social_share', { event_category: 'Audit Tool', event_label: 'LinkedIn' });
+                    }
+                  }}
+                  className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-[#0077b5] hover:text-white dark:hover:bg-[#0077b5] dark:hover:text-white transition-all hover:scale-110"
+                  title="Share on LinkedIn"
+                >
+                  <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
+                </button>
+                {/* Facebook */}
+                <button
+                  onClick={() => {
+                    const hash = encodeAuditResult(results);
+                    const shareUrl = `${window.location.origin}/audit/results/${hash}`;
+                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank', 'width=600,height=400');
+                    if (typeof window !== 'undefined' && window.gtag) {
+                      window.gtag('event', 'audit_social_share', { event_category: 'Audit Tool', event_label: 'Facebook' });
+                    }
+                  }}
+                  className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-[#1877f2] hover:text-white dark:hover:bg-[#1877f2] dark:hover:text-white transition-all hover:scale-110"
+                  title="Share on Facebook"
+                >
+                  <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
+                </button>
+              </div>
+            </div>
+
+            {/* ── Contextual Recommendations ── */}
+            {(() => {
+              const recommendations = [];
+              const perfCheck = results.checks.find(c => c.name === 'Performance & Core Web Vitals');
+              const seoCheck = results.checks.find(c => c.name === 'Meta Tags & Open Graph');
+              const securityCheck = results.checks.find(c => c.name === 'Security Headers');
+              const sslCheck = results.checks.find(c => c.name === 'SSL Certificate');
+
+              if (perfCheck && perfCheck.score < 80) {
+                recommendations.push({
+                  icon: Gauge,
+                  text: 'Your performance needs work — headless architecture delivers sub-second loads',
+                  href: '/services/headless-architecture/',
+                  color: 'text-teal-500 dark:text-teal-400',
+                  bg: 'bg-teal-500/10',
+                  border: 'border-teal-500/20',
+                });
+              }
+              if (seoCheck && seoCheck.score < 80) {
+                recommendations.push({
+                  icon: Search,
+                  text: 'SEO issues detected — get a professional Technical SEO audit',
+                  href: '/services/technical-seo/',
+                  color: 'text-blue-500 dark:text-blue-400',
+                  bg: 'bg-blue-500/10',
+                  border: 'border-blue-500/20',
+                });
+              }
+              if ((securityCheck && securityCheck.status === 'fail') || (sslCheck && sslCheck.status === 'fail')) {
+                recommendations.push({
+                  icon: Code2,
+                  text: 'Security gaps found — harden your site with a custom full-stack build',
+                  href: '/services/custom-full-stack/',
+                  color: 'text-purple-500 dark:text-purple-400',
+                  bg: 'bg-purple-500/10',
+                  border: 'border-purple-500/20',
+                });
+              }
+              // Always show ROI calculator
+              recommendations.push({
+                icon: Calculator,
+                text: 'Calculate how much automation could save your business',
+                href: '/labs/roi/',
+                color: 'text-emerald-500 dark:text-emerald-400',
+                bg: 'bg-emerald-500/10',
+                border: 'border-emerald-500/20',
+              });
+
+              return recommendations.length > 0 ? (
+                <div className="mt-4 space-y-2">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 ml-1">Recommended next steps</p>
+                  {recommendations.map((rec, i) => (
+                    <Link
+                      key={i}
+                      href={rec.href}
+                      className={`flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 hover:${rec.border} transition-all group hover:-translate-y-0.5`}
+                    >
+                      <div className={`w-9 h-9 rounded-lg ${rec.bg} border ${rec.border} flex items-center justify-center ${rec.color} flex-shrink-0 group-hover:scale-110 transition-transform`}>
+                        <rec.icon size={16} />
+                      </div>
+                      <span className="text-slate-600 dark:text-slate-300 text-xs font-bold flex-1">{rec.text}</span>
+                      <ArrowRight size={14} className={`${rec.color} opacity-0 group-hover:opacity-100 transition-opacity`} />
+                    </Link>
+                  ))}
+                </div>
+              ) : null;
+            })()}
           </div>
         )}
       </div>

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Send, User, Sparkles } from 'lucide-react';
+import { ArrowLeft, Send, User, Sparkles, ArrowRight, Search, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ChatPage() {
@@ -184,6 +184,28 @@ export default function ChatPage() {
                     </div>
                 </div>
 
+            </div>
+
+            {/* Cross-links to prevent dead end */}
+            <div className="max-w-3xl mx-auto w-full mt-4 grid grid-cols-2 gap-3 px-4">
+                <Link href="/audit/" className="group flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-teal-500/20 transition-all">
+                    <div className="w-8 h-8 rounded-lg bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400 flex-shrink-0 group-hover:scale-110 transition-transform">
+                        <Search size={14} />
+                    </div>
+                    <div>
+                        <span className="text-white text-xs font-bold block">Free Audit</span>
+                        <span className="text-slate-500 text-[10px]">Check your site</span>
+                    </div>
+                </Link>
+                <Link href="/services/" className="group flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-purple-500/20 transition-all">
+                    <div className="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 flex-shrink-0 group-hover:scale-110 transition-transform">
+                        <Zap size={14} />
+                    </div>
+                    <div>
+                        <span className="text-white text-xs font-bold block">Services</span>
+                        <span className="text-slate-500 text-[10px]">View solutions</span>
+                    </div>
+                </Link>
             </div>
         </main>
     );

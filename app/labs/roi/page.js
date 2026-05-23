@@ -149,6 +149,36 @@ export default function ROICalculator() {
                     </div>
                 </div>
             </div>
+
+            {/* Cross-links */}
+            <div className="max-w-4xl mx-auto mt-16 grid sm:grid-cols-2 gap-5">
+                <Link
+                    href="/audit/"
+                    className="group p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-teal-500/30 transition-all hover:-translate-y-1"
+                >
+                    <div className="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400 mb-4 group-hover:scale-110 transition-transform">
+                        <AlertCircle size={18} />
+                    </div>
+                    <h3 className="text-white font-bold text-sm mb-1 uppercase tracking-tight">Free Website Audit</h3>
+                    <p className="text-slate-500 text-xs leading-relaxed mb-3">Check your SEO, performance, SSL, and security in 30 seconds.</p>
+                    <span className="text-teal-400 text-xs font-bold uppercase tracking-widest flex items-center gap-1 group-hover:gap-2 transition-all">
+                        Run Audit <ArrowRight size={12} />
+                    </span>
+                </Link>
+                <Link
+                    href="/services/"
+                    className="group p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-purple-500/30 transition-all hover:-translate-y-1"
+                >
+                    <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-4 group-hover:scale-110 transition-transform">
+                        <Calculator size={18} />
+                    </div>
+                    <h3 className="text-white font-bold text-sm mb-1 uppercase tracking-tight">Automation Solutions</h3>
+                    <p className="text-slate-500 text-xs leading-relaxed mb-3">Custom n8n workflows, AI agents, and full-stack apps built for scale.</p>
+                    <span className="text-purple-400 text-xs font-bold uppercase tracking-widest flex items-center gap-1 group-hover:gap-2 transition-all">
+                        View Services <ArrowRight size={12} />
+                    </span>
+                </Link>
+            </div>
         </main>
     );
 }

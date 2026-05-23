@@ -12,17 +12,17 @@ export default function Footer() {
                     <div className="col-span-2 md:col-span-3 lg:col-span-2">
                         <Link href="/" className="flex items-center gap-1 group mb-4">
                             <span className="font-bold tracking-tight text-lg">
-                                <span className="text-teal-600 dark:text-teal-400">whois</span><span className="text-purple-600 dark:text-purple-500">alfaz</span> <span className="text-teal-600 dark:text-teal-400">.me</span>
+                                <span className="text-teal-700 dark:text-teal-400">whois</span><span className="text-purple-600 dark:text-purple-500">alfaz</span> <span className="text-teal-700 dark:text-teal-400">.me</span>
                             </span>
                         </Link>
                         <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed transition-colors duration-300">
-                            Alfaz Mahmud Rizve builds autonomous revenue systems and high-performance headless infrastructure for scaling agencies and SaaS businesses.
+                            Alfaz Mahmud Rizve builds autonomous revenue systems and high-performance headless infrastructure for scaling agencies and SaaS businesses. <Link href="/about/alfaz-mahmud-rizve" className="text-teal-600 dark:text-teal-400 hover:underline font-bold">About Me →</Link>
                         </p>
                     </div>
 
                     {/* Solutions Column */}
                     <div>
-                        <h4 className="text-slate-900 dark:text-white font-bold mb-4 transition-colors duration-300">Solutions</h4>
+                        <h3 className="text-slate-900 dark:text-white font-bold mb-4 transition-colors duration-300">Solutions</h3>
                         <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
                             <li><Link href="/services/custom-full-stack/" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">Custom Applications</Link></li>
                             <li><Link href="/services/headless-architecture/" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">Headless CMS</Link></li>
@@ -33,7 +33,7 @@ export default function Footer() {
 
                     {/* Free Tools Column */}
                     <div>
-                        <h4 className="text-slate-900 dark:text-white font-bold mb-4 transition-colors duration-300">Free Tools</h4>
+                        <h3 className="text-slate-900 dark:text-white font-bold mb-4 transition-colors duration-300">Free Tools</h3>
                         <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
                             <li><Link href="/audit/" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">Website Audit Tool</Link></li>
                             <li><Link href="/labs/roi/" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">ROI Calculator</Link></li>
@@ -44,7 +44,7 @@ export default function Footer() {
 
                     {/* Popular Guides Column */}
                     <div>
-                        <h4 className="text-slate-900 dark:text-white font-bold mb-4 transition-colors duration-300">Popular Guides</h4>
+                        <h3 className="text-slate-900 dark:text-white font-bold mb-4 transition-colors duration-300">Popular Guides</h3>
                         <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
                             <li><Link href="/blog/automation-operating-system-for-saas/" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">SaaS Automation OS</Link></li>
                             <li><Link href="/blog/n8n-global-error-handling/" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">Global Error Handling</Link></li>
@@ -55,7 +55,7 @@ export default function Footer() {
 
                     {/* Case Studies Column */}
                     <div>
-                        <h4 className="text-slate-900 dark:text-white font-bold mb-4 transition-colors duration-300">Case Studies</h4>
+                        <h3 className="text-slate-900 dark:text-white font-bold mb-4 transition-colors duration-300">Case Studies</h3>
                         <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400">
                             <li><Link href="/case-studies/" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">All Case Studies</Link></li>
                             <li><Link href="/blog/case-study-cashops-financial-dashboard/" className="hover:text-teal-600 dark:hover:text-blue-400 transition-colors">CashOps Dashboard</Link></li>
@@ -66,7 +66,7 @@ export default function Footer() {
 
                     {/* Connect Section */}
                     <div>
-                        <h4 className="text-slate-900 dark:text-white font-bold mb-4 transition-colors duration-300">Connect</h4>
+                        <h3 className="text-slate-900 dark:text-white font-bold mb-4 transition-colors duration-300">Connect</h3>
                         <div className="flex flex-wrap gap-4">
                             <a href="https://linkedin.com/in/alfaz-mahmud-rizve" target="_blank" className="text-slate-400 dark:text-slate-500 hover:text-teal-600 dark:hover:text-blue-400 transition-colors" title="LinkedIn">
                                 <svg role="img" viewBox="0 0 24 24" className="w-5 h-5 fill-current"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
@@ -91,6 +91,7 @@ export default function Footer() {
                 <div className="border-t border-slate-200 dark:border-slate-800/50 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500 dark:text-slate-600 text-[10px] uppercase tracking-widest font-mono transition-colors duration-300">
                     <p>&copy; {currentYear} Alfaz Mahmud Rizve . Engineered with Next.js & Automation.</p>
                     <div className="flex gap-6">
+                        <Link href="/about/alfaz-mahmud-rizve" className="hover:text-teal-600 dark:hover:text-white transition-colors">About Me</Link>
                         <Link href="/terms/" className="hover:text-teal-600 dark:hover:text-white transition-colors">Terms & Conditions</Link>
                         <Link href="/privacy-policy/" className="hover:text-teal-600 dark:hover:text-white transition-colors">Privacy Policy</Link>
                     </div>

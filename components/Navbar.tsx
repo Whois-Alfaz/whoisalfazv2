@@ -35,11 +35,16 @@ export default function Navbar() {
 
         {/* Logo Area */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="relative w-8 h-8 group-hover:scale-105 transition-transform">
-            <Image src="/logo.png" alt="Logo" fill className="object-contain" sizes="60px" priority />
-          </div>
+          <Image 
+            src="/logo.png" 
+            alt="Logo" 
+            width={32} 
+            height={32} 
+            className="object-contain group-hover:scale-105 transition-transform shrink-0" 
+            priority 
+          />
           <span className="font-bold tracking-tight text-sm text-slate-900 dark:text-white transition-colors duration-300">
-            <span className="text-teal-600 dark:text-teal-400">whois</span><span className="text-purple-600 dark:text-purple-500">alfaz</span> <span className="text-teal-600 dark:text-teal-400">.me</span>
+            <span className="text-teal-700 dark:text-teal-400">whois</span><span className="text-purple-600 dark:text-purple-500">alfaz</span> <span className="text-teal-700 dark:text-teal-400">.me</span>
           </span>
         </Link>
 

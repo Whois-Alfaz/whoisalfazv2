@@ -117,25 +117,25 @@ export default async function ServiceDetailPage({ params }) {
                             <Icon size={40} />
                         </div>
 
-                        <h1 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white mb-8 leading-tight uppercase tracking-tight">
+                        <h1 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-8 leading-tight uppercase tracking-tight">
                             {title}
                         </h1>
 
-                        <div className="inline-block px-6 py-3 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-lg font-black uppercase tracking-widest text-slate-900 dark:text-white mb-8 shadow-sm dark:shadow-none">
+                        <div className="inline-block px-5 py-2.5 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-sm font-black uppercase tracking-widest text-slate-900 dark:text-white mb-8 shadow-sm dark:shadow-none">
                             Starting at <span style={{ color: themeColor }}>{price}</span>
                         </div>
 
                         <h2
-                            className="text-xl md:text-2xl font-bold mb-12 leading-relaxed"
+                            className="text-base md:text-lg font-bold mb-12 leading-relaxed"
                             style={{ color: themeColor }}
                         >
                             {subtitle}
                         </h2>
 
-                        <div className="prose prose-slate dark:prose-invert prose-lg mb-16 max-w-none">
+                        <div className="prose prose-slate dark:prose-invert prose-sm mb-16 max-w-none">
                             {detailedContent ? (
                                 detailedContent.map((paragraph, index) => (
-                                    <p key={index} className="mb-6 text-slate-600 dark:text-slate-300 leading-relaxed">
+                                    <p key={index} className="mb-5 text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
                                         {paragraph}
                                     </p>
                                 ))

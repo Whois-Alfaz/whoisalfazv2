@@ -55,7 +55,7 @@ export default function NewsletterForm({ source = 'Newsletter' }) {
             <button
                 type="submit"
                 disabled={status === 'loading'}
-                className="w-full py-4 bg-teal-600 dark:bg-blue-600 hover:bg-teal-500 dark:hover:bg-blue-500 text-white font-black uppercase tracking-tight rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg shadow-teal-500/20 dark:shadow-blue-500/20 hover:shadow-teal-500/40 dark:hover:shadow-blue-500/40"
+                className="w-full py-4 bg-teal-700 dark:bg-blue-600 hover:bg-teal-600 dark:hover:bg-blue-500 text-white font-black uppercase tracking-tight rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg shadow-teal-500/20 dark:shadow-blue-500/20 hover:shadow-teal-500/40 dark:hover:shadow-blue-500/40"
             >
                 {status === 'loading' ? (
                     <Loader2 size={20} className="animate-spin" />

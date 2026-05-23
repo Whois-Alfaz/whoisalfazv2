@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Shield, Globe, Zap, Search, Server, Lock, ChevronDown, CheckCircle } from 'lucide-react';
+import Link from 'next/link';
+import { Shield, Globe, Zap, Search, Server, Lock, ChevronDown, CheckCircle, ArrowRight, Wrench, Calculator, MessageSquare, BookOpen } from 'lucide-react';
 
 const checks = [
   {
@@ -12,6 +13,8 @@ const checks = [
     border: 'border-teal-500/20',
     description:
       'We use the official Google PageSpeed Insights API to measure your real-world performance. This includes First Contentful Paint (FCP), Largest Contentful Paint (LCP), Cumulative Layout Shift (CLS), Total Blocking Time (TBT), and Speed Index. These Core Web Vitals directly impact your Google search rankings.',
+    linkText: 'Improve your performance with headless architecture →',
+    linkHref: '/services/headless-architecture/',
   },
   {
     icon: Search,
@@ -21,6 +24,8 @@ const checks = [
     border: 'border-blue-500/20',
     description:
       'We scan your page\'s HTML head for essential SEO tags: title tag length, meta description quality, Open Graph tags (og:title, og:description, og:image), viewport configuration for mobile responsiveness, and canonical URL to prevent duplicate content issues.',
+    linkText: 'Get a professional Technical SEO audit →',
+    linkHref: '/services/technical-seo/',
   },
   {
     icon: Lock,
@@ -30,6 +35,8 @@ const checks = [
     border: 'border-green-500/20',
     description:
       'We connect directly to your server\'s TLS handshake to verify your SSL certificate. We check the certificate issuer, expiration date, days remaining until renewal, and subject validity. An expired or missing SSL certificate will cause browsers to show security warnings and hurt your rankings.',
+    linkText: 'Need help fixing SSL issues? Let\'s talk →',
+    linkHref: '/contact/',
   },
   {
     icon: Shield,
@@ -39,6 +46,8 @@ const checks = [
     border: 'border-purple-500/20',
     description:
       'We verify six critical HTTP security headers: Strict-Transport-Security (HSTS), Content-Security-Policy (CSP), X-Content-Type-Options, X-Frame-Options, Referrer-Policy, and Permissions-Policy. Missing security headers leave your website vulnerable to XSS attacks, clickjacking, and data injection.',
+    linkText: 'Harden your site with a custom full-stack build →',
+    linkHref: '/services/custom-full-stack/',
   },
   {
     icon: Globe,
@@ -48,6 +57,8 @@ const checks = [
     border: 'border-amber-500/20',
     description:
       'We fetch your /robots.txt to verify crawl directives and check for a sitemap reference. We also fetch /sitemap.xml to confirm it exists and count the number of indexed URLs. A missing or misconfigured sitemap prevents search engines from discovering your pages.',
+    linkText: 'Fix your crawlability with Technical SEO →',
+    linkHref: '/services/technical-seo/',
   },
   {
     icon: Server,
@@ -57,38 +68,99 @@ const checks = [
     border: 'border-rose-500/20',
     description:
       'We resolve your domain\'s A and AAAA records, measure DNS lookup latency, detect CDN usage via multiple IP addresses, check IPv6 support, and identify redirect chains. Slow DNS resolution or unnecessary redirects add latency to every page load.',
+    linkText: 'Optimize your infrastructure with headless architecture →',
+    linkHref: '/services/headless-architecture/',
   },
 ];
 
 const tips = [
-  'Enable HSTS and configure a Content-Security-Policy header to protect against XSS and clickjacking attacks.',
-  'Compress images to WebP or AVIF format and lazy-load below-the-fold content to improve your PageSpeed score.',
-  'Create a complete sitemap.xml listing all important pages and reference it in your robots.txt file.',
-  'Write a meta title between 50-60 characters and a meta description between 120-160 characters for every page.',
-  'Set up automatic SSL certificate renewal to prevent expiration warnings that drive visitors away.',
-  'Use a Content Delivery Network (CDN) to reduce DNS latency and serve assets from edge locations globally.',
+  {
+    text: 'Enable HSTS and configure a Content-Security-Policy header to protect against XSS and clickjacking attacks.',
+    linkText: 'We can set this up for you',
+    linkHref: '/services/custom-full-stack/',
+  },
+  {
+    text: 'Compress images to WebP or AVIF format and lazy-load below-the-fold content to improve your PageSpeed score.',
+    linkText: 'See how headless architecture delivers sub-second loads',
+    linkHref: '/services/headless-architecture/',
+  },
+  {
+    text: 'Create a complete sitemap.xml listing all important pages and reference it in your robots.txt file.',
+    linkText: 'Get your sitemap audited by a Technical SEO expert',
+    linkHref: '/services/technical-seo/',
+  },
+  {
+    text: 'Write a meta title between 50-60 characters and a meta description between 120-160 characters for every page.',
+    linkText: 'Learn more about on-page SEO fundamentals',
+    linkHref: '/services/technical-seo/',
+  },
+  {
+    text: 'Set up automatic SSL certificate renewal to prevent expiration warnings that drive visitors away.',
+    linkText: 'Talk to us about SSL and deployment automation',
+    linkHref: '/contact/',
+  },
+  {
+    text: 'Use a Content Delivery Network (CDN) to reduce DNS latency and serve assets from edge locations globally.',
+    linkText: 'Explore our headless infrastructure solutions',
+    linkHref: '/services/headless-architecture/',
+  },
 ];
 
 const faqs = [
   {
     q: 'Is this website audit tool free?',
     a: 'Yes, completely free. You can run unlimited audits without creating an account or entering any payment information. Optionally provide your email to receive a copy of your results.',
+    link: { text: 'Calculate your automation ROI too — it\'s free', href: '/labs/roi/' },
   },
   {
     q: 'How accurate is this website audit?',
     a: 'We use the official Google PageSpeed Insights API for performance data and connect directly to your server for SSL, DNS, and security header checks. The results reflect real-world conditions, not simulated tests.',
+    link: { text: 'Read our technical guides on performance optimization', href: '/blog/' },
   },
   {
     q: 'What is a good website audit score?',
     a: 'A score of 80 or above is considered good. Scores of 90+ are excellent. Anything below 50 indicates critical issues that are likely hurting your search rankings and user experience.',
+    link: { text: 'Get a deep-dive Technical SEO audit', href: '/services/technical-seo/' },
   },
   {
     q: 'How often should I audit my website?',
     a: 'We recommend running an audit after every major deployment, design change, or at least once a month. SSL certificates, security headers, and performance can change without you noticing.',
+    link: { text: 'Automate your monitoring with custom workflows', href: '/services/n8n-automation/' },
   },
   {
     q: 'What should I fix first if my score is low?',
     a: 'Start with critical security issues (missing SSL, no security headers), then fix SEO fundamentals (title tags, meta descriptions, sitemap), and finally optimize performance (image compression, lazy loading, CDN).',
+    link: { text: 'Let us fix it for you — book a free consultation', href: '/contact/' },
+  },
+];
+
+const freeTools = [
+  {
+    icon: Calculator,
+    title: 'ROI Calculator',
+    description: 'Estimate how much time and money automation could save your business.',
+    href: '/labs/roi/',
+    color: 'text-emerald-500 dark:text-emerald-400',
+    bg: 'bg-emerald-500/10',
+    border: 'border-emerald-500/20',
+  },
+  {
+    icon: MessageSquare,
+    title: 'AI Chat Assistant',
+    description: 'Ask questions about automation, SEO, and technical architecture.',
+    href: '/labs/chat/',
+    color: 'text-blue-500 dark:text-blue-400',
+    bg: 'bg-blue-500/10',
+    border: 'border-blue-500/20',
+  },
+  {
+    icon: BookOpen,
+    title: 'Technical Blog & Guides',
+    description: 'In-depth guides on n8n automation, headless CMS, and growth engineering.',
+    href: '/blog/',
+    color: 'text-purple-500 dark:text-purple-400',
+    bg: 'bg-purple-500/10',
+    border: 'border-purple-500/20',
   },
 ];
 
@@ -103,13 +175,13 @@ export default function AuditContentFooter() {
           What Does This Tool <span className="text-teal-600 dark:text-blue-500">Check?</span>
         </h2>
         <p className="text-slate-500 dark:text-slate-400 text-center max-w-2xl mx-auto mb-16 leading-relaxed transition-colors duration-300">
-          Our free website audit runs six independent checks against your site using real API connections, not simulated data.
+          Our free website audit runs six independent checks against your site using real API connections, not simulated data. Each check maps directly to the <Link href="/services/" className="text-teal-600 dark:text-blue-400 font-bold hover:underline">solutions we offer</Link>.
         </p>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {checks.map((check) => (
             <div
               key={check.title}
-              className={`p-6 rounded-2xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 hover:border-slate-300 dark:hover:border-white/10 transition-all duration-300 group shadow-sm dark:shadow-none`}
+              className={`p-6 rounded-2xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 hover:border-slate-300 dark:hover:border-white/10 transition-all duration-300 group shadow-sm dark:shadow-none flex flex-col`}
             >
               <div
                 className={`w-12 h-12 rounded-xl ${check.bg} border ${check.border} flex items-center justify-center ${check.color} mb-5 group-hover:scale-110 transition-transform`}
@@ -119,7 +191,13 @@ export default function AuditContentFooter() {
               <h3 className="text-slate-900 dark:text-white font-bold text-lg mb-3 uppercase tracking-tight transition-colors">
                 {check.title}
               </h3>
-              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed transition-colors">{check.description}</p>
+              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed transition-colors mb-4 flex-grow">{check.description}</p>
+              <Link
+                href={check.linkHref}
+                className={`${check.color} text-xs font-bold uppercase tracking-widest flex items-center gap-1 group-hover:gap-2 transition-all hover:underline`}
+              >
+                {check.linkText}
+              </Link>
             </div>
           ))}
         </div>
@@ -131,19 +209,59 @@ export default function AuditContentFooter() {
           How to Improve Your <span className="text-teal-600 dark:text-teal-500">Website Score</span>
         </h2>
         <p className="text-slate-500 dark:text-slate-400 text-center max-w-2xl mx-auto mb-12 leading-relaxed transition-colors duration-300">
-          If your audit score is below 80, start with these high-impact fixes.
+          If your audit score is below 80, start with these high-impact fixes. Need hands-on help? <Link href="/contact/" className="text-teal-600 dark:text-blue-400 font-bold hover:underline">Talk to us</Link>.
         </p>
         <div className="grid md:grid-cols-2 gap-4">
           {tips.map((tip, i) => (
             <div
               key={i}
-              className="flex gap-4 p-5 rounded-xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 hover:border-teal-500/20 transition-all shadow-sm dark:shadow-none"
+              className="flex flex-col gap-3 p-5 rounded-xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 hover:border-teal-500/20 transition-all shadow-sm dark:shadow-none"
             >
-              <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-500 dark:text-teal-400">
-                <CheckCircle size={16} />
+              <div className="flex gap-4">
+                <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-500 dark:text-teal-400">
+                  <CheckCircle size={16} />
+                </div>
+                <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-medium transition-colors">{tip.text}</p>
               </div>
-              <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-medium transition-colors">{tip}</p>
+              <Link
+                href={tip.linkHref}
+                className="ml-12 text-teal-600 dark:text-blue-400 text-xs font-bold hover:underline transition-colors"
+              >
+                {tip.linkText} →
+              </Link>
             </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ─── MORE FREE TOOLS ─── */}
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tight text-center transition-colors duration-300">
+          More Free <span className="text-emerald-600 dark:text-emerald-500">Tools</span>
+        </h2>
+        <p className="text-slate-500 dark:text-slate-400 text-center max-w-2xl mx-auto mb-12 leading-relaxed transition-colors duration-300">
+          This audit is just the start. Explore our other free tools to grow your business.
+        </p>
+        <div className="grid sm:grid-cols-3 gap-5">
+          {freeTools.map((tool) => (
+            <Link
+              key={tool.title}
+              href={tool.href}
+              className="group p-6 rounded-2xl bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 hover:border-slate-300 dark:hover:border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-none flex flex-col"
+            >
+              <div
+                className={`w-12 h-12 rounded-xl ${tool.bg} border ${tool.border} flex items-center justify-center ${tool.color} mb-5 group-hover:scale-110 transition-transform`}
+              >
+                <tool.icon size={22} />
+              </div>
+              <h3 className="text-slate-900 dark:text-white font-bold text-base mb-2 uppercase tracking-tight transition-colors">
+                {tool.title}
+              </h3>
+              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed transition-colors mb-4 flex-grow">{tool.description}</p>
+              <span className={`${tool.color} text-xs font-bold uppercase tracking-widest flex items-center gap-1 group-hover:gap-2 transition-all`}>
+                Try it free <ArrowRight size={14} />
+              </span>
+            </Link>
           ))}
         </div>
       </div>
@@ -181,13 +299,53 @@ export default function AuditContentFooter() {
                   />
                 </button>
                 {isOpen && (
-                  <div className="px-5 pb-5 -mt-1">
+                  <div className="px-5 pb-5 -mt-1 space-y-3">
                     <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed transition-colors">{faq.a}</p>
+                    <Link
+                      href={faq.link.href}
+                      className="inline-flex items-center gap-1 text-purple-600 dark:text-purple-400 text-xs font-bold hover:underline transition-colors"
+                    >
+                      {faq.link.text} <ArrowRight size={12} />
+                    </Link>
                   </div>
                 )}
               </div>
             );
           })}
+        </div>
+      </div>
+
+      {/* ─── NEED EXPERT HELP? CTA ─── */}
+      <div className="max-w-4xl mx-auto">
+        <div className="relative rounded-[2rem] overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0f172a] p-10 md:p-14 text-center shadow-2xl">
+          <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-teal-400 via-purple-500 to-teal-400" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-teal-500/10 via-transparent to-purple-500/10" />
+          
+          <div className="relative z-10">
+            <div className="w-16 h-16 rounded-2xl bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-teal-400 mx-auto mb-6">
+              <Wrench size={28} />
+            </div>
+            <h2 className="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-tight">
+              Need Expert Help <span className="text-teal-400">Fixing These Issues?</span>
+            </h2>
+            <p className="text-slate-300 max-w-xl mx-auto mb-8 text-[15px] leading-relaxed font-medium">
+              Don&apos;t waste hours Googling fixes. Our <Link href="/services/technical-seo/" className="text-teal-400 font-bold hover:underline">Technical SEO</Link> and <Link href="/services/headless-architecture/" className="text-teal-400 font-bold hover:underline">Headless Architecture</Link> services fix the exact issues this audit reveals.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/contact/"
+                className="px-8 py-4 bg-teal-500 text-black font-black uppercase tracking-wider text-sm rounded-full hover:bg-teal-400 transition-all shadow-xl shadow-teal-500/20 hover:-translate-y-1 flex items-center gap-2"
+              >
+                Book a Free Consultation <ArrowRight size={16} />
+              </Link>
+              <Link
+                href="/services/"
+                className="px-8 py-4 bg-white/10 text-white border border-white/20 font-bold uppercase tracking-wider text-sm rounded-full hover:bg-white/20 transition-all flex items-center gap-2"
+              >
+                View All Services
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </section>

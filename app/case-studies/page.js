@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Clock, ArrowRight } from 'lucide-react';
 
 import SearchWidget from '../../components/SearchWidget';
+import DefaultContentFooter from '../../components/footers/DefaultContentFooter';
 
 export const metadata = {
     title: "Case Studies & Architecture Teardowns | Alfaz Mahmud Rizve",
@@ -112,6 +113,10 @@ export default async function CaseStudiesPage() {
                     </aside>
                 </div>
 
+            </div>
+
+            <div className="max-w-7xl mx-auto mt-20 border-t border-slate-200 dark:border-white/10">
+                <DefaultContentFooter />
             </div>
         </main>
     );
