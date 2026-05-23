@@ -141,7 +141,7 @@ export default async function Home() {
                 </div>
 
                 {/* Stat Bar - Bento Glassmorphic Strip */}
-                <div className="grid grid-cols-3 gap-4 p-5 bento-card rounded-[2rem] w-full max-w-2xl">
+                <div className="grid grid-cols-3 gap-2.5 sm:gap-4 p-4 sm:p-5 bento-card rounded-[2rem] w-full max-w-2xl">
                   {[
                     { value: '30+', label: 'Systems Documented' },
                     { value: '6', label: 'AI Integrations' },
@@ -280,7 +280,7 @@ export default async function Home() {
             {/* Right Bento: High-Fidelity Mock Pipeline Visualizer */}
             <div className="lg:col-span-5 flex">
               <FadeUp delay={0.2} className="w-full h-full flex">
-                <div className="bento-card w-full rounded-[2.5rem] p-8 flex flex-col justify-between overflow-hidden relative group">
+                <div className="bento-card w-full rounded-[2.5rem] p-6 sm:p-8 flex flex-col justify-between overflow-hidden relative group">
                   
                   {/* Glowing pipeline layout */}
                   <div className="w-full flex-grow flex flex-col justify-center items-center py-6 min-h-[220px]">

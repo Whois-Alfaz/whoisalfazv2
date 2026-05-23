@@ -159,9 +159,13 @@ body {
 }
 
 .animate-ambient-1 {
+  will-change: transform;
+  backface-visibility: hidden;
   animation: ambientGlow 12s ease-in-out infinite;
 }
 .animate-ambient-2 {
+  will-change: transform;
+  backface-visibility: hidden;
   animation: ambientGlow 16s ease-in-out infinite 2s;
 }
 
@@ -219,12 +223,12 @@ body {
   0%, 100% {
     transform: scale(1);
     opacity: 0.8;
-    filter: drop-shadow(0 0 2px rgba(20, 184, 166, 0.3));
+    box-shadow: 0 0 8px rgba(20, 184, 166, 0.2);
   }
   50% {
-    transform: scale(1.06);
+    transform: scale(1.04);
     opacity: 1;
-    filter: drop-shadow(0 0 6px rgba(20, 184, 166, 0.6));
+    box-shadow: 0 0 20px rgba(20, 184, 166, 0.45);
   }
 }
 .animate-pulse-glow {
@@ -233,11 +237,10 @@ body {
 
 @keyframes ledBlink {
   0%, 100% {
-    opacity: 0.5;
+    opacity: 0.45;
   }
   50% {
     opacity: 1;
-    filter: brightness(1.3);
   }
 }
 .animate-led-blink {
