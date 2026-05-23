@@ -378,32 +378,77 @@ export default async function Home() {
       </section>
 
       {/* Profile Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="relative w-40 h-40 mx-auto mb-8">
-            <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden border-8 border-white dark:border-slate-800 shadow-2xl dark:shadow-black/50 rotate-3 hover:rotate-0 transition-transform duration-500">
-              <Image src="/profile.jpg" alt="Alfaz Mahmud Rizve — RevOps & Full Stack Automation Architect" fill sizes="160px" className="object-cover" priority />
+      <section className="py-20 px-6 flex justify-center">
+        <FadeUp className="w-full max-w-4xl">
+          <div className="bento-card rounded-[3rem] p-8 md:p-14 text-center relative overflow-hidden group">
+            
+            {/* Ambient glows inside profile bento */}
+            <div className="absolute top-0 left-0 w-[150px] h-[150px] bg-teal-500/10 rounded-full blur-[50px] pointer-events-none -z-10" />
+            <div className="absolute bottom-0 right-0 w-[150px] h-[150px] bg-purple-500/10 rounded-full blur-[50px] pointer-events-none -z-10" />
+            
+            {/* Profile Photo Frame with Interactive Glow */}
+            <div className="relative w-40 h-40 mx-auto mb-8 group/photo">
+              {/* Spinning/pulsing backdrop rings */}
+              <div className="absolute inset-[-4px] rounded-[2.5rem] bg-gradient-to-r from-teal-500 to-purple-500 opacity-30 blur-sm group-hover/photo:opacity-80 transition-opacity duration-500 -z-10" />
+              <div className="absolute inset-0 rounded-[2.5rem] border border-teal-500/20 group-hover/photo:border-teal-500/50 transition-colors duration-500 -z-10" />
+              
+              <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden border-4 border-white dark:border-slate-800 shadow-2xl group-hover/photo:scale-[1.02] transition-transform duration-500">
+                <Image 
+                  src="/profile.jpg" 
+                  alt="Alfaz Mahmud Rizve — RevOps & Full Stack Automation Architect" 
+                  fill 
+                  sizes="160px" 
+                  className="object-cover" 
+                  priority 
+                />
+              </div>
+
+              {/* Status Dot */}
+              <span className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-900 animate-pulse shadow-lg z-10" />
             </div>
+
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-3 tracking-tighter uppercase transition-colors duration-300">
+              Alfaz Mahmud Rizve
+            </h2>
+            
+            {/* Premium Pill Badges for Titles */}
+            <div className="flex flex-wrap justify-center items-center gap-2 mb-8 max-w-xl mx-auto">
+              {['RevOps Architect', 'Automation Engineer', 'Builder'].map((title, i) => (
+                <span 
+                  key={i} 
+                  className="text-[9px] sm:text-[10px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-widest bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-3.5 py-1.5 rounded-full hover:border-teal-500/30 hover:text-teal-600 dark:hover:text-teal-400 transition-colors duration-300"
+                >
+                  {title}
+                </span>
+              ))}
+            </div>
+
+            {/* Frost Terminal Quote Callout */}
+            <div className="bg-slate-900/5 dark:bg-white/5 border border-slate-200/50 dark:border-white/5 p-6 md:p-8 rounded-3xl max-w-2xl mx-auto mb-10 text-left relative overflow-hidden backdrop-blur-md">
+              <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-teal-500 to-purple-500" />
+              <p className="text-base text-slate-600 dark:text-slate-355 font-semibold leading-relaxed pl-4">
+                &ldquo;I design revenue growth strategies and then architect the automated infrastructure to execute them&rdquo; <span className="text-xs font-mono text-slate-455 dark:text-slate-500 block mt-2 not-italic font-medium">— Alfaz Mahmud Rizve</span>
+              </p>
+            </div>
+
+            {/* Tactile Action Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
+              <Link 
+                href="/portfolio/" 
+                className="w-full sm:w-auto px-8 py-4.5 bg-gradient-to-r from-teal-600 to-teal-500 dark:from-purple-600 dark:to-purple-500 text-white font-black rounded-2xl shadow-xl hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] transition-all transform flex items-center justify-center gap-2 btn-shimmer"
+              >
+                PROJECTS LIBRARY
+              </Link>
+              <Link 
+                href="/contact/" 
+                className="w-full sm:w-auto px-8 py-4.5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white font-black rounded-2xl shadow-sm hover:bg-slate-50 dark:hover:bg-white/10 transition-all flex items-center justify-center gap-2 group"
+              >
+                STRATEGY CALL <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-300" />
+              </Link>
+            </div>
+
           </div>
-
-          <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-3 tracking-tighter uppercase transition-colors duration-300">
-            Alfaz Mahmud Rizve
-          </h2>
-          <p className="text-lg text-slate-500 dark:text-slate-400 font-bold mb-6 tracking-widest uppercase transition-colors duration-300">RevOps Architect &bull; Automation Engineer &bull; Builder</p>
-
-          <p className="text-base text-slate-600 dark:text-slate-400 font-medium italic mb-8 max-w-2xl mx-auto leading-relaxed transition-colors duration-300 border-l-4 border-blue-500 pl-5 py-2 bg-slate-100 dark:bg-blue-500/5 rounded-r-lg">
-            &ldquo;I design revenue growth strategies and then architect the automated infrastructure to execute them&rdquo; - Alfaz Mahmud Rizve
-          </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/portfolio/" className="px-8 py-4 bg-teal-600 dark:bg-purple-600 text-white font-black rounded-2xl shadow-lg hover:shadow-teal-500/40 hover:-translate-y-1 transition-all">
-              PROJECTS LIBRARY
-            </Link>
-            <Link href="/contact/" className="px-8 py-4 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white font-black rounded-2xl shadow-sm hover:bg-slate-50 dark:hover:bg-white/10 transition-all flex items-center gap-2">
-              STRATEGY CALL <ArrowRight size={18} />
-            </Link>
-          </div>
-        </div>
+        </FadeUp>
       </section>
 
       {/* Audit Tool Section */}
