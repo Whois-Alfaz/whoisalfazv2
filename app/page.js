@@ -60,7 +60,11 @@ export default async function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] selection:bg-teal-500/20 selection:text-teal-900 dark:selection:text-teal-100 overflow-hidden relative transition-colors duration-300 pb-20 pt-24">
+    <main className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a] grid-mesh selection:bg-teal-500/20 selection:text-teal-900 dark:selection:text-teal-100 overflow-hidden relative transition-colors duration-300 pb-20 pt-24">
+      {/* AMBIENT BACKGROUND GLOWS */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50%] aspect-square rounded-full bg-teal-500/5 dark:bg-teal-500/5 blur-[120px] pointer-events-none -z-10 animate-ambient-1" />
+      <div className="absolute bottom-[20%] right-[-10%] w-[50%] aspect-square rounded-full bg-purple-500/5 dark:bg-purple-500/5 blur-[120px] pointer-events-none -z-10 animate-ambient-2" />
+
       {/* FAQ SCHEMA */}
       <script
         type="application/ld+json"
@@ -123,7 +127,7 @@ export default async function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full max-w-md">
-            <Link href="/contact/" className="w-full sm:w-auto px-10 py-5 bg-slate-900 dark:bg-teal-400 text-white dark:text-black font-black rounded-2xl shadow-xl hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] transition-all transform flex items-center justify-center gap-2">
+            <Link href="/contact/" className="w-full sm:w-auto px-10 py-5 bg-slate-900 dark:bg-teal-400 text-white dark:text-black font-black rounded-2xl shadow-xl hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] transition-all transform flex items-center justify-center gap-2 btn-shimmer">
               Book Strategy Call <ArrowRight size={20} />
             </Link>
             <Link href="/services/" className="w-full sm:w-auto px-10 py-5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white font-black rounded-2xl hover:bg-slate-50 dark:hover:bg-white/10 transition-all shadow-sm flex items-center justify-center">
@@ -153,56 +157,128 @@ export default async function Home() {
           <PartnerLogos title="POWERING SCALE FOR MODERN INFRASTRUCTURE" />
         </div>
       </section>
-
       {/* Value Proposition */}
-      <section className="py-16 px-6">
+      <section className="py-20 px-6 relative z-10">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row gap-12 md:gap-20 items-center">
-            <FadeUp className="flex-1">
-              <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-6 leading-[1.1] uppercase tracking-tight transition-colors duration-300">
-                Revenue Operations <br /> <span className="text-teal-600 dark:text-teal-400">Architects</span>
-              </h2>
-              <StaggerContainer className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            
+            {/* Left Bento: Headings and Features */}
+            <div className="lg:col-span-7 flex flex-col justify-between space-y-8">
+              <FadeUp>
+                <div className="inline-block px-4 py-1 bg-teal-50 dark:bg-teal-500/10 border border-teal-100 dark:border-teal-500/20 rounded-lg text-[10px] font-black text-teal-600 dark:text-teal-400 uppercase tracking-widest mb-4">
+                  OPERATIONAL ARCHITECTURE
+                </div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white mb-6 leading-[1.1] uppercase tracking-tight transition-colors duration-300">
+                  Revenue Operations <br /> <span className="text-teal-600 dark:text-teal-400">Architects</span>
+                </h2>
+              </FadeUp>
+
+              <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
                 {[
-                  { icon: Zap, title: "Autonomous Workflows", desc: "Self-healing AI agents that instantly qualify leads, sync your CRM, and scale your pipeline." },
-                  { icon: Code2, title: "Full-Stack Applications", desc: "Bespoke agency portals and client dashboards engineered for massive scale." },
-                  { icon: Globe, title: "Headless Infrastructure", desc: "The high-performance Next.js foundation that powers your entire revenue engine." }
+                  { icon: Zap, title: "Autonomous Workflows", desc: "Self-healing AI agents that instantly qualify leads, sync your CRM, and scale your pipeline.", span: "sm:col-span-2" },
+                  { icon: Code2, title: "Full-Stack Applications", desc: "Bespoke agency portals and client dashboards engineered for massive scale.", span: "sm:col-span-1" },
+                  { icon: Globe, title: "Headless Infrastructure", desc: "The high-performance Next.js foundation that powers your entire revenue engine.", span: "sm:col-span-1" }
                 ].map((item, i) => (
-                  <StaggerItem key={i} className="flex gap-5 group">
-                    <div className="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-transform">
-                      <item.icon className="text-slate-900 dark:text-white" size={22} />
-                    </div>
-                    <div>
-                      <h4 className="text-lg font-bold text-slate-800 dark:text-slate-200 mb-1 transition-colors duration-300">{item.title}</h4>
-                      <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed max-w-sm transition-colors duration-300">{item.desc}</p>
+                  <StaggerItem key={i} className={`bento-card rounded-[2rem] p-6 flex flex-col justify-between group h-full ${item.span}`}>
+                    <div className="flex gap-4 items-start">
+                      <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:rotate-3 transition-all duration-300">
+                        <item.icon className="text-slate-900 dark:text-white" size={20} />
+                      </div>
+                      <div>
+                        <h4 className="text-base font-bold text-slate-800 dark:text-slate-200 mb-1 transition-colors duration-300">{item.title}</h4>
+                        <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed transition-colors duration-300">{item.desc}</p>
+                      </div>
                     </div>
                   </StaggerItem>
                 ))}
               </StaggerContainer>
-            </FadeUp>
+            </div>
 
-            <FadeUp delay={0.2} className="flex-1 relative">
-              <div className="relative z-10 bg-white dark:bg-white/5 rounded-[2rem] p-6 shadow-2xl dark:shadow-2xl-dark border border-slate-200 dark:border-white/10 overflow-hidden group transition-colors duration-300">
-                <div className="aspect-[4/3] bg-slate-50 dark:bg-[#0a0a0a]/50 rounded-[2rem] relative overflow-hidden flex items-center justify-center p-8 transition-colors duration-300">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src="/logo.png"
-                      alt="whoisalfaz Logo"
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-contain transition-transform duration-700 group-hover:scale-110 grayscale brightness-0 dark:invert opacity-10"
-                    />
-                  </div>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
-                    <div className="w-20 h-20 mb-5 rounded-3xl bg-white dark:bg-white/10 shadow-xl flex items-center justify-center border border-slate-100 dark:border-white/10 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500">
-                      <Image src="/logo.png" alt="Logo" width={50} height={50} className="object-contain" />
+            {/* Right Bento: High-Fidelity Mock Pipeline Visualizer */}
+            <div className="lg:col-span-5 flex">
+              <FadeUp delay={0.2} className="w-full h-full flex">
+                <div className="bento-card w-full rounded-[2.5rem] p-8 flex flex-col justify-between overflow-hidden relative group">
+                  
+                  {/* Glowing pipeline layout */}
+                  <div className="w-full flex-grow flex flex-col justify-center items-center py-6 min-h-[220px]">
+                    <div className="relative w-full max-w-sm aspect-[1.8/1] flex items-center justify-between px-6 bg-slate-50/50 dark:bg-slate-900/30 rounded-3xl border border-slate-200/50 dark:border-white/5 p-6 backdrop-blur-sm overflow-hidden">
+                      
+                      {/* Grid background inside mock */}
+                      <div className="absolute inset-0 grid-mesh opacity-30 pointer-events-none" />
+
+                      {/* SVG Flow Lines */}
+                      <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M 60 90 L 160 90" stroke="rgba(20, 184, 166, 0.2)" strokeWidth="2" />
+                        <path d="M 60 90 L 160 90" className="animate-flow-line" stroke="#14b8a6" strokeWidth="2" />
+                        <path d="M 160 90 L 260 90" stroke="rgba(168, 85, 247, 0.2)" strokeWidth="2" />
+                        <path d="M 160 90 L 260 90" className="animate-flow-line" stroke="#a855f7" strokeWidth="2" style={{ animationDelay: '0.6s' }} />
+                      </svg>
+
+                      {/* Source Node (ManyChat/Webhook) */}
+                      <div className="z-10 flex flex-col items-center gap-2">
+                        <div className="w-12 h-12 rounded-xl bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-white/10 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300">
+                          <Zap size={20} className="text-teal-500" />
+                        </div>
+                        <span className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">Inbound</span>
+                      </div>
+
+                      {/* Process Node (n8n Engine) */}
+                      <div className="z-10 flex flex-col items-center gap-2">
+                        <div className="w-16 h-16 rounded-2xl bg-white dark:bg-[#1e293b] border-2 border-teal-500/50 dark:border-teal-400/40 flex items-center justify-center shadow-xl animate-pulse-glow">
+                          <Image src="/logo.png" alt="Logo" width={32} height={32} className="object-contain" />
+                        </div>
+                        <span className="text-[9px] font-black text-teal-600 dark:text-teal-400 uppercase tracking-[0.2em] font-mono">n8n Engine</span>
+                      </div>
+
+                      {/* Destination Node (CRM/Brevo) */}
+                      <div className="z-10 flex flex-col items-center gap-2">
+                        <div className="w-12 h-12 rounded-xl bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-white/10 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300">
+                          <Code2 size={20} className="text-purple-500" />
+                        </div>
+                        <span className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">CRM Sync</span>
+                      </div>
                     </div>
-                    <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase italic tracking-tighter transition-colors duration-300">Enterprise Protocol</h3>
-                    <p className="text-[10px] font-black text-teal-600 dark:text-teal-400 uppercase tracking-[0.3em] mt-2 transition-colors duration-300">Verified Infrastructure</p>
+
+                    {/* LED statuses */}
+                    <div className="flex gap-4 mt-6 text-[9px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 font-mono w-full max-w-sm px-2">
+                      <div className="flex items-center gap-1.5 flex-1 justify-center bg-slate-100/50 dark:bg-white/5 py-1.5 px-3 rounded-lg border border-slate-200/50 dark:border-white/5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-led-blink shrink-0" />
+                        <span>Flow Live</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 flex-1 justify-center bg-slate-100/50 dark:bg-white/5 py-1.5 px-3 rounded-lg border border-slate-200/50 dark:border-white/5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-led-blink shrink-0" style={{ animationDelay: '0.4s' }} />
+                        <span>Ready</span>
+                      </div>
+                    </div>
                   </div>
+
+                  {/* Original Logo Block and Texts preserved */}
+                  <div className="border-t border-slate-200/50 dark:border-white/5 pt-6 w-full flex items-center justify-between gap-4 mt-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-white dark:bg-white/10 shadow-md flex items-center justify-center border border-slate-100 dark:border-white/10">
+                        <Image src="/logo.png" alt="Logo" width={22} height={22} className="object-contain" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase italic tracking-tighter leading-none transition-colors duration-300">Enterprise Protocol</h3>
+                        <p className="text-[9px] font-black text-teal-600 dark:text-teal-400 uppercase tracking-[0.25em] mt-1 transition-colors duration-300">Verified Infrastructure</p>
+                      </div>
+                    </div>
+                    {/* Subtle aesthetic watermark logo */}
+                    <div className="relative w-8 h-8 opacity-10">
+                      <Image
+                        src="/logo.png"
+                        alt="whoisalfaz Logo"
+                        fill
+                        sizes="32px"
+                        className="object-contain grayscale brightness-0 dark:invert"
+                      />
+                    </div>
+                  </div>
+
                 </div>
-              </div>
-            </FadeUp>
+              </FadeUp>
+            </div>
+
           </div>
         </div>
       </section>
