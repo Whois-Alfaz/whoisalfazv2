@@ -126,11 +126,11 @@ export default async function Home() {
                 Autonomous <span className="text-teal-600 dark:text-teal-400">Revenue Engines</span> <br /> Built on Sub-Second <span className="text-purple-600 dark:text-purple-400">Infrastructure</span>
               </h1>
 
-              <p className="text-base md:text-lg text-slate-500 dark:text-slate-400 mb-12 leading-relaxed max-w-xl font-medium transition-colors duration-300 hero-animate-3">
+              <p className="text-base md:text-lg text-slate-500 dark:text-slate-400 mb-12 leading-relaxed max-w-xl font-medium transition-colors duration-300">
                 I eliminate manual bottlenecks for scaling agencies with self-healing n8n workflows, AI agents, and high-performance Next.js architecture.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-md mb-12 hero-animate-3">
+              <div className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-md mb-12">
                 <Link href="/contact/" className="w-full sm:w-auto px-8 py-4.5 bg-slate-900 dark:bg-teal-400 text-white dark:text-black font-black rounded-2xl shadow-xl hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] transition-all transform flex items-center justify-center gap-2 btn-shimmer">
                   Book Strategy Call <ArrowRight size={18} />
                 </Link>
@@ -140,7 +140,7 @@ export default async function Home() {
               </div>
 
               {/* Stat Bar - Bento Glassmorphic Strip */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 p-6 sm:p-5 bento-card rounded-[2rem] w-full max-w-2xl hero-animate-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 p-6 sm:p-5 bento-card rounded-[2rem] w-full max-w-2xl">
                 {[
                   { value: '30+', label: 'Systems Documented' },
                   { value: '6', label: 'AI Integrations' },
@@ -156,7 +156,7 @@ export default async function Home() {
 
             {/* Right Column: Premium Interactive Tech Graphic */}
             <div className="lg:col-span-5 flex justify-center">
-              <div className="w-full max-w-md aspect-[4/3] flex hero-animate-3">
+              <div className="w-full max-w-md aspect-[4/3] flex">
                 <div className="bento-card w-full rounded-[2.5rem] p-6 flex flex-col justify-between overflow-hidden relative group">
                   
                   {/* Floating blurred orb background inside visual */}

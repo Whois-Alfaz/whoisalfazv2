@@ -80,15 +80,13 @@ export default function Navbar() {
           </button>
           
           {/* Theme Toggle */}
-          {mounted && (
-            <button
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-1.5 rounded-full hover:bg-slate-200 dark:hover:bg-white/10 transition-colors text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-white"
-              aria-label="Toggle Theme"
-            >
-              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
-          )}
+          <button
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            className="p-1.5 rounded-full hover:bg-slate-200 dark:hover:bg-white/10 transition-colors text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-white w-8 h-8 flex items-center justify-center"
+            aria-label="Toggle Theme"
+          >
+            {mounted ? (theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />) : <div className="w-[18px] h-[18px]" />}
+          </button>
         </div>
 
         {/* CTA Buttons */}
@@ -117,15 +115,13 @@ export default function Navbar() {
 
         {/* Mobile Menu & Theme Toggle */}
         <div className="flex items-center gap-4 md:hidden">
-          {mounted && (
-            <button
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-1.5 text-slate-600 dark:text-slate-400"
-              aria-label="Toggle Theme"
-            >
-              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
-          )}
+          <button
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            className="p-1.5 text-slate-600 dark:text-slate-400 w-8 h-8 flex items-center justify-center"
+            aria-label="Toggle Theme"
+          >
+            {mounted ? (theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />) : <div className="w-[18px] h-[18px]" />}
+          </button>
           <button className="text-slate-600 dark:text-slate-400" onClick={() => setIsOpen(!isOpen)} aria-label="Open navigation menu">
             {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
