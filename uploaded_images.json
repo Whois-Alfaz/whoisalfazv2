@@ -1,14 +1,6 @@
 {
-  "body1": {
-    "_id": "image-f2995ad02df053cf2032b8d8a489264f084860b7-1024x1024-jpg",
-    "url": "https://cdn.sanity.io/images/gfd4n1nu/production/f2995ad02df053cf2032b8d8a489264f084860b7-1024x1024.jpg"
-  },
-  "body2": {
-    "_id": "image-225e41cbe2bae9274600f4b9e5b8e550e5a778a2-1024x1024-jpg",
-    "url": "https://cdn.sanity.io/images/gfd4n1nu/production/225e41cbe2bae9274600f4b9e5b8e550e5a778a2-1024x1024.jpg"
-  },
   "featured": {
-    "_id": "image-30e5a0ba65a1bffd87eaaab901b68ba2f1299f14-1024x1024-jpg",
-    "url": "https://cdn.sanity.io/images/gfd4n1nu/production/30e5a0ba65a1bffd87eaaab901b68ba2f1299f14-1024x1024.jpg"
+    "_id": "image-362ef66912c639fe60b59b9a13347d5915a2c313-1024x1024-jpg",
+    "url": "https://cdn.sanity.io/images/gfd4n1nu/production/362ef66912c639fe60b59b9a13347d5915a2c313-1024x1024.jpg"
   }
 }
