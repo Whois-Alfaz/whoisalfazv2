@@ -43,9 +43,9 @@
     "categories": ["Al3E26R37amzsHAqPF1yCU"],
     "affiliates": ["n8n", "ManyChat", "Brevo"],
     "imagePrompt": "Premium tech-minimalist UI/UX, glassmorphic chat workflow diagram with async queue visualization, ManyChat and n8n logos as glowing vector icons, digital grid-mesh dark background, cyber-cyan message flow lines with neon-purple timeout warning nodes that resolve into green, 3D render style with cinematic depth of field.",
-    "status": "pending",
-    "publishedAt": null,
-    "sanityId": null
+    "status": "published",
+    "publishedAt": "2026-05-28T16:28:00.000Z",
+    "sanityId": "manychat-n8n-async-timeout-fix"
   },
   {
     "day": 5,
