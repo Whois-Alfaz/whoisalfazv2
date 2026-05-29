@@ -47,6 +47,7 @@ export default function TableOfContents() {
     }, []);
 
     useEffect(() => {
+        if (typeof window === 'undefined' || window.innerWidth < 1024) return;
         if (activeId && containerRef.current) {
             const activeElement = containerRef.current.querySelector(`[data-id="${activeId}"]`);
             if (activeElement) {

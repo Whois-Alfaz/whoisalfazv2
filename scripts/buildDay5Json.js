@@ -79,8 +79,8 @@ function buildJson() {
         }
       ],
       affiliates: [
-        'AiSDR, Inc.',
-        'Apollo.io'
+        'aisdr',
+        'apollo'
       ],
       body: bodyContent
     };
