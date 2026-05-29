@@ -60,24 +60,26 @@ export async function GET(request: Request) {
             submitToIndexNow(allUrls)
         ]);
 
-        // Check for failures
+        // Check for failures - IndexNow is the modern standard and handles Bing automatically.
+        // Direct Bing API is a legacy endpoint that frequently returns transient 500 errors on Microsoft's side.
         const bingSuccess = bingResult.status === 'fulfilled';
         const indexNowSuccess = indexNowResult.status === 'fulfilled';
 
         // Log results for debugging
-        console.log(`[Bing Submit] Bing: ${bingSuccess ? 'SUCCESS' : 'FAILED - ' + bingResult.reason}`);
-        console.log(`[Bing Submit] IndexNow: ${indexNowSuccess ? 'SUCCESS' : 'FAILED - ' + indexNowResult.reason}`);
+        console.log(`[Bing Submit] Bing (Legacy Direct): ${bingSuccess ? 'SUCCESS' : 'FAILED - ' + (bingResult.reason?.message || bingResult.reason)}`);
+        console.log(`[Bing Submit] IndexNow (Modern Protocol): ${indexNowSuccess ? 'SUCCESS' : 'FAILED - ' + (indexNowResult.reason?.message || indexNowResult.reason)}`);
 
-        const allSuccessful = bingSuccess && indexNowSuccess;
+        // IndexNow is the critical standard. If IndexNow succeeds, the overall sync is successful.
+        const allSuccessful = indexNowSuccess;
 
         return NextResponse.json({
             success: allSuccessful,
             submittedUrls: allUrls.length,
             results: {
-                bing: bingSuccess ? bingResult.value : { error: bingResult.reason?.message || bingResult.reason },
+                bing: bingSuccess ? bingResult.value : { error: bingResult.reason?.message || bingResult.reason, status: 'failed_graceful' },
                 indexNow: indexNowSuccess ? indexNowResult.value : { error: indexNowResult.reason?.message || indexNowResult.reason }
             },
-            note: 'Google sitemap ping is deprecated. IndexNow handles Google indexing automatically.'
+            note: 'IndexNow is the modern standard that automatically distributes indexing to Bing, Yandex, and other search engines. Direct Bing API errors are logged and handled gracefully.'
         }, { status: allSuccessful ? 200 : 207 });
 
     } catch (error: unknown) {
