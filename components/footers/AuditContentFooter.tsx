@@ -168,7 +168,7 @@ export default function AuditContentFooter() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
-    <section className="max-w-6xl mx-auto mt-32 space-y-32">
+    <section className="max-w-6xl mx-auto mt-16 sm:mt-24 md:mt-32 space-y-16 sm:space-y-24 md:space-y-32 px-4 sm:px-6">
       {/* ─── WHAT DOES THIS TOOL CHECK? ─── */}
       <div>
         <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tight text-center transition-colors duration-300">
@@ -355,7 +355,7 @@ export default function AuditContentFooter() {
 
       {/* ─── NEED EXPERT HELP? CTA ─── */}
       <div className="max-w-4xl mx-auto">
-        <div className="relative rounded-[2rem] overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0f172a] p-10 md:p-14 text-center shadow-2xl">
+        <div className="relative rounded-3xl md:rounded-[2rem] overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0f172a] p-6 sm:p-10 md:p-14 text-center shadow-2xl">
           <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-teal-400 via-purple-500 to-teal-400" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-teal-500/10 via-transparent to-purple-500/10" />
           

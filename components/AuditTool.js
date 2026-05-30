@@ -177,7 +177,7 @@ export default function AuditTool() {
   return (
     <div className="grid lg:grid-cols-[1fr_1.3fr] gap-8 items-start w-full transition-colors duration-300">
       {/* LEFT COLUMN: FORM */}
-      <div className="w-full bg-white/70 dark:bg-[#1e293b]/40 backdrop-blur-xl border border-slate-200/50 dark:border-white/10 rounded-[2.5rem] p-8 shadow-[0_20px_50px_rgba(0,0,0,0.04)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden group transition-all duration-300 hover:shadow-[0_20px_60px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_20px_60px_rgba(0,0,0,0.4)] hover:border-slate-300/50 dark:hover:border-white/15">
+      <div className="w-full bg-white/70 dark:bg-[#1e293b]/40 backdrop-blur-xl border border-slate-200/50 dark:border-white/10 rounded-3xl md:rounded-[2.5rem] p-5 sm:p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.04)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden group transition-all duration-300 hover:shadow-[0_20px_60px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_20px_60px_rgba(0,0,0,0.4)] hover:border-slate-300/50 dark:hover:border-white/15">
         <div className="absolute -top-10 -right-10 w-40 h-40 bg-teal-500/10 dark:bg-blue-500/10 rounded-full blur-3xl group-hover:bg-teal-500/20 dark:group-hover:bg-blue-500/20 transition-all duration-700" />
         <form onSubmit={runAudit} className="space-y-6 relative z-10">
           <div className="space-y-1 text-center lg:text-left">
@@ -189,7 +189,7 @@ export default function AuditTool() {
               <label className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest ml-1 transition-colors duration-300">Website URL</label>
               <input type="text" placeholder="https://your-site.com" required className="w-full bg-slate-50/50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-xl p-4 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-700 focus:ring-2 focus:ring-teal-500/20 dark:focus:ring-blue-500/20 focus:border-teal-500 dark:focus:border-blue-500 hover:border-slate-300 dark:hover:border-white/20 outline-none transition-all duration-300 shadow-inner" value={url} onChange={(e) => setUrl(e.target.value)} onBlur={handleUrlBlur} disabled={status === 'loading'} />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest ml-1 transition-colors duration-300">Name</label>
                 <input type="text" placeholder="John Doe" className="w-full bg-slate-50/50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-xl p-4 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-700 focus:ring-2 focus:ring-teal-500/20 dark:focus:ring-blue-500/20 focus:border-teal-500 dark:focus:border-blue-500 hover:border-slate-300 dark:hover:border-white/20 outline-none transition-all duration-300 shadow-inner" value={name} onChange={(e) => setName(e.target.value)} disabled={status === 'loading'} />
@@ -239,7 +239,7 @@ export default function AuditTool() {
         )}
 
         {status === 'loading' && (
-          <div className="w-full h-full bg-white dark:bg-white/[0.03] backdrop-blur-md border border-slate-200 dark:border-white/10 rounded-[2.5rem] p-8 shadow-xl dark:shadow-2xl relative overflow-hidden flex flex-col items-center justify-center min-h-[400px] transition-colors duration-300">
+          <div className="w-full bg-white dark:bg-white/[0.03] backdrop-blur-md border border-slate-200 dark:border-white/10 rounded-3xl md:rounded-[2.5rem] p-6 sm:p-8 shadow-xl dark:shadow-2xl relative overflow-hidden flex flex-col items-center justify-center min-h-[350px] md:min-h-[400px] transition-colors duration-300">
             <div className="relative mb-8">
               <div className="absolute inset-0 bg-teal-500 dark:bg-blue-500 blur-2xl opacity-15 animate-pulse rounded-full scale-150" />
               <Loader2 className="animate-spin text-teal-600 dark:text-blue-500 relative" size={52} />
@@ -256,7 +256,7 @@ export default function AuditTool() {
         )}
 
         {status === 'error' && (
-          <div className="w-full h-full bg-white dark:bg-white/[0.03] backdrop-blur-md border border-slate-200 dark:border-white/10 rounded-[2.5rem] p-8 shadow-xl dark:shadow-2xl relative overflow-hidden flex flex-col justify-center items-center min-h-[400px] transition-colors duration-300">
+          <div className="w-full bg-white dark:bg-white/[0.03] backdrop-blur-md border border-slate-200 dark:border-white/10 rounded-3xl md:rounded-[2.5rem] p-6 sm:p-8 shadow-xl dark:shadow-2xl relative overflow-hidden flex flex-col justify-center items-center min-h-[350px] md:min-h-[400px] transition-colors duration-300">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/20 mb-6">
               <AlertCircle className="text-red-500 dark:text-red-400" size={32} />
             </div>
@@ -270,55 +270,55 @@ export default function AuditTool() {
         {status === 'results' && results && (
           <div className="w-full space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Score Overview */}
-            <div className="bg-white/70 dark:bg-white/[0.02] backdrop-blur-xl border border-slate-200/50 dark:border-white/10 rounded-[2.5rem] p-6 relative overflow-hidden transition-colors duration-300 shadow-[0_20px_40px_rgba(0,0,0,0.03)] dark:shadow-none">
+            <div className="bg-white/70 dark:bg-white/[0.02] backdrop-blur-xl border border-slate-200/50 dark:border-white/10 rounded-3xl md:rounded-[2.5rem] p-5 sm:p-6 relative overflow-hidden transition-colors duration-300 shadow-[0_20px_40px_rgba(0,0,0,0.03)] dark:shadow-none">
               <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-teal-400 via-purple-500 to-teal-400 dark:from-blue-500/40 dark:via-purple-500/40 dark:to-teal-500/40" />
-              <div className="flex flex-col sm:flex-row items-center gap-6">
-                <ScoreRing score={results.overallScore} size={90} strokeWidth={5} />
+              <div className="flex flex-col sm:flex-row items-center gap-5 sm:gap-6">
+                <ScoreRing score={results.overallScore} size={84} strokeWidth={5} />
                 <div className="flex-1 text-center sm:text-left space-y-2">
                   <div>
-                    <span className={`text-2xl font-black uppercase tracking-tight italic ${getScoreColor(results.overallScore)}`}>Grade {results.grade}</span>
+                    <span className={`text-xl sm:text-2xl font-black uppercase tracking-tight italic ${getScoreColor(results.overallScore)}`}>Grade {results.grade}</span>
                     <p className="text-slate-500 dark:text-slate-400 text-[10px] font-mono mt-0.5 truncate font-bold">{results.url}</p>
                   </div>
                   <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                    {results.checks.filter(c => c.status === 'pass').length > 0 && <span className="flex items-center gap-1.5 text-xs font-bold text-green-600 dark:text-green-400 bg-green-500/10 border border-green-500/20 px-3 py-1 rounded-full"><CheckCircle size={12} />{results.checks.filter(c => c.status === 'pass').length} Passed</span>}
-                    {results.checks.filter(c => c.status === 'warn').length > 0 && <span className="flex items-center gap-1.5 text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-full"><AlertTriangle size={12} />{results.checks.filter(c => c.status === 'warn').length} Warn</span>}
-                    {results.checks.filter(c => c.status === 'fail').length > 0 && <span className="flex items-center gap-1.5 text-xs font-bold text-red-600 dark:text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-1 rounded-full"><AlertCircle size={12} />{results.checks.filter(c => c.status === 'fail').length} Failed</span>}
+                    {results.checks.filter(c => c.status === 'pass').length > 0 && <span className="flex items-center gap-1 text-[11px] sm:text-xs font-bold text-green-600 dark:text-green-400 bg-green-500/10 border border-green-500/20 px-2.5 py-0.5 rounded-full"><CheckCircle size={10} className="sm:w-3 sm:h-3" />{results.checks.filter(c => c.status === 'pass').length} Passed</span>}
+                    {results.checks.filter(c => c.status === 'warn').length > 0 && <span className="flex items-center gap-1 text-[11px] sm:text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 rounded-full"><AlertTriangle size={10} className="sm:w-3 sm:h-3" />{results.checks.filter(c => c.status === 'warn').length} Warn</span>}
+                    {results.checks.filter(c => c.status === 'fail').length > 0 && <span className="flex items-center gap-1 text-[11px] sm:text-xs font-bold text-red-600 dark:text-red-400 bg-red-500/10 border border-red-500/20 px-2.5 py-0.5 rounded-full"><AlertCircle size={10} className="sm:w-3 sm:h-3" />{results.checks.filter(c => c.status === 'fail').length} Failed</span>}
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Checks List */}
-            <div className="flex flex-col gap-3.5">
+            <div className="flex flex-col gap-3">
               {results.checks.map((check, i) => {
                 const isOpen = expandedChecks[i];
                 const Icon = checkIcons[check.name] || Globe;
                 return (
-                  <div key={i} className={`bg-white/40 dark:bg-white/[0.01] backdrop-blur-md border rounded-[1.5rem] transition-all duration-300 hover:scale-[1.01] hover:-translate-y-0.5 ${getStatusBorderColor(check.status, isOpen)}`}>
-                    <button onClick={() => toggleCheck(i)} className="w-full flex items-center justify-between gap-4 p-5 text-left active:scale-[0.99] transition-transform">
-                      <div className="flex items-center gap-4 min-w-0 flex-1">
-                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 ${getIconBg(check.status)}`}>
-                          <Icon size={20} />
+                  <div key={i} className={`bg-white/40 dark:bg-white/[0.01] backdrop-blur-md border rounded-2xl sm:rounded-[1.5rem] transition-all duration-300 hover:scale-[1.01] hover:-translate-y-0.5 ${getStatusBorderColor(check.status, isOpen)}`}>
+                    <button onClick={() => toggleCheck(i)} className="w-full flex items-center justify-between gap-3 sm:gap-4 p-3.5 sm:p-5 text-left active:scale-[0.99] transition-transform">
+                      <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                        <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 ${getIconBg(check.status)}`}>
+                          <Icon size={18} className="sm:w-5 sm:h-5" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <span className="text-slate-900 dark:text-white font-bold text-base block tracking-tight uppercase">{check.name}</span>
-                          <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5 truncate font-medium">{check.summary}</p>
+                          <span className="text-slate-900 dark:text-white font-bold text-sm sm:text-base block tracking-tight uppercase">{check.name}</span>
+                          <p className="text-slate-500 dark:text-slate-400 text-[11px] sm:text-xs mt-0.5 truncate font-medium">{check.summary}</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-4 flex-shrink-0 border-l border-slate-200/50 dark:border-white/10 pl-4">
+                      <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0 border-l border-slate-200/50 dark:border-white/10 pl-3 sm:pl-4">
                         <div className="flex flex-col items-end">
-                          <span className={`text-xl font-black tabular-nums ${getScoreColor(check.score)}`}>{check.score}</span>
-                          <span className="text-[10px] text-slate-400 dark:text-slate-500 uppercase tracking-wider font-bold">Score</span>
+                          <span className={`text-lg sm:text-xl font-black tabular-nums ${getScoreColor(check.score)}`}>{check.score}</span>
+                          <span className="text-[9px] sm:text-[10px] text-slate-400 dark:text-slate-500 uppercase tracking-wider font-bold">Score</span>
                         </div>
-                        <ChevronDown size={16} className={`text-slate-400 transition-transform duration-300 ${isOpen ? 'rotate-180 text-slate-950 dark:text-white' : ''}`} />
+                        <ChevronDown size={14} className={`text-slate-400 transition-transform duration-300 sm:w-4 sm:h-4 ${isOpen ? 'rotate-180 text-slate-950 dark:text-white' : ''}`} />
                       </div>
                     </button>
                     {isOpen && (
-                      <div className="px-5 pb-5 border-t border-slate-100 dark:border-white/5 bg-slate-50/50 dark:bg-black/10 rounded-b-[1.5rem] animate-in fade-in slide-in-from-top-1 duration-200">
-                        <div className="pt-5 space-y-4">
+                      <div className="px-4 pb-4 sm:px-5 sm:pb-5 border-t border-slate-100 dark:border-white/5 bg-slate-50/50 dark:bg-black/10 rounded-b-2xl sm:rounded-b-[1.5rem] animate-in fade-in slide-in-from-top-1 duration-200">
+                        <div className="pt-4 sm:pt-5 space-y-4">
                           <div className="space-y-2">
                             <div className="flex justify-between items-end mb-1">
-                              <span className="text-[10px] text-slate-400 dark:text-slate-500 uppercase font-black tracking-widest">Performance Metric</span>
+                              <span className="text-[9px] sm:text-[10px] text-slate-400 dark:text-slate-500 uppercase font-black tracking-widest">Performance Metric</span>
                               <span className={`text-xs font-black ${getScoreColor(check.score)}`}>{check.score}%</span>
                             </div>
                             <div className="w-full h-2 bg-slate-100 dark:bg-white/5 rounded-full overflow-hidden border border-slate-200/30 dark:border-white/5">
@@ -330,7 +330,7 @@ export default function AuditTool() {
                               const isFail = detail.startsWith('❌');
                               const isWarn = detail.startsWith('⚠️') || detail.startsWith('💡');
                               return (
-                                <div key={j} className={`p-4 rounded-xl text-xs font-mono font-medium leading-relaxed border transition-all ${isFail ? 'bg-red-500/[0.04] border-red-500/10 text-red-700 dark:text-red-300/80 shadow-[0_2px_8px_rgba(239,68,68,0.02)]' : isWarn ? 'bg-amber-500/[0.04] border-amber-500/10 text-amber-700 dark:text-amber-300/80 shadow-[0_2px_8px_rgba(245,158,11,0.02)]' : 'bg-white/50 dark:bg-white/[0.01] border-slate-200/50 dark:border-white/5 text-slate-600 dark:text-slate-400'}`}>
+                                <div key={j} className={`p-3.5 rounded-xl text-xs font-mono font-medium leading-relaxed border transition-all ${isFail ? 'bg-red-500/[0.04] border-red-500/10 text-red-700 dark:text-red-300/80 shadow-[0_2px_8px_rgba(239,68,68,0.02)]' : isWarn ? 'bg-amber-500/[0.04] border-amber-500/10 text-amber-700 dark:text-amber-300/80 shadow-[0_2px_8px_rgba(245,158,11,0.02)]' : 'bg-white/50 dark:bg-white/[0.01] border-slate-200/50 dark:border-white/5 text-slate-600 dark:text-slate-400'}`}>
                                   {detail}
                                 </div>
                               );
@@ -345,7 +345,7 @@ export default function AuditTool() {
             </div>
 
             {/* ── Action Buttons ── */}
-            <div className="flex gap-4 mt-6">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6">
               <button
                 onClick={() => {
                   const hash = encodeAuditResult(results);

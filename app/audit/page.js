@@ -47,7 +47,7 @@ const webAppSchema = {
 
 export default function AuditPage() {
     return (
-        <main className="min-h-screen pt-32 pb-20 px-6 bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300">
+        <main className="min-h-screen pt-32 pb-20 px-4 sm:px-6 bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300">
             {/* WEB APP SCHEMA */}
             <script
                 type="application/ld+json"
