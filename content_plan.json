@@ -67,9 +67,9 @@
     "categories": ["Al3E26R37amzsHAqPF1yCU"],
     "affiliates": ["n8n", "Apollo.io", "Brevo"],
     "imagePrompt": "Premium tech-minimalist UI/UX, glassmorphic three-panel workflow card showing Apollo contact data flowing through n8n orchestration nodes into Brevo CRM, each panel with cyan glow connector arrows, digital grid-mesh background in deep black, neon-purple highlight on the deduplication logic node, 3D render style with soft ambient lighting and sharp icon detail.",
-    "status": "pending",
-    "publishedAt": null,
-    "sanityId": null
+    "status": "published",
+    "publishedAt": "2026-06-05T10:55:07.000Z",
+    "sanityId": "apollo-brevo-n8n-outbound-pipeline"
   },
   {
     "day": 7,
