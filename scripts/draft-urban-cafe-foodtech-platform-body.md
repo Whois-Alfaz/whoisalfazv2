@@ -1,5 +1,3 @@
-# Zero-Hardware Kitchen OS: How I Replaced a $2,000 POS System With a Next.js PWA
-
 Marcus stands behind the counter of **Urban Harvest Cafe**, the steam wand of his espresso machine hissing as a line of morning commuters begins to form. His hands are covered in sourdough flour. In a traditional cafe setup, Marcus would have to constantly wash his hands, wipe them dry, and tap on a grease-smeared, slow, commercial POS tablet to read incoming digital orders. If he missed a ticket, a customer walked out. 
 
 Looking for a solution, Marcus investigated off-the-shelf restaurant POS systems. The quotes were staggering: **$2,000 upfront** for proprietary hardware, plus a mandatory **3% commission cut** on every single digital transaction. For a solo operator, this was an operational and financial wall. 
