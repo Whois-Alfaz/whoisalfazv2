@@ -19,17 +19,19 @@ To bypass the need for a 5-person front-of-house crew, we re-engineered the enti
 2. **Eyes-Free Kitchen:** The kitchen runs completely hands-free. A browser-native Text-to-Speech (TTS) engine reads out incoming orders to the chef (e.g., *"New order for Rizve, Table 4. 1x Avocado Sourdough Toast"*).
 3. **Simple Completion Shouting:** When the food is hot, Marcus taps "Completed" on a wall-mounted tablet and calls out the name. The system handles the digital receipt and alerts the customer in real-time.
 
+To automate the indexing of these dynamic product and success pages instantly on every deployment, I integrated the same zero-touch [**SEO Indexing Pipeline**](https://whoisalfaz.me/blog/case-study-whoisalfaz-seo-indexing-engine/) used on this portfolio to ping search engine APIs in under 12 seconds.
+
 ---
 
 ## <mark>Author Profile: Who is Alfaz?</mark>
 
 Before jumping into the code, you might ask: **who is alfaz**?
 
-I am **Alfaz Mahmud Rizve** (online known as **whoisalfaz**), a RevOps Engineer and Full-Stack Automation Architect. I specialize in designing autonomous revenue strategies and engineering the underlying software infrastructure to run them. Rather than building simple minimum viable products, I build high-performance web systems and automation pipelines that drive business efficiency and maximize revenue throughput. Learn more about my architecture philosophy on my [About Page](https://whoisalfaz.me/about/alfaz-mahmud-rizve).
+I am **Alfaz Mahmud Rizve** (online known as **whoisalfaz**), a RevOps Engineer and Full-Stack Automation Architect. I specialize in designing autonomous revenue strategies and engineering the underlying software infrastructure to run them. Rather than building simple minimum viable products, I build high-performance web systems and automation pipelines that drive business efficiency and maximize revenue throughput. Learn more about my architecture philosophy on my [**About Page**](https://whoisalfaz.me/about/alfaz-mahmud-rizve).
 
 * **GitHub:** [AlfazMahmudRizve/Urban-Harvest-Cafe](https://github.com/AlfazMahmudRizve/Urban-Harvest-Cafe)
 * **Live Storefront Demo:** [https://urbancafe.whoisalfaz.me](https://urbancafe.whoisalfaz.me)
-* **Need an automated system?** Let's connect on my [Contact Page](https://whoisalfaz.me/contact).
+* **Need an automated system?** Let's connect on my [**Contact Page**](https://whoisalfaz.me/contact).
 
 ---
 
@@ -53,6 +55,8 @@ Building a web app for a chaotic kitchen environment requires solving physical a
 1. **Autoplay Restrictions:** Web browsers strictly block programmatic audio until a user clicks on the screen.
 2. **Network Drops:** Unstable cafe WiFi causes silent WebSocket dropouts, leading to missed tickets.
 3. **Kitchen Flooding:** A sudden spike in digital orders can easily overwhelm a solo operator, leading to long wait times and poor customer service.
+
+This architecture builds on the robust full-stack capabilities I designed for the [**Veloryc E-Commerce Case Study**](https://whoisalfaz.me/blog/case-study-veloryc-premium-ecommerce/) to handle high-performance state sync under heavy user loads.
 
 ---
 
@@ -128,6 +132,8 @@ But because microwave ovens and kitchen equipment can disrupt local WiFi network
 1. **Primary Layer (WebSocket):** Listens to PostgreSQL `INSERT` events, instantly pushing new orders to the Zustand state.
 2. **Fallback Layer (Polling):** A background interval runs a silent 5-second check (comparing the local order count with remote DB record metadata). If a websocket dropout is detected, the system executes a delta-fetch and triggers the audio engine for any missed orders.
 
+For cases where custom catering requests or high-volume reservations require complex multi-source validation, the data is pushed to our [**AI Lead Enrichment Pipeline Guide**](https://whoisalfaz.me/blog/n8n-apollo-lead-enrichment-pipeline/) to auto-qualify before reaching the kitchen.
+
 <img src="https://cdn.sanity.io/images/gfd4n1nu/production/82152c5895cc73629a34a6c413e539ba8991f14d-1024x1024.webp" alt="Urban Harvest Cafe Hybrid Realtime Sync Supabase and Polling Pipeline Architecture Diagram" width="100%" />
 
 This ensures zero lost tickets, even during network degradation.
@@ -164,7 +170,7 @@ To maximize operator efficiency, I designed a segmented dashboard split into thr
 * **Order Channels:** Categorized lists showing order distribution: *Dine-In* (including Table Number), *Takeout*, and *Home Delivery*.
 
 ### II. Restaurant Analytics
-* **Revenue Charts:** Daily and weekly revenue visuals showing shop performance in Taka (৳).
+* **Revenue Charts:** Daily and weekly revenue visuals showing shop performance in Taka (৳). Mizan’s analytics panel uses direct PostgreSQL aggregates, a reporting pattern I similarly optimized for the [**CashOps Financial Dashboard**](https://whoisalfaz.me/blog/case-study-cashops-financial-dashboard/) to show real-time profit and loss metrics.
 * **Item Popularity Index:** Tracks item velocity (e.g., comparing Espresso vs Sourdough Toast sales) to aid inventory decisions.
 
 ### III. Customer Management & VIP Leaderboard
@@ -173,30 +179,7 @@ To maximize operator efficiency, I designed a segmented dashboard split into thr
 
 ---
 
-## <mark>4. Double-Directional Internal Linking Plan</mark>
-
-To optimize this case study's visibility and link authority on [whoisalfaz.me](https://whoisalfaz.me), I recommend implementing the following internal linking structure:
-
-### Outbound Links (Within This Case Study)
-* Learn more about my full-stack capabilities in my [Veloryc E-Commerce Case Study](https://whoisalfaz.me/blog/case-study-veloryc-premium-ecommerce/).
-* Check out how I built the [CashOps Financial Dashboard](https://whoisalfaz.me/blog/case-study-cashops-financial-dashboard/) for personal finance.
-* See my [SEO Indexing Pipeline Case Study](https://whoisalfaz.me/blog/case-study-whoisalfaz-seo-indexing-engine/) for search engine optimization automation.
-* Discover how to ingest clean company data in the [AI Lead Enrichment Pipeline Guide](https://whoisalfaz.me/blog/n8n-apollo-lead-enrichment-pipeline/).
-* Looking to build an automated operations pipeline? Let's discuss on my [Contact Page](https://whoisalfaz.me/contact).
-
-### Inbound Links (From Existing Pages $\rightarrow$ This Case Study)
-To push PageRank to this case study, copy and paste the following snippet into topically relevant pages:
-
-* **On the Portfolio Homepage:**
-  > *"As a developer, I build systems that automate business operations. Read about how I engineered an [autonomous kitchen ordering system](https://whoisalfaz.me/blog/case-study-urban-cafe-foodtech-platform/) for a solo-operator cafe using Next.js and Supabase."*
-* **On the Custom Full-Stack services page (`/services/custom-full-stack/`):**
-  > *"From real-time synchronization fallbacks to hands-free browser notifications, discover the operational logic behind my recent [autonomous kitchen ordering system case study](https://whoisalfaz.me/blog/case-study-urban-cafe-foodtech-platform/)."*
-* **On the Headless Architecture services page (`/services/headless-architecture/`):**
-  > *"Read how I designed the headless architecture and real-time state sync for a [Zero-Hardware Kitchen OS](https://whoisalfaz.me/blog/case-study-urban-cafe-foodtech-platform/) replacing a $2,000 POS system."*
-
----
-
-## <mark>5. Technical FAQs</mark>
+## <mark>4. Technical FAQs</mark>
 
 ### How does the system handle real-time synchronization if the restaurant's internet fails?
 The application employs a hybrid websocket-and-polling model. If the websocket client disconnects, the system switches to an automated 5-second HTTP polling loop. When connection is restored, the websocket automatically reconnects and synchronizes missing states.
