@@ -16,6 +16,7 @@ import DeployingTheStacks from '@/components/DeployingTheStacks';
 import SeriesNavigation from '@/components/SeriesNavigation';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
 
 export async function generateStaticParams() {
   const posts = await getSanityPosts();
@@ -286,8 +287,28 @@ export default async function Post({ params }) {
                 blockquote: Callout,
                 img: BlogImage,
                 ol: StepList,
+                table: ({ children }) => (
+                  <div className="overflow-x-auto my-8 rounded-xl border border-slate-200 dark:border-white/10">
+                    <table className="w-full text-sm text-left">{children}</table>
+                  </div>
+                ),
+                thead: ({ children }) => (
+                  <thead className="bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-200 uppercase text-xs tracking-wider">{children}</thead>
+                ),
+                tbody: ({ children }) => (
+                  <tbody className="divide-y divide-slate-200 dark:divide-white/10">{children}</tbody>
+                ),
+                tr: ({ children }) => (
+                  <tr className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">{children}</tr>
+                ),
+                th: ({ children }) => (
+                  <th className="px-4 py-3 font-semibold whitespace-nowrap">{children}</th>
+                ),
+                td: ({ children }) => (
+                  <td className="px-4 py-3 text-slate-700 dark:text-slate-300">{children}</td>
+                ),
               }}
-              options={{ mdxOptions: { format: 'md', rehypePlugins: [rehypeRaw] } }}
+              options={{ mdxOptions: { format: 'md', remarkPlugins: [remarkGfm], rehypePlugins: [rehypeRaw] } }}
             />
 
             {/* Dynamic Affiliate Links Injection */}

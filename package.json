@@ -27,6 +27,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.1",
     "sanity": "^5.25.0",
     "sanity-plugin-markdown": "^6.0.0",
     "styled-components": "^6.4.1",
