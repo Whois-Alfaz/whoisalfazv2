@@ -15,6 +15,7 @@ const client = createClient({
 
 // Paths
 const caseStudyPath = 'e:/Ai Agents/whoisalfaz.me/Web Projects/antigravity/urban cafe/CASE_STUDY.md';
+const imagesMetaPath = path.resolve(__dirname, '../uploaded_images.json');
 const slug = 'case-study-urban-cafe-foodtech-platform';
 const categoryId = 'pJmrsKLAWC800vFHegUEU1'; // Architecture Teardowns
 
@@ -51,25 +52,47 @@ async function main() {
 
     console.log('Parsed Frontmatter:', frontmatter);
 
-    // Fetch the current post from Sanity to reuse its image asset ID
-    console.log(`Fetching existing post "${slug}" from Sanity...`);
-    const existingPost = await client.fetch(
-      `*[_type == "post" && slug.current == $slug][0]`,
-      { slug }
-    );
+    // Fetch the uploaded featured image ID from metadata
+    let featuredAssetId = '';
+    if (fs.existsSync(imagesMetaPath)) {
+      const imagesMeta = JSON.parse(fs.readFileSync(imagesMetaPath, 'utf-8'));
+      if (imagesMeta.case_study_urban_cafe_featured) {
+        featuredAssetId = imagesMeta.case_study_urban_cafe_featured._id;
+        console.log(`Found uploaded featured image asset ID: ${featuredAssetId}`);
+      }
+    }
 
-    if (!existingPost) {
-      throw new Error(`Post with slug "${slug}" not found in Sanity database.`);
+    if (!featuredAssetId) {
+      console.warn('⚠️  Uploaded featured image not found in metadata — checking current post...');
+      const existing = await client.fetch(
+        `*[_type == "post" && slug.current == $slug][0] { image }`,
+        { slug }
+      );
+      if (existing && existing.image && existing.image.asset) {
+        featuredAssetId = existing.image.asset._ref;
+        console.log(`Using existing Sanity image asset ID: ${featuredAssetId}`);
+      } else {
+        throw new Error('No cover image reference found.');
+      }
     }
 
     // Prepare updated post document
     const updatedPost = {
-      ...existingPost,
-      title: frontmatter.title || existingPost.title,
-      seoTitle: frontmatter.seoTitle || existingPost.seoTitle,
-      seoDescription: frontmatter.seoDescription || existingPost.seoDescription,
-      description: frontmatter.description || existingPost.description,
+      _id: 'Al3E26R37amzsHAqPF24Uo', // The Sanity document ID for Urban Cafe post
+      _type: 'post',
+      title: frontmatter.title,
+      slug: { _type: 'slug', current: slug },
+      seoTitle: frontmatter.seoTitle,
+      seoDescription: frontmatter.seoDescription,
+      description: frontmatter.description,
       body: body,
+      image: {
+        _type: 'image',
+        asset: {
+          _type: 'reference',
+          _ref: featuredAssetId,
+        }
+      },
       categories: [
         {
           _type: 'reference',
