@@ -142,15 +142,22 @@ export default async function Home() {
               {/* Stat Bar - Bento Glassmorphic Strip */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 p-6 sm:p-5 bento-card rounded-[2rem] w-full max-w-2xl">
                 {[
-                  { value: '30+', label: 'Systems Documented' },
-                  { value: '6', label: 'AI Integrations' },
-                  { value: '< 1s', label: 'Load Time' },
-                ].map((stat, i) => (
-                  <div key={i} className="flex flex-col items-center text-center gap-0.5">
-                    <span className="text-xl md:text-2xl font-black text-slate-900 dark:text-white tracking-tighter transition-colors duration-300">{stat.value}</span>
-                    <span className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest transition-colors duration-300">{stat.label}</span>
-                  </div>
-                ))}
+                  { value: '30+', label: 'Systems Documented', href: '/case-studies/' },
+                  { value: '6', label: 'AI Integrations', href: '/portfolio/' },
+                  { value: '< 1s', label: 'Load Time', href: '/services/headless-architecture/' },
+                ].map((stat, i) => {
+                  const content = (
+                    <div className="flex flex-col items-center text-center gap-0.5 h-full justify-center group/stat">
+                      <span className="text-xl md:text-2xl font-black text-slate-900 dark:text-white tracking-tighter transition-colors duration-300 group-hover/stat:text-teal-600 dark:group-hover/stat:text-teal-400">{stat.value}</span>
+                      <span className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest transition-colors duration-300 group-hover/stat:text-slate-600 dark:group-hover/stat:text-slate-300">{stat.label}</span>
+                    </div>
+                  );
+                  return (
+                    <Link key={i} href={stat.href} className="transition-all hover:scale-105">
+                      {content}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
 
@@ -228,6 +235,49 @@ export default async function Home() {
               </div>
             </div>
 
+          </div>
+
+          {/* Featured Case Study Banner */}
+          <div className="mt-16 pt-8 border-t border-slate-200/50 dark:border-white/5 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+            <Link 
+              href="/blog/case-study-urban-cafe-foodtech-platform/" 
+              className="group block"
+            >
+              <div className="bento-card rounded-[2.5rem] p-6 md:p-8 flex flex-col md:flex-row items-center gap-8 overflow-hidden relative">
+                {/* Glow decorative orb */}
+                <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-72 h-72 bg-teal-500/5 dark:bg-teal-500/10 rounded-full blur-[100px] pointer-events-none" />
+
+                {/* Left Side: Thumbnail */}
+                <div className="w-full md:w-80 lg:w-96 aspect-[16/10] relative rounded-2xl overflow-hidden shadow-md group-hover:shadow-xl transition-all duration-300 shrink-0 bg-slate-100 dark:bg-slate-800">
+                  <Image
+                    src="/images/blog/case-study-urban-cafe-foodtech-platform-featured.webp"
+                    alt="Kitchen OS Featured Case Study"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 384px"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+
+                {/* Right Side: Text details */}
+                <div className="flex-1 flex flex-col items-start relative z-10">
+                  <span className="px-3.5 py-1.5 rounded-lg bg-teal-500/10 border border-teal-500/20 text-teal-600 dark:text-teal-400 text-[10px] font-black uppercase tracking-widest mb-4">
+                    Featured Case Study
+                  </span>
+                  
+                  <h3 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white mb-3 tracking-tight uppercase group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+                    Zero-Hardware Kitchen OS: How I Replaced a $2,000 POS System With a Next.js PWA
+                  </h3>
+                  
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 leading-relaxed max-w-2xl font-medium">
+                    A deep dive into building a real-time, browser-native restaurant OS. Replaced proprietary tablets with voice-activated alerts and a Supabase real-time sync engine, saving $2,000 in upfront hardware costs and 3% commission on every transaction.
+                  </p>
+                  
+                  <div className="inline-flex items-center gap-2 text-xs font-black text-teal-700 dark:text-teal-400 uppercase tracking-widest group-hover:translate-x-1 transition-transform">
+                    See how I replaced a $2,000 POS system <ArrowRight size={14} />
+                  </div>
+                </div>
+              </div>
+            </Link>
           </div>
         </div>
       </section>

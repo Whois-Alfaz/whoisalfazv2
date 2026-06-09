@@ -18,6 +18,9 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 
+export const dynamicParams = true;
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const posts = await getSanityPosts();
   return posts.map((post) => ({

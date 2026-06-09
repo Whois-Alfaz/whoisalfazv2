@@ -242,25 +242,34 @@ export default function AuditTool() {
       <div className="w-full h-full min-h-[400px]">
         {status === 'idle' && (
           <div className="hidden lg:flex relative h-full w-full bg-white dark:bg-black/30 rounded-[2.5rem] border border-slate-200 dark:border-white/5 p-8 flex-col justify-center gap-6 shadow-xl dark:shadow-inner transition-colors duration-300">
-            <div className="flex items-center gap-4 p-5 bg-slate-50 dark:bg-white/[0.02] rounded-2xl border border-slate-100 dark:border-white/5 transition-all hover:bg-slate-100 dark:hover:bg-white/[0.04]">
-              <div className="w-14 h-14 rounded-2xl bg-teal-500/10 flex items-center justify-center text-teal-600 dark:text-teal-400"><Zap size={24} /></div>
+            <div className="flex items-start gap-4 p-5 bg-slate-50 dark:bg-white/[0.02] rounded-2xl border border-slate-100 dark:border-white/5 transition-all hover:bg-slate-100 dark:hover:bg-white/[0.04]">
+              <div className="w-14 h-14 rounded-2xl bg-teal-500/10 flex items-center justify-center text-teal-600 dark:text-teal-400 shrink-0"><Zap size={24} /></div>
               <div>
                 <div className="text-xs text-slate-500 uppercase tracking-widest font-bold">Workflow Speed</div>
                 <div className="text-slate-900 dark:text-white font-black text-xl tracking-tight uppercase">+300% Acceleration</div>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed font-medium">
+                  Replaced a $2,000 POS system with a zero-hardware real-time Next.js app. See [Kitchen OS Case Study](/blog/case-study-urban-cafe-foodtech-platform/).
+                </p>
               </div>
             </div>
-            <div className="flex items-center gap-4 p-5 bg-slate-50 dark:bg-white/[0.02] rounded-2xl border border-slate-100 dark:border-white/5 transition-all hover:bg-slate-100 dark:hover:bg-white/[0.04]">
-              <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-500"><Search size={24} /></div>
+            <div className="flex items-start gap-4 p-5 bg-slate-50 dark:bg-white/[0.02] rounded-2xl border border-slate-100 dark:border-white/5 transition-all hover:bg-slate-100 dark:hover:bg-white/[0.04]">
+              <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-500 shrink-0"><Search size={24} /></div>
               <div>
                 <div className="text-xs text-slate-500 uppercase tracking-widest font-bold">SEO Integrity</div>
                 <div className="text-slate-900 dark:text-white font-black text-xl tracking-tight uppercase">98/100 Protocol Opt.</div>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed font-medium">
+                  Automated indexation engines targeting Google Search. See [SEO Indexing Engine Blueprint](/blog/case-study-whoisalfaz-seo-indexing-engine/).
+                </p>
               </div>
             </div>
-            <div className="flex items-center gap-4 p-5 bg-slate-50 dark:bg-white/[0.02] rounded-2xl border border-slate-100 dark:border-white/5 transition-all hover:bg-slate-100 dark:hover:bg-white/[0.04]">
-              <div className="w-14 h-14 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-600 dark:text-purple-500"><BarChart3 size={24} /></div>
+            <div className="flex items-start gap-4 p-5 bg-slate-50 dark:bg-white/[0.02] rounded-2xl border border-slate-100 dark:border-white/5 transition-all hover:bg-slate-100 dark:hover:bg-white/[0.04]">
+              <div className="w-14 h-14 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-600 dark:text-purple-500 shrink-0"><BarChart3 size={24} /></div>
               <div>
                 <div className="text-xs text-slate-500 uppercase tracking-widest font-bold">Conversion Growth</div>
                 <div className="text-slate-900 dark:text-white font-black text-xl tracking-tight uppercase">+25% Monthly Yield</div>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed font-medium">
+                  Lead scoring & enrichment automation. See [Apollo.io Outreach Blueprint](/blog/apollo-brevo-n8n-outbound-pipeline/).
+                </p>
               </div>
             </div>
           </div>

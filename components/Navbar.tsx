@@ -23,7 +23,7 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Services', href: '/services/' },
-    { name: 'Case Studies', href: '/blog/category/architecture-teardowns/' },
+    { name: 'Case Studies', href: '/case-studies/' },
     { name: 'Blog', href: '/blog/' },
     { name: 'Lab', href: '/labs/' },
     { name: 'Portfolio', href: '/portfolio/' },

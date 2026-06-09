@@ -1,6 +1,9 @@
 import { getSanityPostBySlug, getSanityPosts } from '@/lib/sanity.client';
 import { redirect, notFound } from 'next/navigation';
 
+export const dynamicParams = true;
+export const revalidate = 60;
+
 export async function generateStaticParams() {
     // Statically build redirect pages for all active posts for maximum redirect speed
     const posts = await getSanityPosts();
