@@ -70,5 +70,17 @@
   "case_study_urban_cafe_body2": {
     "_id": "image-82152c5895cc73629a34a6c413e539ba8991f14d-1024x1024-webp",
     "url": "https://cdn.sanity.io/images/gfd4n1nu/production/82152c5895cc73629a34a6c413e539ba8991f14d-1024x1024.webp"
+  },
+  "elevenlabs_n8n_featured": {
+    "_id": "image-85160add0a01095bbe1a45d70383f2311843315e-1280x720-webp",
+    "url": "https://cdn.sanity.io/images/gfd4n1nu/production/85160add0a01095bbe1a45d70383f2311843315e-1280x720.webp"
+  },
+  "elevenlabs_n8n_body1": {
+    "_id": "image-9fed468def46c0ad025715efa233ee96910474e8-1280x720-webp",
+    "url": "https://cdn.sanity.io/images/gfd4n1nu/production/9fed468def46c0ad025715efa233ee96910474e8-1280x720.webp"
+  },
+  "elevenlabs_n8n_body2": {
+    "_id": "image-d5cf8a0e4002a6fddc7107c5c125a3b3fbc1c191-1280x720-webp",
+    "url": "https://cdn.sanity.io/images/gfd4n1nu/production/d5cf8a0e4002a6fddc7107c5c125a3b3fbc1c191-1280x720.webp"
   }
 }
