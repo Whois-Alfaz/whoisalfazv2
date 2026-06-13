@@ -10,13 +10,11 @@ const nextConfig: NextConfig = {
     }
     return config;
   },
-  ...(isOffline ? {
-    turbopack: {
-      resolveAlias: {
-        "@/app/fonts": "./lib/mock-google-fonts.ts",
-      },
-    },
-  } : {}),
+  turbopack: {
+    resolveAlias: isOffline ? {
+      "@/app/fonts": "./lib/mock-google-fonts.ts",
+    } : {},
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     qualities: [75, 85],
