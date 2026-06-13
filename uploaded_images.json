@@ -106,5 +106,21 @@
   "pinecone_qdrant_body2": {
     "_id": "image-9552944c599779d5104afdd48e8d452d23100d85-1280x720-webp",
     "url": "https://cdn.sanity.io/images/gfd4n1nu/production/9552944c599779d5104afdd48e8d452d23100d85-1280x720.webp"
+  },
+  "competitor_seo_audit_featured": {
+    "_id": "image-bdd19430c656e80e5e3910b16127e735761f9b46-1280x720-webp",
+    "url": "https://cdn.sanity.io/images/gfd4n1nu/production/bdd19430c656e80e5e3910b16127e735761f9b46-1280x720.webp"
+  },
+  "competitor_seo_audit_body1": {
+    "_id": "image-5c7b5eddd24041b5bcbe38c18d5d059fc61e70d8-1280x720-webp",
+    "url": "https://cdn.sanity.io/images/gfd4n1nu/production/5c7b5eddd24041b5bcbe38c18d5d059fc61e70d8-1280x720.webp"
+  },
+  "competitor_seo_audit_body2": {
+    "_id": "image-a5f42e80bcc5dc02e7df849edc8666598d7b3176-1280x720-webp",
+    "url": "https://cdn.sanity.io/images/gfd4n1nu/production/a5f42e80bcc5dc02e7df849edc8666598d7b3176-1280x720.webp"
+  },
+  "competitor_seo_audit_social": {
+    "_id": "image-0c978146f887c4cc3050c27dfd81a2dbf20ee2b5-1280x720-webp",
+    "url": "https://cdn.sanity.io/images/gfd4n1nu/production/0c978146f887c4cc3050c27dfd81a2dbf20ee2b5-1280x720.webp"
   }
 }

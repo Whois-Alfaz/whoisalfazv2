@@ -13,3 +13,15 @@ export function JetBrains_Mono() {
     style: {}
   };
 }
+
+export const inter = {
+  className: 'mock-inter',
+  variable: '--font-inter',
+  style: {}
+};
+
+export const mono = {
+  className: 'mock-mono',
+  variable: '--font-jetbrains-mono',
+  style: {}
+};

@@ -1,21 +1,8 @@
 import "./globals.css";
 import Script from 'next/script';
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { inter, mono } from "@/app/fonts";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-
-// 1. Load the Fonts
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: 'swap',
-});
-
-const mono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
-  display: 'swap',
-});
 
 export const metadata = {
   metadataBase: new URL('https://whoisalfaz.me'),

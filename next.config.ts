@@ -1,18 +1,22 @@
 import type { NextConfig } from "next";
 import path from "path";
 
+const isOffline = process.env.OFFLINE_BUILD === "true";
+
 const nextConfig: NextConfig = {
   webpack: (config, { isServer }) => {
-    if (process.env.OFFLINE_BUILD === "true") {
-      config.resolve.alias["next/font/google"] = path.resolve(__dirname, "./lib/mock-google-fonts.ts");
+    if (isOffline) {
+      config.resolve.alias["@/app/fonts"] = path.resolve(__dirname, "./lib/mock-google-fonts.ts");
     }
     return config;
   },
-  turbopack: {
-    resolveAlias: {
-      "next/font/google": "./lib/mock-google-fonts.ts",
+  ...(isOffline ? {
+    turbopack: {
+      resolveAlias: {
+        "@/app/fonts": "./lib/mock-google-fonts.ts",
+      },
     },
-  },
+  } : {}),
   images: {
     formats: ['image/avif', 'image/webp'],
     qualities: [75, 85],
