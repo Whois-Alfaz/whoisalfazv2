@@ -46,7 +46,7 @@ function buildJson() {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": "5 Best Screaming Frog Alternatives: Free Browser-Based SEO Audit Tools",
-      "description": "Looking for Screaming Frog alternatives? Discover the top 5 browser-based free website crawlers that require no software install, no registration, and no domain verification.",
+      "description": "Looking for Screaming Frog alternatives? Compare the 5 best free, browser-based website crawlers that require no software installs or domain verification.",
       "image": [
         featuredUrl || "https://whoisalfaz.me/images/blog/default.jpg"
       ],
@@ -76,10 +76,10 @@ function buildJson() {
       _type: 'post',
       title: "5 Best Screaming Frog Alternatives: Free Browser-Based SEO Audit Tools",
       slug: { _type: 'slug', current: 'screaming-frog-alternatives-free-seo-audit-tools' },
-      description: "Looking for Screaming Frog alternatives? Discover the top 5 browser-based free website crawlers that require no software install, no registration, and no domain verification.",
+      description: "Looking for Screaming Frog alternatives? Compare the 5 best free, browser-based website crawlers that require no software installs or domain verification.",
       date: new Date().toISOString(),
       seoTitle: "5 Best Screaming Frog Alternatives (Free Online SEO Crawlers)",
-      seoDescription: "Looking for Screaming Frog alternatives? Discover the top 5 browser-based free website crawlers that require no software install, no registration, and no domain verification.",
+      seoDescription: "Looking for Screaming Frog alternatives? Compare the 5 best free, browser-based website crawlers that require no software installs or domain verification.",
       image: {
         _type: 'image',
         asset: { _type: 'reference', _ref: featuredAssetId }
