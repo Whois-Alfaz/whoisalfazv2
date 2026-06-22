@@ -5,7 +5,8 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: false, // Set to true if you want faster responses for static data, false for fresh data
+  useCdn: true, // CDN enabled: faster responses, edge-cached reads, lower memory pressure
+  perspective: 'published',
 })
 
 export async function getSanityPosts() {

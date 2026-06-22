@@ -19,7 +19,8 @@ import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 
 export const dynamicParams = true;
-export const revalidate = 60;
+export const revalidate = 3600; // 1 hour — reduces background Sanity refetch pressure
+
 
 export async function generateStaticParams() {
   const posts = await getSanityPosts();
