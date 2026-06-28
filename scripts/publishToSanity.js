@@ -30,10 +30,10 @@ async function publishDraft() {
     // Ensure _type is set
     draftData._type = 'post';
 
-    const result = await client.create(draftData);
+    const result = await client.createOrReplace(draftData);
     console.log('✅ Successfully published to Sanity:', result._id);
   } catch (error) {
-    console.error('❌ Failed to publish draft to Sanity:', error);
+    console.error('❌ Failed to publish draft to Sanity:', error.message);
   }
 }
 
