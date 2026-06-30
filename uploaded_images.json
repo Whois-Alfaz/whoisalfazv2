@@ -190,5 +190,13 @@
   "headless_wordpress_seo_body1": {
     "_id": "image-04c4585a8afe170815f98a581addcded1daaeef5-1024x1024-webp",
     "url": "https://cdn.sanity.io/images/gfd4n1nu/production/04c4585a8afe170815f98a581addcded1daaeef5-1024x1024.webp"
+  },
+  "headless_vs_monolithic_featured": {
+    "_id": "image-668ca142e2b2e09071ccec1584a2928c21bd8099-1024x1024-webp",
+    "url": "https://cdn.sanity.io/images/gfd4n1nu/production/668ca142e2b2e09071ccec1584a2928c21bd8099-1024x1024.webp"
+  },
+  "headless_vs_monolithic_body1": {
+    "_id": "image-063995ec2e04ce42d44fc57a3199a18fa6748a21-1024x1024-webp",
+    "url": "https://cdn.sanity.io/images/gfd4n1nu/production/063995ec2e04ce42d44fc57a3199a18fa6748a21-1024x1024.webp"
   }
 }
