@@ -342,6 +342,121 @@ export default async function Post({ params }) {
               options={{ mdxOptions: { format: 'md', remarkPlugins: [remarkGfm], rehypePlugins: [rehypeRaw] } }}
             />
 
+            {/* Downloadable Workflow Promo */}
+            {(() => {
+              const WORKFLOWS_BY_SLUG = {
+                "lead-enrichment-with-n8n": {
+                  title: "AI Lead Enrichment Pipeline",
+                  description: "Production-ready n8n workflow template. Automate lead gathering, scoring, and CRM insertion.",
+                  price: "$49",
+                  checkoutUrl: "https://whop.com/checkout/plan_PLACEHOLDER/",
+                  features: ["n8n JSON Workflow File", "Setup & Deployment Video Guide", "Lifetime Free Updates"]
+                },
+                "build-personal-ai-assistant": {
+                  title: "RAG Knowledge Base Blueprint",
+                  description: "Connect n8n to vector databases (Pinecone/Qdrant) for high-context semantic search and RAG.",
+                  price: "$49",
+                  checkoutUrl: "https://whop.com/checkout/plan_PLACEHOLDER/",
+                  features: ["Semantic Search n8n Template", "Vector Database Provisioning Guide", "Prompt Templates Included"]
+                },
+                "n8n-ai-receptionist": {
+                  title: "Voice AI Sales Agent & Memory Buffer",
+                  description: "Production-ready Voice AI and agent nodes to qualify leads, manage memory buffers, and update CRM.",
+                  price: "$49",
+                  checkoutUrl: "https://whop.com/checkout/plan_PLACEHOLDER/",
+                  features: ["AI Voice & Memory Buffer Nodes", "Setup & API Key Provisioning Video", "Pre-configured System Prompts"]
+                },
+                "automate-personal-branding-with-n8n": {
+                  title: "Autonomous Cold Email Machine",
+                  description: "Deploy a fully automated outbound email prospecting machine utilizing n8n, Smartlead, and Instantly.",
+                  price: "$49",
+                  checkoutUrl: "https://whop.com/checkout/plan_PLACEHOLDER/",
+                  features: ["Cold Outreach n8n Blueprint", "HTML Email Templates Collection", "12-Month Breakage Guarantee"]
+                },
+                "capture-n8n-lead-data-from-wordpress-elementor": {
+                  title: "ManyChat Async Webhook Queue",
+                  description: "High-throughput webhook queue template to handle viral social traffic without dropping webhook payloads.",
+                  price: "$19",
+                  checkoutUrl: "https://whop.com/checkout/plan_PLACEHOLDER/",
+                  features: ["Async Webhook n8n Blueprint", "Webhook Retries & Error Catching", "Detailed Implementation Guide"]
+                },
+                "automated-email-follow-up-n8n-brevo": {
+                  title: "Apollo-to-Brevo CRM Sync",
+                  description: "Keep contact lists and marketing campaigns synchronized between Apollo.io prospecting and Brevo CRM.",
+                  price: "$19",
+                  checkoutUrl: "https://whop.com/checkout/plan_PLACEHOLDER/",
+                  features: ["Sync & Enrichment n8n Nodes", "Field Mapping SOP Guide", "Lifetime Support Access"]
+                },
+                "monday-com-automation-recipes-revops-2026": {
+                  title: "monday.com RevOps Recipes (12-pack)",
+                  description: "Get 12 battle-tested monday.com automation blueprints to handle lead statuses, assignments, and reporting.",
+                  price: "$19",
+                  checkoutUrl: "https://whop.com/checkout/plan_PLACEHOLDER/",
+                  features: ["12 monday.com Automation Recipes", "Implementation & Board Setup Video", "Custom Dashboards Blueprint"]
+                },
+                "n8n-google-analytics-4-pipeline": {
+                  title: "Databox RevOps Dashboard Pipeline",
+                  description: "Stream pipeline velocity, conversion metrics, and deal values straight to your Databox dashboards.",
+                  price: "$19",
+                  checkoutUrl: "https://whop.com/checkout/plan_PLACEHOLDER/",
+                  features: ["GA4 & Databox Sync Blueprint", "Custom Dashboards Blueprint", "Setup Documentation SOP"]
+                },
+                "n8n-global-error-handling": {
+                  title: "Self-Healing Error Handler",
+                  description: "Global error-catching workflow that automatically captures execution logs, alerts Slack/Discord, and retries.",
+                  price: "$49",
+                  checkoutUrl: "https://whop.com/checkout/plan_PLACEHOLDER/",
+                  features: ["Self-Healing Error Handler Blueprint", "Slack & Discord Webhook Templates", "Setup SOP & Video Guide"]
+                },
+                "n8n-workflow-design-best-practices": {
+                  title: "Trainual SOP Documenting Engine",
+                  description: "Automatically document all n8n workflows into SOPs inside Trainual as you deploy them in production.",
+                  price: "$19",
+                  checkoutUrl: "https://whop.com/checkout/plan_PLACEHOLDER/",
+                  features: ["SOP Generation n8n Template", "Custom Prompt Blueprints", "Lifetime Free Updates"]
+                },
+                "automation-operating-system-for-saas": {
+                  title: "End-to-End Inbound RevOps Engine",
+                  description: "Comprehensive blueprint managing your inbound lead routing, qualification, and sales booking pipelines.",
+                  price: "$49",
+                  checkoutUrl: "https://whop.com/checkout/plan_PLACEHOLDER/",
+                  features: ["Full Inbound RevOps n8n Blueprint", "CRM Onboarding SOP Guide", "12-Month Breakage Guarantee"]
+                }
+              };
+
+              const workflow = WORKFLOWS_BY_SLUG[slug];
+              if (!workflow) return null;
+
+              return (
+                <div className="my-16 p-8 rounded-[2rem] bg-white dark:bg-slate-950/20 bg-gradient-to-r from-teal-500/5 to-purple-500/5 dark:from-teal-500/10 dark:to-purple-500/10 border border-slate-200 dark:border-teal-500/30 relative overflow-hidden shadow-xl dark:shadow-none">
+                  <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-br from-teal-500/10 to-purple-500/10 rounded-full blur-3xl -z-10 translate-x-1/3 -translate-y-1/3" />
+                  <div className="relative z-10 flex flex-col lg:flex-row gap-8 items-center justify-between">
+                    <div className="flex-1">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-teal-500/10 border border-teal-500/20 text-teal-600 dark:text-teal-400 text-[10px] font-bold uppercase tracking-wider mb-4">
+                        Get the Blueprint
+                      </span>
+                      <h3 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-2">
+                        Deploy this Workflow
+                      </h3>
+                      <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed max-w-xl">
+                        Skip building from scratch. Download the production-ready n8n template JSON and start running it in 5 minutes.
+                      </p>
+                    </div>
+                    <div className="w-full lg:w-auto lg:min-w-[320px]">
+                      <WhopProductCard
+                        title={workflow.title}
+                        description={workflow.description}
+                        price={workflow.price}
+                        checkoutUrl={workflow.checkoutUrl}
+                        features={workflow.features}
+                        isBundle={false}
+                      />
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+
             {/* Dynamic Affiliate Links Injection */}
             {post.affiliates && post.affiliates.length > 0 && (
               <DeployingTheStacks affiliates={post.affiliates} />
