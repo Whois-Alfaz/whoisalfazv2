@@ -28,27 +28,27 @@ export const metadata = {
 /* ─────────────────────────────────────────────────────── */
 const products = [
     // ── AI & RAG ──
-    { title: "AI Lead Enrichment Pipeline",       price: 49, category: "AI & RAG",               icon: Brain },
-    { title: "RAG Knowledge Base Blueprint",      price: 49, category: "AI & RAG",               icon: Brain },
-    { title: "Voice AI Sales Agent",              price: 49, category: "AI & RAG",               icon: Brain },
-    { title: "n8n AI Agent Nodes & Memory Buffer", price: 49, category: "AI & RAG",              icon: Brain },
-    { title: "AdCreative.ai Automated Graphic Pipeline", price: 49, category: "AI & RAG",        icon: Brain },
+    { title: "AI Lead Enrichment Pipeline",       price: 49, category: "AI & RAG",               icon: Brain, blogSlug: "lead-enrichment-with-n8n" },
+    { title: "RAG Knowledge Base Blueprint",      price: 49, category: "AI & RAG",               icon: Brain, blogSlug: "build-personal-ai-assistant" },
+    { title: "Voice AI Sales Agent",              price: 49, category: "AI & RAG",               icon: Brain, blogSlug: "n8n-ai-receptionist" },
+    { title: "n8n AI Agent Nodes & Memory Buffer", price: 49, category: "AI & RAG",              icon: Brain, blogSlug: "n8n-ai-receptionist" },
+    { title: "AdCreative.ai Automated Graphic Pipeline", price: 49, category: "AI & RAG",        icon: Brain, blogSlug: "automate-personal-branding-with-n8n" },
     // ── Lead Gen & Outreach ──
-    { title: "Autonomous Cold Email Machine",     price: 49, category: "Lead Gen & Outreach",    icon: Zap },
-    { title: "ManyChat Async Webhook Queue",      price: 19, category: "Lead Gen & Outreach",    icon: Zap },
-    { title: "Apollo-to-Brevo CRM Sync",          price: 19, category: "Lead Gen & Outreach",    icon: Zap },
-    { title: "ManyChat WhatsApp Lead Capture",     price: 19, category: "Lead Gen & Outreach",    icon: Zap },
-    { title: "Outbound LinkedIn Prospecting",      price: 49, category: "Lead Gen & Outreach",    icon: Zap },
-    { title: "Multi-Step AI Outreach Agent",       price: 49, category: "Lead Gen & Outreach",    icon: Zap },
-    { title: "ManyChat Instagram DM Funnel",       price: 19, category: "Lead Gen & Outreach",    icon: Zap },
+    { title: "Autonomous Cold Email Machine",     price: 49, category: "Lead Gen & Outreach",    icon: Zap, blogSlug: "automate-personal-branding-with-n8n" },
+    { title: "ManyChat Async Webhook Queue",      price: 19, category: "Lead Gen & Outreach",    icon: Zap, blogSlug: "capture-n8n-lead-data-from-wordpress-elementor" },
+    { title: "Apollo-to-Brevo CRM Sync",          price: 19, category: "Lead Gen & Outreach",    icon: Zap, blogSlug: "automated-email-follow-up-n8n-brevo" },
+    { title: "ManyChat WhatsApp Lead Capture",     price: 19, category: "Lead Gen & Outreach",    icon: Zap, blogSlug: "capture-n8n-lead-data-from-wordpress-elementor" },
+    { title: "Outbound LinkedIn Prospecting",      price: 49, category: "Lead Gen & Outreach",    icon: Zap, blogSlug: "automate-personal-branding-with-n8n" },
+    { title: "Multi-Step AI Outreach Agent",       price: 49, category: "Lead Gen & Outreach",    icon: Zap, blogSlug: "automate-personal-branding-with-n8n" },
+    { title: "ManyChat Instagram DM Funnel",       price: 19, category: "Lead Gen & Outreach",    icon: Zap, blogSlug: "capture-n8n-lead-data-from-wordpress-elementor" },
     // ── Analytics & RevOps ──
-    { title: "monday.com RevOps Recipes (12-pack)", price: 19, category: "Analytics & RevOps",   icon: BarChart3 },
-    { title: "Databox RevOps Dashboard Pipeline",  price: 19, category: "Analytics & RevOps",    icon: BarChart3 },
-    { title: "Self-Healing Error Handler",          price: 49, category: "Analytics & RevOps",    icon: BarChart3 },
-    { title: "Trainual SOP Documenting Engine",     price: 19, category: "Analytics & RevOps",    icon: BarChart3 },
-    { title: "Brevo CRM Automation Playbook",       price: 19, category: "Analytics & RevOps",    icon: BarChart3 },
-    { title: "Living Operations Manual Sync",       price: 19, category: "Analytics & RevOps",    icon: BarChart3 },
-    { title: "End-to-End Inbound RevOps Engine",    price: 49, category: "Analytics & RevOps",    icon: BarChart3 },
+    { title: "monday.com RevOps Recipes (12-pack)", price: 19, category: "Analytics & RevOps",   icon: BarChart3, blogSlug: "monday-com-automation-recipes-revops-2026" },
+    { title: "Databox RevOps Dashboard Pipeline",  price: 19, category: "Analytics & RevOps",    icon: BarChart3, blogSlug: "n8n-google-analytics-4-pipeline" },
+    { title: "Self-Healing Error Handler",          price: 49, category: "Analytics & RevOps",    icon: BarChart3, blogSlug: "n8n-global-error-handling" },
+    { title: "Trainual SOP Documenting Engine",     price: 19, category: "Analytics & RevOps",    icon: BarChart3, blogSlug: "n8n-workflow-design-best-practices" },
+    { title: "Brevo CRM Automation Playbook",       price: 19, category: "Analytics & RevOps",    icon: BarChart3, blogSlug: "automated-email-follow-up-n8n-brevo" },
+    { title: "Living Operations Manual Sync",       price: 19, category: "Analytics & RevOps",    icon: BarChart3, blogSlug: "n8n-workflow-design-best-practices" },
+    { title: "End-to-End Inbound RevOps Engine",    price: 49, category: "Analytics & RevOps",    icon: BarChart3, blogSlug: "automation-operating-system-for-saas" },
 ];
 
 const categories = [
@@ -117,7 +117,7 @@ function ProductCard({ product, index }) {
             </div>
 
             {/* CTA */}
-            <div className="mt-6 relative z-10">
+            <div className="mt-6 relative z-10 flex flex-wrap items-center justify-between gap-4">
                 <a
                     href="https://whop.com/checkout/plan_PLACEHOLDER/"
                     target="_blank"
@@ -126,6 +126,14 @@ function ProductCard({ product, index }) {
                 >
                     Get Template <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </a>
+                {product.blogSlug && (
+                    <Link
+                        href={`/blog/${product.blogSlug}/`}
+                        className="inline-flex items-center gap-1 text-slate-500 dark:text-slate-500 hover:text-teal-600 dark:hover:text-teal-400 text-xs font-semibold transition-colors"
+                    >
+                        Read Guide →
+                    </Link>
+                )}
             </div>
         </div>
     );
