@@ -183,7 +183,7 @@ export default function StorePage() {
                 "price": "149",
                 "priceCurrency": "USD",
                 "availability": "https://schema.org/InStock",
-                "url": "https://whop.com/checkout/plan_PLACEHOLDER_BUNDLE/"
+                "url": "https://whop.com/checkout/plan_vhZzXEqVAiZNm"
             }
         },
         {
@@ -309,7 +309,7 @@ export default function StorePage() {
                                         </span>
                                     </div>
                                     <a
-                                        href="https://whop.com/checkout/plan_PLACEHOLDER_BUNDLE/"
+                                        href="https://whop.com/checkout/plan_vhZzXEqVAiZNm"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="btn-shimmer w-full block py-4 bg-gradient-to-r from-teal-600 to-teal-500 hover:from-teal-500 hover:to-teal-400 text-white font-black uppercase tracking-widest text-xs rounded-xl shadow-xl shadow-teal-500/20 transition-all hover:-translate-y-1 relative overflow-hidden"
