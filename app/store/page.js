@@ -64,18 +64,21 @@ const services = [
         price: "Starting at $750",
         desc: "End-to-end n8n builds tailored to your exact revenue stack. Fully autonomous, self-healing, and production-hardened.",
         icon: Zap,
+        slug: "/services/n8n-automation/",
     },
     {
         title: "Strategy & Growth Consulting",
         price: "$200/hour",
         desc: "Map your processes. Find the bottlenecks. Build the automation roadmap to cut costs and scale revenue on autopilot.",
         icon: BarChart3,
+        slug: "/services/growth-consulting/",
     },
     {
         title: "Custom Full-Stack Applications",
         price: "Starting at $2,500",
         desc: "Bespoke web applications, internal portals, and client dashboards built from scratch with Next.js, Supabase, and Vercel.",
         icon: Sparkles,
+        slug: "/services/custom-full-stack/",
     },
 ];
 
@@ -373,7 +376,7 @@ export default function StorePage() {
                                 return (
                                     <Link
                                         key={s.title}
-                                        href="/services/"
+                                        href={s.slug}
                                         style={{ animationDelay: `${i * 150}ms` }}
                                         className="animate-in fade-in zoom-in-[0.98] duration-700 fill-mode-both bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-purple-500/20 rounded-2xl p-7 shadow-xl dark:shadow-none hover:border-purple-500/50 hover:shadow-2xl transition-all group overflow-hidden relative block"
                                     >

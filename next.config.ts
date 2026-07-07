@@ -124,6 +124,11 @@ const nextConfig: NextConfig = {
         destination: '/portfolio/',
         permanent: true,
       },
+      {
+        source: '/about/alfaz-mahmud-rizve',
+        destination: '/portfolio/',
+        permanent: true,
+      },
       // 6. Redirect legacy /category/ root path to /blog/category/
       {
         source: '/category/:slug',

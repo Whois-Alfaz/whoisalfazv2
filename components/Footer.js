@@ -16,7 +16,7 @@ export default function Footer() {
                             </span>
                         </Link>
                         <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed transition-colors duration-300">
-                            Alfaz Mahmud Rizve builds autonomous revenue systems and high-performance headless infrastructure for scaling agencies and SaaS businesses. <Link href="/about/alfaz-mahmud-rizve/" className="text-teal-600 dark:text-teal-400 hover:underline font-bold">About Me →</Link>
+                            Alfaz Mahmud Rizve builds autonomous revenue systems and high-performance headless infrastructure for scaling agencies and SaaS businesses. <Link href="/portfolio/" className="text-teal-600 dark:text-teal-400 hover:underline font-bold">About Me →</Link>
                         </p>
                     </div>
 
