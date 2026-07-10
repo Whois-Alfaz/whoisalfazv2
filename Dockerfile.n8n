@@ -1,9 +1,1 @@
 FROM n8nio/n8n:latest
-
-# Copy the SSL force-patch script into the container
-COPY force-pg-ssl.cjs /usr/local/lib/force-pg-ssl.cjs
-
-# Preload the SSL patch before n8n starts so every pg connection uses SSL
-ENV NODE_OPTIONS="--require /usr/local/lib/force-pg-ssl.cjs"
-
-EXPOSE 5678

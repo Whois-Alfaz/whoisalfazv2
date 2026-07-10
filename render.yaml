@@ -33,3 +33,7 @@ services:
         value: https://n8n-automation-owfh.onrender.com/
       - key: N8N_BASIC_AUTH_ACTIVE
         value: "false"
+      - key: PGSSLMODE
+        value: require
+      - key: DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED
+        value: "false"
