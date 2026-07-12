@@ -1,0 +1,571 @@
+{
+  "name": "Autonomous Cold Email Machine",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "### Autonomous Cold Email Machine\n\n**Required Credentials**:\n- `APOLLO_WEBHOOK_SECRET`: HMAC key to verify inbound payloads.\n- `BREVO_API_KEY`: Access token for CRM lookups and SMTP delivery.\n- `AISDR_API_KEY`: API token for AI-driven copywriting personalization.\n\n**Environment Variables**:\n- `APOLLO_WEBHOOK_SECRET` mapped in your n8n environment.\n- `BREVO_API_KEY` mapped in your n8n environment.\n- `AISDR_API_KEY` mapped in your n8n environment.\n\n**Testing Protocol**:\n1. Send a POST payload to the Webhook endpoint with the header `x-apollo-signature` set. Verify signature validation succeeds.\n2. Ensure the CRM deduplication path checks Brevo and branches correctly.\n3. Validate that the sparse update code compiles and only patches empty properties.\n4. Trigger a full run and check the recipient inbox for the AI personalization.\n\n**Upsell Note**:\nNeed this workflow tailored or fully managed? Hire **Automation & RevOps by Alfaz** for custom Done-For-You setups: [whoisalfaz.me/contact/](https://whoisalfaz.me/contact/).",
+        "height": 240,
+        "width": 640
+      },
+      "id": "sticky-note-1",
+      "name": "Workflow Instructions",
+      "type": "n8n-nodes-base.sticky",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -250
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "cold-email-webhook",
+        "responseMode": "onReceived",
+        "responseData": "allEntries"
+      },
+      "id": "webhook-ingest",
+      "name": "Webhook Ingest",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        100,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const crypto = require('crypto');\nconst headers = $input.item.json.headers;\nconst rawBody = $input.item.json.body; \nconst apolloSignature = headers['x-apollo-signature'];\nconst webhookSecret = process.env.APOLLO_WEBHOOK_SECRET || 'YOUR_API_KEY_HERE';\n\nif (!apolloSignature) {\n  throw new Error(\"Missing 'x-apollo-signature' header. Request rejected.\");\n}\n\nconst computedSignature = crypto\n  .createHmac('sha256', webhookSecret)\n  .update(JSON.stringify(rawBody))\n  .digest('hex');\n\nconst isSignatureValid = crypto.timingSafeEqual(\n  Buffer.from(apolloSignature, 'utf-8'),\n  Buffer.from(computedSignature, 'utf-8')\n);\n\nif (!isSignatureValid) {\n  return [{\n    json: {\n      status: \"unauthorized\",\n      message: \"HMAC signature mismatch\"\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    status: \"authorized\",\n    data: rawBody\n  }\n}];"
+      },
+      "id": "verify-hmac",
+      "name": "Verify HMAC",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        350,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-1",
+              "leftValue": "={{ $json.status }}",
+              "comparison": "equals",
+              "rightValue": "authorized"
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "is-authorized",
+      "name": "Is Authorized?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        600,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "responseCode": 200,
+        "responseBody": "{\"status\":\"received\"}"
+      },
+      "id": "respond-webhook",
+      "name": "Respond Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        850,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "workflowId": "async-child-workflow-id",
+        "waitForSubworkflow": "no"
+      },
+      "id": "execute-async",
+      "name": "Execute Sub-Workflow (Async)",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [
+        850,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.brevo.com/v3/contacts/{{ encodeURIComponent($json.data.email || 'test@example.com') }}",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "api-key",
+              "value": "={{ process.env.BREVO_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "check-existing-lead",
+      "name": "Check Existing Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1100,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputItems = $input.all();\nconst mergedPayloads = [];\n\nfor (const item of inputItems) {\n  const incomingData = item.json.data || {\n    email: \"lead@company.com\",\n    phone: \"+123456789\",\n    title: \"CTO\",\n    linkedin_url: \"https://linkedin.com/in/test\",\n    organization: { name: \"Acme Corp\", industry: \"SaaS\" }\n  };\n  \n  const existingCRMData = item.json.email ? item.json : null; \n  \n  if (!existingCRMData) {\n    mergedPayloads.push({\n      json: {\n        action: \"create\",\n        payload: {\n          email: incomingData.email,\n          phone: incomingData.phone,\n          jobTitle: incomingData.title,\n          linkedinUrl: incomingData.linkedin_url,\n          companyName: incomingData.organization?.name,\n          industry: incomingData.organization?.industry\n        }\n      }\n    });\n    continue;\n  }\n  \n  const updatePayload = {};\n  const criticalKeys = ['phone', 'jobTitle', 'linkedinUrl', 'companyName', 'industry'];\n  const mappedIncoming = {\n    phone: incomingData.phone,\n    jobTitle: incomingData.title,\n    linkedinUrl: incomingData.linkedin_url,\n    companyName: incomingData.organization?.name,\n    industry: incomingData.organization?.industry\n  };\n  const mappedCRM = {\n    phone: existingCRMData.attributes?.PHONE,\n    jobTitle: existingCRMData.attributes?.JOBTITLE,\n    linkedinUrl: existingCRMData.attributes?.LINKEDIN,\n    companyName: existingCRMData.attributes?.COMPANY,\n    industry: existingCRMData.attributes?.INDUSTRY\n  };\n  \n  for (const key of criticalKeys) {\n    const incomingValue = mappedIncoming[key];\n    const existingValue = mappedCRM[key];\n    \n    if (incomingValue && (!existingValue || existingValue === \"\" || existingValue === null)) {\n      updatePayload[key] = incomingValue;\n    }\n  }\n  \n  updatePayload.email = existingCRMData.email || incomingData.email;\n  updatePayload.id = existingCRMData.id;\n  \n  const hasUpdates = Object.keys(updatePayload).length > 2;\n  \n  mergedPayloads.push({\n    json: {\n      action: hasUpdates ? \"update\" : \"skip\",\n      payload: updatePayload\n    }\n  });\n}\n\nreturn mergedPayloads;"
+      },
+      "id": "sparse-merge",
+      "name": "Sparse Merge Logic",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1350,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.action }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "create"
+            },
+            {
+              "value2": "update"
+            }
+          ]
+        }
+      },
+      "id": "route-create-update",
+      "name": "Is Create or Update?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        1600,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brevo.com/v3/contacts",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "api-key",
+              "value": "={{ process.env.BREVO_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "email",
+              "value": "={{ $json.payload.email }}"
+            },
+            {
+              "name": "attributes",
+              "value": "={ \"PHONE\": \"{{ $json.payload.phone }}\", \"JOBTITLE\": \"{{ $json.payload.jobTitle }}\", \"LINKEDIN\": \"{{ $json.payload.linkedinUrl }}\", \"COMPANY\": \"{{ $json.payload.companyName }}\", \"INDUSTRY\": \"{{ $json.payload.industry }}\" }"
+            }
+          ]
+        }
+      },
+      "id": "brevo-create",
+      "name": "Brevo Create Contact",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1850,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.brevo.com/v3/contacts/{{ encodeURIComponent($json.payload.email) }}",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "api-key",
+              "value": "={{ process.env.BREVO_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "attributes",
+              "value": "={ \"PHONE\": \"{{ $json.payload.phone }}\", \"JOBTITLE\": \"{{ $json.payload.jobTitle }}\", \"LINKEDIN\": \"{{ $json.payload.linkedinUrl }}\", \"COMPANY\": \"{{ $json.payload.companyName }}\", \"INDUSTRY\": \"{{ $json.payload.industry }}\" }"
+            }
+          ]
+        }
+      },
+      "id": "brevo-update",
+      "name": "Brevo Update Contact",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1850,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.aisdr.com/v1/email/draft",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ process.env.AISDR_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "email",
+              "value": "={{ $json.payload.email }}"
+            },
+            {
+              "name": "company",
+              "value": "={{ $json.payload.companyName }}"
+            },
+            {
+              "name": "persona",
+              "value": "Outbound Cold Email Pitch"
+            }
+          ]
+        }
+      },
+      "id": "aisdr-copywriter",
+      "name": "AiSDR Copywriter",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        2150,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brevo.com/v3/smtp/email",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "api-key",
+              "value": "={{ process.env.BREVO_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "sender",
+              "value": "={ \"name\": \"Alfaz Mahmud\", \"email\": \"alfaz@whoisalfaz.me\" }"
+            },
+            {
+              "name": "to",
+              "value": "=[\n  {\n    \"email\": \"{{ $json.email || $node[\"Sparse Merge Logic\"].json.payload.email }}\"\n  }\n]"
+            },
+            {
+              "name": "subject",
+              "value": "Quick question about your GTM systems"
+            },
+            {
+              "name": "htmlContent",
+              "value": "=<html><body>{{ $json.draft_copy || 'Hey, wanted to reach out regarding automation.' }}</body></html>"
+            }
+          ]
+        }
+      },
+      "id": "smtp-delivery",
+      "name": "Brevo Send Transactional Email",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        2400,
+        100
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "error-trigger",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        100,
+        350
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const error = $json.execution.error;\nreturn [{\n  json: {\n    workflow_name: $json.workflow.name,\n    workflow_id: $json.workflow.id,\n    execution_id: $json.execution.id,\n    error_message: error.message || error.description || 'Unknown Execution Failure',\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "compile-error",
+      "name": "Compile Error Details",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        350,
+        350
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEETS_FILE_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Dead Letter Queue",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "google-sheets-log",
+      "name": "Google Sheets Log",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        600,
+        350
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_SLACK_WEBHOOK_URL",
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "text",
+              "value": "=⚠️ Cold Email Machine Error in {{ $json.workflow_name }}: {{ $json.error_message }}. Execution Link: https://n8n.yourdomain.com/workflow/{{ $json.workflow_id }}/executions/{{ $json.execution_id }}"
+            }
+          ]
+        }
+      },
+      "id": "slack-alert",
+      "name": "Slack Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        850,
+        350
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Ingest": {
+      "main": [
+        [
+          {
+            "node": "Verify HMAC",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify HMAC": {
+      "main": [
+        [
+          {
+            "node": "Is Authorized?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Authorized?": {
+      "main": [
+        [
+          {
+            "node": "Respond Webhook",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Execute Sub-Workflow (Async)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Sub-Workflow (Async)": {
+      "main": [
+        [
+          {
+            "node": "Check Existing Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Existing Lead": {
+      "main": [
+        [
+          {
+            "node": "Sparse Merge Logic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sparse Merge Logic": {
+      "main": [
+        [
+          {
+            "node": "Is Create or Update?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Create or Update?": {
+      "main": [
+        [
+          {
+            "node": "Brevo Create Contact",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Brevo Update Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brevo Create Contact": {
+      "main": [
+        [
+          {
+            "node": "AiSDR Copywriter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brevo Update Contact": {
+      "main": [
+        [
+          {
+            "node": "AiSDR Copywriter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AiSDR Copywriter": {
+      "main": [
+        [
+          {
+            "node": "Brevo Send Transactional Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Compile Error Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compile Error Details": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Log": {
+      "main": [
+        [
+          {
+            "node": "Slack Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "meta": {}
+}

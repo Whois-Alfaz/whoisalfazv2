@@ -1,0 +1,471 @@
+{
+  "name": "monday.com RevOps Recipes (12-pack)",
+  "nodes": [
+    {
+      "id": "sticky-instructions",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.sticky",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -250
+      ],
+      "parameters": {
+        "width": 600,
+        "height": 260,
+        "content": "### 📊 monday.com CRM REVOPS RECIPES SOP\nThis workflow implements advanced monday.com CRM orchestration recipes, bypassing native Work OS formula limitations and automating departmental handoffs.\n\n#### 🔑 Required Credentials:\n- **monday.com Personal API Token**: Required to authenticate GraphQL writes.\n- **Slack OAuth Bot Token**: Used for routing immediate SLA notifications and alerts.\n\n#### ⚙️ Environment Variables:\n- `MONDAY_API_KEY`: API token with admin/write access to target CRM boards.\n- `SLACK_WEBHOOK_URL`: Slack Channel URL for critical escalations.\n\n#### 🧪 Testing Protocol:\n1. Open the monday.com Inbound Webhook node and copy the webhook URL.\n2. In monday.com, configure a webhook trigger targeting this URL: `When a column changes (status or detail) -> Send Webhook`.\n3. Change a job title or company size on a lead. Verify n8n intercept, calculate new Lead Score, and write back to the static `Lead Score (Static)` number column.\n4. Change status of a deal to `Closed Won`. Verify creation of the onboarding project board item with mapped data and Slack notification sent.\n\n---\n*Upsell Note: To request Done-For-You custom RevOps & Pipeline Strategy or advanced n8n setups, connect with our automation architects at whoisalfaz.me.*"
+      }
+    },
+    {
+      "id": "monday-webhook",
+      "name": "monday Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        100
+      ],
+      "parameters": {
+        "path": "monday-crm-events",
+        "options": {}
+      }
+    },
+    {
+      "id": "event-router",
+      "name": "Event Router",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        250,
+        100
+      ],
+      "parameters": {
+        "rules": {
+          "rules": [
+            {
+              "value": "icp_scoring",
+              "operation": "equal"
+            },
+            {
+              "value": "closed_won",
+              "operation": "equal"
+            },
+            {
+              "value": "sla_escalation",
+              "operation": "equal"
+            },
+            {
+              "value": "board_archive",
+              "operation": "equal"
+            }
+          ]
+        },
+        "dataType": "string",
+        "value1": "={{ $json.body.event.type || 'icp_scoring' }}"
+      }
+    },
+    {
+      "id": "calculate-icp-score",
+      "name": "Calculate ICP Score",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        500,
+        -150
+      ],
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body || {};\nconst pulseId = body.event.pulseId || \"0\";\nconst columnValues = body.event.columnValues || {};\n\n// Extract variables (mocked or from monday webhook payload)\nconst jobTitle = columnValues.job_title || \"\";\nconst companySize = parseInt(columnValues.company_size || \"0\");\nconst leadSource = columnValues.lead_source || \"\";\n\nlet score = 10; // Base score\n\nif (jobTitle.toLowerCase().includes('ceo') || jobTitle.toLowerCase().includes('founder') || jobTitle.toLowerCase().includes('vp')) {\n  score += 30;\n} else if (jobTitle.toLowerCase().includes('director') || jobTitle.toLowerCase().includes('head')) {\n  score += 15;\n}\n\nif (companySize > 500) {\n  score += 30;\n} else if (companySize > 100) {\n  score += 20;\n} else {\n  score += 10;\n}\n\nif (leadSource.toLowerCase() === 'referral') {\n  score += 40;\n} else {\n  score += 10;\n}\n\nreturn {\n  json: {\n    pulseId,\n    score,\n    boardId: body.event.boardId\n  }\n};"
+      }
+    },
+    {
+      "id": "write-static-score",
+      "name": "Write Static Score",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        750,
+        -150
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.monday.com/v2",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "mutation ($boardId: ID!, $itemId: ID!, $value: String!) { change_column_value (board_id: $boardId, item_id: $itemId, column_id: \"lead_score_static\", value: $value) { id } }"
+            },
+            {
+              "name": "variables",
+              "value": "={{ JSON.stringify({ boardId: $json.boardId, itemId: $json.pulseId, value: JSON.stringify($json.score) }) }}"
+            }
+          ]
+        },
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "YOUR_MONDAY_API_KEY_HERE"
+            },
+            {
+              "name": "API-Version",
+              "value": "2023-10"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "get-closed-won-details",
+      "name": "Get Closed Won Details",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        500,
+        25
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.monday.com/v2",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "query ($itemId: [ID!]) { items (ids: $itemId) { id name column_values { id text value } } }"
+            },
+            {
+              "name": "variables",
+              "value": "={{ JSON.stringify({ itemId: [ $node[\"Event Router\"].json.body.event.pulseId ] }) }}"
+            }
+          ]
+        },
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "YOUR_MONDAY_API_KEY_HERE"
+            },
+            {
+              "name": "API-Version",
+              "value": "2023-10"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "create-onboarding-project",
+      "name": "Create Onboarding Project",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        750,
+        25
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.monday.com/v2",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "mutation ($boardId: ID!, $itemName: String!, $columnValues: JSON!) { create_item (board_id: $boardId, item_name: $itemName, column_values: $columnValues) { id } }"
+            },
+            {
+              "name": "variables",
+              "value": "={{ JSON.stringify({ boardId: \"YOUR_ONBOARDING_BOARD_ID_HERE\", itemName: $json.data.items[0].name, columnValues: JSON.stringify({ email: $json.data.items[0].column_values.find(c => c.id === 'email')?.text, budget: $json.data.items[0].column_values.find(c => c.id === 'deal_value')?.text }) }) }}"
+            }
+          ]
+        },
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "YOUR_MONDAY_API_KEY_HERE"
+            },
+            {
+              "name": "API-Version",
+              "value": "2023-10"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "slack-team-alert",
+      "name": "Slack Team Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        25
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_SLACK_WEBHOOK_URL_HERE",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "🎉 *New Deal Closed Won!* Onboarding board has been generated automatically for customer. Ready for project handoff!"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "sla-delay-15m",
+      "name": "SLA Delay 15m",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        500,
+        200
+      ],
+      "parameters": {
+        "amount": 15,
+        "unit": "minutes"
+      }
+    },
+    {
+      "id": "query-lead-touch-status",
+      "name": "Query Lead Touch Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        750,
+        200
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.monday.com/v2",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "query ($itemId: [ID!]) { items (ids: $itemId) { id column_values (ids: [\"first_touch_status\"]) { text } } }"
+            },
+            {
+              "name": "variables",
+              "value": "={{ JSON.stringify({ itemId: [ $node[\"Event Router\"].json.body.event.pulseId ] }) }}"
+            }
+          ]
+        },
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "YOUR_MONDAY_API_KEY_HERE"
+            },
+            {
+              "name": "API-Version",
+              "value": "2023-10"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "check-sla-breach",
+      "name": "Check SLA Breach",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        200
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.data.items[0].column_values[0].text }}",
+              "value2": "Uncontacted"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "escalate-uncontacted-lead",
+      "name": "Escalate Uncontacted Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        200
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_SLACK_WEBHOOK_URL_HERE",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "⚠️ *SLA Alert!* Inbound Enterprise lead has remained *Uncontacted* for 15 minutes! Please assign immediately."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "archive-monday-board",
+      "name": "Archive monday Board",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        500,
+        375
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.monday.com/v2",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "mutation ($boardId: ID!) { archive_board (board_id: $boardId) { id } }"
+            },
+            {
+              "name": "variables",
+              "value": "={{ JSON.stringify({ boardId: $node[\"Event Router\"].json.body.event.columnValues.completed_board_id }) }}"
+            }
+          ]
+        },
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "YOUR_MONDAY_API_KEY_HERE"
+            },
+            {
+              "name": "API-Version",
+              "value": "2023-10"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "monday Webhook": {
+      "main": [
+        [
+          {
+            "node": "Event Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Event Router": {
+      "main": [
+        [
+          {
+            "node": "Calculate ICP Score",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Closed Won Details",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "SLA Delay 15m",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Archive monday Board",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate ICP Score": {
+      "main": [
+        [
+          {
+            "node": "Write Static Score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Closed Won Details": {
+      "main": [
+        [
+          {
+            "node": "Create Onboarding Project",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Onboarding Project": {
+      "main": [
+        [
+          {
+            "node": "Slack Team Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SLA Delay 15m": {
+      "main": [
+        [
+          {
+            "node": "Query Lead Touch Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query Lead Touch Status": {
+      "main": [
+        [
+          {
+            "node": "Check SLA Breach",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check SLA Breach": {
+      "main": [
+        [
+          {
+            "node": "Escalate Uncontacted Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "meta": {}
+}

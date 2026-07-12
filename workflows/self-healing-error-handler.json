@@ -1,0 +1,355 @@
+{
+  "name": "Self-Healing Error Handler",
+  "nodes": [
+    {
+      "id": "sticky-instructions",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.sticky",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -250
+      ],
+      "parameters": {
+        "width": 550,
+        "height": 220,
+        "content": "### 🛠️ SELF-HEALING ERROR HANDLER SOP\nThis workflow captures execution failures across your n8n instance and executes automated recovery runs.\n\n#### 🔑 Required Credentials:\n- **n8n REST API Key**: Access to retrieve, manage, and retry failed executions via `/api/v1`.\n- **OAuth Server Client Credentials**: Key/secret to refresh expired tokens if necessary.\n- **Slack & Discord Webhook**: Channels to post healed summaries or escalate hard crashes.\n\n#### ⚙️ Configuration Variables:\n- `N8N_API_KEY`: API key with admin rights to retry executions.\n- `N8N_URL`: Internal URL of the self-hosted n8n instance (e.g. `http://localhost:5678` or `https://n8n.your-domain.com`).\n\n#### 🧪 Testing Protocol:\n1. Configure this workflow's Settings to NOT listen to itself to prevent infinite error loops.\n2. Create a test workflow with a failed node (e.g., calling an invalid URL) and trigger it.\n3. Verify this handler catches the error, parses metadata, and routes to appropriate branch.\n4. Verify rate-limited runs cooldown and successfully retry.\n\n---\n*Upsell Note: To request Done-For-You custom RevOps & Pipeline Strategy or advanced n8n setups, connect with our automation architects at whoisalfaz.me.*"
+      }
+    },
+    {
+      "id": "error-trigger",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "extract-error-details",
+      "name": "Extract Error Details",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        250,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const errorData = $input.item.json;\nreturn {\n  execution_id: errorData.execution?.id || \"N/A\",\n  execution_url: errorData.execution?.url || \"N/A\",\n  workflow_id: errorData.workflow?.id || \"N/A\",\n  workflow_name: errorData.workflow?.name || \"N/A\",\n  error_message: errorData.error?.message || \"N/A\",\n  error_stack: errorData.error?.stack || \"N/A\",\n  failed_node: errorData.node?.name || \"N/A\",\n  failed_node_type: errorData.node?.type || \"N/A\"\n};"
+      }
+    },
+    {
+      "id": "classify-error-type",
+      "name": "Classify Error Type",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        500,
+        0
+      ],
+      "parameters": {
+        "rules": {
+          "rules": [
+            {
+              "value": "token",
+              "operation": "contains"
+            },
+            {
+              "value": "429",
+              "operation": "contains"
+            },
+            {
+              "value": "",
+              "operation": "isEmpty"
+            }
+          ]
+        },
+        "dataType": "string",
+        "value1": "={{ $json.error_message.toLowerCase() }}"
+      }
+    },
+    {
+      "id": "trigger-oauth-refresh",
+      "name": "Trigger OAuth Refresh",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        750,
+        -200
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://your-auth-server.com/oauth/token",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "grant_type",
+              "value": "refresh_token"
+            },
+            {
+              "name": "refresh_token",
+              "value": "YOUR_REFRESH_TOKEN_HERE"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "retry-execution-auth",
+      "name": "Retry Execution (Auth)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        -200
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "=http://localhost:5678/api/v1/executions/{{ $('extract-error-details').item.json.execution_id }}/retry",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "headers": {
+          "parameter": [
+            {
+              "name": "X-N8N-API-KEY",
+              "value": "YOUR_N8N_API_KEY_HERE"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "slack-healed-alert-auth",
+      "name": "Slack Healed Alert (Auth)",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        -200
+      ],
+      "parameters": {
+        "channel": "#ops-alerts",
+        "text": "🛠️ *Self-Healing Action Taken* \nAuth/Token error detected on workflow *{{ $('extract-error-details').item.json.workflow_name }}* (Node: *{{ $('extract-error-details').item.json.failed_node }}*). \n\n✅ Token refresh triggered and execution retried."
+      }
+    },
+    {
+      "id": "wait-60s",
+      "name": "Wait 60s",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        750,
+        0
+      ],
+      "parameters": {
+        "amount": 60,
+        "unit": "seconds"
+      }
+    },
+    {
+      "id": "retry-execution-rate-limit",
+      "name": "Retry Execution (Rate Limit)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "=http://localhost:5678/api/v1/executions/{{ $('extract-error-details').item.json.execution_id }}/retry",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "headers": {
+          "parameter": [
+            {
+              "name": "X-N8N-API-KEY",
+              "value": "YOUR_N8N_API_KEY_HERE"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "slack-healed-alert-rate",
+      "name": "Slack Healed Alert (Rate)",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        0
+      ],
+      "parameters": {
+        "channel": "#ops-alerts",
+        "text": "🛠️ *Self-Healing Action Taken* \nRate Limit (429) detected on workflow *{{ $('extract-error-details').item.json.workflow_name }}* (Node: *{{ $('extract-error-details').item.json.failed_node }}*). \n\n✅ Wait cooldown complete and execution retried."
+      }
+    },
+    {
+      "id": "log-to-postgres-dlq",
+      "name": "Log to Postgres DLQ",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        750,
+        200
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://your-dlq-endpoint.com/dlq",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "execution_id",
+              "value": "={{ $('extract-error-details').item.json.execution_id }}"
+            },
+            {
+              "name": "workflow_name",
+              "value": "={{ $('extract-error-details').item.json.workflow_name }}"
+            },
+            {
+              "name": "error_message",
+              "value": "={{ $('extract-error-details').item.json.error_message }}"
+            },
+            {
+              "name": "execution_url",
+              "value": "={{ $('extract-error-details').item.json.execution_url }}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "send-discord-alert",
+      "name": "Send Discord Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        200
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_DISCORD_WEBHOOK_URL_HERE",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "🚨 **Manual Escalation required: Workflow Hard Failure!** \n\n**Workflow:** {{ $('extract-error-details').item.json.workflow_name }} \n**Node:** {{ $('extract-error-details').item.json.failed_node }} \n**Error:** {{ $('extract-error-details').item.json.error_message }} \n\n[Inspect n8n Execution log]({{ $('extract-error-details').item.json.execution_url }})"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Extract Error Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Error Details": {
+      "main": [
+        [
+          {
+            "node": "Classify Error Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify Error Type": {
+      "main": [
+        [
+          {
+            "node": "Trigger OAuth Refresh",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait 60s",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log to Postgres DLQ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trigger OAuth Refresh": {
+      "main": [
+        [
+          {
+            "node": "Retry Execution (Auth)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retry Execution (Auth)": {
+      "main": [
+        [
+          {
+            "node": "Slack Healed Alert (Auth)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 60s": {
+      "main": [
+        [
+          {
+            "node": "Retry Execution (Rate Limit)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retry Execution (Rate Limit)": {
+      "main": [
+        [
+          {
+            "node": "Slack Healed Alert (Rate)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log to Postgres DLQ": {
+      "main": [
+        [
+          {
+            "node": "Send Discord Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "meta": {}
+}

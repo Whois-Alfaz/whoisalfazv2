@@ -1,0 +1,249 @@
+{
+  "name": "Trainual SOP Documenting Engine",
+  "nodes": [
+    {
+      "id": "sticky-instructions",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.sticky",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -250
+      ],
+      "parameters": {
+        "width": 600,
+        "height": 260,
+        "content": "### 📚 TRAINUAL SOP DOCUMENTING ENGINE SOP\nThis workflow captures process transcripts, video walk-through notes, or workflow schemas, standardizes them via AI, and automatically publishes them into Trainual.\n\n#### 🔑 Required Credentials:\n- **OpenAI API Connection**: For structural text analysis and formatting.\n- **Trainual Access Token**: Used to communicate with `/v1/subjects` and `/v1/steps` endpoints.\n- **Slack Incoming Webhook**: To alert operations managers to new documentation.\n\n#### ⚙️ Configuration Variables:\n- `OPENAI_API_KEY`: API Key for ChatGPT processing.\n- `TRAINUAL_API_TOKEN`: Integration key for Trainual API authorization.\n- `SLACK_WEBHOOK_URL`: Slack Channel Webhook URL.\n\n#### 🧪 Testing Protocol:\n1. Open the Inbound SOP Webhook and copy its endpoint.\n2. Trigger a test request containing: `{ \"process_name\": \"Lead Verification\", \"raw_transcript\": \"First, we log in to Apollo, verify the email status, then update the CRM if the status is active.\" }`\n3. Verify the AI Agent processes the raw text and converts it into a markdown SOP structure.\n4. Check if the step is posted to Trainual and an approval notification is received in Slack.\n\n---\n*Upsell Note: To request Done-For-You custom RevOps & Pipeline Strategy or advanced n8n setups, connect with our automation architects at whoisalfaz.me.*"
+      }
+    },
+    {
+      "id": "inbound-sop-webhook",
+      "name": "Inbound SOP Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        100
+      ],
+      "parameters": {
+        "path": "sop-ingest",
+        "options": {}
+      }
+    },
+    {
+      "id": "format-ai-prompt",
+      "name": "Format AI Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        250,
+        100
+      ],
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body || {};\nconst processName = body.process_name || \"Unnamed Process\";\nconst rawText = body.raw_transcript || \"\";\n\nconst prompt = `\nYou are an expert GTM Operations Architect. Your job is to convert raw process transcripts or notes into a production-grade, standardized SOP (Standard Operating Procedure).\n\nProcess Title: ${processName}\nRaw Input Data:\n${rawText}\n\nFormat the output strictly in HTML containing the following structure:\n<h3>1. Objective</h3>\n<p>[Short, clear explanation of why this process exists.]</p>\n<h3>2. Trigger Actions</h3>\n<ul><li>[What event starts this SOP.]</li></ul>\n<h3>3. Step-by-Step Instructions</h3>\n<ol><li>[Actionable steps with clear instructions.]</li></ol>\n<h3>4. Edge Cases & Exception Rules</h3>\n<ul><li>[How to handle issues or deviations.]</li></ul>\n<h3>5. Key Performance Indicators (KPIs)</h3>\n<p>[How to measure success of this SOP.]</p>\n`;\n\nreturn { json: { processName, prompt } };"
+      }
+    },
+    {
+      "id": "openai-chat-model",
+      "name": "OpenAI Chat Model",
+      "type": "n8n-nodes-base.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        450,
+        250
+      ],
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "options": {
+          "temperature": 0.2
+        }
+      }
+    },
+    {
+      "id": "generate-structured-sop",
+      "name": "Generate Structured SOP",
+      "type": "n8n-nodes-base.advancedAgent",
+      "typeVersion": 1,
+      "position": [
+        500,
+        100
+      ],
+      "parameters": {
+        "agent": "conversational",
+        "promptType": "system",
+        "systemPrompt": "You are a professional technical writer specialized in GTM and RevOps SOPs. Take the formatted prompt input, compile a detailed, standard operations guide, and return pure HTML text."
+      }
+    },
+    {
+      "id": "push-to-staging-db",
+      "name": "Push to Staging DB",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        750,
+        100
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.baserow.org/api/database/rows/table/YOUR_TABLE_ID/?user_field_names=true",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "Process Name",
+              "value": "={{ $node[\"Format AI Prompt\"].json.processName }}"
+            },
+            {
+              "name": "SOP Content",
+              "value": "={{ $json.output }}"
+            },
+            {
+              "name": "Status",
+              "value": "Draft"
+            }
+          ]
+        },
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Token YOUR_BASEROW_TOKEN_HERE"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "create-trainual-step",
+      "name": "Create Trainual Step",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        100
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.trainual.com/v1/subjects/YOUR_SUBJECT_ID_HERE/topics/YOUR_TOPIC_ID_HERE/steps",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "={{ $node[\"Format AI Prompt\"].json.processName }}"
+            },
+            {
+              "name": "content",
+              "value": "={{ $node[\"Generate Structured SOP\"].json.output }}"
+            }
+          ]
+        },
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_TRAINUAL_API_TOKEN_HERE"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "slack-sop-alert",
+      "name": "Slack SOP Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        100
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_SLACK_WEBHOOK_URL_HERE",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "📝 *New SOP Auto-Generated!* Process *{{ $node[\"Format AI Prompt\"].json.processName }}* has been standardized by AI and registered in Trainual."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "inbound-sop-webhook": {
+      "main": [
+        [
+          {
+            "node": "Format AI Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format AI Prompt": {
+      "main": [
+        [
+          {
+            "node": "Generate Structured SOP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "openai-chat-model": {
+      "ai": [
+        [
+          {
+            "node": "Generate Structured SOP",
+            "type": "ai",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Structured SOP": {
+      "main": [
+        [
+          {
+            "node": "Push to Staging DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Push to Staging DB": {
+      "main": [
+        [
+          {
+            "node": "Create Trainual Step",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Trainual Step": {
+      "main": [
+        [
+          {
+            "node": "Slack SOP Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "meta": {}
+}

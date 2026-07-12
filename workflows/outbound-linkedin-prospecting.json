@@ -1,0 +1,616 @@
+{
+  "name": "Outbound LinkedIn Prospecting",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "### Outbound LinkedIn Prospecting & Reply Machine\n\n**Required Credentials**:\n- `APOLLO_API_KEY`: Sourcing prospects from the database.\n- `ZEROBOUNCE_API_KEY`: Verification token to validate emails.\n- `TAVILY_API_KEY`: API key to fetch recent company news.\n- `OPENAI_API_KEY`: Key for GPT-4o personalization and reply intent classification.\n- `UNIPILE_API_KEY`: Access token for automated LinkedIn invites.\n- `INSTANTLY_API_KEY`: Key to push enriched leads to email campaigns.\n\n**Environment Variables**:\n- Configure all API keys in your n8n global settings or map them in environment files.\n\n**Testing Protocol**:\n1. Execute the Cron-start path to verify Apollo data extraction and Split-in-Batches.\n2. Confirm ZeroBounce filters out invalid domains.\n3. Verify OpenAI writes a contextual intro line based on Tavily search results.\n4. Check that the Wait Governor adds a random 3-8 minute delay before sending the Unipile connection request to keep the LinkedIn profile safe.\n5. Test reply classification on the Gmail trigger path to confirm it correctly notifies Slack for interested responses.\n\n**Upsell Note**:\nNeed customized CRM logic or custom tools added? Hire **Automation & RevOps by Alfaz**: [whoisalfaz.me/contact/](https://whoisalfaz.me/contact/).",
+        "height": 260,
+        "width": 640
+      },
+      "id": "sticky-note-2",
+      "name": "Workflow Instructions",
+      "type": "n8n-nodes-base.sticky",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -250
+      ]
+    },
+    {
+      "parameters": {
+        "rule": "0 8 * * 1"
+      },
+      "id": "cron-trigger",
+      "name": "Cron Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        100,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apollo.io/v1/mixed_people/search",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "X-Api-Key",
+              "value": "={{ process.env.APOLLO_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "q_organization_domains",
+              "value": "[]"
+            },
+            {
+              "name": "page",
+              "value": "1"
+            },
+            {
+              "name": "per_page",
+              "value": "20"
+            },
+            {
+              "name": "person_titles",
+              "value": "=[\"Founder\", \"CEO\", \"VP Sales\", \"Head of Operations\"]"
+            }
+          ]
+        }
+      },
+      "id": "apollo-search",
+      "name": "Apollo Search",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        350,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "split-batches",
+      "name": "Split in Batches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        600,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.zerobounce.com/v2/validate?api_key={{ process.env.ZEROBOUNCE_API_KEY || 'YOUR_API_KEY_HERE' }}&email={{ encodeURIComponent($json.email) }}&ip_address=",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        }
+      },
+      "id": "zerobounce-verify",
+      "name": "ZeroBounce Verify",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        850,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-zerobounce",
+              "leftValue": "={{ $json.status }}",
+              "comparison": "equals",
+              "rightValue": "valid"
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "is-email-valid",
+      "name": "Is Email Valid?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "api_key",
+              "value": "={{ process.env.TAVILY_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            },
+            {
+              "name": "query",
+              "value": "=Recent news and activity for company {{ $node[\"Split in Batches\"].json.organization?.name || 'Google' }}"
+            }
+          ]
+        }
+      },
+      "id": "tavily-search",
+      "name": "Tavily Search",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1350,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "chatModel": "gpt-4o",
+        "messagesUi": {
+          "messagesValues": [
+            {
+              "role": "system",
+              "message": "You are a B2B cold email copywriter. Write a personalized first-line hook for [Prospect Name] at [Company Name]. Make it relevant to company news provided. Max 2 sentences, casual, professional, zero jargon."
+            },
+            {
+              "role": "user",
+              "message": "=Prospect Name: {{ $node[\"Split in Batches\"].json.first_name }} {{ $node[\"Split in Batches\"].json.last_name }}\nCompany Name: {{ $node[\"Split in Batches\"].json.organization?.name }}\nBio: {{ $node[\"Split in Batches\"].json.title }}\nCompany news context: {{ $json.results ? JSON.stringify($json.results) : 'No news found.' }}"
+            }
+          ]
+        }
+      },
+      "id": "openai-personalize",
+      "name": "OpenAI Personalize",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "amount": "=Math.floor(Math.random() * 5) + 3",
+        "unit": "minutes"
+      },
+      "id": "wait-governor",
+      "name": "Wait Governor",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        1850,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.unipile.com/v1/linkedin/invitations",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ process.env.UNIPILE_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "profile_url",
+              "value": "={{ $node[\"Split in Batches\"].json.linkedin_url }}"
+            },
+            {
+              "name": "message",
+              "value": "=Hey {{ $node[\"Split in Batches\"].json.first_name }}, would love to connect."
+            }
+          ]
+        }
+      },
+      "id": "unipile-linkedin",
+      "name": "Unipile LinkedIn Connect",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        2100,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.instantly.ai/v1/lead/add",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ process.env.INSTANTLY_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "campaign_id",
+              "value": "YOUR_CAMPAIGN_ID"
+            },
+            {
+              "name": "email",
+              "value": "={{ $node[\"Split in Batches\"].json.email }}"
+            },
+            {
+              "name": "first_name",
+              "value": "={{ $node[\"Split in Batches\"].json.first_name }}"
+            },
+            {
+              "name": "last_name",
+              "value": "={{ $node[\"Split in Batches\"].json.last_name }}"
+            },
+            {
+              "name": "variables",
+              "value": "={ \"first_line\": \"{{ $node[\"OpenAI Personalize\"].json.choices[0].message.content }}\" }"
+            }
+          ]
+        }
+      },
+      "id": "instantly-sync",
+      "name": "Instantly Sequence Sync",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        2350,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {}
+      },
+      "id": "gmail-trigger",
+      "name": "Gmail Trigger",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1,
+      "position": [
+        100,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "chatModel": "gpt-4o",
+        "messagesUi": {
+          "messagesValues": [
+            {
+              "role": "system",
+              "message": "Analyze this cold outreach reply. Categorize it into exactly one of these labels: 'interested', 'not now', 'unsubscribe', 'out of office', or 'wrong person'. Do not return anything but the label name."
+            },
+            {
+              "role": "user",
+              "message": "=Subject: {{ $json.subject }}\nBody: {{ $json.text }}"
+            }
+          ]
+        }
+      },
+      "id": "openai-classifier",
+      "name": "OpenAI Intent Classifier",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        350,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.choices[0].message.content.trim().toLowerCase() }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "interested"
+            },
+            {
+              "value2": "unsubscribe"
+            },
+            {
+              "value2": "wrong person"
+            }
+          ]
+        }
+      },
+      "id": "route-intent",
+      "name": "Intent Branching",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        600,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_SLACK_WEBHOOK_URL",
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "text",
+              "value": "=🔥 Hot Lead Alert! A prospect has replied with positive intent.\nSender: {{ $node[\"Gmail Trigger\"].json.from.value[0].address }}\nSubject: {{ $node[\"Gmail Trigger\"].json.subject }}\nReply: {{ $node[\"Gmail Trigger\"].json.text }}"
+            }
+          ]
+        }
+      },
+      "id": "slack-interested",
+      "name": "Slack Alert (Interested)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        850,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brevo.com/v3/contacts/doubleOptinConfirmation",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "api-key",
+              "value": "={{ process.env.BREVO_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            }
+          ]
+        }
+      },
+      "id": "crm-unsubscribe",
+      "name": "Suppress Lead (CRM)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        850,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apollo.io/v1/mixed_people/search",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "X-Api-Key",
+              "value": "={{ process.env.APOLLO_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            }
+          ]
+        }
+      },
+      "id": "apollo-re-enrich",
+      "name": "Apollo Re-Enrich",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        850,
+        600
+      ]
+    }
+  ],
+  "connections": {
+    "Cron Trigger": {
+      "main": [
+        [
+          {
+            "node": "Apollo Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apollo Search": {
+      "main": [
+        [
+          {
+            "node": "Split in Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split in Batches": {
+      "main": [
+        [
+          {
+            "node": "ZeroBounce Verify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ZeroBounce Verify": {
+      "main": [
+        [
+          {
+            "node": "Is Email Valid?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Email Valid?": {
+      "main": [
+        [
+          {
+            "node": "Tavily Search",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Split in Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tavily Search": {
+      "main": [
+        [
+          {
+            "node": "OpenAI Personalize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Personalize": {
+      "main": [
+        [
+          {
+            "node": "Wait Governor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait Governor": {
+      "main": [
+        [
+          {
+            "node": "Unipile LinkedIn Connect",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unipile LinkedIn Connect": {
+      "main": [
+        [
+          {
+            "node": "Instantly Sequence Sync",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Instantly Sequence Sync": {
+      "main": [
+        [
+          {
+            "node": "Split in Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "OpenAI Intent Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Intent Classifier": {
+      "main": [
+        [
+          {
+            "node": "Intent Branching",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Intent Branching": {
+      "main": [
+        [
+          {
+            "node": "Slack Alert (Interested)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Suppress Lead (CRM)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Apollo Re-Enrich",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "meta": {}
+}

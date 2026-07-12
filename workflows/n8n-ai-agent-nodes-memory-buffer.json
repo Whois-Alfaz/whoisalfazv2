@@ -1,0 +1,190 @@
+{
+  "name": "n8n AI Agent Nodes & Memory Buffer",
+  "nodes": [
+    {
+      "id": "sticky-instructions",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.sticky",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -250
+      ],
+      "parameters": {
+        "width": 550,
+        "height": 220,
+        "content": "### 🧠 n8n AI AGENT NODES & MEMORY BUFFER SOP\nThis workflow template outlines an enterprise-grade AI Agent blueprint with short-term conversation memory and modular tools.\n\n#### 🔑 Required Credentials:\n- **OpenAI API Key**: Access for `gpt-4o` or `gpt-4o-mini` conversational model.\n- **n8n User Credentials**: If calling n8n sub-workflows as tools.\n\n#### ⚙️ Custom Tool Sub-workflows:\n- **Pinecone Retriever Tool**: Resolves queries against a company vector store.\n- **Tavily Search Tool**: Fallback web-search tool for real-time information retrieval.\n- **CRM Sync Tool**: Logs chat summaries and updates statuses in CRM.\n\n#### 🧪 Testing Protocol:\n1. Open the Chat Trigger interface by clicking \"Chat\" on the trigger node.\n2. Input a test message requesting information contained in your Pinecone index or CRM.\n3. Observe agent deciding which tool to invoke to satisfy the request.\n4. Send a follow-up query to verify the Window Buffer Memory successfully remembers previous context.\n\n---\n*Upsell Note: To request Done-For-You custom RevOps & Pipeline Strategy or advanced n8n setups, connect with our automation architects at whoisalfaz.me.*"
+      }
+    },
+    {
+      "id": "chat-trigger",
+      "name": "Chat Trigger",
+      "type": "n8n-nodes-base.chatTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "ai-agent",
+      "name": "AI Agent",
+      "type": "n8n-nodes-base.advancedAgent",
+      "typeVersion": 1,
+      "position": [
+        250,
+        0
+      ],
+      "parameters": {
+        "agent": "conversational",
+        "promptType": "system",
+        "systemPrompt": "You are a senior GTM Revenue Operations Assistant. Help the user qualify deals, lookup client record histories, query the knowledge base, and search the web. Always keep answers concise and highlight metrics where applicable."
+      }
+    },
+    {
+      "id": "openai-chat-model",
+      "name": "OpenAI Chat Model",
+      "type": "n8n-nodes-base.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        200,
+        200
+      ],
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {
+          "temperature": 0.3
+        }
+      }
+    },
+    {
+      "id": "window-buffer-memory",
+      "name": "Window Buffer Memory",
+      "type": "n8n-nodes-base.memoryBufferWindow",
+      "typeVersion": 1,
+      "position": [
+        350,
+        200
+      ],
+      "parameters": {
+        "windowSize": 10
+      }
+    },
+    {
+      "id": "pinecone-retriever-tool",
+      "name": "Pinecone Retriever Tool",
+      "type": "n8n-nodes-base.toolWorkflow",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -200
+      ],
+      "parameters": {
+        "name": "pinecone_retriever",
+        "description": "Use this tool to search the company document index and knowledge base for technical or product questions. Input should be a specific search query string.",
+        "workflowId": "YOUR_PINECONE_SUBWORKFLOW_ID_HERE"
+      }
+    },
+    {
+      "id": "tavily-search-tool",
+      "name": "Tavily Search Tool",
+      "type": "n8n-nodes-base.toolWorkflow",
+      "typeVersion": 1,
+      "position": [
+        300,
+        -200
+      ],
+      "parameters": {
+        "name": "tavily_search",
+        "description": "Use this tool to search the live web for real-time news, updates, or current industry rates. Input should be a search query string.",
+        "workflowId": "YOUR_TAVILY_SUBWORKFLOW_ID_HERE"
+      }
+    },
+    {
+      "id": "crm-sync-tool",
+      "name": "CRM Sync Tool",
+      "type": "n8n-nodes-base.toolWorkflow",
+      "typeVersion": 1,
+      "position": [
+        500,
+        -200
+      ],
+      "parameters": {
+        "name": "crm_sync",
+        "description": "Use this tool to update lead status, email logs, and customer records in HubSpot. Input should be a JSON object containing target email and properties to update.",
+        "workflowId": "YOUR_CRM_SUBWORKFLOW_ID_HERE"
+      }
+    }
+  ],
+  "connections": {
+    "Chat Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_model": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_model",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Retriever Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tavily Search Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CRM Sync Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "meta": {}
+}

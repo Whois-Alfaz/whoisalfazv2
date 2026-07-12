@@ -1,0 +1,557 @@
+{
+  "name": "Apollo-to-Brevo CRM Sync",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "### Apollo-to-Brevo CRM Sync Pipeline\n\n**Required Credentials**:\n- `APOLLO_WEBHOOK_SECRET`: Secret to verify Apollo webhook signature.\n- `APOLLO_API_KEY`: Key for Mixed People Search.\n- `BREVO_API_KEY`: Token for contact updates, list syncs, and lookup queries.\n\n**Environment Variables**:\n- `APOLLO_WEBHOOK_SECRET` mapped in your n8n environment.\n- `APOLLO_API_KEY` mapped in your n8n environment.\n- `BREVO_API_KEY` mapped in your n8n environment.\n- `BREVO_LIST_ID` mapped in your n8n environment.\n- `BREVO_SEQUENCE_TIER_1` and `BREVO_SEQUENCE_TIER_2` mapped in your n8n environment.\n\n**Testing Protocol**:\n1. Test Circular Sync Guard: Send webhook with `AUTOMATION_ORIGIN = n8n_pipeline` and verify the flow aborts immediately.\n2. Verify HMAC Signature Validation: Send a POST with headers and body, checking that signature checks work.\n3. Validate Deduplication lookup in Brevo. Verify 404 routes to Create and 200 routes to Update.\n4. Check Sparse Update Merger: Verify it does not overwrite existing Brevo properties with empty values from Apollo.\n5. Confirm ICP routing logic: Tier 1 goes to personalized sequence, Tier 2 to standard nurture.\n\n**Upsell Note**:\nWant custom CRM fields synced or additional routing steps? Hire **Automation & RevOps by Alfaz**: [whoisalfaz.me/contact/](https://whoisalfaz.me/contact/).",
+        "height": 260,
+        "width": 640
+      },
+      "id": "sticky-note-4",
+      "name": "Workflow Instructions",
+      "type": "n8n-nodes-base.sticky",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -250
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "apollo-leads-webhook",
+        "responseMode": "onReceived",
+        "responseData": "allEntries"
+      },
+      "id": "apollo-webhook",
+      "name": "Apollo Webhook Ingest",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        100,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-syncguard",
+              "leftValue": "={{ $json.body?.contact?.attributes?.AUTOMATION_ORIGIN }}",
+              "comparison": "notEquals",
+              "rightValue": "n8n_pipeline"
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "circular-sync-guard",
+      "name": "Circular Sync Guard",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        350,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const crypto = require('crypto');\nconst secret = process.env.APOLLO_WEBHOOK_SECRET || 'YOUR_API_KEY_HERE';\nconst signature = $input.item.json.headers['x-apollo-signature'];\nconst body = JSON.stringify($input.item.json.body);\n\nif (!signature) {\n  throw new Error('Missing x-apollo-signature header.');\n}\n\nconst expected = crypto\n  .createHmac('sha256', secret)\n  .update(body)\n  .digest('hex');\n\nif (signature !== `sha256=${expected}`) {\n  return [{\n    json: {\n      status: \"unauthorized\",\n      message: \"Invalid signature\"\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    status: \"authorized\",\n    data: $input.item.json.body\n  }\n}];"
+      },
+      "id": "verify-signature",
+      "name": "Verify Webhook Signature",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        600,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-signature",
+              "leftValue": "={{ $json.status }}",
+              "comparison": "equals",
+              "rightValue": "authorized"
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "is-signature-valid",
+      "name": "Is Signature Valid?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        850,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.brevo.com/v3/contacts/{{ encodeURIComponent($json.data.email || 'test@example.com') }}",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "api-key",
+              "value": "={{ process.env.BREVO_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        }
+      },
+      "id": "brevo-lookup",
+      "name": "Brevo Lookup",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1100,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-lookup",
+              "leftValue": "={{ $json.statusCode }}",
+              "comparison": "equals",
+              "rightValue": 404
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "contact-found",
+      "name": "Contact Found?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1350,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brevo.com/v3/contacts",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "api-key",
+              "value": "={{ process.env.BREVO_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "email",
+              "value": "={{ $node[\"Is Signature Valid\"].json.data.email }}"
+            },
+            {
+              "name": "attributes",
+              "value": "={\n    \"FIRSTNAME\": \"{{ $node[\"Is Signature Valid\"].json.data.first_name }}\",\n    \"LASTNAME\": \"{{ $node[\"Is Signature Valid\"].json.data.last_name }}\",\n    \"COMPANY\": \"{{ $node[\"Is Signature Valid\"].json.data.organization?.name }}\",\n    \"JOBTITLE\": \"{{ $node[\"Is Signature Valid\"].json.data.title }}\",\n    \"LINKEDIN\": \"{{ $node[\"Is Signature Valid\"].json.data.linkedin_url }}\",\n    \"INDUSTRY\": \"{{ $node[\"Is Signature Valid\"].json.data.organization?.industry }}\",\n    \"HEADCOUNT\": \"{{ $node[\"Is Signature Valid\"].json.data.organization?.estimated_num_employees }}\",\n    \"APOLLO_ID\": \"{{ $node[\"Is Signature Valid\"].json.data.id }}\",\n    \"LEAD_SOURCE\": \"apollo_outbound\",\n    \"AUTOMATION_ORIGIN\": \"n8n_pipeline\"\n  }"
+            },
+            {
+              "name": "listIds",
+              "value": "=[{{ process.env.BREVO_LIST_ID || 42 }}]"
+            }
+          ]
+        }
+      },
+      "id": "brevo-create",
+      "name": "Brevo Create Contact",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1600,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const existingContact = $node[\"Brevo Lookup\"].json;\nconst apolloData = $node[\"Is Signature Valid\"].json.data;\n\nconst updates = {};\n\nif (!existingContact.attributes?.COMPANY && apolloData.organization?.name) {\n  updates.COMPANY = apolloData.organization.name;\n}\nif (!existingContact.attributes?.JOBTITLE && apolloData.title) {\n  updates.JOBTITLE = apolloData.title;\n}\nif (!existingContact.attributes?.LINKEDIN && apolloData.linkedin_url) {\n  updates.LINKEDIN = apolloData.linkedin_url;\n}\n\nreturn {\n  json: {\n    email: existingContact.email || apolloData.email,\n    attributes: updates,\n    updateEnabled: true\n  }\n};"
+      },
+      "id": "sparse-update-merger",
+      "name": "Sparse Update Merger",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1600,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.brevo.com/v3/contacts/{{ encodeURIComponent($json.email) }}",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "api-key",
+              "value": "={{ process.env.BREVO_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "attributes",
+              "value": "={{ JSON.stringify($json.attributes) }}"
+            }
+          ]
+        }
+      },
+      "id": "brevo-update",
+      "name": "Brevo Update Contact",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1850,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const contact = $node[\"Is Signature Valid\"].json.data;\nlet score = 0;\n\nconst headcount = contact.organization?.estimated_num_employees || 0;\nif (headcount >= 50 && headcount <= 500) score += 40;\nelse if (headcount > 500) score += 20;\n\nconst highValueIndustries = ['saas', 'software', 'fintech', 'martech'];\nif (highValueIndustries.some(i => contact.organization?.industry?.toLowerCase().includes(i))) {\n  score += 30;\n}\n\nconst decisionMakerTitles = ['founder', 'ceo', 'vp', 'head of', 'director'];\nif (decisionMakerTitles.some(t => contact.title?.toLowerCase().includes(t))) {\n  score += 30;\n}\n\nreturn {\n  json: {\n    ...contact,\n    icp_score: score,\n    sequence_id: score >= 70 \n      ? (process.env.BREVO_SEQUENCE_TIER_1 || 'tier1_sequence')\n      : (process.env.BREVO_SEQUENCE_TIER_2 || 'tier2_sequence')\n  }\n};"
+      },
+      "id": "icp-scoring",
+      "name": "ICP Scoring & Routing",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2100,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-tier1",
+              "leftValue": "={{ $json.icp_score }}",
+              "comparison": "number_greaterEqual",
+              "rightValue": 70
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "is-tier-1",
+      "name": "Is Tier 1?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2350,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.brevo.com/v3/contacts/doubleOptinConfirmation",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "api-key",
+              "value": "={{ process.env.BREVO_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            }
+          ]
+        }
+      },
+      "id": "enroll-high-touch",
+      "name": "Enroll in High-Touch Sequence",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        2600,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.brevo.com/v3/contacts/doubleOptinConfirmation",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "api-key",
+              "value": "={{ process.env.BREVO_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            }
+          ]
+        }
+      },
+      "id": "enroll-nurture",
+      "name": "Enroll in Nurture Sequence",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        2600,
+        100
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "error-trigger",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        100,
+        350
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_SLACK_WEBHOOK_URL",
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "text",
+              "value": "=⚠️ Apollo→Brevo Sync Error in {{ $json.workflow.name }}\nError: {{ $json.execution.error.message }}\nExecution ID: {{ $json.execution.id }}"
+            }
+          ]
+        }
+      },
+      "id": "slack-error",
+      "name": "Slack Error Notification",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        350,
+        350
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEETS_FILE_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sync Errors",
+          "mode": "name"
+        }
+      },
+      "id": "sheets-log",
+      "name": "Google Sheets Log",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        600,
+        350
+      ]
+    }
+  ],
+  "connections": {
+    "Apollo Webhook Ingest": {
+      "main": [
+        [
+          {
+            "node": "Circular Sync Guard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Circular Sync Guard": {
+      "main": [
+        [
+          {
+            "node": "Verify Webhook Signature",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify Webhook Signature": {
+      "main": [
+        [
+          {
+            "node": "Is Signature Valid?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Signature Valid?": {
+      "main": [
+        [
+          {
+            "node": "Brevo Lookup",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brevo Lookup": {
+      "main": [
+        [
+          {
+            "node": "Contact Found?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contact Found?": {
+      "main": [
+        [
+          {
+            "node": "Brevo Create Contact",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sparse Update Merger",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sparse Update Merger": {
+      "main": [
+        [
+          {
+            "node": "Brevo Update Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brevo Create Contact": {
+      "main": [
+        [
+          {
+            "node": "ICP Scoring & Routing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brevo Update Contact": {
+      "main": [
+        [
+          {
+            "node": "ICP Scoring & Routing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ICP Scoring & Routing": {
+      "main": [
+        [
+          {
+            "node": "Is Tier 1?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Tier 1?": {
+      "main": [
+        [
+          {
+            "node": "Enroll in High-Touch Sequence",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enroll in Nurture Sequence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Slack Error Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack Error Notification": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "meta": {}
+}

@@ -1,0 +1,373 @@
+{
+  "name": "RAG Knowledge Base Blueprint",
+  "nodes": [
+    {
+      "id": "sticky-note",
+      "name": "Setup Instructions",
+      "type": "n8n-nodes-base.sticky",
+      "typeVersion": 1,
+      "position": [
+        250,
+        -220
+      ],
+      "parameters": {
+        "content": "# Setup Instructions: RAG Knowledge Base Blueprint (Corrective RAG)\n\nThis workflow implements a self-correcting Corrective RAG (CRAG) system using Pinecone, OpenAI Embeddings, and Tavily Web Search.\n\n### 🔑 Required Credentials\n1. **OpenAI API Key**: Obtain from your OpenAI account. Used for both embeddings and response synthesis.\n2. **Pinecone API Key**: Obtain from your Pinecone dashboard.\n3. **Tavily API Key**: Obtain from your Tavily search service account.\n\n### 🌐 Environment Variables\n- `OPENAI_API_KEY`: Set to your OpenAI API key.\n- `PINECONE_API_KEY`: Set to your Pinecone API key.\n- `PINECONE_INDEX_HOST`: Host URL of your Pinecone index (e.g. `your-index-12345.svc.gcp-starter.pinecone.io`).\n- `TAVILY_API_KEY`: Set to your Tavily API key.\n\n### 🧪 Testing Protocol\n1. **Ingestion Verification**: Send a POST request to `/crag-query-endpoint` with a JSON payload like `{\"query\": \"What is the updated pricing for Enterprise plan?\", \"department_id\": \"sales\", \"tenant_id\": \"client_abc\", \"callback_url\": \"https://httpbin.org/post\"}`.\n2. **Check Embedding & Vector Search**: Verify the OpenAI Embedding node generates the float vector and Pinecone queries the database in the target namespace.\n3. **Inspect Algorithmic Grading**: Check the execution logs of the JavaScript Code node to verify similarity and keyword density scores.\n4. **Trigger Web Fallback**: Test with an out-of-distribution (OOD) query to confirm the Gate routes the request through the Tavily Search API.\n5. **Verify Synthesis & Callback**: Check the final synthesized LLM output and the webhook POST callback.\n\n---\n💡 **Done-For-You Integration Services**\nNeed help designing, building, or scaling your enterprise RevOps tech stack? Hire **Automation & RevOps by Alfaz** for custom Done-For-You setups.\n👉 [Contact Alfaz Mahmud Rizve](https://whoisalfaz.me/contact/)",
+        "height": 280,
+        "width": 700
+      }
+    },
+    {
+      "id": "webhook-ingest",
+      "name": "Webhook Ingest",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        100,
+        150
+      ],
+      "parameters": {
+        "path": "crag-query-endpoint",
+        "httpMethod": "POST",
+        "responseMode": "onReceived",
+        "responseData": "allEntries"
+      }
+    },
+    {
+      "id": "generate-query-embeddings",
+      "name": "Generate Query Embeddings",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        350,
+        150
+      ],
+      "parameters": {
+        "url": "https://api.openai.com/v1/embeddings",
+        "method": "POST",
+        "headers": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer ={{ $env.OPENAI_API_KEY || 'YOUR_OPENAI_API_KEY' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"text-embedding-3-small\",\n  \"input\": \"={{ $json.body?.query || $json.query?.query }}\"\n}"
+      }
+    },
+    {
+      "id": "query-pinecone-vector-store",
+      "name": "Query Pinecone Vector Store",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        600,
+        150
+      ],
+      "parameters": {
+        "url": "https://={{ $env.PINECONE_INDEX_HOST || 'YOUR_PINECONE_INDEX_HOST' }}/query",
+        "method": "POST",
+        "headers": {
+          "parameters": [
+            {
+              "name": "Api-Key",
+              "value": "={{ $env.PINECONE_API_KEY || 'YOUR_PINECONE_API_KEY' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"vector\": \"={{ $('Generate Query Embeddings').item.json.data[0].embedding }}\",\n  \"topK\": 4,\n  \"includeMetadata\": true,\n  \"namespace\": \"={{ $('Webhook Ingest').item.json.body?.department_id || $('Webhook Ingest').item.json.query?.department_id || 'default' }}\"\n}"
+      }
+    },
+    {
+      "id": "algorithmic-document-grader",
+      "name": "Algorithmic Document Grader",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        850,
+        150
+      ],
+      "parameters": {
+        "jsCode": "/**\n * Advanced Document Grading Node for n8n Corrective RAG (CRAG)\n * \n * This code processes retrieved documents from Pinecone and performs\n * an algorithmic relevance score validation. It calculates a weight based\n * on Pinecone's raw cosine similarity score combined with a basic TF-IDF\n * keyword-density match against the user's initial query.\n */\n\nconst items = $input.all();\n\nif (items.length === 0) {\n  return [{\n    json: {\n      decision: \"TRIGGER_SEARCH\",\n      confidenceScore: 0.0,\n      reason: \"No documents retrieved from Pinecone vector store.\",\n      searchQuery: \"\"\n    }\n  }];\n}\n\nlet userQuery = \"\";\ntry {\n  userQuery = $('Webhook Ingest').item.json.body.query || $('User Query').item.json.query || \"\";\n} catch (e) {\n  userQuery = items[0].json.query || \"\";\n}\n\nconst queryTokens = userQuery.toLowerCase()\n  .replace(/[^\\w\\s]/g, '')\n  .split(/\\s+/)\n  .filter(token => token.length > 3);\n\nconst scoredDocs = [];\nlet totalWeightedScore = 0;\n\nfor (const item of items) {\n  const doc = item.json;\n  const pineconeScore = doc.score || 0.0;\n  const docText = (doc.metadata?.text || doc.text || \"\").toLowerCase();\n  let keywordMatches = 0;\n  \n  if (queryTokens.length > 0) {\n    queryTokens.forEach(token => {\n      if (docText.includes(token)) {\n        keywordMatches++;\n      }\n    });\n  }\n  \n  const keywordDensityScore = queryTokens.length > 0 ? (keywordMatches / queryTokens.length) : 1.0;\n  const finalRelevanceScore = (pineconeScore * 0.7) + (keywordDensityScore * 0.3);\n  \n  let grade = \"INCORRECT\";\n  if (finalRelevanceScore >= 0.8) {\n    grade = \"CORRECT\";\n  } else if (finalRelevanceScore >= 0.5) {\n    grade = \"AMBIGUOUS\";\n  }\n  \n  scoredDocs.push({\n    chunkId: doc.id || \"\",\n    text: doc.metadata?.text || doc.text || \"\",\n    sourceUrl: doc.metadata?.source_url || \"\",\n    pineconeScore: pineconeScore,\n    keywordScore: keywordDensityScore,\n    finalScore: Number(finalRelevanceScore.toFixed(4)),\n    grade: grade\n  });\n  \n  totalWeightedScore += finalRelevanceScore;\n}\n\nconst averageConfidence = Number((totalWeightedScore / items.length).toFixed(4));\nconst decision = averageConfidence >= 0.80 ? \"PROCEED_RAG\" : \"TRIGGER_SEARCH\";\n\nreturn [{\n  json: {\n    decision: decision,\n    confidenceScore: averageConfidence,\n    reason: decision === \"PROCEED_RAG\" \n      ? `Retrieved context average relevance is ${Number(averageConfidence * 100).toFixed(1)}%, satisfying the 80% threshold.`\n      : `Retrieved context average relevance is only ${Number(averageConfidence * 100).toFixed(1)}%. Falling back to Tavily Web Search.`,\n    scoredDocuments: scoredDocs,\n    searchQuery: userQuery\n  }\n}];"
+      }
+    },
+    {
+      "id": "if-confidence-gate",
+      "name": "If Confidence Gate",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        150
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.decision }}",
+              "operation": "equal",
+              "value2": "TRIGGER_SEARCH"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tavily-web-search",
+      "name": "Tavily Web Search",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1350,
+        50
+      ],
+      "parameters": {
+        "url": "https://api.tavily.com/search",
+        "method": "POST",
+        "headers": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"api_key\": \"={{ $env.TAVILY_API_KEY || 'YOUR_TAVILY_API_KEY' }}\",\n  \"query\": \"={{ $('Algorithmic Document Grader').item.json.searchQuery }}\",\n  \"search_depth\": \"advanced\",\n  \"include_answer\": true,\n  \"max_results\": 3\n}"
+      }
+    },
+    {
+      "id": "prepare-web-context",
+      "name": "Prepare Web Context",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        50
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "context",
+              "value": "={{ $json.results.map(r => r.content).join('\\n\\n') }}"
+            },
+            {
+              "name": "query",
+              "value": "={{ $('Algorithmic Document Grader').item.json.searchQuery }}"
+            },
+            {
+              "name": "source",
+              "value": "web_search"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "prepare-vector-context",
+      "name": "Prepare Vector Context",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        1350,
+        250
+      ],
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "context",
+              "value": "={{ $('Algorithmic Document Grader').item.json.scoredDocuments.map(d => d.text).join('\\n\\n') }}"
+            },
+            {
+              "name": "query",
+              "value": "={{ $('Algorithmic Document Grader').item.json.searchQuery }}"
+            },
+            {
+              "name": "source",
+              "value": "vector_store"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "llm-response-synthesis",
+      "name": "LLM Response Synthesis",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1850,
+        150
+      ],
+      "parameters": {
+        "url": "https://api.openai.com/v1/chat/completions",
+        "method": "POST",
+        "headers": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer ={{ $env.OPENAI_API_KEY || 'YOUR_OPENAI_API_KEY' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"gpt-4o\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are a professional customer support assistant. Answer the query using ONLY the provided context. If the answer cannot be found in the context, say 'I cannot find the answer based on the provided information.'\\n\\nContext:\\n={{ $json.context }}\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"={{ $json.query }}\"\n    }\n  ]\n}"
+      }
+    },
+    {
+      "id": "send-response-to-client",
+      "name": "Send Response to Client",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2100,
+        150
+      ],
+      "parameters": {
+        "url": "={{ $('Webhook Ingest').item.json.body?.callback_url || $('Webhook Ingest').item.json.query?.callback_url || 'https://api.yourclient.com/callback' }}",
+        "method": "POST",
+        "headers": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"query\": \"={{ $('Webhook Ingest').item.json.body?.query || $('Webhook Ingest').item.json.query?.query }}\",\n  \"answer\": \"={{ $json.choices[0].message.content }}\",\n  \"source\": \"={{ $('Prepare Web Context').item?.json?.source || $('Prepare Vector Context').item?.json?.source }}\"\n}"
+      }
+    }
+  ],
+  "connections": {
+    "Webhook Ingest": {
+      "main": [
+        [
+          {
+            "node": "Generate Query Embeddings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Query Embeddings": {
+      "main": [
+        [
+          {
+            "node": "Query Pinecone Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query Pinecone Vector Store": {
+      "main": [
+        [
+          {
+            "node": "Algorithmic Document Grader",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Algorithmic Document Grader": {
+      "main": [
+        [
+          {
+            "node": "If Confidence Gate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Confidence Gate": {
+      "main": [
+        [
+          {
+            "node": "Tavily Web Search",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare Vector Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tavily Web Search": {
+      "main": [
+        [
+          {
+            "node": "Prepare Web Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Web Context": {
+      "main": [
+        [
+          {
+            "node": "LLM Response Synthesis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Vector Context": {
+      "main": [
+        [
+          {
+            "node": "LLM Response Synthesis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM Response Synthesis": {
+      "main": [
+        [
+          {
+            "node": "Send Response to Client",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "meta": {}
+}

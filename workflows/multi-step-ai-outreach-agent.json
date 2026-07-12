@@ -1,0 +1,589 @@
+{
+  "name": "Multi-Step AI Outreach Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "### Multi-Step AI Outreach Agent\n\n**Required Credentials**:\n- `BREVO_API_KEY`: API access token for CRM sync and list enrollments.\n- `OPENAI_API_KEY`: Token for GPT-4o lead grading and reply intent classification.\n- `HUBSPOT_API_KEY`: Token for deal creation and lead routing.\n\n**Environment Variables**:\n- `BREVO_API_KEY` mapped in your n8n environment.\n- `OPENAI_API_KEY` mapped in your n8n environment.\n- `HUBSPOT_API_KEY` mapped in your n8n environment.\n\n**Testing Protocol**:\n1. Mock a lead payload to the webhook and verify that Gmail/Yahoo domains are discarded by the Scoring Code node.\n2. Verify headcount scoring: 10-50 receives 50 pts, 51-250 receives 100 pts, etc.\n3. Validate the OpenAI Chat prompt returns valid JSON with keys: `score`, `grade`, and `summary`.\n4. Trigger the reply webhook trigger and test positive intent classification (interested -> Slack notify + HubSpot deal).\n\n**Upsell Note**:\nNeed customized integrations or support setting up self-hosted n8n instance for data privacy? Reach out to **Automation & RevOps by Alfaz**: [whoisalfaz.me/contact/](https://whoisalfaz.me/contact/).",
+        "height": 260,
+        "width": 640
+      },
+      "id": "sticky-note-3",
+      "name": "Workflow Instructions",
+      "type": "n8n-nodes-base.sticky",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -250
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-enrichment-ingest",
+        "responseMode": "onReceived",
+        "responseData": "allEntries"
+      },
+      "id": "webhook-ingest",
+      "name": "Webhook Ingest",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        100,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.brevo.com/v3/contacts/{{ encodeURIComponent($json.body.email) }}",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "api-key",
+              "value": "={{ process.env.BREVO_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            }
+          ]
+        }
+      },
+      "id": "brevo-lookup",
+      "name": "Brevo Lookup",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        350,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-notfound",
+              "leftValue": "={{ $json.statusCode }}",
+              "comparison": "equals",
+              "rightValue": 404
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "is-new-contact",
+      "name": "Is New Contact?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        600,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const prospects = $input.all();\nconst qualifiedProspects = [];\n\nfor (const item of prospects) {\n  const contact = item.json.body || {\n    email: \"test@company.com\",\n    first_name: \"John\",\n    last_name: \"Doe\",\n    title: \"Founder\",\n    organization: {\n      name: \"Test Corp\",\n      estimated_num_employees: 120,\n      tech_stack: [\"n8n\", \"react\"],\n      short_description: \"Building automated pipelines.\"\n    }\n  };\n  \n  if (!contact.email || contact.email.includes(\"gmail.com\") || contact.email.includes(\"yahoo.com\")) {\n    continue; \n  }\n  \n  const employees = contact.organization?.estimated_num_employees || 0;\n  let firmographicScore = 0;\n  \n  if (employees >= 10 && employees <= 50) {\n    firmographicScore = 50; \n  } else if (employees > 50 && employees <= 250) {\n    firmographicScore = 100;\n  } else if (employees > 250) {\n    firmographicScore = 75; \n  }\n  \n  const techStack = contact.organization?.tech_stack || [];\n  const runsTargetTech = techStack.some(tech => [\"n8n\", \"brevo\", \"hubspot\"].includes(tech.toLowerCase()));\n  const techBonus = runsTargetTech ? 20 : 0;\n  \n  const totalInternalScore = firmographicScore + techBonus;\n  \n  qualifiedProspects.push({\n    json: {\n      ...contact,\n      internal_routing_score: totalInternalScore,\n      enrichment_timestamp: new Date().toISOString()\n    }\n  });\n}\n\nreturn qualifiedProspects;"
+      },
+      "id": "icp-grading-scoring",
+      "name": "ICP Grading & Scoring",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        850,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "chatModel": "gpt-4o",
+        "messagesUi": {
+          "messagesValues": [
+            {
+              "role": "system",
+              "message": "You are a high-performance RevOps qualification engine. Analyze company and contact metadata, score them from 0 to 100, and assign a grade (A, B, C, D) based on ICP alignment (industries: SaaS, AI/ML; Job titles: Founder, CEO, VP; Headcount: 10 to 250). Output raw JSON: { \"score\": 85, \"grade\": \"A\", \"summary\": \"Founder of 120-person SaaS company.\", \"ai_draft_intro\": \"Hey, noticed you're leading Test Corp...\" }"
+            },
+            {
+              "role": "user",
+              "message": "=Contact Title: {{ $json.title }}\nCompany Description: {{ $json.organization?.short_description }}\nCompany Headcount: {{ $json.organization?.estimated_num_employees }}\nInternal Routing Score: {{ $json.internal_routing_score }}"
+            }
+          ]
+        }
+      },
+      "id": "openai-grader",
+      "name": "AI Personalizer & Grader",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const responseText = $json.choices[0].message.content;\ntry {\n  const parsed = JSON.parse(responseText.replace(/```json|```/g, '').trim());\n  return [{\n    json: {\n      ...$node[\"ICP Grading & Scoring\"].json,\n      qualification: parsed\n    }\n  }];\n} catch (e) {\n  return [{\n    json: {\n      ...$node[\"ICP Grading & Scoring\"].json,\n      qualification: { grade: \"C\", score: 50, summary: \"Fallback due to parsing error.\", ai_draft_intro: \"Hey, wanted to reach out.\" }\n    }\n  }];\n}"
+      },
+      "id": "parse-qualification",
+      "name": "Parse Qualification JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1350,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-gradeab",
+              "leftValue": "={{ $json.qualification.grade }}",
+              "comparison": "regex",
+              "rightValue": "A|B"
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "is-grade-ab",
+      "name": "Is Grade A or B?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1600,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brevo.com/v3/contacts",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "api-key",
+              "value": "={{ process.env.BREVO_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "email",
+              "value": "={{ $json.email }}"
+            },
+            {
+              "name": "attributes",
+              "value": "={\"FIRSTNAME\": \"{{ $json.first_name }}\", \"LASTNAME\": \"{{ $json.last_name }}\", \"COMPANY\": \"{{ $json.organization?.name }}\", \"JOBTITLE\": \"{{ $json.title }}\", \"AI_PERSONALIZED_INTRO\": \"{{ $json.qualification.ai_draft_intro }}\"}"
+            },
+            {
+              "name": "listIds",
+              "value": "=[42]"
+            }
+          ]
+        }
+      },
+      "id": "brevo-create-ab",
+      "name": "Brevo Create Contact (Grade A/B)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1850,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_SLACK_WEBHOOK_URL",
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "text",
+              "value": "=🚀 New High-Value Grade {{ $node[\"Parse Qualification\"].json.qualification.grade }} Lead Qualified!\nEmail: {{ $node[\"Parse Qualification\"].json.email }}\nCompany: {{ $node[\"Parse Qualification\"].json.organization?.name }}\nSummary: {{ $node[\"Parse Qualification\"].json.qualification.summary }}\nAI Intro: {{ $node[\"Parse Qualification\"].json.qualification.ai_draft_intro }}"
+            }
+          ]
+        }
+      },
+      "id": "slack-alert-ab",
+      "name": "Slack Alert (High-Value Lead)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        2100,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brevo.com/v3/contacts",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "api-key",
+              "value": "={{ process.env.BREVO_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "email",
+              "value": "={{ $json.email }}"
+            },
+            {
+              "name": "listIds",
+              "value": "=[43]"
+            }
+          ]
+        }
+      },
+      "id": "brevo-create-other",
+      "name": "Brevo Create Contact (Other Grades)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1850,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "brevo-reply-webhook",
+        "responseMode": "onReceived",
+        "responseData": "allEntries"
+      },
+      "id": "reply-webhook-ingest",
+      "name": "Reply Webhook Ingest",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        100,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "chatModel": "gpt-4o",
+        "messagesUi": {
+          "messagesValues": [
+            {
+              "role": "system",
+              "message": "Classify the sentiment/intent of this email reply. Return either 'positive' (wants to book a call, wants info) or 'negative' (unsubscribe, reject, OOO). Output raw word only."
+            },
+            {
+              "role": "user",
+              "message": "=Subject: {{ $json.body.subject }}\nBody: {{ $json.body.text }}"
+            }
+          ]
+        }
+      },
+      "id": "openai-intent-classifier",
+      "name": "OpenAI Intent Classifier",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        350,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-positive",
+              "leftValue": "={{ $json.choices[0].message.content.trim().toLowerCase() }}",
+              "comparison": "equals",
+              "rightValue": "positive"
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "is-positive-intent",
+      "name": "Is Positive Intent?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        600,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_SLACK_WEBHOOK_URL",
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "text",
+              "value": "=🔥 Positive Outbound Reply Takeover!\nLead: {{ $node[\"Reply Webhook Ingest\"].json.body.email }}\nReply: {{ $node[\"Reply Webhook Ingest\"].json.body.text }}"
+            }
+          ]
+        }
+      },
+      "id": "slack-alert-positive",
+      "name": "Slack Alert (Positive Reply)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        850,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.hubapi.com/crm/v3/objects/deals",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ process.env.HUBSPOT_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "properties",
+              "value": "={ \"dealname\": \"AI Outreach Booked: {{ $node[\"Reply Webhook Ingest\"].json.body.email }}\", \"dealstage\": \"appointmentscheduled\", \"pipeline\": \"default\" }"
+            }
+          ]
+        }
+      },
+      "id": "hubspot-deal-create",
+      "name": "HubSpot Deal Creation",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1100,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.brevo.com/v3/contacts/{{ encodeURIComponent($node[\"Reply Webhook Ingest\"].json.body.email) }}/lists/remove",
+        "sendHeaders": true,
+        "headersUi": {
+          "parameter": [
+            {
+              "name": "api-key",
+              "value": "={{ process.env.BREVO_API_KEY || 'YOUR_API_KEY_HERE' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "listIds",
+              "value": "=[42]"
+            }
+          ]
+        }
+      },
+      "id": "suppress-sequence",
+      "name": "Suppress Sequence",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        850,
+        400
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Ingest": {
+      "main": [
+        [
+          {
+            "node": "Brevo Lookup",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brevo Lookup": {
+      "main": [
+        [
+          {
+            "node": "Is New Contact?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is New Contact?": {
+      "main": [
+        [
+          {
+            "node": "ICP Grading & Scoring",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ICP Grading & Scoring": {
+      "main": [
+        [
+          {
+            "node": "AI Personalizer & Grader",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Personalizer & Grader": {
+      "main": [
+        [
+          {
+            "node": "Parse Qualification JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Qualification JSON": {
+      "main": [
+        [
+          {
+            "node": "Is Grade A or B?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Grade A or B?": {
+      "main": [
+        [
+          {
+            "node": "Brevo Create Contact (Grade A/B)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Brevo Create Contact (Other Grades)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brevo Create Contact (Grade A/B)": {
+      "main": [
+        [
+          {
+            "node": "Slack Alert (High-Value Lead)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply Webhook Ingest": {
+      "main": [
+        [
+          {
+            "node": "OpenAI Intent Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Intent Classifier": {
+      "main": [
+        [
+          {
+            "node": "Is Positive Intent?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Positive Intent?": {
+      "main": [
+        [
+          {
+            "node": "Slack Alert (Positive Reply)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Suppress Sequence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack Alert (Positive Reply)": {
+      "main": [
+        [
+          {
+            "node": "HubSpot Deal Creation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "meta": {}
+}

@@ -1,0 +1,303 @@
+{
+  "name": "Living Operations Manual Sync",
+  "nodes": [
+    {
+      "id": "sticky-instructions",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.sticky",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -250
+      ],
+      "parameters": {
+        "width": 600,
+        "height": 260,
+        "content": "### 🔄 LIVING OPERATIONS MANUAL SYNC SOP\nThis workflow implements a self-documenting sync engine that audits your production n8n server, auto-updates technical wiki pages in Notion, and flags undocumented logic changes.\n\n#### 🔑 Required Credentials:\n- **n8n REST API Key**: Permissions to read workflow metadata via `/api/v1/workflows`.\n- **OpenAI API Key**: Used to compile workflow JSON files into human-readable operations guides.\n- **Notion Integration Token**: API access to database rows representing your living manual.\n\n#### ⚙️ Configuration Variables:\n- `N8N_API_KEY`: Auth token for local n8n API.\n- `N8N_URL`: URL of n8n instance (e.g. `http://localhost:5678` or private domain).\n- `NOTION_API_KEY`: Notion developer integration key.\n- `NOTION_DATABASE_ID`: Database ID of the Operations Wiki.\n\n#### 🧪 Testing Protocol:\n1. Execute the CRON trigger manually.\n2. Verify the HTTP Request fetches the JSON schemas of all active workflows.\n3. Observe the AI node dissecting node maps and outputting markdown docs.\n4. Check Notion Database to confirm new items created or existing pages updated with correct timestamps.\n\n---\n*Upsell Note: To request Done-For-You custom RevOps & Pipeline Strategy or advanced n8n setups, connect with our automation architects at whoisalfaz.me.*"
+      }
+    },
+    {
+      "id": "cron-trigger-weekly",
+      "name": "CRON Trigger Weekly",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        0,
+        100
+      ],
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyWeek",
+              "hour": 2,
+              "weekday": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "get-n8n-workflows",
+      "name": "Get n8n Workflows",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        250,
+        100
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env[\"N8N_URL\"] || 'http://localhost:5678' }}/api/v1/workflows",
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-N8N-API-KEY",
+              "value": "YOUR_N8N_API_KEY_HERE"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "split-workflows",
+      "name": "Split Workflows",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [
+        500,
+        100
+      ],
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      }
+    },
+    {
+      "id": "format-workflow-schema",
+      "name": "Format Workflow Schema",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        700,
+        100
+      ],
+      "parameters": {
+        "jsCode": "const workflow = $input.first().json;\nconst name = workflow.name || \"Unnamed Workflow\";\nconst active = workflow.active || false;\nconst nodes = (workflow.nodes || []).map(n => ({ name: n.name, type: n.type }));\nconst connections = workflow.connections || {};\n\nconst prompt = `\nYou are a technical documentation system. Analyze the following n8n workflow metadata and write a concise human-readable SOP guide in Markdown.\n\nWorkflow Name: ${name}\nStatus: ${active ? 'Active (Production)' : 'Inactive'}\nNodes in Workflow: ${JSON.stringify(nodes)}\nConnections Map: ${JSON.stringify(connections)}\n\nFormat the guide exactly as follows:\n# ⚙️ Operations SOP: ${name}\n\n## 1. Description & Purpose\n[Outline why this workflow runs and its business value]\n\n## 2. Ingestion Triggers\n[List trigger nodes]\n\n## 3. Dynamic Logic Steps\n[Describe processing logic]\n\n## 4. End Outputs\n[List endpoint destinations]\n\n## 5. Potential Error Paths\n[Describe error handling]\n`;\n\nreturn { json: { name, active, id: workflow.id, prompt } };"
+      }
+    },
+    {
+      "id": "openai-chat-model",
+      "name": "OpenAI Chat Model",
+      "type": "n8n-nodes-base.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        850,
+        250
+      ],
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "options": {
+          "temperature": 0.1
+        }
+      }
+    },
+    {
+      "id": "auto-document-workflow",
+      "name": "Auto-Document Workflow",
+      "type": "n8n-nodes-base.advancedAgent",
+      "typeVersion": 1,
+      "position": [
+        950,
+        100
+      ],
+      "parameters": {
+        "agent": "conversational",
+        "promptType": "system",
+        "systemPrompt": "You are a professional documentation bot. Translate n8n workflow JSON connections and nodes into clear, logical, step-by-step SOP documents."
+      }
+    },
+    {
+      "id": "sync-to-notion-wiki",
+      "name": "Sync to Notion Wiki",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        100
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.notion.com/v1/pages",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "parent",
+              "value": "={{ JSON.stringify({ database_id: 'YOUR_NOTION_DATABASE_ID_HERE' }) }}"
+            },
+            {
+              "name": "properties",
+              "value": "={{ JSON.stringify({ Name: { title: [ { text: { content: $node[\"Format Workflow Schema\"].json.name } } ] }, Status: { select: { name: $node[\"Format Workflow Schema\"].json.active ? 'Active' : 'Inactive' } }, ID: { rich_text: [ { text: { content: $node[\"Format Workflow Schema\"].json.id } } ] } }) }}"
+            },
+            {
+              "name": "children",
+              "value": "={{ JSON.stringify([ { object: 'block', type: 'paragraph', paragraph: { rich_text: [ { type: 'text', text: { content: $node[\"Auto-Document Workflow\"].json.output.substring(0, 2000) } } ] } } ]) }}"
+            }
+          ]
+        },
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_NOTION_API_KEY_HERE"
+            },
+            {
+              "name": "Notion-Version",
+              "value": "2022-06-28"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "loop-back-control",
+      "name": "Loop Back Control",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1450,
+        100
+      ],
+      "parameters": {
+        "jsCode": "return { json: { done: true } };"
+      }
+    },
+    {
+      "id": "slack-weekly-report",
+      "name": "Slack Weekly Report",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        700,
+        -100
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "YOUR_SLACK_WEBHOOK_URL_HERE",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "✅ *Operations Manual Sync Complete!* Audited all n8n workflows, updated technical Notion wiki pages, and synchronized GTM process definitions."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "CRON Trigger Weekly": {
+      "main": [
+        [
+          {
+            "node": "Get n8n Workflows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get n8n Workflows": {
+      "main": [
+        [
+          {
+            "node": "Split Workflows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Workflows": {
+      "main": [
+        [
+          {
+            "node": "Format Workflow Schema",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Slack Weekly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Workflow Schema": {
+      "main": [
+        [
+          {
+            "node": "Auto-Document Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "openai-chat-model": {
+      "ai": [
+        [
+          {
+            "node": "Auto-Document Workflow",
+            "type": "ai",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auto-Document Workflow": {
+      "main": [
+        [
+          {
+            "node": "Sync to Notion Wiki",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sync to Notion Wiki": {
+      "main": [
+        [
+          {
+            "node": "Loop Back Control",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Back Control": {
+      "main": [
+        [
+          {
+            "node": "Split Workflows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "meta": {}
+}

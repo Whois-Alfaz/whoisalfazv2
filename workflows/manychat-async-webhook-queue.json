@@ -1,0 +1,401 @@
+{
+  "name": "ManyChat Async Webhook Queue",
+  "nodes": [
+    {
+      "id": "sticky-instructions",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.sticky",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -250
+      ],
+      "parameters": {
+        "width": 600,
+        "height": 240,
+        "content": "### ⚡ MANYCHAT ASYNC WEBHOOK QUEUE INTEGRATION SOP\nThis workflow enables high-latency processes to bypass ManyChat's strict 10s webhook response timeout limit by immediately returning a 200 OK and executing background tasks asynchronously.\n\n#### 🔑 Required Credentials:\n- **Apollo.io API Key**: Scoped for search and match operations.\n- **Brevo CRM API Key**: Authorization to lookup and upsert contacts.\n- **ManyChat Access Token**: Dynamic API access (`setCustomField` & `sendContent` endpoints).\n\n#### ⚙️ Environment Variables:\n- `APOLLO_API_KEY`: Key to enrich user details.\n- `BREVO_API_KEY`: Key for Brevo CRM integration.\n- `MANYCHAT_API_KEY`: Key to push async updates back to the subscriber.\n\n#### 🧪 Testing Protocol:\n1. Copy the webhook URL and register it as a POST request in a ManyChat External Request block.\n2. Trigger the ManyChat flow with test inputs. Verify that ManyChat receives a 200 OK instantly (< 500ms).\n3. Trace the background execution: verify Apollo data match, lead scoring, Brevo contact sync, and the asynchronous direct message push on Instagram.\n\n---\n*Upsell Note: For custom Done-For-You setups, contact Alfaz Mahmud Rizve's RevOps team at whoisalfaz.me.*"
+      }
+    },
+    {
+      "id": "webhook-ingest",
+      "name": "Webhook Ingest",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        100
+      ],
+      "parameters": {
+        "path": "manychat-async-ingress",
+        "options": {},
+        "httpMethod": "POST",
+        "responseMode": "onReceived",
+        "responseData": "all"
+      }
+    },
+    {
+      "id": "apollo-enrichment",
+      "name": "Apollo Enrichment",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        250,
+        100
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apollo.io/v1/people/match",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Api-Key",
+              "value": "={{ $env.APOLLO_API_KEY || 'YOUR_APOLLO_API_KEY' }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyContentType": "raw",
+        "rawContentType": "application/json",
+        "body": "{\n  \"email\": \"={{ $json.body.email }}\",\n  \"reveal_personal_emails\": true,\n  \"reveal_phone_number\": true\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "onError": "continueWorkflow"
+    },
+    {
+      "id": "filter-person",
+      "name": "Filter Person",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        500,
+        100
+      ],
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.person ? true : false }}",
+              "value2": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ai-lead-scoring",
+      "name": "AI Lead Scoring",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        750,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const items = $input.all();\nreturn items.map(item => {\n  const person = item.json.person || {};\n  const org = person.organization || {};\n  const headcount = org.estimated_num_employees || 0;\n  const title = (person.title || '').toLowerCase();\n  \n  let score = 50;\n  let grade = 'C';\n  \n  if (headcount >= 10 && headcount <= 250) score += 20;\n  if (title.includes('founder') || title.includes('ceo') || title.includes('revops') || title.includes('sales')) score += 30;\n  \n  if (score >= 90) grade = 'A';\n  else if (score >= 70) grade = 'B';\n  else if (score >= 50) grade = 'C';\n  else grade = 'D';\n  \n  // Access variables from Webhook Ingest\n  const webhookBody = $('Webhook Ingest').item.json.body || {};\n  \n  return {\n    json: {\n      subscriber_id: webhookBody.subscriber_id,\n      first_name: webhookBody.first_name,\n      email: webhookBody.email,\n      channel: webhookBody.channel,\n      user_input: webhookBody.user_input,\n      person_title: person.title || 'Unknown',\n      company_name: org.name || 'Unknown',\n      company_size: headcount,\n      lead_score: score,\n      lead_grade: grade,\n      summary: `Hi ${webhookBody.first_name || 'there'}! We found your profile as ${person.title || 'Professional'} at ${org.name || 'your company'}. Based on our system matching, you are an excellent fit for our outbound program.`\n    }\n  };\n});"
+      }
+    },
+    {
+      "id": "brevo-crm-sync",
+      "name": "Brevo CRM Sync",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1000,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brevo.com/v3/contacts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "api-key",
+              "value": "={{ $env.BREVO_API_KEY || 'YOUR_BREVO_API_KEY' }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyContentType": "raw",
+        "rawContentType": "application/json",
+        "body": "{\n  \"email\": \"={{ $json.email }}\",\n  \"attributes\": {\n    \"FIRSTNAME\": \"={{ $json.first_name }}\",\n    \"COMPANY_NAME\": \"={{ $json.company_name }}\",\n    \"JOB_TITLE\": \"={{ $json.person_title }}\",\n    \"COMPANY_SIZE\": \"={{ $json.company_size }}\",\n    \"LEAD_SCORE\": \"={{ $json.lead_score }}\",\n    \"LEAD_TIER\": \"={{ $json.lead_grade }}\"\n  },\n  \"updateEnabled\": true\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "onError": "continueWorkflow"
+    },
+    {
+      "id": "manychat-custom-field-update",
+      "name": "ManyChat Custom Field",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1250,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/setCustomField",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.MANYCHAT_API_KEY || 'YOUR_MANYCHAT_API_KEY' }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyContentType": "raw",
+        "rawContentType": "application/json",
+        "body": "{\n  \"subscriber_id\": \"={{ $json.subscriber_id }}\",\n  \"field_id\": 9876543,\n  \"field_value\": \"={{ $json.summary }}\"\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      }
+    },
+    {
+      "id": "manychat-ig-send-content",
+      "name": "ManyChat IG SendContent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1500,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/ig/sending/sendContent",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.MANYCHAT_API_KEY || 'YOUR_MANYCHAT_API_KEY' }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyContentType": "raw",
+        "rawContentType": "application/json",
+        "body": "{\n  \"subscriber_id\": \"={{ $json.subscriber_id }}\",\n  \"data\": {\n    \"version\": \"v2\",\n    \"content\": {\n      \"messages\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"={{ $json.summary }}\",\n          \"buttons\": [\n            {\n              \"type\": \"url\",\n              \"caption\": \"Schedule Demo\",\n              \"url\": \"https://whoisalfaz.me/contact\"\n            }\n          ]\n        }\n      ]\n    }\n  }\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      }
+    },
+    {
+      "id": "fallback-scoring",
+      "name": "Fallback Scoring",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        750,
+        300
+      ],
+      "parameters": {
+        "jsCode": "const webhookBody = $('Webhook Ingest').item.json.body || {};\nreturn [{\n  json: {\n    subscriber_id: webhookBody.subscriber_id,\n    first_name: webhookBody.first_name,\n    email: webhookBody.email,\n    channel: webhookBody.channel,\n    user_input: webhookBody.user_input,\n    company_name: 'Unknown',\n    person_title: 'Unknown',\n    company_size: 0,\n    lead_score: 10,\n    lead_grade: 'D',\n    summary: `Hi ${webhookBody.first_name || 'there'}! Thanks for sharing. We couldn't find enriched data for your email ${webhookBody.email}, but we've recorded your inquiry.`\n  }\n}];"
+      }
+    },
+    {
+      "id": "brevo-crm-fallback-sync",
+      "name": "Brevo CRM Fallback Sync",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1000,
+        300
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brevo.com/v3/contacts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "api-key",
+              "value": "={{ $env.BREVO_API_KEY || 'YOUR_BREVO_API_KEY' }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyContentType": "raw",
+        "rawContentType": "application/json",
+        "body": "{\n  \"email\": \"={{ $json.email }}\",\n  \"attributes\": {\n    \"FIRSTNAME\": \"={{ $json.first_name }}\",\n    \"LEAD_SCORE\": \"={{ $json.lead_score }}\",\n    \"LEAD_TIER\": \"={{ $json.lead_grade }}\"\n  },\n  \"updateEnabled\": true\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "onError": "continueWorkflow"
+    },
+    {
+      "id": "manychat-custom-field-fallback",
+      "name": "ManyChat Custom Field Fallback",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1250,
+        300
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/setCustomField",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.MANYCHAT_API_KEY || 'YOUR_MANYCHAT_API_KEY' }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyContentType": "raw",
+        "rawContentType": "application/json",
+        "body": "{\n  \"subscriber_id\": \"={{ $json.subscriber_id }}\",\n  \"field_id\": 9876543,\n  \"field_value\": \"={{ $json.summary }}\"\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook Ingest": {
+      "main": [
+        [
+          {
+            "node": "Apollo Enrichment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apollo Enrichment": {
+      "main": [
+        [
+          {
+            "node": "Filter Person",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Person": {
+      "main": [
+        [
+          {
+            "node": "AI Lead Scoring",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Fallback Scoring",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Lead Scoring": {
+      "main": [
+        [
+          {
+            "node": "Brevo CRM Sync",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brevo CRM Sync": {
+      "main": [
+        [
+          {
+            "node": "ManyChat Custom Field",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ManyChat Custom Field": {
+      "main": [
+        [
+          {
+            "node": "ManyChat IG SendContent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fallback Scoring": {
+      "main": [
+        [
+          {
+            "node": "Brevo CRM Fallback Sync",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brevo CRM Fallback Sync": {
+      "main": [
+        [
+          {
+            "node": "ManyChat Custom Field Fallback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "meta": {}
+}

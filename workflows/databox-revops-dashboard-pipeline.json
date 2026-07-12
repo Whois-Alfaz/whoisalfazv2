@@ -1,0 +1,305 @@
+{
+  "name": "Databox RevOps Dashboard Pipeline",
+  "nodes": [
+    {
+      "id": "sticky-instructions",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.sticky",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -250
+      ],
+      "parameters": {
+        "width": 600,
+        "height": 260,
+        "content": "### 📈 DATABOX REVOPS DASHBOARD PIPELINE SOP\nThis workflow streams real-time sales and AI agent performance metrics to Databox, calculating Pipeline Velocity, Win Rates, and ARR.\n\n#### 🔑 Required Credentials:\n- **monday.com Personal API Token**: For GraphQL contact and deal query.\n- **Databox API Key & Dataset ID**: Target for custom developer metrics.\n\n#### ⚙️ Configuration Variables:\n- `DATABOX_API_KEY`: API Key for authenticate writes on Databox dataset.\n- `DATABOX_DATASET`: Target Dataset ID in Databox API.\n- `MONDAY_API_KEY`: monday.com token.\n\n#### 🧪 Testing Protocol:\n1. Open the monday Webhook trigger and copy the URL. Bind it to your monday CRM board status changes.\n2. Manually change a deal to `Closed Won` in monday.com CRM.\n3. Verify the workflow queries GraphQL, calculates days between stages and ARR, and pushes to Databox.\n4. Send mock requests to AiSDR, Voice AI, and Chat Agent webhooks. Verify normalized metrics stream to Databox Dataset manager.\n\n---\n*Upsell Note: To request Done-For-You custom RevOps & Pipeline Strategy or advanced n8n setups, connect with our automation architects at whoisalfaz.me.*"
+      }
+    },
+    {
+      "id": "monday-deal-webhook",
+      "name": "monday Deal Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        100
+      ],
+      "parameters": {
+        "path": "monday-deal-update",
+        "options": {}
+      }
+    },
+    {
+      "id": "query-monday-deal-columns",
+      "name": "Query monday Deal Columns",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        250,
+        100
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.monday.com/v2",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "query ($itemId: [ID!]) { items (ids: $itemId) { id name column_values { id text value } } }"
+            },
+            {
+              "name": "variables",
+              "value": "={{ JSON.stringify({ itemId: [ $node[\"monday Deal Webhook\"].json.body.event.pulseId ] }) }}"
+            }
+          ]
+        },
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "YOUR_MONDAY_API_KEY_HERE"
+            },
+            {
+              "name": "API-Version",
+              "value": "2023-10"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "calculate-revenue-metrics",
+      "name": "Calculate Revenue Metrics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        500,
+        100
+      ],
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst output = [];\n\nfor (const item of items) {\n  const data = item.json.data?.items?.[0] || {};\n  const colValues = data.column_values || [];\n\n  const getColText = (id) => {\n    const col = colValues.find(c => c.id === id);\n    return col ? col.text : null;\n  };\n\n  const dealName = data.name || \"Unknown Deal\";\n  const status = getColText(\"status\") || \"Open\";\n  const dealValue = parseFloat(getColText(\"deal_value\") || \"0\");\n  const billingTerm = getColText(\"billing_term\") || \"Annual\";\n  const owner = getColText(\"owner\") || \"Unassigned\";\n  const aiSource = getColText(\"ai_agent_source\") || \"Human\";\n\n  const dateDiscovery = getColText(\"date_discovery\");\n  const dateQualified = getColText(\"date_qualified\");\n  const dateProposal = getColText(\"date_proposal\");\n  const dateNegotiation = getColText(\"date_negotiation\");\n  const dateClosed = getColText(\"date_closed\") || new Date().toISOString();\n\n  const getDaysBetween = (start, end) => {\n    if (!start || !end) return 0;\n    const sTime = new Date(start).getTime();\n    const eTime = new Date(end).getTime();\n    if (isNaN(sTime) || isNaN(eTime)) return 0;\n    const diff = (eTime - sTime) / (1000 * 60 * 60 * 24);\n    return diff > 0 ? parseFloat(diff.toFixed(2)) : 0;\n  };\n\n  const vDiscoveryToQualified = getDaysBetween(dateDiscovery, dateQualified);\n  const vQualifiedToProposal = getDaysBetween(dateQualified, dateProposal);\n  const vProposalToNegotiation = getDaysBetween(dateProposal, dateNegotiation);\n  const vNegotiationToClosed = getDaysBetween(dateNegotiation, dateClosed);\n  const totalSalesCycle = getDaysBetween(dateDiscovery, dateClosed);\n\n  let arr = 0;\n  if (status === \"Closed Won\") {\n    switch (billingTerm) {\n      case \"Monthly\":  arr = dealValue * 12; break;\n      case \"Quarterly\": arr = dealValue * 4; break;\n      case \"Annual\":   arr = dealValue; break;\n      default:         arr = 0;\n    }\n  }\n\n  const metrics = [\n    {\n      key: \"sales_cycle_days\",\n      value: totalSalesCycle,\n      date: dateClosed,\n      attributes: { sales_rep: owner, deal_name: dealName, ai_source: aiSource }\n    },\n    {\n      key: \"discovery_to_qualified_days\",\n      value: vDiscoveryToQualified,\n      date: dateClosed,\n      attributes: { sales_rep: owner, ai_source: aiSource }\n    },\n    {\n      key: \"qualified_to_proposal_days\",\n      value: vQualifiedToProposal,\n      date: dateClosed,\n      attributes: { sales_rep: owner }\n    },\n    {\n      key: \"proposal_to_negotiation_days\",\n      value: vProposalToNegotiation,\n      date: dateClosed,\n      attributes: { sales_rep: owner }\n    },\n    {\n      key: \"negotiation_to_closed_days\",\n      value: vNegotiationToClosed,\n      date: dateClosed,\n      attributes: { sales_rep: owner }\n    },\n    {\n      key: \"deal_arr\",\n      value: arr,\n      date: dateClosed,\n      attributes: { sales_rep: owner, billing_term: billingTerm, ai_source: aiSource }\n    },\n    {\n      key: \"deal_closed_total\",\n      value: 1,\n      date: dateClosed,\n      attributes: { sales_rep: owner, status: status, ai_source: aiSource }\n    },\n    {\n      key: \"deal_closed_won\",\n      value: status === \"Closed Won\" ? 1 : 0,\n      date: dateClosed,\n      attributes: { sales_rep: owner, ai_source: aiSource }\n    }\n  ];\n\n  output.push({ json: { data: metrics } });\n}\n\nreturn output;"
+      }
+    },
+    {
+      "id": "aisdr-activity-webhook",
+      "name": "AiSDR Activity Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        300
+      ],
+      "parameters": {
+        "path": "aisdr-activity",
+        "options": {}
+      }
+    },
+    {
+      "id": "normalize-aisdr-metrics",
+      "name": "Normalize AiSDR Metrics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        500,
+        300
+      ],
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body || {};\nconst event = body.event;\nconst date = body.timestamp || new Date().toISOString();\nconst agentId = body.sdr_agent_id || \"unknown_agent\";\nconst campaign = body.campaign_name || \"unknown_campaign\";\nconst recipientDomain = body.recipient_email?.split(\"@\")[1] || \"unknown\";\n\nconst metrics = [];\n\nif (event === \"email_sent\") {\n  metrics.push({\n    key: \"aisdr_emails_sent\", value: 1, date,\n    attributes: { agent_id: agentId, campaign, recipient_domain: recipientDomain }\n  });\n} else if (event === \"reply_received\") {\n  metrics.push({\n    key: \"aisdr_replies_received\", value: 1, date,\n    attributes: { agent_id: agentId, campaign, reply_sentiment: body.sentiment || \"unknown\" }\n  });\n} else if (event === \"meeting_booked\") {\n  metrics.push({\n    key: \"aisdr_meetings_booked\", value: 1, date,\n    attributes: { agent_id: agentId, campaign }\n  });\n  metrics.push({\n    key: \"aisdr_cost_per_meeting\", value: body.campaign_cost_usd || 0, date,\n    attributes: { agent_id: agentId, campaign }\n  });\n}\n\nreturn { json: { data: metrics } };"
+      }
+    },
+    {
+      "id": "voice-ai-webhook",
+      "name": "Voice AI Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        500
+      ],
+      "parameters": {
+        "path": "voice-ai-logs",
+        "options": {}
+      }
+    },
+    {
+      "id": "normalize-voice-metrics",
+      "name": "Normalize Voice Metrics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        500,
+        500
+      ],
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body || {};\nconst date = body.created_at || new Date().toISOString();\n\nlet provider = \"\", duration = 0, cost = 0, agentId = \"\", outcome = \"\";\n\nif (body.message && body.message.call) {\n  provider = \"Vapi\";\n  const call = body.message.call;\n  duration = call.duration || 0;\n  cost = call.cost || 0;\n  agentId = call.assistantId || \"unknown_vapi_agent\";\n  outcome = body.message.analysis?.success ? \"Qualified\" : \"Not Qualified\";\n} else if (body.event === \"call_completed\" || body.call_id) {\n  provider = \"ElevenLabs\";\n  duration = body.duration_seconds || 0;\n  cost = body.cost_usd || 0;\n  agentId = body.agent_id || \"unknown_elevenlabs_agent\";\n  outcome = body.analysis?.call_successful ? \"Qualified\" : \"Not Qualified\";\n}\n\nconst metrics = [\n  {\n    key: \"voice_call_duration_seconds\", value: duration, date,\n    attributes: { provider, agent_id: agentId, call_outcome: outcome }\n  },\n  { key: \"voice_call_cost_usd\", value: cost, date, attributes: { provider, agent_id: agentId } },\n  { key: \"voice_call_count\", value: 1, date, attributes: { provider, agent_id: agentId, call_outcome: outcome } }\n];\n\nif (outcome === \"Qualified\") {\n  metrics.push({ key: \"voice_call_qualified_count\", value: 1, date, attributes: { provider, agent_id: agentId } });\n  metrics.push({\n    key: \"voice_cost_per_qualified_call\",\n    value: cost,\n    date,\n    attributes: { provider, agent_id: agentId }\n  });\n}\n\nreturn { json: { data: metrics } };"
+      }
+    },
+    {
+      "id": "chat-agent-webhook",
+      "name": "Chat Agent Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        700
+      ],
+      "parameters": {
+        "path": "chat-agent-logs",
+        "options": {}
+      }
+    },
+    {
+      "id": "normalize-chat-metrics",
+      "name": "Normalize Chat Metrics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        500,
+        700
+      ],
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body || {};\nconst date = body.timestamp || new Date().toISOString();\nconst agentId = body.agent_id || \"chat_assistant_v1\";\nconst totalTokens = body.token_usage?.total_tokens || 0;\nconst promptTokens = body.token_usage?.prompt_tokens || 0;\nconst completionTokens = body.token_usage?.completion_tokens || 0;\nconst latencyMs = body.latency_ms || 0;\nconst estimatedCostUsd = (totalTokens / 1000) * 0.002;\nconst feedback = body.feedback || null;\n\nconst metrics = [\n  { key: \"chat_sessions_count\", value: 1, date, attributes: { agent_id: agentId } },\n  { key: \"chat_total_tokens\", value: totalTokens, date, attributes: { agent_id: agentId } },\n  { key: \"chat_prompt_tokens\", value: promptTokens, date, attributes: { agent_id: agentId } },\n  { key: \"chat_completion_tokens\", value: completionTokens, date, attributes: { agent_id: agentId } },\n  { key: \"chat_latency_ms\", value: latencyMs, date, attributes: { agent_id: agentId } },\n  { key: \"chat_cost_usd\", value: estimatedCostUsd, date, attributes: { agent_id: agentId } }\n];\n\nif (feedback === \"thumbs_up\") {\n  metrics.push({ key: \"chat_positive_feedback\", value: 1, date, attributes: { agent_id: agentId } });\n} else if (feedback === \"thumbs_down\") {\n  metrics.push({ key: \"chat_negative_feedback\", value: 1, date, attributes: { agent_id: agentId } });\n}\n\nreturn { json: { data: metrics } };"
+      }
+    },
+    {
+      "id": "push-to-databox",
+      "name": "Push to Databox",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        900,
+        400
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.databox.com/v1/datasets/YOUR_DATASET_ID_HERE/data",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "data",
+              "value": "={{ JSON.stringify($json.data) }}"
+            }
+          ]
+        },
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "x-api-key",
+              "value": "YOUR_DATABOX_API_KEY_HERE"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "monday Deal Webhook": {
+      "main": [
+        [
+          {
+            "node": "Query monday Deal Columns",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query monday Deal Columns": {
+      "main": [
+        [
+          {
+            "node": "Calculate Revenue Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Revenue Metrics": {
+      "main": [
+        [
+          {
+            "node": "Push to Databox",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AiSDR Activity Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize AiSDR Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize AiSDR Metrics": {
+      "main": [
+        [
+          {
+            "node": "Push to Databox",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Voice AI Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize Voice Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Voice Metrics": {
+      "main": [
+        [
+          {
+            "node": "Push to Databox",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat Agent Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize Chat Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Chat Metrics": {
+      "main": [
+        [
+          {
+            "node": "Push to Databox",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "meta": {}
+}

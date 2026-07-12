@@ -1,0 +1,295 @@
+{
+  "name": "ManyChat WhatsApp Lead Capture",
+  "nodes": [
+    {
+      "id": "sticky-instructions",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.sticky",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -250
+      ],
+      "parameters": {
+        "width": 600,
+        "height": 240,
+        "content": "### 💬 MANYCHAT WHATSAPP B2B LEAD CAPTURE SYSTEM SOP\nThis workflow captures 5-question B2B qualification responses from ManyChat WhatsApp, computes an ICP lead score, upserts records to Brevo CRM, and handles chatbot pausing for hot lead escalation.\n\n#### 🔑 Required Credentials:\n- **Brevo CRM API Key**: Authorization to upsert contacts and tags.\n- **Slack Webhook URL**: Real-time hot lead alerts endpoint.\n- **ManyChat Access Token**: Token for `setCustomField` endpoints (e.g. `bot_paused`).\n\n#### ⚙️ Environment Variables:\n- `BREVO_API_KEY`: Key to sync leads to Brevo.\n- `SLACK_WEBHOOK_URL`: Target channel webhook for SDR notification.\n- `MANYCHAT_API_KEY`: Key to manage bot state.\n- `MANYCHAT_BOT_PAUSED_FIELD_ID`: Integer ID of the `bot_paused` custom field.\n\n#### 🧪 Testing Protocol:\n1. Copy the webhook URL and register it in a ManyChat External Request node at the end of the WhatsApp qualification flow.\n2. Submit sample replies in WhatsApp matching 'Hot' criteria (e.g. Budget: $15k+, Timeline: This week).\n3. Confirm n8n runs: verify instant HTTP response, lead score calculation, Brevo Contact creation, Slack alert delivery, and bot pause flag activation in ManyChat.\n\n---\n*Upsell Note: To request custom GTM integrations or RevOps scaling audits, connect with our team at whoisalfaz.me.*"
+      }
+    },
+    {
+      "id": "webhook-ingest",
+      "name": "Webhook Ingest",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        100
+      ],
+      "parameters": {
+        "path": "manychat-wa-lead-ingress",
+        "options": {},
+        "httpMethod": "POST",
+        "responseMode": "onReceived",
+        "responseData": "all"
+      }
+    },
+    {
+      "id": "respond-to-webhook",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        100
+      ],
+      "parameters": {
+        "statusCode": 200,
+        "responseBody": "{\n  \"status\": \"received\"\n}",
+        "options": {}
+      }
+    },
+    {
+      "id": "lead-scorer",
+      "name": "Lead Scorer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        500,
+        100
+      ],
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body || {};\nconst budget = body.wa_budget_range || '';\nconst timeline = body.wa_timeline || '';\nconst teamSize = body.wa_team_size || '';\nconst painPoint = body.wa_pain_point || '';\n\nlet score = 0;\n\n// Budget scoring\nif (budget === '$15k+')         score += 40;\nelse if (budget === '$5–15k')   score += 25;\nelse if (budget === '$1–5k')    score += 10;\n\n// Timeline scoring\nif (timeline === 'This week')       score += 30;\nelse if (timeline === 'This month') score += 15;\n\n// Team size scoring\nif (teamSize === '21–50' || teamSize === '50+') score += 20;\nelse if (teamSize === '6–20')                   score += 10;\n\n// Pain point scoring\nif (painPoint === 'Automation' || painPoint === 'CRM Setup') score += 10;\n\nconst tier = score >= 70 ? 'Hot' : score >= 40 ? 'Warm' : 'Cold';\nconst crmTag = `wa_${tier.toLowerCase()}_lead`;\n\nreturn [{\n  json: {\n    subscriber_id: body.subscriber_id,\n    first_name: body.first_name,\n    email: body.wa_email || body.email,\n    wa_team_size: teamSize,\n    wa_budget_range: budget,\n    wa_pain_point: painPoint,\n    wa_timeline: timeline,\n    lead_score: score,\n    lead_tier: tier,\n    crm_tag: crmTag,\n    scored_at: new Date().toISOString()\n  }\n}];"
+      }
+    },
+    {
+      "id": "brevo-crm-upsert",
+      "name": "Brevo CRM Upsert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        750,
+        100
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brevo.com/v3/contacts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "api-key",
+              "value": "={{ $env.BREVO_API_KEY || 'YOUR_BREVO_API_KEY' }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyContentType": "raw",
+        "rawContentType": "application/json",
+        "body": "{\n  \"email\": \"={{ $json.email }}\",\n  \"attributes\": {\n    \"FIRSTNAME\": \"={{ $json.first_name }}\",\n    \"WHATSAPP_ID\": \"={{ $json.subscriber_id }}\",\n    \"TEAM_SIZE\": \"={{ $json.wa_team_size }}\",\n    \"BUDGET_RANGE\": \"={{ $json.wa_budget_range }}\",\n    \"PAIN_POINT\": \"={{ $json.wa_pain_point }}\",\n    \"TIMELINE\": \"={{ $json.wa_timeline }}\",\n    \"LEAD_SCORE\": \"={{ $json.lead_score }}\",\n    \"LEAD_TIER\": \"={{ $json.lead_tier }}\"\n  },\n  \"listIds\": [12],\n  \"updateEnabled\": true,\n  \"tags\": [\"={{ $json.crm_tag }}\", \"whatsapp-lead\"]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "onError": "continueWorkflow"
+    },
+    {
+      "id": "if-hot-lead",
+      "name": "If Hot Lead?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        100
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.lead_tier }}",
+              "operation": "equal",
+              "value2": "Hot"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "slack-alert",
+      "name": "Slack Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1250,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SLACK_WEBHOOK_URL || 'https://hooks.slack.com/services/YOUR_WEBHOOK_HERE' }}",
+        "sendBody": true,
+        "bodyContentType": "raw",
+        "rawContentType": "application/json",
+        "body": "{\n  \"text\": \"🔥 *Hot WhatsApp Lead Captured*\",\n  \"blocks\": [\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"*{{ $json.first_name }}* ({{ $json.email }})\\n*Budget:* {{ $json.wa_budget_range }} | *Timeline:* {{ $json.wa_timeline }}\\n*Score:* {{ $json.lead_score }}/100 — {{ $json.lead_tier }}\"\n      }\n    }\n  ]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      }
+    },
+    {
+      "id": "manychat-pause-bot",
+      "name": "ManyChat Pause Bot",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1500,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/fb/subscriber/setCustomField",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.MANYCHAT_API_KEY || 'YOUR_MANYCHAT_API_KEY' }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyContentType": "raw",
+        "rawContentType": "application/json",
+        "body": "{\n  \"subscriber_id\": \"={{ $json.subscriber_id }}\",\n  \"field_id\": \"={{ $env.MANYCHAT_BOT_PAUSED_FIELD_ID || 11223344 }}\",\n  \"field_value\": \"true\"\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      }
+    },
+    {
+      "id": "manychat-wa-send-confirmation",
+      "name": "ManyChat WA Send Confirmation",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1250,
+        200
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manychat.com/wa/sending/sendContent",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.MANYCHAT_API_KEY || 'YOUR_MANYCHAT_API_KEY' }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyContentType": "raw",
+        "rawContentType": "application/json",
+        "body": "{\n  \"subscriber_id\": \"={{ $json.subscriber_id }}\",\n  \"data\": {\n    \"version\": \"v2\",\n    \"content\": {\n      \"messages\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"Hi! We received your request. Our team will review and get back to you shortly.\"\n        }\n      ]\n    }\n  }\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook Ingest": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        [
+          {
+            "node": "Lead Scorer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lead Scorer": {
+      "main": [
+        [
+          {
+            "node": "Brevo CRM Upsert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brevo CRM Upsert": {
+      "main": [
+        [
+          {
+            "node": "If Hot Lead?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Hot Lead?": {
+      "main": [
+        [
+          {
+            "node": "Slack Alert",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "ManyChat WA Send Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack Alert": {
+      "main": [
+        [
+          {
+            "node": "ManyChat Pause Bot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "meta": {}
+}

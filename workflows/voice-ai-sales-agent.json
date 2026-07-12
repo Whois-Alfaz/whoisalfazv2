@@ -1,0 +1,521 @@
+{
+  "name": "Voice AI Sales Agent",
+  "nodes": [
+    {
+      "id": "sticky-instructions",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.sticky",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -250
+      ],
+      "parameters": {
+        "width": 550,
+        "height": 220,
+        "content": "### 🎙️ VOICE AI SALES AGENT INTEGRATION SOP\nThis workflow orchestrates real-time conversational tools for your ElevenLabs voice agent.\n\n#### 🔑 Required Credentials:\n- **ElevenLabs API**: Access token for outbound calls and authentication webhook signatures.\n- **Google Calendar OAuth2**: Read/write access to check and book demo slots.\n- **HubSpot OAuth2**: CRM integration to search, create, and update voice-qualified leads.\n- **Twilio Account**: Provisioned phone number and SIP trunk to stream audio to ElevenLabs.\n\n#### ⚙️ Environment Variables:\n- `ELEVENLABS_API_KEY`: ElevenLabs API key for outbound calls.\n- `TWILIO_AUTH_TOKEN`: Twilio auth token.\n- `ELEVENLABS_SIGNATURE`: Shared secret to authenticate webhook requests.\n\n#### 🧪 Testing Protocol:\n1. Copy the webhook URL and register it in ElevenLabs Agent Tools under the headers `X-ElevenLabs-Signature`.\n2. Place a test call to your Twilio number and request a calendar check or lead logging.\n3. Verify CRM records update in HubSpot and calendar slots are checked in Google Calendar.\n4. Verify failsafe routing works by temporarily disabling HubSpot/Google Calendar nodes.\n\n---\n*Upsell Note: To request Done-For-You custom RevOps & Pipeline Strategy or advanced n8n setups, connect with our automation architects at whoisalfaz.me.*"
+      }
+    },
+    {
+      "id": "webhook-ingest",
+      "name": "Webhook Ingest",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "path": "elevenlabs-sdr-tool-v1",
+        "options": {},
+        "httpMethod": "POST",
+        "responseMode": "onReceived",
+        "responseData": "all"
+      }
+    },
+    {
+      "id": "validate-signature",
+      "name": "Validate Signature",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        250,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $headers['x-elevenlabs-signature'] }}",
+              "operation": "equal",
+              "value2": "your-long-cryptographic-token-here"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "respond-unauthorized",
+      "name": "Respond Unauthorized",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        200
+      ],
+      "parameters": {
+        "statusCode": 401,
+        "responseBody": "{\n  \"error\": \"Unauthorized - Signature mismatch\"\n}",
+        "options": {}
+      }
+    },
+    {
+      "id": "switch-router",
+      "name": "Switch Router",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        500,
+        0
+      ],
+      "parameters": {
+        "rules": {
+          "rules": [
+            {
+              "value": "check_calendar_availability",
+              "operation": "equal"
+            },
+            {
+              "value": "log_lead_to_crm",
+              "operation": "equal"
+            },
+            {
+              "value": "transfer_call",
+              "operation": "equal"
+            }
+          ]
+        },
+        "dataType": "string",
+        "value1": "={{ $json.body.tool_name }}"
+      }
+    },
+    {
+      "id": "add-15-mins",
+      "name": "Add 15 Mins",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        750,
+        -200
+      ],
+      "parameters": {
+        "jsCode": "const inputData = $input.item.json;\nconst requestedDateTime = inputData.body.parameters.requested_datetime;\nconst startTime = new Date(requestedDateTime);\nconst endTime = new Date(startTime.getTime() + 15 * 60000);\n\nreturn {\n  requested_datetime: requestedDateTime,\n  time_max: endTime.toISOString(),\n  timezone: inputData.body.parameters.timezone || 'UTC'\n};"
+      }
+    },
+    {
+      "id": "check-free-busy",
+      "name": "Check Free/Busy",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        -200
+      ],
+      "parameters": {
+        "resource": "freeBusy",
+        "calendarId": "primary",
+        "timeMin": "={{ $json.requested_datetime }}",
+        "timeMax": "={{ $json.time_max }}"
+      },
+      "onError": "continueWorkflow"
+    },
+    {
+      "id": "is-free",
+      "name": "Is Free?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        -200
+      ],
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.error ? false : true }}",
+              "value2": true
+            }
+          ],
+          "string": [
+            {
+              "value1": "={{ $json.calendars ? ($json.calendars.primary.busy.length === 0) : false }}",
+              "operation": "equal",
+              "value2": "true"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "calendar-response",
+      "name": "Calendar Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1500,
+        -200
+      ],
+      "parameters": {
+        "statusCode": 200,
+        "responseBody": "{\n  \"status\": \"success\",\n  \"available\": {{ $json.conditions.boolean[0].value1 ? 'true' : 'false' }},\n  \"message\": \"{{ $json.conditions.boolean[0].value1 ? 'The slot is available for booking.' : 'The requested slot is already taken. Please ask the client for an alternative time.' }}\"\n}",
+        "options": {}
+      }
+    },
+    {
+      "id": "search-contact",
+      "name": "Search Contact",
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 1,
+      "position": [
+        750,
+        0
+      ],
+      "parameters": {
+        "resource": "contact",
+        "operation": "search",
+        "filterGroups": {
+          "filterGroups": [
+            {
+              "filters": [
+                {
+                  "propertyName": "email",
+                  "operator": "EQ",
+                  "value": "={{ $('switch-router').item.json.body.parameters.email }}"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "onError": "continueWorkflow"
+    },
+    {
+      "id": "contact-exists",
+      "name": "Contact Exists?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.error ? false : true }}",
+              "value2": true
+            },
+            {
+              "value1": "={{ $json.total > 0 }}",
+              "value2": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "update-contact",
+      "name": "Update Contact",
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        -50
+      ],
+      "parameters": {
+        "resource": "contact",
+        "operation": "update",
+        "contactId": "={{ $json.results ? $json.results[0].id : '' }}",
+        "updateProperties": {
+          "properties": [
+            {
+              "name": "lifecyclestage",
+              "value": "lead"
+            },
+            {
+              "name": "leadstatus",
+              "value": "IN_PROGRESS"
+            }
+          ]
+        }
+      },
+      "onError": "continueWorkflow"
+    },
+    {
+      "id": "create-contact",
+      "name": "Create Contact",
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        100
+      ],
+      "parameters": {
+        "resource": "contact",
+        "operation": "create",
+        "additionalFields": {
+          "properties": [
+            {
+              "name": "email",
+              "value": "={{ $('switch-router').item.json.body.parameters.email }}"
+            },
+            {
+              "name": "firstname",
+              "value": "={{ $('switch-router').item.json.body.parameters.first_name }}"
+            },
+            {
+              "name": "lastname",
+              "value": "={{ $('switch-router').item.json.body.parameters.last_name }}"
+            },
+            {
+              "name": "lifecyclestage",
+              "value": "lead"
+            },
+            {
+              "name": "leadstatus",
+              "value": "Lead - Voice Qualified"
+            }
+          ]
+        }
+      },
+      "onError": "continueWorkflow"
+    },
+    {
+      "id": "hubspot-response",
+      "name": "HubSpot Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1500,
+        0
+      ],
+      "parameters": {
+        "statusCode": 200,
+        "responseBody": "{\n  \"status\": \"success\",\n  \"message\": \"Lead successfully synchronized to CRM.\"\n}",
+        "options": {}
+      }
+    },
+    {
+      "id": "twilio-redirect-response",
+      "name": "Twilio Redirect Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        750,
+        200
+      ],
+      "parameters": {
+        "statusCode": 200,
+        "responseBody": "<Response>\n  <Say>Connecting you to our sales desk. Please hold.</Say>\n  <Dial>+18005550199</Dial>\n</Response>",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/xml"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "advanced-sdr-failsafe",
+      "name": "Advanced SDR Failsafe",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        400
+      ],
+      "parameters": {
+        "jsCode": "/**\n * Advanced SDR Failsafe Node\n * \n * Intercepts upstream database failures and formats a polite, conversational\n * response to prevent the voice agent from stalling.\n */\n\nconst items = $input.all();\nconst errorOccurred = items[0]?.json?.error ? true : false;\n\nif (errorOccurred) {\n  return [{\n    json: {\n      status: \"fallback\",\n      message: \"I am having a slight technical delay accessing my scheduler, but let's go ahead and secure a time anyway. What is your preferred weekday and time, and I'll make sure our team blocks it out manually?\",\n      success: false\n    }\n  }];\n}\n\nreturn items;"
+      }
+    },
+    {
+      "id": "failsafe-response",
+      "name": "Failsafe Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        400
+      ],
+      "parameters": {
+        "statusCode": 200,
+        "responseBody": "={{ $json.message ? JSON.stringify($json) : '{\"status\":\"success\"}' }}",
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "Webhook Ingest": {
+      "main": [
+        [
+          {
+            "node": "Validate Signature",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Signature": {
+      "main": [
+        [
+          {
+            "node": "Switch Router",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Unauthorized",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Router": {
+      "main": [
+        [
+          {
+            "node": "Add 15 Mins",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Search Contact",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Twilio Redirect Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add 15 Mins": {
+      "main": [
+        [
+          {
+            "node": "Check Free/Busy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Free/Busy": {
+      "main": [
+        [
+          {
+            "node": "Is Free?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Free?": {
+      "main": [
+        [
+          {
+            "node": "Calendar Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Advanced SDR Failsafe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Contact": {
+      "main": [
+        [
+          {
+            "node": "Contact Exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contact Exists?": {
+      "main": [
+        [
+          {
+            "node": "Update Contact",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Contact": {
+      "main": [
+        [
+          {
+            "node": "HubSpot Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Contact": {
+      "main": [
+        [
+          {
+            "node": "HubSpot Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Advanced SDR Failsafe": {
+      "main": [
+        [
+          {
+            "node": "Failsafe Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "meta": {}
+}

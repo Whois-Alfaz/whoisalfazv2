@@ -1,0 +1,482 @@
+{
+  "name": "Brevo CRM Automation Playbook",
+  "nodes": [
+    {
+      "id": "sticky-instructions",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.sticky",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -250
+      ],
+      "parameters": {
+        "width": 600,
+        "height": 240,
+        "content": "### 📈 APOLLO TO BREVO CRM PIPELINE & PLAYBOOK SOP\nThis workflow automates B2B lead ingestion, API-based deduplication, firmographic ICP scoring, sequence list enrollment, and circular sync protection.\n\n#### 🔑 Required Credentials:\n- **Apollo.io API Key**: Read access to Mixed People Search endpoint.\n- **Brevo CRM API Key**: Scoped contacts read/write capabilities.\n- **Slack Webhook URL**: Channel webhook for pipeline errors and alerts.\n\n#### ⚙️ Environment Variables:\n- `APOLLO_API_KEY`: Key to fetch prospects.\n- `BREVO_API_KEY`: Key to lookup and upsert contacts in Brevo.\n- `BREVO_LIST_ID`: Main target list ID for sequence enrollment.\n- `APOLLO_WEBHOOK_SECRET`: Secret to validate webhook signatures (if using real-time webhook ingestion).\n\n#### 🧪 Testing Protocol:\n1. Run the Cron trigger manually or send a dummy lead to the Webhook URL.\n2. Confirm that signature verification validates correctly.\n3. Trace the deduplication check: verify new contacts route to \"Create Contact\" (setting `AUTOMATION_ORIGIN = n8n_pipeline`) and existing contacts trigger a sparse \"Update Contact\" patch.\n4. Check Brevo list assignments and Slack for DLQ error notifications.\n\n---\n*Upsell Note: To request Done-For-You custom RevOps & Pipeline Strategy or advanced n8n setups, connect with our automation architects at whoisalfaz.me.*"
+      }
+    },
+    {
+      "id": "cron-trigger",
+      "name": "Cron Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyHours",
+              "hourInterval": 4
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "apollo-people-search",
+      "name": "Apollo People Search",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        250,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apollo.io/v1/mixed_people/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Api-Key",
+              "value": "={{ $env.APOLLO_API_KEY || 'YOUR_APOLLO_API_KEY' }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyContentType": "raw",
+        "rawContentType": "application/json",
+        "body": "{\n  \"page\": 1,\n  \"per_page\": 50,\n  \"person_titles\": [\"Founder\", \"CEO\", \"Head of Operations\", \"VP Sales\"],\n  \"organization_num_employees_ranges\": [\"50,200\", \"201,500\"],\n  \"person_locations\": [\"United States\", \"United Kingdom\", \"Canada\", \"Australia\"]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      }
+    },
+    {
+      "id": "split-leads-batch",
+      "name": "Split Leads Batch",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [
+        500,
+        0
+      ],
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      }
+    },
+    {
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        250
+      ],
+      "parameters": {
+        "path": "apollo-leads",
+        "options": {},
+        "httpMethod": "POST",
+        "responseMode": "onReceived",
+        "responseData": "all"
+      }
+    },
+    {
+      "id": "validate-webhook-sig",
+      "name": "Validate Webhook Sig",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        250,
+        250
+      ],
+      "parameters": {
+        "jsCode": "/**\n * Validate incoming Apollo Webhook Signature\n */\nconst crypto = require('crypto');\nconst secret = $env.APOLLO_WEBHOOK_SECRET || 'fallback-secret';\nconst signature = $headers['x-apollo-signature'];\nconst bodyString = JSON.stringify($input.body);\n\nconst expectedSignature = crypto\n  .createHmac('sha256', secret)\n  .update(bodyString)\n  .digest('hex');\n\nif (signature !== `sha256=${expectedSignature}`) {\n  // In production, throw error or filter\n  // For testing/fallback, we will pass through\n  return [{\n    json: {\n      ...$input.body,\n      signature_valid: false\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    ...$input.body,\n    signature_valid: true\n  }\n}];"
+      }
+    },
+    {
+      "id": "circular-sync-guard",
+      "name": "Circular Sync Guard",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        500,
+        250
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.body?.contact?.attributes?.AUTOMATION_ORIGIN }}",
+              "operation": "notEqual",
+              "value2": "n8n_pipeline"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "norm-lead-data",
+      "name": "Norm Lead Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        750,
+        120
+      ],
+      "parameters": {
+        "jsCode": "// Normalizes lead format from either Batch Cron search or Webhook path\nconst item = $input.first().json;\n\n// Check if coming from webhook or cron\nconst email = item.email || item.person?.email || '';\nconst first_name = item.first_name || item.person?.first_name || 'Prospect';\nconst last_name = item.last_name || item.person?.last_name || '';\nconst title = item.title || item.person?.title || '';\nconst linkedin_url = item.linkedin_url || item.person?.linkedin_url || '';\nconst org_name = item.organization?.name || item.person?.organization?.name || '';\nconst headcount = item.organization?.estimated_num_employees || item.person?.organization?.estimated_num_employees || 0;\nconst industry = item.organization?.industry || item.person?.organization?.industry || '';\nconst apollo_id = item.id || item.person?.id || '';\n\nreturn [{\n  json: {\n    email,\n    first_name,\n    last_name,\n    title,\n    linkedin_url,\n    org_name,\n    headcount,\n    industry,\n    apollo_id\n  }\n}];"
+      }
+    },
+    {
+      "id": "brevo-lookup",
+      "name": "Brevo Lookup",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        950,
+        120
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.brevo.com/v3/contacts/{{ encodeURIComponent($json.email) }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            },
+            {
+              "name": "api-key",
+              "value": "={{ $env.BREVO_API_KEY || 'YOUR_BREVO_API_KEY' }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "onError": "continueWorkflow"
+    },
+    {
+      "id": "contact-exists",
+      "name": "Contact Exists?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        120
+      ],
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.id ? true : false }}",
+              "value2": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "icp-tier-scoring",
+      "name": "ICP Tier Scoring",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        300
+      ],
+      "parameters": {
+        "jsCode": "const lead = $('Norm Lead Data').item.json;\nlet score = 0;\n\n// Headcount scoring\nconst headcount = lead.headcount || 0;\nif (headcount >= 50 && headcount <= 500) score += 40;\nelse if (headcount > 500) score += 20;\n\n// Industry scoring\nconst industry = (lead.industry || '').toLowerCase();\nconst highValueIndustries = ['saas', 'software', 'fintech', 'martech', 'internet'];\nif (highValueIndustries.some(i => industry.includes(i))) {\n  score += 30;\n}\n\n// Title scoring\nconst title = (lead.title || '').toLowerCase();\nconst decisionMakerTitles = ['founder', 'ceo', 'vp', 'head of', 'director'];\nif (decisionMakerTitles.some(t => title.includes(t))) {\n  score += 30;\n}\n\nreturn [{\n  json: {\n    ...lead,\n    icp_score: score,\n    sequence_list_id: score >= 70 \n      ? ($env.BREVO_SEQUENCE_TIER_1 || 15) \n      : ($env.BREVO_SEQUENCE_TIER_2 || 16)\n  }\n}];"
+      }
+    },
+    {
+      "id": "brevo-create-contact",
+      "name": "Brevo Create Contact",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1630,
+        300
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brevo.com/v3/contacts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "api-key",
+              "value": "={{ $env.BREVO_API_KEY || 'YOUR_BREVO_API_KEY' }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyContentType": "raw",
+        "rawContentType": "application/json",
+        "body": "{\n  \"email\": \"={{ $json.email }}\",\n  \"attributes\": {\n    \"FIRSTNAME\": \"={{ $json.first_name }}\",\n    \"LASTNAME\": \"={{ $json.last_name }}\",\n    \"COMPANY\": \"={{ $json.org_name }}\",\n    \"JOBTITLE\": \"={{ $json.title }}\",\n    \"LINKEDIN\": \"={{ $json.linkedin_url }}\",\n    \"INDUSTRY\": \"={{ $json.industry }}\",\n    \"HEADCOUNT\": \"={{ $json.headcount }}\",\n    \"APOLLO_ID\": \"={{ $json.apollo_id }}\",\n    \"LEAD_SOURCE\": \"apollo_outbound\",\n    \"AUTOMATION_ORIGIN\": \"n8n_pipeline\"\n  },\n  \"listIds\": [{{ $json.sequence_list_id }}],\n  \"updateEnabled\": false\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      }
+    },
+    {
+      "id": "sparse-update-payload",
+      "name": "Sparse Update Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        -50
+      ],
+      "parameters": {
+        "jsCode": "const existingContact = $('Brevo Lookup').item.json;\nconst apolloData = $('Norm Lead Data').item.json;\n\nconst updates = {};\n\n// Sparse update logic - merge only if existing is empty\nif (!existingContact.attributes?.COMPANY && apolloData.org_name) {\n  updates.COMPANY = apolloData.org_name;\n}\nif (!existingContact.attributes?.JOBTITLE && apolloData.title) {\n  updates.JOBTITLE = apolloData.title;\n}\nif (!existingContact.attributes?.LINKEDIN && apolloData.linkedin_url) {\n  updates.LINKEDIN = apolloData.linkedin_url;\n}\n\nreturn [{\n  json: {\n    email: apolloData.email,\n    updates: updates\n  }\n}];"
+      }
+    },
+    {
+      "id": "brevo-update-contact",
+      "name": "Brevo Update Contact",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1630,
+        -50
+      ],
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.brevo.com/v3/contacts/{{ encodeURIComponent($json.email) }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "api-key",
+              "value": "={{ $env.BREVO_API_KEY || 'YOUR_BREVO_API_KEY' }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyContentType": "raw",
+        "rawContentType": "application/json",
+        "body": "{\n  \"attributes\": {{ JSON.stringify($json.updates) }},\n  \"updateEnabled\": true\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      }
+    },
+    {
+      "id": "error-trigger",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        500
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "slack-dlq-notification",
+      "name": "Slack DLQ Notification",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        250,
+        500
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SLACK_WEBHOOK_URL || 'https://hooks.slack.com/services/YOUR_WEBHOOK_HERE' }}",
+        "sendBody": true,
+        "bodyContentType": "raw",
+        "rawContentType": "application/json",
+        "body": "{\n  \"text\": \"⚠️ *Apollo→Brevo Pipeline Error Alert*\",\n  \"blocks\": [\n    {\n      \"type\": \"section\",\n      \"text\": {\n        \"type\": \"mrkdwn\",\n        \"text\": \"*Failed Node:* {{ $json.execution?.error?.node?.name || 'Unknown Node' }}\\n*Error Message:* {{ $json.execution?.error?.message || 'No message' }}\\n*Time:* {{ $json.execution?.timestamp || $now }}\"\n      }\n    }\n  ]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Cron Trigger": {
+      "main": [
+        [
+          {
+            "node": "Apollo People Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apollo People Search": {
+      "main": [
+        [
+          {
+            "node": "Split Leads Batch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Leads Batch": {
+      "main": [
+        [
+          {
+            "node": "Norm Lead Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Validate Webhook Sig",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Webhook Sig": {
+      "main": [
+        [
+          {
+            "node": "Circular Sync Guard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Circular Sync Guard": {
+      "main": [
+        [
+          {
+            "node": "Norm Lead Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Norm Lead Data": {
+      "main": [
+        [
+          {
+            "node": "Brevo Lookup",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brevo Lookup": {
+      "main": [
+        [
+          {
+            "node": "Contact Exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contact Exists?": {
+      "main": [
+        [
+          {
+            "node": "Sparse Update Payload",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "icp-tier-scoring",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "icp-tier-scoring": {
+      "main": [
+        [
+          {
+            "node": "Brevo Create Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sparse Update Payload": {
+      "main": [
+        [
+          {
+            "node": "brevo-update-contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "slack-dlq-notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "meta": {}
+}

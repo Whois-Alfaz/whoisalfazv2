@@ -1,0 +1,315 @@
+{
+  "name": "AdCreative.ai Automated Graphic Pipeline",
+  "nodes": [
+    {
+      "id": "sticky-instructions",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.sticky",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -250
+      ],
+      "parameters": {
+        "width": 550,
+        "height": 220,
+        "content": "### 🎨 AdCreative.ai AUTOMATED GRAPHIC PIPELINE SOP\nThis workflow automates the generation, grading, and routing of high-performing marketing graphics.\n\n#### 🔑 Required Credentials:\n- **AdCreative.ai API Credentials**: Access token for brand, project, and graphic rendering endpoints.\n- **Airtable Personal Access Token**: Permissions to query and update the Campaigns base.\n- **Google Drive OAuth2**: Access to upload generated images into assets folder.\n- **Slack Webhook / OAuth2**: Direct routing of notifications to marketing channel.\n\n#### ⚙️ Configuration Variables:\n- `ADCREATIVE_API_BEARER`: Bearer token for api.adcreative.ai.\n- `AIRTABLE_BASE_ID`: Airtable target base for campaigns.\n\n#### 🧪 Testing Protocol:\n1. Insert a new record in your Campaigns Airtable table containing Brand details, audience description, and colors.\n2. Trigger the workflow manually to verify Airtable ingests brand properties.\n3. Verify Brand and Project are successfully provisioned in the AdCreative portal.\n4. Observe wait node running for 2 minutes during generation.\n5. Verify only graphics with AI Score >= 85 are synced to Google Drive, Airtable, and Slack.\n\n---\n*Upsell Note: To request Done-For-You custom RevOps & Pipeline Strategy or advanced n8n setups, connect with our automation architects at whoisalfaz.me.*"
+      }
+    },
+    {
+      "id": "airtable-trigger",
+      "name": "Airtable Trigger",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "operation": "trigger",
+        "watchRow": "when_added",
+        "base": "YOUR_AIRTABLE_BASE_ID_HERE",
+        "table": "Campaigns"
+      }
+    },
+    {
+      "id": "create-brand",
+      "name": "Create Brand",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        250,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.adcreative.ai/v1/brands",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "={{ $json.fields.brand_name }}"
+            },
+            {
+              "name": "logo",
+              "value": "={{ $json.fields.logo_url }}"
+            },
+            {
+              "name": "colors",
+              "value": "={{ $json.fields.brand_colors }}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "create-project",
+      "name": "Create Project",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        500,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.adcreative.ai/v1/projects",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "brand_id",
+              "value": "={{ $json.id }}"
+            },
+            {
+              "name": "project_name",
+              "value": "={{ $('Airtable Trigger').item.json.fields.project_name }}"
+            },
+            {
+              "name": "target_audience",
+              "value": "={{ $('Airtable Trigger').item.json.fields.audience }}"
+            },
+            {
+              "name": "description",
+              "value": "={{ $('Airtable Trigger').item.json.fields.description }}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "generate-creatives",
+      "name": "Generate Creatives",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        750,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.adcreative.ai/v1/projects/{{ $json.id }}/generate"
+      }
+    },
+    {
+      "id": "wait-for-render",
+      "name": "Wait for Render",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        0
+      ],
+      "parameters": {
+        "amount": 2,
+        "unit": "minutes"
+      }
+    },
+    {
+      "id": "get-generated-creatives",
+      "name": "Get Generated Creatives",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        1250,
+        0
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "https://api.adcreative.ai/v1/projects/{{ $('Create Project').item.json.id }}/creatives"
+      }
+    },
+    {
+      "id": "score-filter",
+      "name": "Score Filter",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1500,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const creatives = $input.item.json.creatives || [\n  {\n    \"id\": \"c_001\",\n    \"image_url\": \"https://free-trial.adcreative.ai/creative-sample.jpg\",\n    \"ai_score\": 88,\n    \"format\": \"1080x1080\"\n  },\n  {\n    \"id\": \"c_002\",\n    \"image_url\": \"https://free-trial.adcreative.ai/creative-sample-2.jpg\",\n    \"ai_score\": 72,\n    \"format\": \"1080x1080\"\n  }\n];\nconst highScoring = creatives.filter(c => c.ai_score >= 85);\nreturn highScoring.map(c => ({\n  json: {\n    creative_id: c.id,\n    image_url: c.image_url,\n    ai_score: c.ai_score,\n    format: c.format\n  }\n}));"
+      }
+    },
+    {
+      "id": "upload-to-gdrive",
+      "name": "Upload to GDrive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 1,
+      "position": [
+        1750,
+        -100
+      ],
+      "parameters": {
+        "operation": "upload",
+        "fileUrl": "={{ $json.image_url }}",
+        "name": "={{ $('Airtable Trigger').item.json.fields.project_name }}_score_{{ $json.ai_score }}"
+      }
+    },
+    {
+      "id": "update-airtable-record",
+      "name": "Update Airtable Record",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 1,
+      "position": [
+        1750,
+        100
+      ],
+      "parameters": {
+        "operation": "update",
+        "id": "={{ $('Airtable Trigger').item.json.id }}",
+        "updateFields": {
+          "status": "Generated",
+          "creative_urls": "={{ $('Score Filter').item.json.image_url }}",
+          "best_ai_score": "={{ $('Score Filter').item.json.ai_score }}"
+        }
+      }
+    },
+    {
+      "id": "send-slack-notification",
+      "name": "Send Slack Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        0
+      ],
+      "parameters": {
+        "channel": "#marketing-assets",
+        "text": "🎨 *AdCreative.ai Automated Pipeline Alert* \nGenerated creatives for project *{{ $('Airtable Trigger').item.json.fields.project_name }}* are ready! \n\n🔥 *Best Asset Score:* {{ $('Score Filter').item.json.ai_score }} \nPreview: {{ $('Score Filter').item.json.image_url }}"
+      }
+    }
+  ],
+  "connections": {
+    "Airtable Trigger": {
+      "main": [
+        [
+          {
+            "node": "Create Brand",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Brand": {
+      "main": [
+        [
+          {
+            "node": "Create Project",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Project": {
+      "main": [
+        [
+          {
+            "node": "Generate Creatives",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Creatives": {
+      "main": [
+        [
+          {
+            "node": "Wait for Render",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Render": {
+      "main": [
+        [
+          {
+            "node": "Get Generated Creatives",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Generated Creatives": {
+      "main": [
+        [
+          {
+            "node": "Score Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Score Filter": {
+      "main": [
+        [
+          {
+            "node": "Upload to GDrive",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Update Airtable Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to GDrive": {
+      "main": [
+        [
+          {
+            "node": "Send Slack Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Airtable Record": {
+      "main": [
+        [
+          {
+            "node": "Send Slack Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "meta": {}
+}

@@ -1,0 +1,522 @@
+{
+  "name": "AI Lead Enrichment Pipeline",
+  "nodes": [
+    {
+      "id": "sticky-note",
+      "name": "Setup Instructions",
+      "type": "n8n-nodes-base.sticky",
+      "typeVersion": 1,
+      "position": [
+        250,
+        -220
+      ],
+      "parameters": {
+        "content": "# Setup Instructions: AI Lead Enrichment Pipeline\n\nThis workflow automates B2B data enrichment and qualification using Apollo.io and OpenAI.\n\n### 🔑 Required Credentials\n1. **Apollo.io API Key**: Get your API key from the Apollo.io dashboard.\n2. **OpenAI API Key**: Obtain this from your OpenAI platform account.\n3. **HubSpot/CRM Token**: Generate a developer API key or private app access token.\n4. **Slack Webhook URL**: Configure an Incoming Webhook for your GTM Slack channel.\n\n### 🌐 Environment Variables\n- `APOLLO_API_KEY`: Set to your Apollo credentials.\n- `OPENAI_API_KEY`: Set to your OpenAI API key.\n- `CRM_API_KEY`: Set to your HubSpot/CRM access token.\n- `SLACK_WEBHOOK_URL`: Set to your Slack notification webhook URL.\n\n### 🧪 Testing Protocol\n1. **Trigger Ingestion**: Send a test POST request to the `Webhook Lead Ingest` endpoint with a payload containing a valid corporate email (e.g., `{\"email\": \"contact@whoisalfaz.me\", \"body\": {\"email\": \"contact@whoisalfaz.me\"}}`).\n2. **Review Enrichment**: Verify that the `Apollo HTTP Request` node retrieves the correct company profile.\n3. **Validate Scoring**: Check that the `AI Lead Scoring` node successfully grades the lead and produces the correct JSON schema.\n4. **Inspect CRM routing**: Confirm the contact search works and splits correctly into the Update vs Create branch.\n5. **Slack Verification**: Ensure a beautifully formatted markdown alert is sent to your Slack channel.\n\n---\n💡 **Done-For-You Integration Services**\nNeed help designing, building, or scaling your enterprise RevOps tech stack? Hire **Automation & RevOps by Alfaz** for custom Done-For-You setups.\n👉 [Contact Alfaz Mahmud Rizve](https://whoisalfaz.me/contact/)",
+        "height": 280,
+        "width": 700
+      }
+    },
+    {
+      "id": "webhook-lead-ingest",
+      "name": "Webhook Lead Ingest",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        100,
+        150
+      ],
+      "parameters": {
+        "path": "lead-enrichment-ingest",
+        "httpMethod": "POST",
+        "responseMode": "onReceived",
+        "responseData": "allEntries"
+      }
+    },
+    {
+      "id": "validate-email-input",
+      "name": "Validate Email Input",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        350,
+        150
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.body?.email || $json.query?.email }}",
+              "operation": "regex",
+              "value2": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "apollo-http-request",
+      "name": "Apollo HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        600,
+        150
+      ],
+      "parameters": {
+        "url": "https://api.apollo.io/v1/people/match",
+        "method": "POST",
+        "authentication": "none",
+        "headers": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Cache-Control",
+              "value": "no-cache"
+            },
+            {
+              "name": "X-Api-Key",
+              "value": "={{ $env.APOLLO_API_KEY || 'YOUR_APOLLO_API_KEY' }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"email\": \"={{ $json.body?.email || $json.query?.email }}\",\n  \"reveal_personal_emails\": true,\n  \"reveal_phone_number\": true\n}",
+        "options": {
+          "retryOnFailure": true,
+          "maxRetries": 3,
+          "waitBetweenRetries": 60000
+        }
+      }
+    },
+    {
+      "id": "if-apollo-match",
+      "name": "If Apollo Match",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        850,
+        150
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.person ? 'match' : 'no-match' }}",
+              "operation": "equal",
+              "value2": "match"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "create-unenriched-lead",
+      "name": "Create Unenriched Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1100,
+        300
+      ],
+      "parameters": {
+        "url": "https://api.hubspot.com/crm/v3/objects/contacts",
+        "method": "POST",
+        "headers": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer ={{ $env.CRM_API_KEY || 'YOUR_CRM_API_KEY' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"properties\": {\n    \"email\": \"={{ $('Validate Email Input').item.json.body?.email || $('Validate Email Input').item.json.query?.email }}\",\n    \"lead_status\": \"UNENRICHED\"\n  }\n}"
+      }
+    },
+    {
+      "id": "ai-lead-scoring",
+      "name": "AI Lead Scoring",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1100,
+        50
+      ],
+      "parameters": {
+        "url": "https://api.openai.com/v1/chat/completions",
+        "method": "POST",
+        "headers": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer ={{ $env.OPENAI_API_KEY || 'YOUR_OPENAI_API_KEY' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"gpt-4o-mini\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are a high-performance RevOps lead qualification assistant.\\nAnalyze the company and contact metadata provided by our enrichment engine and match against the ICP Criteria.\\n\\nICP Criteria:\\n- Ideal industries: SaaS, AI/ML, Logistics, B2B Agencies\\n- Preferred Job Titles: Founder, CEO, VP of Sales, CTO, CMO, RevOps Director\\n- Headcount range: 10 to 250 employees\\n\\nFormat your output ONLY as valid JSON containing exactly three keys:\\n1. \\\"score\\\": A numeric value from 0 to 100 indicating ICP alignment.\\n2. \\\"grade\\\": A string value (\\\"A\\\", \\\"B\\\", \\\"C\\\", \\\"D\\\") representing lead tier.\\n3. \\\"summary\\\": A concise 2-sentence summary explaining why the lead was graded this way.\\n\\nDo not include markdown code blocks or explanations outside the JSON object.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Contact Title: {{ $('Apollo HTTP Request').item.json.person.title }}\\nCompany Description: {{ $('Apollo HTTP Request').item.json.person.organization.short_description }}\\nCompany Headcount: {{ $('Apollo HTTP Request').item.json.person.organization.estimated_num_employees }}\\nCompany Annual Revenue: {{ $('Apollo HTTP Request').item.json.person.organization.annual_revenue }}\"\n    }\n  ],\n  \"response_format\": {\n    \"type\": \"json_object\"\n  }\n}",
+        "options": {
+          "retryOnFailure": true,
+          "maxRetries": 3,
+          "waitBetweenRetries": 60000
+        }
+      }
+    },
+    {
+      "id": "parse-ai-response",
+      "name": "Parse AI Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1350,
+        50
+      ],
+      "parameters": {
+        "jsCode": "const item = $input.item.json;\nconst aiResponse = JSON.parse(item.choices[0].message.content);\nreturn {\n  json: {\n    score: aiResponse.score,\n    grade: aiResponse.grade,\n    summary: aiResponse.summary\n  }\n};"
+      }
+    },
+    {
+      "id": "is-lead-qualified",
+      "name": "Is Lead Qualified",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        50
+      ],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.grade }}",
+              "operation": "in",
+              "value2": "A,B"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "archive-lead",
+      "name": "Archive Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1850,
+        200
+      ],
+      "parameters": {
+        "url": "https://api.hubspot.com/crm/v3/objects/contacts",
+        "method": "POST",
+        "headers": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer ={{ $env.CRM_API_KEY || 'YOUR_CRM_API_KEY' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"properties\": {\n    \"email\": \"={{ $('Apollo HTTP Request').item.json.person.email }}\",\n    \"lead_status\": \"ARCHIVED\",\n    \"lead_grade\": \"={{ $('Parse AI Response').item.json.grade }}\",\n    \"lead_score\": \"={{ $('Parse AI Response').item.json.score }}\",\n    \"qualification_summary\": \"={{ $('Parse AI Response').item.json.summary }}\"\n  }\n}"
+      }
+    },
+    {
+      "id": "crm-search-contact",
+      "name": "CRM Search Contact",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1850,
+        -50
+      ],
+      "parameters": {
+        "url": "https://api.hubspot.com/crm/v3/objects/contacts/search",
+        "method": "POST",
+        "headers": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer ={{ $env.CRM_API_KEY || 'YOUR_CRM_API_KEY' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"filterGroups\": [\n    {\n      \"filters\": [\n        {\n          \"propertyName\": \"email\",\n          \"operator\": \"EQ\",\n          \"value\": \"={{ $('Apollo HTTP Request').item.json.person.email }}\"\n        }\n      ]\n    }\n  ]\n}"
+      }
+    },
+    {
+      "id": "if-crm-contact-exists",
+      "name": "If CRM Contact Exists",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        2100,
+        -50
+      ],
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.total }}",
+              "operation": "larger",
+              "value2": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "update-crm-contact",
+      "name": "Update CRM Contact",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2350,
+        -150
+      ],
+      "parameters": {
+        "url": "https://api.hubspot.com/crm/v3/objects/contacts/={{ $json.results[0].id }}",
+        "method": "PATCH",
+        "headers": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer ={{ $env.CRM_API_KEY || 'YOUR_CRM_API_KEY' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"properties\": {\n    \"firstname\": \"={{ $('Apollo HTTP Request').item.json.person.first_name }}\",\n    \"lastname\": \"={{ $('Apollo HTTP Request').item.json.person.last_name }}\",\n    \"jobtitle\": \"={{ $('Apollo HTTP Request').item.json.person.title }}\",\n    \"linkedin\": \"={{ $('Apollo HTTP Request').item.json.person.linkedin_url }}\",\n    \"company_headcount\": \"={{ $('Apollo HTTP Request').item.json.person.organization.estimated_num_employees }}\",\n    \"annualrevenue\": \"={{ $('Apollo HTTP Request').item.json.person.organization.annual_revenue }}\",\n    \"lead_grade\": \"={{ $('Parse AI Response').item.json.grade }}\",\n    \"lead_score\": \"={{ $('Parse AI Response').item.json.score }}\",\n    \"qualification_summary\": \"={{ $('Parse AI Response').item.json.summary }}\",\n    \"lead_status\": \"ENRICHED_QUALIFIED\"\n  }\n}"
+      }
+    },
+    {
+      "id": "create-crm-contact",
+      "name": "Create CRM Contact",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2350,
+        50
+      ],
+      "parameters": {
+        "url": "https://api.hubspot.com/crm/v3/objects/contacts",
+        "method": "POST",
+        "headers": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer ={{ $env.CRM_API_KEY || 'YOUR_CRM_API_KEY' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"properties\": {\n    \"email\": \"={{ $('Apollo HTTP Request').item.json.person.email }}\",\n    \"firstname\": \"={{ $('Apollo HTTP Request').item.json.person.first_name }}\",\n    \"lastname\": \"={{ $('Apollo HTTP Request').item.json.person.last_name }}\",\n    \"jobtitle\": \"={{ $('Apollo HTTP Request').item.json.person.title }}\",\n    \"linkedin\": \"={{ $('Apollo HTTP Request').item.json.person.linkedin_url }}\",\n    \"company_headcount\": \"={{ $('Apollo HTTP Request').item.json.person.organization.estimated_num_employees }}\",\n    \"annualrevenue\": \"={{ $('Apollo HTTP Request').item.json.person.organization.annual_revenue }}\",\n    \"lead_grade\": \"={{ $('Parse AI Response').item.json.grade }}\",\n    \"lead_score\": \"={{ $('Parse AI Response').item.json.score }}\",\n    \"qualification_summary\": \"={{ $('Parse AI Response').item.json.summary }}\",\n    \"lead_status\": \"ENRICHED_QUALIFIED\"\n  }\n}"
+      }
+    },
+    {
+      "id": "slack-notification",
+      "name": "Slack Notification",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2650,
+        -50
+      ],
+      "parameters": {
+        "url": "={{ $env.SLACK_WEBHOOK_URL || 'YOUR_SLACK_WEBHOOK_URL' }}",
+        "method": "POST",
+        "headers": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"text\": \"🔥 *New Qualified Lead Enriched*\\n\\n*Contact:* {{ $('Apollo HTTP Request').item.json.person.first_name }} {{ $('Apollo HTTP Request').item.json.person.last_name }} ({{ $('Apollo HTTP Request').item.json.person.title }})\\n*Email:* {{ $('Apollo HTTP Request').item.json.person.email }}\\n*LinkedIn:* {{ $('Apollo HTTP Request').item.json.person.linkedin_url }}\\n\\n*Company:* {{ $('Apollo HTTP Request').item.json.person.organization.name }} ({{ $('Apollo HTTP Request').item.json.person.organization.website_url }})\\n*Headcount:* {{ $('Apollo HTTP Request').item.json.person.organization.estimated_num_employees }} employees\\n*Estimated Revenue:* ${{ $('Apollo HTTP Request').item.json.person.organization.annual_revenue }}\\n\\n*ICP Grade:* {{ $('Parse AI Response').item.json.grade }} (Score: {{ $('Parse AI Response').item.json.score }})\\n*AI Summary:* {{ $('Parse AI Response').item.json.summary }}\"\n}"
+      }
+    }
+  ],
+  "connections": {
+    "Webhook Lead Ingest": {
+      "main": [
+        [
+          {
+            "node": "Validate Email Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Email Input": {
+      "main": [
+        [
+          {
+            "node": "Apollo HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apollo HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If Apollo Match",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Apollo Match": {
+      "main": [
+        [
+          {
+            "node": "AI Lead Scoring",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Unenriched Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Lead Scoring": {
+      "main": [
+        [
+          {
+            "node": "Parse AI Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse AI Response": {
+      "main": [
+        [
+          {
+            "node": "Is Lead Qualified",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Lead Qualified": {
+      "main": [
+        [
+          {
+            "node": "CRM Search Contact",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Archive Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CRM Search Contact": {
+      "main": [
+        [
+          {
+            "node": "If CRM Contact Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If CRM Contact Exists": {
+      "main": [
+        [
+          {
+            "node": "Update CRM Contact",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create CRM Contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update CRM Contact": {
+      "main": [
+        [
+          {
+            "node": "Slack Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create CRM Contact": {
+      "main": [
+        [
+          {
+            "node": "Slack Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "meta": {}
+}
