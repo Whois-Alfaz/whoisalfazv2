@@ -1,47 +1,47 @@
 {
-  "name": "Apollo to Brevo Enrichment Pipeline",
+  "name": "Enrich and score B2B leads with Apollo and sync tiers to Brevo and Slack",
   "nodes": [
     {
       "parameters": {
-        "content": "## 🚀 Apollo.io to Brevo B2B Lead Enrichment Pipeline\n**Author:** Alfaz Mahmud Rizve ([whoisalfaz.me](https://whoisalfaz.me))\n**Category:** Sales & Lead Gen / RevOps\n\n### 💡 Problem & Solution\nEnriches incoming B2B web leads via Apollo.io, filters out consumer emails (gmail, yahoo), calculates a 100-point ICP fit score, and routes contacts into segmented Brevo CRM lists.",
-        "height": 260,
-        "width": 560,
+        "content": "## 🚀 Apollo.io to Brevo B2B Lead Enrichment Pipeline\n**Author:** Alfaz Mahmud Rizve ([whoisalfaz.me](https://whoisalfaz.me))\n**Category:** Sales & Lead Gen / RevOps\n\n### 💡 Problem & Solution\nEnriches inbound B2B leads using Apollo.io, filters consumer webmail (gmail, yahoo), calculates a 100-point ICP fit score, and routes contacts into segmented Brevo CRM lists with real-time Slack alerts for Tier 1 Enterprise prospects.",
+        "height": 280,
+        "width": 700,
         "color": 5
       },
       "id": "sticky-apollo-overview",
-      "name": "Sticky: Overview",
+      "name": "Sticky: Overview & Architecture",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
         0,
-        -350
+        -380
       ]
     },
     {
       "parameters": {
-        "content": "### 🔑 Required Credentials & Setup\n- **Apollo API Key**: Used for People & Org Match endpoints\n- **Brevo API Key**: Used for contact creation & tier segmentation\n- **Slack Webhook URL**: Used for Tier 1 Enterprise SDR alerts",
-        "height": 260,
-        "width": 480,
+        "content": "### 🔑 Required Credentials & Setup\n- **Apollo API Key**: Used for People & Organization Match endpoints (`api_key_live_...`)\n- **Brevo API Key**: Used for contact creation, attribute upsert, and list segmentation\n- **Slack Webhook URL**: Incoming webhook for Tier 1 Enterprise SDR notifications\n- **Webhook Secret** *(Optional)*: Secret token to verify incoming HMAC signatures",
+        "height": 280,
+        "width": 640,
         "color": 7
       },
       "id": "sticky-apollo-creds",
-      "name": "Sticky: Credentials",
+      "name": "Sticky: Setup & Credentials",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        620,
-        -350
+        760,
+        -380
       ]
     },
     {
       "parameters": {
-        "content": "### 1. Ingestion & Security\nCaptures inbound lead webhook, validates HMAC authorization, and prevents circular sync loops.",
-        "height": 160,
-        "width": 480,
+        "content": "### 1. Ingestion & HMAC Verification\nCaptures inbound lead webhook, validates cryptographic HMAC signatures, and prevents circular sync loops.",
+        "height": 170,
+        "width": 720,
         "color": 4
       },
       "id": "sticky-apollo-step-1",
-      "name": "Sticky: Ingestion & Validation",
+      "name": "Sticky: Step 1 Ingestion",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
@@ -51,50 +51,82 @@
     },
     {
       "parameters": {
-        "content": "### 2. Corporate Domain Filter\nFilters out generic consumer webmail (gmail, yahoo, proton) to save Apollo API credits.",
-        "height": 160,
-        "width": 320,
+        "content": "### 2. Corporate Domain Filter\nEvaluates email domain against consumer webmail (gmail, yahoo, proton) to save Apollo API credits.",
+        "height": 170,
+        "width": 600,
         "color": 2
       },
       "id": "sticky-apollo-step-2",
-      "name": "Sticky: Domain Filter",
+      "name": "Sticky: Step 2 Domain Filter",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        560,
+        780,
         -50
       ]
     },
     {
       "parameters": {
-        "content": "### 3. Apollo Intelligence & Scoring\nEnriches company size, revenue, seniority, and computes a 100-point ICP Score.",
-        "height": 160,
-        "width": 480,
+        "content": "### 3. Apollo Intelligence & 100-Pt Scoring\nEnriches company headcount, revenue, and decision-maker seniority to compute an algorithmic ICP score.",
+        "height": 170,
+        "width": 620,
         "color": 6
       },
       "id": "sticky-apollo-step-3",
-      "name": "Sticky: Apollo Match",
+      "name": "Sticky: Step 3 Apollo & Scoring",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        960,
+        1440,
         -50
       ]
     },
     {
       "parameters": {
-        "content": "### 4. Brevo CRM Segmentation & Slack Alert\nUpserts contacts into Tier-1 Enterprise vs Standard Nurture pools and alerts sales reps.",
-        "height": 160,
-        "width": 580,
+        "content": "### 4. Brevo CRM Segmentation & Slack Alerts\nUpserts enriched contact into Brevo and sends instant Slack notifications with LinkedIn URLs for Tier 1 leads.",
+        "height": 170,
+        "width": 880,
         "color": 1
       },
       "id": "sticky-apollo-step-4",
-      "name": "Sticky: CRM Sync",
+      "name": "Sticky: Step 4 CRM & Alerts",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1520,
+        2120,
         -50
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 5. B2C Webmail Fallback Route\nFor consumer emails (gmail, yahoo), skips Apollo enrichment and syncs directly into the standard newsletter list.",
+        "height": 170,
+        "width": 620,
+        "color": 3
+      },
+      "id": "sticky-apollo-step-5",
+      "name": "Sticky: Step 5 Consumer Fallback",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 6. Error Interceptor & Dead-Letter Queue (DLQ)\nTraps any API errors or rate limits, logs payload details, and dispatches an alert to your engineering Slack channel.",
+        "height": 170,
+        "width": 620,
+        "color": 7
+      },
+      "id": "sticky-apollo-step-6",
+      "name": "Sticky: Step 6 Error Handling",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2120,
+        360
       ]
     },
     {
@@ -112,8 +144,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
       "position": [
-        0,
-        200
+        40,
+        180
       ],
       "webhookId": "apollo-enrichment-ingress"
     },
@@ -126,8 +158,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        340,
-        200
+        280,
+        180
       ]
     },
     {
@@ -166,8 +198,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        680,
-        200
+        520,
+        180
       ]
     },
     {
@@ -179,8 +211,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1020,
-        200
+        820,
+        180
       ]
     },
     {
@@ -207,8 +239,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        1360,
-        200
+        1120,
+        180
       ]
     },
     {
@@ -254,8 +286,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1700,
-        200
+        1480,
+        180
       ],
       "onError": "continueErrorOutput"
     },
@@ -268,8 +300,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2040,
-        440
+        1780,
+        180
       ]
     },
     {
@@ -311,8 +343,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2380,
-        200
+        2160,
+        180
       ],
       "onError": "continueErrorOutput"
     },
@@ -340,8 +372,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        2720,
-        200
+        2440,
+        180
       ]
     },
     {
@@ -367,8 +399,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3060,
-        200
+        2720,
+        180
       ]
     },
     {
@@ -380,8 +412,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3400,
-        440
+        1480,
+        580
       ]
     },
     {
@@ -417,8 +449,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3740,
-        440
+        1780,
+        580
       ],
       "onError": "continueErrorOutput"
     },
@@ -431,8 +463,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4080,
-        200
+        2160,
+        580
       ]
     },
     {
@@ -458,8 +490,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        4420,
-        200
+        2440,
+        580
       ]
     }
   ],
@@ -626,14 +658,7 @@
       ]
     }
   },
-  "active": false,
   "settings": {
     "executionOrder": "v1"
-  },
-  "meta": {
-    "templateCredsSetupCompleted": true,
-    "author": "Alfaz Mahmud Rizve",
-    "authorUrl": "https://whoisalfaz.me",
-    "package": "n8n Community Workflow Ecosystem"
   }
 }
