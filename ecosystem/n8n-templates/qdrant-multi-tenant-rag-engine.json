@@ -1,47 +1,47 @@
 {
-  "name": "Qdrant Multi-Tenant RAG Engine",
+  "name": "Qdrant Multi-Tenant RAG Engine with OpenAI and Grounded Citations",
   "nodes": [
     {
       "parameters": {
-        "content": "## 🧠 Multi-Tenant Qdrant RAG & AI Agent Engine\n**Author:** Alfaz Mahmud Rizve ([whoisalfaz.me](https://whoisalfaz.me))\n**Category:** AI / Vector Databases / RAG\n\n### 💡 Problem & Solution\nEnterprise RAG pipeline supporting multi-tenant vector searches. Isolates client datasets using payload metadata pre-filters (`tenant_id`), validates vector relevance via cosine similarity threshold, and synthesizes answers using GPT-4o with grounded citations.",
-        "height": 260,
-        "width": 560,
+        "content": "## 🧠 Multi-Tenant Qdrant RAG & AI Agent Engine\n**Author:** Alfaz Mahmud Rizve ([whoisalfaz.me](https://whoisalfaz.me))\n**Category:** AI / Vector Databases / RAG / Enterprise Search\n\n### 💡 Problem & Solution\nEnterprise RAG architecture supporting multi-tenant vector searches inside a single collection. Enforces database-level payload metadata pre-filtering (`tenant_id`), validates vector relevance via cosine similarity threshold, and synthesizes answers using GPT-4o with grounded bracketed citations.",
+        "height": 280,
+        "width": 700,
         "color": 5
       },
       "id": "sticky-qdrant-overview",
-      "name": "Sticky: Overview",
+      "name": "Sticky: Overview & Architecture",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
         0,
-        -350
+        -380
       ]
     },
     {
       "parameters": {
-        "content": "### 🔑 Required Credentials & Setup\n- **OpenAI API Key**: Used for `text-embedding-3-small` & GPT-4o synthesis\n- **Qdrant URL & Key**: Self-hosted or cloud Qdrant cluster endpoint",
-        "height": 260,
-        "width": 480,
+        "content": "### 🔑 Required Credentials & Setup\n- **OpenAI API Key**: Used for `text-embedding-3-small` (1536-dim) & GPT-4o synthesis\n- **Qdrant URL & API Key**: Self-hosted or Qdrant Cloud cluster endpoint\n- **Ingress Auth Token** *(Optional)*: Secret token passed in `x-tenant-auth` headers",
+        "height": 280,
+        "width": 640,
         "color": 7
       },
       "id": "sticky-qdrant-creds",
-      "name": "Sticky: Credentials",
+      "name": "Sticky: Setup & Credentials",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        620,
-        -350
+        760,
+        -380
       ]
     },
     {
       "parameters": {
-        "content": "### 1. Inbound Ingress & Tenant Auth\nReceives user query and validates tenant authorization headers.",
-        "height": 160,
-        "width": 480,
+        "content": "### 1. Ingestion & Tenant Auth Middleware\nCaptures user query, validates `x-tenant-id` and authorization headers, and rejects unauthorized requests.",
+        "height": 170,
+        "width": 720,
         "color": 4
       },
       "id": "sticky-qdrant-step-1",
-      "name": "Sticky: Tenant Ingest",
+      "name": "Sticky: Step 1 Tenant Ingestion",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
@@ -51,34 +51,66 @@
     },
     {
       "parameters": {
-        "content": "### 2. Embeddings & Quantized Vector Search\nGenerates 1536-dim embeddings and queries Qdrant with tenant payload filters.",
-        "height": 160,
-        "width": 480,
-        "color": 6
+        "content": "### 2. Embeddings & Payload Pre-Filtering\nGenerates 1536-dim vector embeddings and builds immutable Qdrant tenant isolation filters.",
+        "height": 170,
+        "width": 600,
+        "color": 2
       },
       "id": "sticky-qdrant-step-2",
-      "name": "Sticky: Vector Search",
+      "name": "Sticky: Step 2 Vector Filter",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        560,
+        780,
         -50
       ]
     },
     {
       "parameters": {
-        "content": "### 3. Relevance Gate & Grounded Synthesis\nEnforces cosine similarity threshold and synthesizes response with citations.",
-        "height": 160,
-        "width": 580,
-        "color": 1
+        "content": "### 3. Qdrant Vector Search & Relevance Filter\nPerforms cosine similarity search and filters out document chunks below the relevance threshold.",
+        "height": 170,
+        "width": 620,
+        "color": 6
       },
       "id": "sticky-qdrant-step-3",
-      "name": "Sticky: RAG Synthesis",
+      "name": "Sticky: Step 3 Vector Search",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1120,
+        1440,
         -50
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 4. GPT-4o RAG Synthesis & Response Assembly\nSynthesizes grounded citations, computes execution telemetry, and returns structured JSON to the client.",
+        "height": 170,
+        "width": 880,
+        "color": 1
+      },
+      "id": "sticky-qdrant-step-4",
+      "name": "Sticky: Step 4 Synthesis & Response",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2120,
+        -50
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 5. Unauthorized Ingress Rejection\nImmediately halts execution and returns HTTP 401 Unauthorized for invalid tenant tokens.",
+        "height": 170,
+        "width": 480,
+        "color": 7
+      },
+      "id": "sticky-qdrant-step-5",
+      "name": "Sticky: Step 5 Auth Rejection",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        780,
+        360
       ]
     },
     {
@@ -93,8 +125,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
       "position": [
-        0,
-        200
+        40,
+        180
       ],
       "webhookId": "rag-multi-tenant-query"
     },
@@ -107,8 +139,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        340,
-        200
+        280,
+        180
       ]
     },
     {
@@ -135,8 +167,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        680,
-        200
+        520,
+        180
       ]
     },
     {
@@ -172,8 +204,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1020,
-        200
+        820,
+        180
       ],
       "onError": "continueErrorOutput"
     },
@@ -186,8 +218,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1360,
-        200
+        1120,
+        180
       ]
     },
     {
@@ -229,8 +261,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1700,
-        200
+        1480,
+        180
       ],
       "onError": "continueErrorOutput"
     },
@@ -243,8 +275,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2040,
-        200
+        1780,
+        180
       ]
     },
     {
@@ -280,8 +312,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2380,
-        200
+        2160,
+        180
       ],
       "onError": "continueErrorOutput"
     },
@@ -294,8 +326,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2720,
-        200
+        2440,
+        180
       ]
     },
     {
@@ -311,8 +343,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        3060,
-        200
+        2720,
+        180
       ]
     },
     {
@@ -328,8 +360,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        3400,
-        440
+        820,
+        560
       ]
     }
   ],
@@ -441,14 +473,7 @@
       ]
     }
   },
-  "active": false,
   "settings": {
     "executionOrder": "v1"
-  },
-  "meta": {
-    "templateCredsSetupCompleted": true,
-    "author": "Alfaz Mahmud Rizve",
-    "authorUrl": "https://whoisalfaz.me",
-    "package": "n8n Community Workflow Ecosystem"
   }
 }
