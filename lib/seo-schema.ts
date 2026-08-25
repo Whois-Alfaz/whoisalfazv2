@@ -398,6 +398,7 @@ export function generateUnifiedArticleGraph(params: UnifiedArticleGraphParams): 
     description:
       'Alfaz Mahmud Rizve is a Revenue Operations (RevOps) Architect and Full Stack Engineer specializing in autonomous n8n workflows, AI agents, and high-performance Next.js infrastructure.',
     sameAs: [
+      'https://n8n.io/creators/whoisalfaz/',
       'https://www.linkedin.com/in/alfaz-mahmud-rizve/',
       'https://github.com/AlfazMahmudRizve',
       'https://x.com/whoisalfaz',
