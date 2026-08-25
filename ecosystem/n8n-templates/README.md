@@ -13,11 +13,11 @@ This repository contains battle-tested, enterprise-grade n8n workflow blueprints
 
 ## 📑 Workflow Catalog
 
-| Blueprint File | Workflow Name | Core Integrations | Key Technical Highlights |
-| :--- | :--- | :--- | :--- |
-| [`apollo-to-brevo-enrichment-pipeline.json`](file:///e:/Ai%20Agents/whoisalfaz.me/Web%20Projects/antigravity/whoisalfaz-v2/ecosystem/n8n-templates/apollo-to-brevo-enrichment-pipeline.json) | **Apollo to Brevo B2B Enrichment Pipeline** | Apollo.io, Brevo (Sendinblue), Slack, n8n Webhook | Circular sync guard, HMAC validation, company domain classifier, 4-tier ICP scoring, sparse property upsert, DLQ error catch. |
-| [`qdrant-multi-tenant-rag-engine.json`](file:///e:/Ai%20Agents/whoisalfaz.me/Web%20Projects/antigravity/whoisalfaz-v2/ecosystem/n8n-templates/qdrant-multi-tenant-rag-engine.json) | **Qdrant Multi-Tenant RAG Engine** | Qdrant Vector DB, OpenAI Embeddings, GPT-4o, n8n | Strict tenant authentication middleware, payload metadata pre-filtering, similarity gating, zero-hallucination citation synthesis. |
-| [`manychat-async-timeout-handler.json`](file:///e:/Ai%20Agents/whoisalfaz.me/Web%20Projects/antigravity/whoisalfaz-v2/ecosystem/n8n-templates/manychat-async-timeout-handler.json) | **ManyChat Async Timeout Handler** | ManyChat API, WhatsApp, Brevo CRM, OpenAI, Slack | < 150ms HTTP 200 handshake to bypass ManyChat 10s timeout, background async lead scoring, CRM upsert, AI copy generation & WhatsApp callback. |
+| Blueprint File | Workflow Name | Official n8n Hub URL | Core Integrations | Key Technical Highlights |
+| :--- | :--- | :---: | :--- | :--- |
+| [`apollo-to-brevo-enrichment-pipeline.json`](file:///e:/Ai%20Agents/whoisalfaz.me/Web%20Projects/antigravity/whoisalfaz-v2/ecosystem/n8n-templates/apollo-to-brevo-enrichment-pipeline.json) | **Apollo to Brevo B2B Enrichment Pipeline** | [n8n.io/workflows/18609](https://n8n.io/workflows/18609) | Apollo.io, Brevo, Slack, n8n Webhook | Circular sync guard, HMAC validation, company domain classifier, 4-tier ICP scoring, DLQ error catch. |
+| [`qdrant-multi-tenant-rag-engine.json`](file:///e:/Ai%20Agents/whoisalfaz.me/Web%20Projects/antigravity/whoisalfaz-v2/ecosystem/n8n-templates/qdrant-multi-tenant-rag-engine.json) | **Qdrant Multi-Tenant RAG Engine** | [n8n.io/workflows/18617](https://n8n.io/workflows/18617) | Qdrant Vector DB, OpenAI Embeddings, GPT-4o | Strict tenant authentication middleware, payload metadata pre-filtering, similarity gating, citation synthesis. |
+| [`manychat-async-timeout-handler.json`](file:///e:/Ai%20Agents/whoisalfaz.me/Web%20Projects/antigravity/whoisalfaz-v2/ecosystem/n8n-templates/manychat-async-timeout-handler.json) | **ManyChat Async Timeout Handler** | [n8n.io/workflows/18500](https://n8n.io/workflows/18500-handle-manychat-whatsapp-leads-with-openai-brevo-crm-and-slack-alerts/) | ManyChat API, WhatsApp, Brevo CRM, OpenAI | <150ms HTTP 200 handshake to bypass ManyChat 10s timeout, background async lead scoring, CRM upsert, AI copy generation. |
 
 ---
 
