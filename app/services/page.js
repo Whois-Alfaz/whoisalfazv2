@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Zap, Globe, BarChart3, Search, ChevronDown, Code2 } from 'lucide-react';
 import NewsletterForm from '../../components/NewsletterForm';
 import PartnerLogos from '../../components/PartnerLogos';
+import VerifiedN8nBadge from '../../components/VerifiedN8nBadge';
 
 export const metadata = {
     title: "Revenue Automation & Technical Solutions | Alfaz Mahmud Rizve",
@@ -138,6 +139,11 @@ export default function ServicesPage() {
 
             {/* HERO: DONE FOR YOU AUTOMATIONS */}
             <div className="max-w-4xl mx-auto text-center mb-16 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+                {/* Official Verified n8n Creator Trust Badge */}
+                <div className="mb-6 flex justify-center">
+                    <VerifiedN8nBadge variant="full" />
+                </div>
+
                 <h1 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white mb-6 leading-tight uppercase tracking-tight">
                     Revenue Operations That <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-400 dark:from-emerald-400 dark:to-teal-300">Run On Autopilot</span>
                 </h1>

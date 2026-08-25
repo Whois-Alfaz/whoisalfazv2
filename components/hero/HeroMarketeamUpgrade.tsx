@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowRight, ShieldCheck, Zap } from 'lucide-react';
 import { TypewriterHeading } from './TypewriterHeading';
 import { ConcentricOrbits } from './ConcentricOrbits';
+import VerifiedN8nBadge from '@/components/VerifiedN8nBadge';
 
 interface TechPartner {
   name: string;
@@ -84,15 +85,19 @@ export function HeroMarketeamUpgrade() {
           {/* ======================================================================= */}
           <div className="lg:col-span-6 xl:col-span-6 flex flex-col items-start text-left z-20">
             
-            {/* Live Status Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 dark:bg-white/[0.04] border border-slate-200 dark:border-purple-500/30 shadow-xs mb-5 transition-colors">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2DD4BF]" />
-              </span>
-              <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.16em] text-teal-700 dark:text-teal-300 uppercase">
-                AUTONOMOUS REVENUE SYSTEMS
-              </span>
+            {/* Badges Bar: Live Status + Verified n8n Creator */}
+            <div className="flex flex-wrap items-center gap-2.5 mb-5">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 dark:bg-white/[0.04] border border-slate-200 dark:border-purple-500/30 shadow-xs transition-colors">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2DD4BF]" />
+                </span>
+                <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.16em] text-teal-700 dark:text-teal-300 uppercase">
+                  AUTONOMOUS REVENUE SYSTEMS
+                </span>
+              </div>
+
+              <VerifiedN8nBadge variant="compact" />
             </div>
 
             {/* Typewriter Heading in Urbanist font (Instant Paint for <0.8s LCP) */}
