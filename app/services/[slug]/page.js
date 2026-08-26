@@ -35,6 +35,7 @@ export const generateMetadata = async ({ params }) => {
 const serviceCaseStudyMap = {
     'n8n-automation': ['case-study-cashops-financial-dashboard', 'case-study-careerops-ai-resume-builder'],
     'headless-architecture': ['case-study-cashops-financial-dashboard', 'case-study-urban-cafe-foodtech-platform'],
+    'seo-organic-growth': ['case-study-whoisalfaz-seo-indexing-engine'],
     'technical-seo': ['case-study-whoisalfaz-seo-indexing-engine'],
     'custom-full-stack': ['case-study-cashops-financial-dashboard', 'case-study-urban-cafe-foodtech-platform', 'case-study-veloryc-premium-ecommerce'],
 };
@@ -104,7 +105,7 @@ export default async function ServiceDetailPage({ params }) {
                         "@type": "Person",
                         "name": "Alfaz Mahmud Rizve",
                         "url": "https://whoisalfaz.me",
-                        "jobTitle": "RevOps Architect & Full Stack Automation Engineer"
+                        "jobTitle": "GTM & RevOps Architect"
                     },
                     "url": `https://whoisalfaz.me/services/${slug}/`,
                     "areaServed": "Worldwide",

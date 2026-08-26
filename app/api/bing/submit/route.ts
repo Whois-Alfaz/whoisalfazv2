@@ -38,7 +38,7 @@ export async function GET(request: Request) {
         ].map(route => `${baseUrl}${route}`);
 
         // 2. Dynamic Service Pages (mirrors sitemap.ts)
-        const serviceSlugs = Object.keys(serviceData);
+        const serviceSlugs = Object.keys(serviceData).filter(slug => slug !== 'technical-seo');
         const serviceRoutes = serviceSlugs.map(slug => `${baseUrl}/services/${slug}`);
 
         // 3. Dynamic Blog Posts (mirrors sitemap.ts)

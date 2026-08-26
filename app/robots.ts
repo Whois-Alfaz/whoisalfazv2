@@ -32,6 +32,12 @@ export default function robots(): MetadataRoute.Robots {
                 allow: '/',
                 disallow: privateDisallows,
             },
+            // OpenAI GPTBot
+            {
+                userAgent: 'GPTBot',
+                allow: '/',
+                disallow: privateDisallows,
+            },
             // Perplexity AI search crawler
             {
                 userAgent: 'PerplexityBot',
@@ -71,11 +77,6 @@ export default function robots(): MetadataRoute.Robots {
             // Diffbot commercial scraper
             {
                 userAgent: 'Diffbot',
-                disallow: ['/'],
-            },
-            // OpenAI model training scraper (blocks scraping for training while allowing OAI-SearchBot)
-            {
-                userAgent: 'GPTBot',
                 disallow: ['/'],
             },
             // Anthropic model training crawler

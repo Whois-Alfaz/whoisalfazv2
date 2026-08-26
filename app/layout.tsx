@@ -6,15 +6,15 @@ import Footer from "../components/Footer";
 
 export const metadata = {
   metadataBase: new URL('https://whoisalfaz.me'),
-  title: "Alfaz Mahmud Rizve | RevOps & Automation Architect",
-  description: "I eliminate manual bottlenecks for scaling agencies with autonomous n8n workflows, AI agents, and high-performance Next.js infrastructure.",
+  title: "Alfaz Mahmud Rizve | GTM & RevOps Architect",
+  description: "I engineer autonomous revenue engines — bridging SEO & Organic Growth, high-speed Next.js web applications, and self-healing n8n RevOps pipelines for scaling brands and agencies.",
   authors: [{ name: 'Alfaz Mahmud Rizve', url: 'https://whoisalfaz.me' }],
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: "Alfaz Mahmud Rizve | RevOps & Automation Architect",
-    description: "I eliminate manual bottlenecks for scaling agencies with autonomous n8n workflows, AI agents, and high-performance Next.js infrastructure.",
+    title: "Alfaz Mahmud Rizve | GTM & RevOps Architect",
+    description: "I engineer autonomous revenue engines — bridging SEO & Organic Growth, high-speed Next.js web applications, and self-healing n8n RevOps pipelines for scaling brands and agencies.",
     url: 'https://whoisalfaz.me',
     siteName: 'Alfaz Mahmud Rizve',
     locale: 'en_US',
@@ -24,15 +24,15 @@ export const metadata = {
         url: '/featured-image.png',
         width: 1200,
         height: 630,
-        alt: 'Alfaz Mahmud Rizve - RevOps & Full Stack Automation Architect',
+        alt: 'Alfaz Mahmud Rizve - GTM & RevOps Architect',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Alfaz Mahmud Rizve | RevOps & Automation Architect',
-    description: 'I eliminate manual bottlenecks for scaling agencies with autonomous n8n workflows, AI agents, and high-performance Next.js infrastructure.',
-    creator: '@whoisalfaz',
+    title: 'Alfaz Mahmud Rizve | GTM & RevOps Architect',
+    description: 'I engineer autonomous revenue engines — bridging SEO & Organic Growth, high-speed Next.js web applications, and self-healing n8n RevOps pipelines for scaling brands and agencies.',
+    creator: '@whois_alfaz',
     images: ['/featured-image.png'],
   },
   robots: {
@@ -70,17 +70,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       "name": "Alfaz Mahmud Rizve",
       "url": "https://whoisalfaz.me",
       "image": "https://whoisalfaz.me/profile.jpg",
-      "jobTitle": "RevOps & Full Stack Automation Architect",
+      "jobTitle": "GTM & RevOps Architect",
       "email": "a.m.rizve3905@gmail.com",
-      "description": "I eliminate manual bottlenecks for scaling agencies with autonomous n8n workflows, AI agents, and high-performance Next.js infrastructure.",
+      "description": "I engineer autonomous revenue engines — bridging SEO & Organic Growth, high-speed Next.js web applications, and self-healing n8n RevOps pipelines for scaling brands and agencies.",
       "nationality": {
         "@type": "Country",
         "name": "Bangladesh"
       },
+      "knowsAbout": [
+        "SEO & Organic Growth",
+        "Programmatic SEO",
+        "Topical Authority Architecture",
+        "Technical SEO",
+        "n8n Workflow Automation",
+        "Next.js Web Applications",
+        "Revenue Operations (RevOps)",
+        "Supabase",
+        "Lead Enrichment Automation"
+      ],
       "sameAs": [
         "https://www.linkedin.com/in/alfaz-mahmud-rizve/",
         "https://github.com/AlfazMahmudRizve",
-        "https://x.com/whoisalfaz",
+        "https://x.com/whois_alfaz",
         "https://facebook.com/alfazmahmudrizve",
         "https://www.instagram.com/whois.alfaz/",
         "https://www.youtube.com/@whoisalfazz"
@@ -89,7 +100,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "Alfaz Mahmud Rizve - RevOps & Full Stack Automation Architect",
+      "name": "Alfaz Mahmud Rizve - GTM & RevOps Architect",
       "url": "https://whoisalfaz.me",
       "logo": "https://whoisalfaz.me/logo.png",
       "founder": {
@@ -104,7 +115,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       "sameAs": [
         "https://www.linkedin.com/in/alfaz-mahmud-rizve/",
         "https://github.com/AlfazMahmudRizve",
-        "https://x.com/whoisalfaz",
+        "https://x.com/whois_alfaz",
         "https://facebook.com/alfazmahmudrizve",
         "https://www.instagram.com/whois.alfaz/",
         "https://www.youtube.com/@whoisalfazz"

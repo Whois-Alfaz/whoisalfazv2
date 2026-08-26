@@ -93,7 +93,7 @@ export function HeroMarketeamUpgrade() {
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2DD4BF]" />
                 </span>
                 <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-[0.16em] text-teal-700 dark:text-teal-300 uppercase">
-                  AUTONOMOUS REVENUE SYSTEMS
+                  GTM & REVOPS ARCHITECTURE
                 </span>
               </div>
 
@@ -103,15 +103,15 @@ export function HeroMarketeamUpgrade() {
             {/* Typewriter Heading in Urbanist font (Instant Paint for <0.8s LCP) */}
             <div className="w-full mb-5">
               <TypewriterHeading
-                text1="Autonomous Revenue Engines Built on Sub-Second Infrastructure"
-                text2=" — Engineered to Scale Your Agency to 8 Figures!"
+                text1="Autonomous Revenue Engines Built on High-Speed Infrastructure"
+                text2=" — Scaling Organic Traffic, Web Apps & Operations."
                 className="text-[28px] xs:text-[34px] sm:text-[42px] md:text-[46px] lg:text-[48px] xl:text-[54px] 2xl:text-[60px]"
               />
             </div>
 
             {/* Subtext description */}
             <p className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-300/90 font-medium leading-relaxed max-w-xl mb-8 transition-colors">
-              I eliminate manual bottlenecks for scaling agencies with self-healing n8n workflows, AI agents, and high-performance Next.js architecture.
+              I engineer autonomous revenue engines — bridging SEO & Organic Growth, high-speed Next.js web applications, and self-healing n8n RevOps pipelines.
             </p>
 
             {/* CTA Action Buttons & Floating Badge */}

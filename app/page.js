@@ -21,7 +21,7 @@ export default async function Home() {
         "name": "Who is Alfaz Mahmud Rizve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Alfaz Mahmud Rizve is a RevOps architect and full-stack automation engineer based in Bangladesh. He specializes in building autonomous revenue systems for SaaS companies, digital agencies, and small businesses using n8n workflows, AI agents, and high-performance Next.js infrastructure."
+          "text": "Alfaz Mahmud Rizve is a GTM & RevOps architect based in Bangladesh. He specializes in building autonomous revenue systems for SaaS companies, digital agencies, and scaling businesses using SEO & organic growth architectures, n8n workflows, and high-performance Next.js web applications."
         }
       },
       {
@@ -80,18 +80,19 @@ export default async function Home() {
           "name": "Alfaz Mahmud Rizve",
           "url": "https://whoisalfaz.me",
           "image": "https://whoisalfaz.me/profile.jpg",
-          "jobTitle": "RevOps Architect & Full Stack Automation Engineer",
-          "description": "Alfaz Mahmud Rizve is a RevOps architect and full-stack automation engineer specializing in building autonomous revenue systems for SaaS companies, digital agencies, and small businesses using n8n workflows, AI agents, and high-performance Next.js infrastructure.",
+          "jobTitle": "GTM & RevOps Architect",
+          "description": "Alfaz Mahmud Rizve is a GTM & RevOps architect based in Bangladesh. He specializes in building autonomous revenue systems for SaaS companies, digital agencies, and scaling businesses using SEO & organic growth architectures, n8n workflows, and high-performance Next.js web applications.",
           "sameAs": [
             "https://www.linkedin.com/in/alfaz-mahmud-rizve/",
-            "https://x.com/whoisalfaz",
+            "https://x.com/whois_alfaz",
             "https://github.com/AlfazMahmudRizve"
           ],
           "knowsAbout": [
-            "n8n Workflow Automation",
-            "Revenue Operations (RevOps)",
-            "Next.js",
+            "GTM & RevOps Architecture",
+            "SEO & Organic Growth",
             "Technical SEO",
+            "n8n Workflow Automation",
+            "Next.js Web Applications",
             "AI Agent Architecture",
             "Headless CMS",
             "Full Stack Development",
@@ -257,31 +258,31 @@ export default async function Home() {
             <div className="lg:col-span-7 flex flex-col justify-between space-y-8">
               <FadeUp>
                 <div className="inline-block px-4 py-1 bg-teal-50 dark:bg-teal-500/10 border border-teal-100 dark:border-teal-500/20 rounded-lg text-[10px] font-black text-teal-600 dark:text-teal-400 uppercase tracking-widest mb-4">
-                  OPERATIONAL ARCHITECTURE
+                  GROWTH & OPERATIONAL ARCHITECTURE
                 </div>
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white mb-6 leading-[1.1] uppercase tracking-tight transition-colors duration-300">
-                  Revenue Operations <br /> <span className="text-teal-600 dark:text-teal-400">Architects</span>
+                  GTM & RevOps <br /> <span className="text-teal-600 dark:text-teal-400">Growth Architecture</span>
                 </h2>
               </FadeUp>
 
               <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
                 {[
                   { 
-                    icon: Zap, 
-                    title: "Autonomous Workflows", 
-                    desc: <>Self-healing AI agents that qualify leads, sync CRMs, and scale pipelines using our verified <Link href="/blog/dify-ai-workflow-orchestration-vs-n8n-ai-agent-nodes/" className="text-teal-600 dark:text-teal-400 font-semibold hover:underline">Dify vs n8n AI workflow architecture</Link>.</>, 
+                    icon: Globe, 
+                    title: "SEO & Organic Growth", 
+                    desc: <>GTM demand capture, topical clusters, 600+ page content strategies, and zero-touch indexing architectures built for compounding organic dominance.</>, 
                     span: "sm:col-span-2" 
                   },
                   { 
                     icon: Code2, 
-                    title: "Full-Stack Applications", 
-                    desc: <>Bespoke agency portals and client dashboards engineered around the high-margin <Link href="/blog/ai-automation-agency-business-model/" className="text-teal-600 dark:text-teal-400 font-semibold hover:underline">AI automation agency business model</Link>.</>, 
+                    title: "High-Speed Web Applications", 
+                    desc: <>Bespoke Next.js web applications, sub-second UX, and client portals engineered around the <Link href="/blog/ai-automation-agency-business-model/" className="text-teal-600 dark:text-teal-400 font-semibold hover:underline">high-margin agency model</Link>.</>, 
                     span: "sm:col-span-1" 
                   },
                   { 
-                    icon: Globe, 
-                    title: "Headless Infrastructure", 
-                    desc: <>High-performance Next.js and sub-second vector search informed by our <Link href="/blog/pinecone-vs-qdrant-vultr-benchmark/" className="text-teal-600 dark:text-teal-400 font-semibold hover:underline">Pinecone vs Qdrant benchmark on Vultr</Link>.</>, 
+                    icon: Zap, 
+                    title: "Autonomous RevOps Workflows", 
+                    desc: <>Self-healing n8n pipelines, CRM sync, and AI agents using our verified <Link href="/blog/dify-ai-workflow-orchestration-vs-n8n-ai-agent-nodes/" className="text-teal-600 dark:text-teal-400 font-semibold hover:underline">Dify vs n8n workflow architecture</Link>.</>, 
                     span: "sm:col-span-1" 
                   }
                 ].map((item, i) => (
@@ -418,7 +419,7 @@ export default async function Home() {
               <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden border-4 border-white dark:border-slate-800 shadow-2xl group-hover/photo:scale-[1.02] transition-transform duration-500">
                 <Image 
                   src="/profile.webp" 
-                  alt="Alfaz Mahmud Rizve — RevOps & Full Stack Automation Architect" 
+                  alt="Alfaz Mahmud Rizve — GTM & RevOps Architect" 
                   fill 
                   sizes="160px" 
                   className="object-cover" 
@@ -438,7 +439,7 @@ export default async function Home() {
             
             {/* Premium Pill Badges for Titles */}
             <div className="flex flex-wrap justify-center items-center gap-2 mb-8 max-w-xl mx-auto">
-              {['RevOps Architect', 'Automation Engineer', 'Builder'].map((title, i) => (
+              {['GTM & RevOps Architect', 'Web Applications', 'SEO & Organic Growth', 'n8n Automation'].map((title, i) => (
                 <span 
                   key={i} 
                   className="text-[9px] sm:text-[10px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-widest bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-3.5 py-1.5 rounded-full hover:border-teal-500/30 hover:text-teal-600 dark:hover:text-teal-400 transition-colors duration-300"
@@ -451,8 +452,8 @@ export default async function Home() {
             {/* Frost Terminal Quote Callout */}
             <div className="bg-slate-900/5 dark:bg-white/5 border border-slate-200/50 dark:border-white/5 p-6 md:p-8 rounded-3xl max-w-2xl mx-auto mb-10 text-left relative overflow-hidden backdrop-blur-md">
               <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-teal-500 to-purple-500" />
-              <p className="text-base text-slate-600 dark:text-slate-355 font-semibold leading-relaxed pl-4">
-                &ldquo;I design revenue growth strategies and then architect the automated infrastructure to execute them&rdquo; <span className="text-xs font-mono text-slate-455 dark:text-slate-500 block mt-2 not-italic font-medium">— Alfaz Mahmud Rizve</span>
+              <p className="text-base text-slate-600 dark:text-slate-300 font-semibold leading-relaxed pl-4">
+                &ldquo;I design GTM and organic growth strategies, build the web applications to convert traffic, and engineer the automated RevOps infrastructure to scale them.&rdquo; <span className="text-xs font-mono text-slate-400 dark:text-slate-500 block mt-2 not-italic font-medium">— Alfaz Mahmud Rizve</span>
               </p>
             </div>
 

@@ -666,8 +666,8 @@ export default function AuditTool() {
               if (seoCheck && seoCheck.score < 80) {
                 recommendations.push({
                   icon: Search,
-                  text: 'SEO issues detected — get a professional Technical SEO audit',
-                  href: '/services/technical-seo/',
+                  text: 'SEO issues detected — scale with SEO & Organic Growth architecture',
+                  href: '/services/seo-organic-growth/',
                   color: 'text-blue-500 dark:text-blue-400',
                   bg: 'bg-blue-500/10',
                   border: 'border-blue-500/20',

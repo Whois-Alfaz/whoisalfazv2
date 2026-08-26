@@ -3,14 +3,14 @@ import Link from 'next/link';
 import { ArrowLeft, ExternalLink, ShieldCheck, Zap, Code, Cpu, Database, Layers, CheckCircle2, TrendingUp } from 'lucide-react';
 
 export const metadata = {
-  title: 'Alfaz Mahmud Rizve - RevOps Architect & Full Stack Engineer',
-  description: 'Alfaz Mahmud Rizve is a RevOps automation architect and full-stack engineer. Learn about his credentials, engineering methodology, client outcomes, and system architecture philosophy.',
+  title: 'Alfaz Mahmud Rizve - GTM & RevOps Architect',
+  description: 'Alfaz Mahmud Rizve is a GTM & RevOps Architect specializing in organic search growth, high-performance Next.js web applications, and autonomous RevOps workflows.',
   alternates: {
     canonical: 'https://whoisalfaz.me/about/alfaz-mahmud-rizve',
   },
   openGraph: {
-    title: 'Alfaz Mahmud Rizve - RevOps Architect & Full Stack Engineer',
-    description: 'Alfaz Mahmud Rizve is a RevOps automation architect and full-stack engineer. Learn about his credentials, engineering methodology, client outcomes, and system architecture philosophy.',
+    title: 'Alfaz Mahmud Rizve - GTM & RevOps Architect',
+    description: 'Alfaz Mahmud Rizve is a GTM & RevOps Architect specializing in organic search growth, high-performance Next.js web applications, and autonomous RevOps workflows.',
     url: 'https://whoisalfaz.me/about/alfaz-mahmud-rizve',
     type: 'profile',
     images: [
@@ -24,8 +24,8 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Alfaz Mahmud Rizve - RevOps Architect & Full Stack Engineer',
-    description: 'Alfaz Mahmud Rizve is a RevOps automation architect and full-stack engineer. Learn about his credentials, engineering methodology, client outcomes, and system architecture philosophy.',
+    title: 'Alfaz Mahmud Rizve - GTM & RevOps Architect',
+    description: 'Alfaz Mahmud Rizve is a GTM & RevOps Architect specializing in organic search growth, high-performance Next.js web applications, and autonomous RevOps workflows.',
     images: ['https://whoisalfaz.me/profile.jpg'],
   },
 };
@@ -37,15 +37,19 @@ export default function AboutAuthorPage() {
     "mainEntity": {
       "@type": "Person",
       "name": "Alfaz Mahmud Rizve",
-      "jobTitle": "RevOps Architect & Full Stack Automation Engineer",
+      "jobTitle": "GTM & RevOps Architect",
       "url": "https://whoisalfaz.me",
       "image": "https://whoisalfaz.me/profile.jpg",
       "sameAs": [
         "https://www.linkedin.com/in/alfaz-mahmud-rizve/",
-        "https://x.com/whoisalfaz"
+        "https://x.com/whois_alfaz"
       ],
       "knowsAbout": [
+        "GTM Strategy",
         "RevOps",
+        "SEO & Organic Growth",
+        "Programmatic SEO",
+        "Topical Authority Architecture",
         "Automation Engineering",
         "n8n",
         "Next.js",
@@ -56,7 +60,7 @@ export default function AboutAuthorPage() {
         "Lead Routing",
         "Data Pipeline Optimization"
       ],
-      "description": "Alfaz Mahmud Rizve is a Revenue Operations (RevOps) Architect and Full Stack Engineer specializing in building scalable backend logic, self-healing automated workflows, and high-performance frontend interfaces.",
+      "description": "Alfaz Mahmud Rizve is a GTM & RevOps Architect specializing in organic search acquisition, high-performance Next.js web applications, and autonomous revenue operations infrastructure.",
       "alumniOf": {
         "@type": "Organization",
         "name": "RevOps & Engineering Architecture"
@@ -102,21 +106,21 @@ export default function AboutAuthorPage() {
                 Alfaz Mahmud Rizve
               </h1>
               <h2 className="text-lg font-bold text-slate-500 dark:text-slate-400 mb-6 font-mono">
-                RevOps Architect & Full Stack Automation Engineer
+                GTM & RevOps Architect
               </h2>
               
               <p className="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
-                I do not build fragile, duct-taped Zaps that break under edge-case data loads. I engineer robust, autonomous operational systems built for scale. As a Revenue Operations (RevOps) Architect and Full Stack Engineer, I bridge the gap between complex backend automation logic, multi-platform API orchestration, and high-performance, user-centric frontends.
+                I engineer scalable revenue engines by unifying three core pillars: <strong>GTM & SEO (Organic Acquisition)</strong>, <strong>High-Performance Next.js Web Applications</strong>, and <strong>Autonomous RevOps Workflow Automation</strong>. Rather than running isolated campaigns or brittle scripts, I architect connected growth ecosystems where topical authority drives organic demand into sub-second web experiences, which seamlessly capture, score, and sync leads through deterministic backend pipelines.
               </p>
               <p className="text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
-                Over the past several years, I have designed enterprise-grade data workflows, custom CRM sync engines, zero-touch lead routing systems, and web applications that process thousands of webhook events with near-zero latency. My core engineering philosophy rests on a fundamental truth: software tools change constantly, but rigorous architectural principles endure.
+                Over the past several years, I have architected programmatic SEO networks, zero-touch indexing engines, custom CRM sync systems, and web applications that process thousands of webhook events with near-zero latency. My core engineering philosophy rests on a fundamental truth: tools and algorithms evolve constantly, but rigorous architectural principles and high-converting systems endure.
               </p>
 
               <div className="flex flex-wrap gap-4">
                 <a href="https://www.linkedin.com/in/alfaz-mahmud-rizve/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 text-blue-700 dark:text-blue-400 px-5 py-2.5 rounded-xl font-bold text-sm transition-colors border border-blue-200 dark:border-blue-500/30">
                   <ExternalLink size={16} /> LinkedIn Profile
                 </a>
-                <a href="https://x.com/whoisalfaz" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-slate-900 dark:text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-colors border border-slate-200 dark:border-white/10">
+                <a href="https://x.com/whois_alfaz" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-slate-900 dark:text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-colors border border-slate-200 dark:border-white/10">
                   <ExternalLink size={16} /> X (Twitter)
                 </a>
               </div>
@@ -198,6 +202,10 @@ export default function AboutAuthorPage() {
             <ul className="space-y-4 text-slate-600 dark:text-slate-400">
               <li className="flex items-start gap-3">
                 <CheckCircle2 size={18} className="text-teal-500 mt-1 shrink-0" />
+                <span><strong className="text-slate-900 dark:text-slate-200">GTM & SEO Architecture:</strong> Programmatic SEO networks, semantic entity clustering, double-directional link graphs, and automated IndexNow distribution.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <CheckCircle2 size={18} className="text-teal-500 mt-1 shrink-0" />
                 <span><strong className="text-slate-900 dark:text-slate-200">System Architecture:</strong> Designing idempotent, fault-tolerant data pipelines for Enterprise RevOps and multi-channel outreach setups.</span>
               </li>
               <li className="flex items-start gap-3">
@@ -223,15 +231,19 @@ export default function AboutAuthorPage() {
             <ul className="space-y-4 text-slate-600 dark:text-slate-400">
               <li className="flex items-start gap-3">
                 <CheckCircle2 size={18} className="text-teal-500 mt-1 shrink-0" />
+                <span><strong className="text-slate-900 dark:text-slate-200">VibeViso 90-Day Surge:</strong> Generated 40k impressions and 88% click acceleration in 90 days via hyper-local entity clusters and double-directional internal linking.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <CheckCircle2 size={18} className="text-teal-500 mt-1 shrink-0" />
+                <span><strong className="text-slate-900 dark:text-slate-200">FlowerShop.net.ph Scale:</strong> Architected and deployed 679 fully indexed commercial pages with zero thin-content penalties.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <CheckCircle2 size={18} className="text-teal-500 mt-1 shrink-0" />
+                <span><strong className="text-slate-900 dark:text-slate-200">Zero-Touch Indexing Engine:</strong> Automated API pipeline pushing 41 URLs to Google, Bing, and IndexNow within 12 seconds of deploy.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <CheckCircle2 size={18} className="text-teal-500 mt-1 shrink-0" />
                 <span>Engineered <strong className="text-slate-900 dark:text-slate-200">Zero-Touch Lead Scoring & Routing</strong> engines connecting Brevo, HeyReach, and CRMs, reducing lead response time from 4 hours to under 30 seconds.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <CheckCircle2 size={18} className="text-teal-500 mt-1 shrink-0" />
-                <span>Achieved <strong className="text-slate-900 dark:text-slate-200">Sub-Second Load Times</strong> and perfect 100/100 Core Web Vitals for high-converting Next.js web applications.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <CheckCircle2 size={18} className="text-teal-500 mt-1 shrink-0" />
-                <span>Automated <strong className="text-slate-900 dark:text-slate-200">100+ Hours/Month</strong> of repetitive operations via deterministic workflow engines and automated fallback procedures.</span>
               </li>
               <li className="flex items-start gap-3">
                 <CheckCircle2 size={18} className="text-teal-500 mt-1 shrink-0" />

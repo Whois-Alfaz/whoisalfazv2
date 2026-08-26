@@ -4,21 +4,21 @@ import { ExternalLink } from 'lucide-react';
 import DefaultContentFooter from '../../components/footers/DefaultContentFooter';
 
 export const metadata = {
-    title: "Portfolio | Alfaz Mahmud Rizve",
-    description: "I design business growth strategies and then architect the automated infrastructure to execute them.",
+    title: "Alfaz Mahmud Rizve - GTM & RevOps Architect | Portfolio",
+    description: "GTM & RevOps Architect bridging high-speed web applications, autonomous RevOps, and SEO & organic growth.",
     alternates: {
         canonical: 'https://whoisalfaz.me/portfolio',
     },
     openGraph: {
-        title: "Portfolio | Alfaz Mahmud Rizve",
-        description: "I design business growth strategies and then architect the automated infrastructure to execute them.",
+        title: "Alfaz Mahmud Rizve - GTM & RevOps Architect | Portfolio",
+        description: "GTM & RevOps Architect bridging high-speed web applications, autonomous RevOps, and SEO & organic growth.",
         url: 'https://whoisalfaz.me/portfolio',
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: "Portfolio | Alfaz Mahmud Rizve",
-        description: "I design business growth strategies and then architect the automated infrastructure to execute them.",
+        title: "Alfaz Mahmud Rizve - GTM & RevOps Architect | Portfolio",
+        description: "GTM & RevOps Architect bridging high-speed web applications, autonomous RevOps, and SEO & organic growth.",
     }
 };
 
@@ -44,7 +44,7 @@ export default function Portfolio() {
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-purple-600 dark:from-blue-400 dark:to-purple-500">Growth Engines.</span>
                             </h1>
                             <p className="text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-xl transition-colors duration-300">
-                                I bridge the gap between <strong>Complex Engineering</strong> and <strong>Business Strategy</strong>. Specialized in Headless Next.js, n8n Automation, and Custom Full-Stack Applications.
+                                I bridge the gap between High-Speed Web Applications, Autonomous RevOps, and SEO &amp; Organic Growth.
                             </p>
                         </div>
 
@@ -79,61 +79,49 @@ export default function Portfolio() {
                         <div className="flex items-end justify-between mb-10">
                             <div>
                                 <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-2 uppercase tracking-tight">Technical Arsenal</h2>
-                                <p className="text-slate-500 dark:text-slate-400 font-medium text-sm">The core stack powering digital growth engines.</p>
+                                <p className="text-slate-500 dark:text-slate-400 font-medium text-sm">The 3-pillar stack powering digital growth engines.</p>
                             </div>
                         </div>
                         
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
 
-                            {/* Programming & Web */}
+                            {/* Web Applications */}
                             <div className="space-y-5 bg-white dark:bg-[#111] border border-slate-200 dark:border-white/5 p-6 md:p-8 rounded-[2rem] shadow-xl dark:shadow-none hover:border-slate-300 dark:hover:border-white/10 transition-colors hover:-translate-y-1 hover:shadow-2xl duration-300 group">
-                                <h4 className="text-blue-600 dark:text-blue-400 font-bold text-[10px] uppercase tracking-widest bg-blue-50 dark:bg-blue-500/10 inline-block px-4 py-2 rounded-full border border-blue-100 dark:border-blue-500/20 group-hover:bg-blue-100 dark:group-hover:bg-blue-500/20 transition-colors">Programming</h4>
+                                <h4 className="text-blue-600 dark:text-blue-400 font-bold text-[10px] uppercase tracking-widest bg-blue-50 dark:bg-blue-500/10 inline-block px-4 py-2 rounded-full border border-blue-100 dark:border-blue-500/20 group-hover:bg-blue-100 dark:group-hover:bg-blue-500/20 transition-colors">Web Applications</h4>
                                 <ul className="text-[13px] font-bold text-slate-600 dark:text-slate-400 space-y-3 pl-1 leading-relaxed">
                                     <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Next.js</li>
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Python</li>
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>JavaScript</li>
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Node.js</li>
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>HTML5 / CSS3</li>
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Tailwind CSS</li>
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>C / C++</li>
+                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>React</li>
+                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>TypeScript</li>
+                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Tailwind</li>
+                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Canvas / 3D</li>
                                 </ul>
                             </div>
 
-                            {/* Automation & Tools */}
+                            {/* RevOps & Automation */}
                             <div className="space-y-5 bg-white dark:bg-[#111] border border-slate-200 dark:border-white/5 p-6 md:p-8 rounded-[2rem] shadow-xl dark:shadow-none hover:border-slate-300 dark:hover:border-white/10 transition-colors hover:-translate-y-1 hover:shadow-2xl duration-300 group" style={{ animationDelay: '150ms' }}>
-                                <h4 className="text-purple-600 dark:text-purple-400 font-bold text-[10px] uppercase tracking-widest bg-purple-50 dark:bg-purple-500/10 inline-block px-4 py-2 rounded-full border border-purple-100 dark:border-purple-500/20 group-hover:bg-purple-100 dark:group-hover:bg-purple-500/20 transition-colors">Automation</h4>
+                                <h4 className="text-purple-600 dark:text-purple-400 font-bold text-[10px] uppercase tracking-widest bg-purple-50 dark:bg-purple-500/10 inline-block px-4 py-2 rounded-full border border-purple-100 dark:border-purple-500/20 group-hover:bg-purple-100 dark:group-hover:bg-purple-500/20 transition-colors">RevOps & Automation</h4>
                                 <ul className="text-[13px] font-bold text-slate-600 dark:text-slate-400 space-y-3 pl-1 leading-relaxed">
                                     <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>n8n</li>
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Zapier</li>
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Git / GitHub</li>
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>AWS (Basic)</li>
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>DigitalOcean</li>
-                                </ul>
-                            </div>
-
-                            {/* Database & Backend */}
-                            <div className="space-y-5 bg-white dark:bg-[#111] border border-slate-200 dark:border-white/5 p-6 md:p-8 rounded-[2rem] shadow-xl dark:shadow-none hover:border-slate-300 dark:hover:border-white/10 transition-colors hover:-translate-y-1 hover:shadow-2xl duration-300 group" style={{ animationDelay: '300ms' }}>
-                                <h4 className="text-indigo-600 dark:text-indigo-400 font-bold text-[10px] uppercase tracking-widest bg-indigo-50 dark:bg-indigo-500/10 inline-block px-4 py-2 rounded-full border border-indigo-100 dark:border-indigo-500/20 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-500/20 transition-colors">Backend</h4>
-                                <ul className="text-[13px] font-bold text-slate-600 dark:text-slate-400 space-y-3 pl-1 leading-relaxed">
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>PostgreSQL</li>
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Supabase</li>
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>REST APIs</li>
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Node.js</li>
+                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Make</li>
+                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Webhooks</li>
+                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>CRM Sync</li>
                                     <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Redis</li>
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Firebase</li>
+                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Queue Mode</li>
                                 </ul>
                             </div>
 
-                            {/* Growth Stack */}
-                            <div className="space-y-5 bg-white dark:bg-[#111] border border-slate-200 dark:border-white/5 p-6 md:p-8 rounded-[2rem] shadow-xl dark:shadow-none hover:border-slate-300 dark:hover:border-white/10 transition-colors hover:-translate-y-1 hover:shadow-2xl duration-300 group" style={{ animationDelay: '450ms' }}>
-                                <h4 className="text-teal-600 dark:text-teal-400 font-bold text-[10px] uppercase tracking-widest bg-teal-50 dark:bg-green-500/10 inline-block px-4 py-2 rounded-full border border-teal-100 dark:border-green-500/20 group-hover:bg-teal-100 dark:group-hover:bg-green-500/20 transition-colors">Growth</h4>
+                            {/* GTM & SEO Stack */}
+                            <div className="space-y-5 bg-white dark:bg-[#111] border border-slate-200 dark:border-white/5 p-6 md:p-8 rounded-[2rem] shadow-xl dark:shadow-none hover:border-slate-300 dark:hover:border-white/10 transition-colors hover:-translate-y-1 hover:shadow-2xl duration-300 group" style={{ animationDelay: '300ms' }}>
+                                <h4 className="text-teal-600 dark:text-teal-400 font-bold text-[10px] uppercase tracking-widest bg-teal-50 dark:bg-teal-500/10 inline-block px-4 py-2 rounded-full border border-teal-100 dark:border-teal-500/20 group-hover:bg-teal-100 dark:group-hover:bg-teal-500/20 transition-colors">GTM & SEO Stack</h4>
                                 <ul className="text-[13px] font-bold text-slate-600 dark:text-slate-400 space-y-3 pl-1 leading-relaxed">
+                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Topical Clustering</li>
+                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Content Architecture</li>
+                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Programmatic SEO</li>
                                     <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Technical SEO</li>
+                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>GSC</li>
+                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>IndexNow</li>
+                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Schema.org</li>
                                     <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>GA4</li>
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>RankMath</li>
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Ahrefs / SEMrush</li>
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Meta Suite Ads</li>
-                                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>Lead Strategy</li>
                                 </ul>
                             </div>
 
@@ -279,10 +267,10 @@ export default function Portfolio() {
                         <div className="relative">
                             <span className="absolute -left-[43px] top-1 h-5 w-5 rounded-full bg-teal-500 border-4 border-slate-50 dark:border-[#0a0a0a]"></span>
                             <span className="text-teal-600 dark:text-blue-400 text-xs font-black uppercase tracking-widest mb-2 block">2023 - Present</span>
-                            <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-2 uppercase tracking-tight">RevOps & Full-Stack Automation Architect</h3>
+                            <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-2 uppercase tracking-tight">GTM & RevOps Architect</h3>
                             <p className="text-slate-500 dark:text-slate-400 text-sm font-bold uppercase tracking-widest mb-4">Freelance / WhoIsAlfaz</p>
                             <p className="text-slate-500 dark:text-slate-400 text-[15px] font-medium leading-relaxed max-w-2xl bg-white dark:bg-[#111] p-6 rounded-3xl border border-slate-200 dark:border-white/5 shadow-sm dark:shadow-none">
-                                Architecting end-to-end automation systems for agencies. Specialized in connecting CRMs (HubSpot, Pipedrive) with marketing channels using n8n and Make. Migrating clients off legacy CMS platforms to high-performance Next.js stacks.
+                                Architecting end-to-end GTM, organic search acquisition, and RevOps automation systems. Specialized in connecting CRMs (HubSpot, Pipedrive) with lead capture pipelines using n8n and Make, architecting programmatic SEO infrastructures, and building high-performance Next.js web applications.
                             </p>
                         </div>
 

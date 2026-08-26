@@ -180,6 +180,11 @@ const nextConfig: NextConfig = {
       },
       // 6d. Legacy Service Pages Redirects (404 mapping)
       {
+        source: '/services/technical-seo',
+        destination: '/services/seo-organic-growth/',
+        permanent: true,
+      },
+      {
         source: '/services/n8n-automation-workflows',
         destination: '/services/n8n-automation/',
         permanent: true,

@@ -8,20 +8,20 @@ import PartnerLogos from '../../components/PartnerLogos';
 import VerifiedN8nBadge from '../../components/VerifiedN8nBadge';
 
 export const metadata = {
-    title: "Revenue Automation & Technical Solutions | Alfaz Mahmud Rizve",
+    title: "GTM, RevOps & Technical Solutions | Alfaz Mahmud Rizve",
     description: "Eliminate manual bottlenecks with autonomous n8n workflows, bespoke full-stack applications, and high-performance headless infrastructure.",
     alternates: {
         canonical: 'https://whoisalfaz.me/services',
     },
     openGraph: {
-        title: "Revenue Automation & Technical Solutions | Alfaz Mahmud Rizve",
+        title: "GTM, RevOps & Technical Solutions | Alfaz Mahmud Rizve",
         description: "Eliminate manual bottlenecks with autonomous n8n workflows, bespoke full-stack applications, and high-performance headless infrastructure.",
         url: 'https://whoisalfaz.me/services',
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: "Revenue Automation & Technical Solutions | Alfaz Mahmud Rizve",
+        title: "GTM, RevOps & Technical Solutions | Alfaz Mahmud Rizve",
         description: "Eliminate manual bottlenecks with autonomous n8n workflows, bespoke full-stack applications, and high-performance headless infrastructure.",
     }
 };
@@ -69,17 +69,17 @@ export default function ServicesPage() {
             cta: "Build My Headless System"
         },
         {
-            title: "Technical SEO Audits",
-            slug: "technical-seo",
-            desc: "Deep dive analysis of your site's health. We find and fix the invisible technical errors killing your rankings.",
-            price: "350",
+            title: "SEO & Organic Growth",
+            slug: "seo-organic-growth",
+            desc: "Stop publishing content that never ranks. We architect full-spectrum topical authority maps, 600+ page content hierarchies, programmatic entity clusters, and zero-touch indexing engines.",
+            price: "1,500",
             icon: Search,
             cardClass: "bg-orange-50 dark:bg-orange-500/10 border-orange-100 dark:border-orange-500/20",
             iconClass: "border-orange-100 dark:border-orange-500/20 text-orange-600 dark:text-orange-400",
             borderClass: "border-orange-100 dark:border-orange-500/20",
             priceClass: "text-orange-600",
             btnClass: "bg-orange-600 hover:bg-orange-700 text-white dark:bg-orange-500 dark:hover:bg-orange-400",
-            cta: "Find My Ranking Errors"
+            cta: "Scale Your Organic Growth"
         },
         {
             title: "Strategy & Growth Consulting",
@@ -103,7 +103,8 @@ export default function ServicesPage() {
             "serviceType": s.title,
             "provider": {
                 "@type": "Person",
-                "name": "Alfaz Mahmud Rizve"
+                "name": "Alfaz Mahmud Rizve",
+                "jobTitle": "GTM & RevOps Architect"
             },
             "description": s.desc,
             "offers": {
@@ -118,8 +119,8 @@ export default function ServicesPage() {
             "mainEntity": [
                 { "@type": "Question", "name": "How long does it take to build an automation?", "acceptedAnswer": { "@type": "Answer", "text": "Simple workflows (e.g., lead sync) take 2-3 days. Complex agency operating systems can take 2-4 weeks. We always start with a discovery call to give you an exact timeline." } },
                 { "@type": "Question", "name": "Do you offer ongoing support?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. All projects come with 30 days of free monitoring. After that, we offer monthly maintenance packages to ensure your automations run smoothly as platforms update their APIs." } },
-                { "@type": "Question", "name": "Can you integrate with my specific CRM?", "acceptedAnswer": { "@type": "Answer", "text": "Almost certainly. If it has an API, we can connect to it. We specialize in HubSpot, Airtable, Pipedrive, and GoHighLevel, but custom integrations are our bread and butter." } },
-                { "@type": "Question", "name": "What is your refund policy?", "acceptedAnswer": { "@type": "Answer", "text": "We work on a milestone basis. If we cannot deliver the agreed-upon scope, you don't pay for that milestone. We prioritize transparent communication to ensure you're always happy with the output." } },
+                { "@type": "Question", "name": "Can you integrate with my specific CRM or chatbot stack?", "acceptedAnswer": { "@type": "Answer", "text": "Almost certainly. If it has an API, we can connect to it. We specialize in HubSpot, Airtable, Brevo, and ManyChat — see our ManyChat 2026 pricing teardown for webhook and CRM sync strategies." } },
+                { "@type": "Question", "name": "How does your SEO & Organic Growth service work?", "acceptedAnswer": { "@type": "Answer", "text": "We architect full-spectrum topical authority maps, programmatic entity clusters (such as our 40k+ impression surge for VibeViso and 679 pages for FlowerShop), and deploy zero-touch automated indexing engines to get newly published content ranked fast." } },
                 { "@type": "Question", "name": "Do I need to pay for n8n hosting?", "acceptedAnswer": { "@type": "Answer", "text": "You have two options: Cloud (approx $20/mo) or Self-Hosted (approx $5-10/mo on a VPS). We can set up either for you, but we usually recommend self-hosting for maximum data privacy and lower costs at scale." } },
                 { "@type": "Question", "name": "How do AI automation agencies price their services?", "acceptedAnswer": { "@type": "Answer", "text": "Most AI automation agencies charge via a monthly retainer model (ranging from $1,500 to $5,000/month) or a productized service package for specific custom workflows." } }
             ]
@@ -296,8 +297,8 @@ export default function ServicesPage() {
                             a: <>Almost certainly. If it has an API, we can connect to it. We specialize in HubSpot, Airtable, Brevo, and ManyChat — see our <Link href="/blog/manychat-pricing-2026/" className="text-teal-600 dark:text-emerald-400 font-semibold hover:underline">ManyChat 2026 pricing teardown</Link> for webhook and CRM sync strategies.</>
                         },
                         {
-                            q: "How can I audit my site before hiring?",
-                            a: <>Run our instant browser-native <Link href="/blog/screaming-frog-alternatives-free-seo-audit-tools/" className="text-teal-600 dark:text-emerald-400 font-semibold hover:underline">free Screaming Frog alternative</Link> to inspect Core Web Vitals, SSL, and security headers without any software download.</>
+                            q: "How does your SEO & Organic Growth service work?",
+                            a: <>We architect full-spectrum topical authority maps, programmatic entity clusters (such as our 40k+ impression surge for VibeViso and 679 pages for FlowerShop), and deploy automated search indexing engines. Explore our <Link href="/blog/case-study-whoisalfaz-seo-indexing-engine/" className="text-teal-600 dark:text-emerald-400 font-semibold hover:underline">SEO Indexing Engine Blueprint</Link> or run our <Link href="/blog/screaming-frog-alternatives-free-seo-audit-tools/" className="text-teal-600 dark:text-emerald-400 font-semibold hover:underline">free Screaming Frog alternative</Link> to inspect Core Web Vitals and technical SEO errors.</>
                         },
                         {
                             q: "Do I need to pay for n8n hosting?",

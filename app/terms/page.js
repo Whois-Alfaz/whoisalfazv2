@@ -169,7 +169,7 @@ export default function TermsPage() {
                         <li><Link href="/services/growth-consulting/">Strategy &amp; Growth Consulting</Link>: Tech stack audits, SOP development, and revenue leak analyses billed hourly ($200/hr) or via fixed-scope retainer.</li>
                         <li><Link href="/services/n8n-automation/">Custom Workflow Automation</Link>: Engineering, deployment, and optimization of autonomous n8n workflows, CRM data syncs, and AI lead qualification agents.</li>
                         <li><Link href="/services/headless-architecture/">Headless CMS Infrastructure</Link>: Next.js frontend development decoupled from traditional CMS backends for sub-second page performance.</li>
-                        <li><Link href="/services/technical-seo/">Technical SEO Audits</Link>: Forensic auditing of JavaScript rendering, crawl budget, structured data, and indexability errors.</li>
+                        <li><Link href="/services/seo-organic-growth/">SEO &amp; Organic Growth</Link>: Comprehensive topical authority mapping, programmatic entity clusters, code-level audits, and zero-touch automated search indexing engines.</li>
                     </ul>
                     <p>
                         Specific scopes of work, deliverables, deadlines, and project milestones are defined in individual Statement of Work (&quot;SOW&quot;) documents or agreed project proposals executed between the Client and Company.

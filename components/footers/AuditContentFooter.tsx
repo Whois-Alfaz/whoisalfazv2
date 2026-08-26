@@ -24,8 +24,8 @@ const checks = [
     border: 'border-blue-500/20',
     description:
       'We scan your page\'s HTML head for essential SEO tags: title tag length, meta description quality, Open Graph tags (og:title, og:description, og:image), viewport configuration for mobile responsiveness, and canonical URL to prevent duplicate content issues.',
-    linkText: 'Get a professional Technical SEO audit →',
-    linkHref: '/services/technical-seo/',
+    linkText: 'Scale your SEO & Organic Growth →',
+    linkHref: '/services/seo-organic-growth/',
   },
   {
     icon: Lock,
@@ -57,8 +57,8 @@ const checks = [
     border: 'border-amber-500/20',
     description:
       'We fetch your /robots.txt to verify crawl directives and check for a sitemap reference. We also fetch /sitemap.xml to confirm it exists and count the number of indexed URLs. A missing or misconfigured sitemap prevents search engines from discovering your pages.',
-    linkText: 'Fix your crawlability with Technical SEO →',
-    linkHref: '/services/technical-seo/',
+    linkText: 'Fix crawlability with SEO & Organic Growth →',
+    linkHref: '/services/seo-organic-growth/',
   },
   {
     icon: Server,
@@ -86,13 +86,13 @@ const tips = [
   },
   {
     text: 'Create a complete sitemap.xml listing all important pages and reference it in your robots.txt file.',
-    linkText: 'Get your sitemap audited by a Technical SEO expert',
-    linkHref: '/services/technical-seo/',
+    linkText: 'Get your sitemap audited by an SEO & Organic Growth expert',
+    linkHref: '/services/seo-organic-growth/',
   },
   {
     text: 'Write a meta title between 50-60 characters and a meta description between 120-160 characters for every page.',
     linkText: 'Learn more about on-page SEO fundamentals',
-    linkHref: '/services/technical-seo/',
+    linkHref: '/services/seo-organic-growth/',
   },
   {
     text: 'Set up automatic SSL certificate renewal to prevent expiration warnings that drive visitors away.',
@@ -120,7 +120,7 @@ const faqs = [
   {
     q: 'What is a good website audit score?',
     a: 'A score of 80 or above is considered good. Scores of 90+ are excellent. Anything below 50 indicates critical issues that are likely hurting your search rankings and user experience.',
-    link: { text: 'Get a deep-dive Technical SEO audit', href: '/services/technical-seo/' },
+    link: { text: 'Get deep-dive SEO & Organic Growth architecture', href: '/services/seo-organic-growth/' },
   },
   {
     q: 'How often should I audit my website?',

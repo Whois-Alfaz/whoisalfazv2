@@ -53,8 +53,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: route === '/' ? 1 : 0.8,
     }));
 
-    // 2. Dynamic Service Pages
-    const serviceSlugs = Object.keys(serviceData);
+    // 2. Dynamic Service Pages (only canonical slugs)
+    const serviceSlugs = Object.keys(serviceData).filter((slug) => slug !== 'technical-seo');
     const serviceRoutes = serviceSlugs.map((slug) => ({
         url: `${baseUrl}/services/${slug}/`,
         lastModified: new Date(),
