@@ -33,6 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const coreRoutes = [
         '/',
         '/portfolio/',
+        '/store/',
         '/blog/',
         '/blog/30-days-of-n8n/',
         '/case-studies/',
@@ -86,13 +87,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     } catch (err) {
         console.error('[sitemap] Failed to fetch categories from Sanity:', err);
     }
-    const validCategories = categories.filter((cat) => cat.count > 0);
-    const categoryRoutes = validCategories.map((cat) => ({
-        url: `${baseUrl}/blog/category/${cat.slug.current}/`,
-        lastModified: new Date(),
-        changeFrequency: 'weekly' as const,
-        priority: 0.6,
-    }));
+    const categoryRoutes = categories
+        .filter((cat) => cat.slug?.current)
+        .map((cat) => ({
+            url: `${baseUrl}/blog/category/${cat.slug.current}/`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly' as const,
+            priority: 0.6,
+        }));
 
     return [...coreRoutes, ...serviceRoutes, ...blogRoutes, ...categoryRoutes];
 }
