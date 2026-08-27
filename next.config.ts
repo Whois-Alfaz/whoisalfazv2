@@ -439,6 +439,26 @@ const nextConfig: NextConfig = {
       },
       // 404 / Legacy Internal Link Safeguard Redirects
       {
+        source: '/services/-architecture/:path*',
+        destination: '/services/',
+        permanent: true,
+      },
+      {
+        source: '/services/-architecture',
+        destination: '/services/',
+        permanent: true,
+      },
+      {
+        source: '/services/headless-architecture/:path*',
+        destination: '/services/',
+        permanent: true,
+      },
+      {
+        source: '/services/headless-architecture',
+        destination: '/services/',
+        permanent: true,
+      },
+      {
         source: '/services/headless/:path*',
         destination: '/services/',
         permanent: true,
