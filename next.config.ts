@@ -437,6 +437,67 @@ const nextConfig: NextConfig = {
         destination: 'https://partners.whatconverts.com/9drg99k8gt06',
         permanent: true,
       },
+      // 404 / Legacy Internal Link Safeguard Redirects
+      {
+        source: '/services/headless/:path*',
+        destination: '/services/',
+        permanent: true,
+      },
+      {
+        source: '/services/headless',
+        destination: '/services/',
+        permanent: true,
+      },
+      {
+        source: '/blog/self-healing-n8n-automation-architecture/:path*',
+        destination: '/blog/n8n-global-error-handling/',
+        permanent: true,
+      },
+      {
+        source: '/blog/self-healing-n8n-automation-architecture',
+        destination: '/blog/n8n-global-error-handling/',
+        permanent: true,
+      },
+      {
+        source: '/blog/lusha-vs-apollo-contact-enrichment-n8n-api/:path*',
+        destination: '/blog/apollo-vs-lusha-vs-aisdr-comparison/',
+        permanent: true,
+      },
+      {
+        source: '/blog/lusha-vs-apollo-contact-enrichment-n8n-api',
+        destination: '/blog/apollo-vs-lusha-vs-aisdr-comparison/',
+        permanent: true,
+      },
+      {
+        source: '/blog/automate-trainual-sops-n8n-api-onboarding/:path*',
+        destination: '/blog/trainual-alternatives-active-agency-sop-engine/',
+        permanent: true,
+      },
+      {
+        source: '/blog/automate-trainual-sops-n8n-api-onboarding',
+        destination: '/blog/trainual-alternatives-active-agency-sop-engine/',
+        permanent: true,
+      },
+      {
+        source: '/blog/manychat-instagram-dm-funnel-architecture/:path*',
+        destination: '/blog/manychat-to-n8n-integration-lead-scoring/',
+        permanent: true,
+      },
+      {
+        source: '/blog/manychat-instagram-dm-funnel-architecture',
+        destination: '/blog/manychat-to-n8n-integration-lead-scoring/',
+        permanent: true,
+      },
+      {
+        source: '/blog/dify-n8n-integration-self-hosted-ai-agent/:path*',
+        destination: '/blog/dify-ai-workflow-orchestration-vs-n8n-ai-agent-nodes/',
+        permanent: true,
+      },
+      {
+        source: '/blog/dify-n8n-integration-self-hosted-ai-agent',
+        destination: '/blog/dify-ai-workflow-orchestration-vs-n8n-ai-agent-nodes/',
+        permanent: true,
+      },
     ];
   },
   async headers() {
