@@ -12,90 +12,183 @@ const privateDisallows = [
 export default function robots(): MetadataRoute.Robots {
     return {
         rules: [
-            // Default rule for all search engine crawlers
+            // Default rule for all web search engine crawlers
             {
                 userAgent: '*',
                 allow: '/',
                 disallow: privateDisallows,
             },
 
-            // Explicitly allowlisted AI Search, Citation & Real-time Discovery crawlers
-            // OpenAI SearchGPT indexer
+            // =========================================================================
+            // 1. OPENAI (ChatGPT Live Browsing, SearchGPT, GPTBot)
+            // =========================================================================
             {
                 userAgent: 'OAI-SearchBot',
                 allow: '/',
                 disallow: privateDisallows,
             },
-            // OpenAI ChatGPT live search & browsing
             {
                 userAgent: 'ChatGPT-User',
                 allow: '/',
                 disallow: privateDisallows,
             },
-            // OpenAI GPTBot
             {
                 userAgent: 'GPTBot',
                 allow: '/',
                 disallow: privateDisallows,
             },
-            // Perplexity AI search crawler
-            {
-                userAgent: 'PerplexityBot',
-                allow: '/',
-                disallow: privateDisallows,
-            },
-            // Anthropic Claude web search & citation crawler
+
+            // =========================================================================
+            // 2. ANTHROPIC (Claude Search, Live Browsing & Citation Assistants)
+            // =========================================================================
             {
                 userAgent: 'ClaudeBot',
                 allow: '/',
                 disallow: privateDisallows,
             },
-            // Google Gemini / AI Overviews discovery crawler
+            {
+                userAgent: 'Claude-Web',
+                allow: '/',
+                disallow: privateDisallows,
+            },
+            {
+                userAgent: 'Claude-SearchBot',
+                allow: '/',
+                disallow: privateDisallows,
+            },
+            {
+                userAgent: 'Claude-User',
+                allow: '/',
+                disallow: privateDisallows,
+            },
+            {
+                userAgent: 'anthropic-ai',
+                allow: '/',
+                disallow: privateDisallows,
+            },
+
+            // =========================================================================
+            // 3. PERPLEXITY AI (Real-Time Search & Pro Citations)
+            // =========================================================================
+            {
+                userAgent: 'PerplexityBot',
+                allow: '/',
+                disallow: privateDisallows,
+            },
+            {
+                userAgent: 'Perplexity-User',
+                allow: '/',
+                disallow: privateDisallows,
+            },
+
+            // =========================================================================
+            // 4. GOOGLE (Gemini & AI Overviews)
+            // =========================================================================
             {
                 userAgent: 'Google-Extended',
                 allow: '/',
                 disallow: privateDisallows,
             },
-            // Apple Intelligence & Siri search crawler
+            {
+                userAgent: 'Google-Agent',
+                allow: '/',
+                disallow: privateDisallows,
+            },
+
+            // =========================================================================
+            // 5. APPLE (Apple Intelligence & Siri Web Search)
+            // =========================================================================
+            {
+                userAgent: 'Applebot',
+                allow: '/',
+                disallow: privateDisallows,
+            },
             {
                 userAgent: 'Applebot-Extended',
                 allow: '/',
                 disallow: privateDisallows,
             },
 
-            // Blocked AI Model Training-Only & Bulk Scrapers
-            // ByteDance / TikTok crawler
+            // =========================================================================
+            // 6. AMAZON (Amazon Q Enterprise & Rufus Assistant)
+            // =========================================================================
+            {
+                userAgent: 'Amazonbot',
+                allow: '/',
+                disallow: privateDisallows,
+            },
+            {
+                userAgent: 'Amzn-SearchBot',
+                allow: '/',
+                disallow: privateDisallows,
+            },
+            {
+                userAgent: 'Amzn-User',
+                allow: '/',
+                disallow: privateDisallows,
+            },
+
+            // =========================================================================
+            // 7. DEVELOPER & SPECIALIZED AI SEARCH ENGINES
+            // =========================================================================
+            {
+                userAgent: 'GitHubCopilotChat',
+                allow: '/',
+                disallow: privateDisallows,
+            },
+            {
+                userAgent: 'DeepseekBot',
+                allow: '/',
+                disallow: privateDisallows,
+            },
+            {
+                userAgent: 'xAI-Bot',
+                allow: '/',
+                disallow: privateDisallows,
+            },
+            {
+                userAgent: 'DuckAssistBot',
+                allow: '/',
+                disallow: privateDisallows,
+            },
+            {
+                userAgent: 'MistralAI-User',
+                allow: '/',
+                disallow: privateDisallows,
+            },
+            {
+                userAgent: 'YouBot',
+                allow: '/',
+                disallow: privateDisallows,
+            },
+            {
+                userAgent: 'FacebookBot',
+                allow: '/',
+                disallow: privateDisallows,
+            },
+            {
+                userAgent: 'Meta-ExternalAgent',
+                allow: '/',
+                disallow: privateDisallows,
+            },
+
+            // =========================================================================
+            // 8. BLOCKED PARASITIC / NON-CITATION BULK DATA HARVESTERS
+            // =========================================================================
             {
                 userAgent: 'Bytespider',
                 disallow: ['/'],
             },
-            // Common Crawl bulk data scraper
             {
                 userAgent: 'CCBot',
                 disallow: ['/'],
             },
-            // Diffbot commercial scraper
             {
                 userAgent: 'Diffbot',
                 disallow: ['/'],
             },
-            // Anthropic model training crawler
             {
-                userAgent: 'anthropic-ai',
-                disallow: ['/'],
-            },
-            {
-                userAgent: 'Claude-Web',
-                disallow: ['/'],
-            },
-            // Amazon Alexa / automated scraper
-            {
-                userAgent: 'Amazonbot',
-                disallow: ['/'],
-            },
-            // Meta / Facebook crawler
-            {
-                userAgent: 'FacebookBot',
+                userAgent: 'Scrapy',
                 disallow: ['/'],
             },
         ],
@@ -103,4 +196,3 @@ export default function robots(): MetadataRoute.Robots {
         host: 'https://whoisalfaz.me',
     }
 }
-
